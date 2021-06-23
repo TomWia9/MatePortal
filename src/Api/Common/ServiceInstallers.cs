@@ -14,7 +14,7 @@ namespace Api.Common
             services.AddSwaggerGen(setupAction =>
             {
                 setupAction.SwaggerDoc(
-                    "MatePortalSepcification",
+                    "MatePortalSpecification",
                     new OpenApiInfo
                     {
                         Title = "MatePortal",

@@ -1,3 +1,4 @@
+using System;
 using Api.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,10 +31,16 @@ namespace Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/MatePortalSepcification/swagger.json", "MatePortal"));
-                app.UseSerilogRequestLogging();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("swagger/MatePortalSpecification/swagger.json", "MatePortal");
+                c.RoutePrefix = string.Empty;
+            });
+            
+            app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
 
