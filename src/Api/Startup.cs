@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Api
 {
@@ -31,6 +32,7 @@ namespace Api
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/MatePortalSepcification/swagger.json", "MatePortal"));
+                app.UseSerilogRequestLogging();
             }
 
             app.UseHttpsRedirection();
