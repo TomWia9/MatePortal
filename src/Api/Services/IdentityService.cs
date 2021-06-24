@@ -5,13 +5,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Api.Common;
 using Application.Common.Interfaces;
 using Application.Identity;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Api.Common.Services
+namespace Api.Services
 {
     public class IdentityService : IIdentityService
     {

@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Api.Common.Services;
+using Api.Services;
 using Application.Common.Interfaces;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
