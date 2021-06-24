@@ -23,6 +23,7 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpContextAccessor();
             services.AddApplication(Configuration);
             services.AddInfrastructure(Configuration);
             services.AddSwagger();
