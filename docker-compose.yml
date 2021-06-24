@@ -6,7 +6,7 @@ services:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=Netmarket123!
+      - MSSQL_SA_PASSWORD=MatePortal123!
       - MSSQL_TCP_PORT=1433
     ports:
       - "1400:1433"
