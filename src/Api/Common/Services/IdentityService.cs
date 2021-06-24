@@ -61,7 +61,7 @@ namespace Api.Common.Services
             {
                 return new AuthenticationResult()
                 {
-                    ErrorMessages = new[] {"Use doesn't exist"}
+                    ErrorMessages = new[] {"User doesn't exist"}
                 };
             }
 
