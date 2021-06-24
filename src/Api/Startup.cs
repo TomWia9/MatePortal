@@ -24,6 +24,7 @@ namespace Api
         {
             services.AddControllers();
             services.AddHttpContextAccessor();
+            services.AddInternalServices(Configuration);
             services.AddApplication(Configuration);
             services.AddInfrastructure(Configuration);
             services.AddSwagger();
