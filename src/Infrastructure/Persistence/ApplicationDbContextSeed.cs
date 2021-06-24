@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace Infrastructure.Persistence
@@ -20,26 +19,26 @@ namespace Infrastructure.Persistence
         private static async Task SeedRolesAsync(
             RoleManager<IdentityRole<Guid>> roleManager)
         {
-            //TODO change hardcoded roles to roles from Roles class
-            if (!await roleManager.RoleExistsAsync("User") || !await roleManager.RoleExistsAsync("Administrator"))
+            if (!await roleManager.RoleExistsAsync(Roles.User) ||
+                !await roleManager.RoleExistsAsync(Roles.Administrator))
             {
                 Log.Logger.Information("Seeding roles");
 
-                if (!await roleManager.RoleExistsAsync("User"))
+                if (!await roleManager.RoleExistsAsync(Roles.User))
                 {
                     await roleManager.CreateAsync(new IdentityRole<Guid>()
                     {
-                        Name = "User",
-                        NormalizedName = "USER"
+                        Name = Roles.User,
+                        NormalizedName = Roles.User.ToUpper()
                     });
                 }
 
-                if (!await roleManager.RoleExistsAsync("Administrator"))
+                if (!await roleManager.RoleExistsAsync(Roles.Administrator))
                 {
                     await roleManager.CreateAsync(new IdentityRole<Guid>()
                     {
-                        Name = "Administrator",
-                        NormalizedName = "ADMINISTRATOR"
+                        Name = Roles.Administrator,
+                        NormalizedName = Roles.Administrator.ToUpper()
                     });
                 }
             }
@@ -47,7 +46,7 @@ namespace Infrastructure.Persistence
 
         private static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager)
         {
-            var usersInAdministratorRole = await userManager.GetUsersInRoleAsync("Administrator");
+            var usersInAdministratorRole = await userManager.GetUsersInRoleAsync(Roles.Administrator);
 
             if (!usersInAdministratorRole.Any())
             {

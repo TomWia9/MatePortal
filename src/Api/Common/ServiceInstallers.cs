@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Api.Common.Services;
 using Application.Common.Interfaces;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

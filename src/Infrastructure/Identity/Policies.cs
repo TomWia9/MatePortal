@@ -1,4 +1,4 @@
-﻿namespace Api.Common
+﻿namespace Infrastructure.Identity
 {
     public static class Policies
     {
