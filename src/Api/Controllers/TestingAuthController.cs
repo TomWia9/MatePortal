@@ -18,7 +18,7 @@ namespace Api.Controllers
             _httpService = httpService;
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Policy = "UserAccess")]
         [HttpGet("getUser")]
         public IActionResult GetUserId()
         {
@@ -32,7 +32,7 @@ namespace Api.Controllers
             return Ok(new {Id = userId, Role = HttpContext.User.IsInRole(Roles.User) ? "User" : "Not user"});
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Policy = "AdminAccess")]
         [HttpGet("getAdmin")]
         public IActionResult GetAdminId()
         {
