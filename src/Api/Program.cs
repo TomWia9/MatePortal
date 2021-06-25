@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +30,16 @@ namespace Api
             try
             {
                 Log.Information("Starting up");
+                
                 var context = services.GetRequiredService<ApplicationDbContext>();
+                
                 await context.Database.MigrateAsync();
+                
+                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+                
+                await ApplicationDbContextSeed.SeedDatabase(userManager, roleManager);
+                
                 await host.RunAsync();
 
             }

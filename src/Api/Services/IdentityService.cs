@@ -1,26 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Api.Common;
 using Application.Common.Interfaces;
 using Application.Identity;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Api.Common.Services
+namespace Api.Services
 {
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly JwtSettings _jwtSettings;
 
-        public IdentityService(UserManager<ApplicationUser> userManager, JwtSettings jwtSettings)
+        public IdentityService(UserManager<ApplicationUser> userManager, JwtSettings jwtSettings, RoleManager<IdentityRole<Guid>> roleManager)
         {
             _userManager = userManager;
             _jwtSettings = jwtSettings;
+            _roleManager = roleManager;
         }
 
 
@@ -51,7 +55,9 @@ namespace Api.Common.Services
                 };
             }
 
-            return GenerateAuthenticationResult(newUser);
+            await _userManager.AddToRoleAsync(newUser, Roles.User);
+
+            return await GenerateAuthenticationResult(newUser);
         }
 
         public async Task<AuthenticationResult> LoginAsync(string email, string password)
@@ -75,22 +81,27 @@ namespace Api.Common.Services
                 };
             }
 
-            return GenerateAuthenticationResult(user);
+            return await GenerateAuthenticationResult(user);
         }
 
-        private AuthenticationResult GenerateAuthenticationResult(ApplicationUser user)
+        private async Task<AuthenticationResult> GenerateAuthenticationResult(ApplicationUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
+            var claims = new List<Claim>()
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim("id", user.Id.ToString())
+            };
+            
+            var userRoles = await _userManager.GetRolesAsync(user);
+            claims.AddRange(userRoles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));
+            
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim("id", user.Id.ToString())
-                }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)

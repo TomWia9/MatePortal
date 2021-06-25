@@ -3,8 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Api.Common.Services;
+using Api.Services;
 using Application.Common.Interfaces;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -78,7 +79,7 @@ namespace Api.Common
 
             return services;
         }
-        
+
         public static IServiceCollection AddJwtAuth(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = new JwtSettings();
@@ -99,7 +100,7 @@ namespace Api.Common
                     jwtOptions.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey =  new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         RequireExpirationTime = true,
@@ -107,7 +108,23 @@ namespace Api.Common
                     };
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.UserAccess,
+                    policy => policy.RequireAssertion(context =>
+                        context.User.IsInRole(Roles.User) || context.User.IsInRole(Roles.Administrator)));
 
+                options.AddPolicy(Policies.AdminAccess,
+                    policy => policy.RequireAssertion(context => context.User.IsInRole(Roles.Administrator)));
+            });
+
+
+            return services;
+        }
+        
+        public static IServiceCollection AddInternalServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTransient<IHttpService, HttpService>();
             return services;
         }
     }

@@ -23,6 +23,8 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpContextAccessor();
+            services.AddInternalServices(Configuration);
             services.AddApplication(Configuration);
             services.AddInfrastructure(Configuration);
             services.AddSwagger();
@@ -51,6 +53,7 @@ namespace Api
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
