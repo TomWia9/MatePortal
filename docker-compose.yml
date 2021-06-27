@@ -15,6 +15,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    environment:
+      - ConnectionStrings__MatePortalConnection=Server=mateportaldb;Database=MatePortal;User=sa;Password=MatePortal123!
     ports:
       - "5005:5005"
     depends_on:
