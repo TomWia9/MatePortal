@@ -14,7 +14,6 @@ namespace Infrastructure.Persistence.Configurations
             
             builder.Property(b => b.Name).HasMaxLength(60).IsRequired();
             builder.Property(b => b.Description).HasMaxLength(1000).IsRequired();
-            builder.Property(b => b.Country).IsRequired();
         }
     }
 }

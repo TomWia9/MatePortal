@@ -10,8 +10,6 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.Ignore(f => f.DomainEvents);
             builder.HasKey(f => f.Id);
-
-            builder.Property(f => f.YerbaMate).IsRequired();
         }
     }
 }

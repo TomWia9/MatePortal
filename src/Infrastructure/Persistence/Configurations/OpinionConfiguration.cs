@@ -14,7 +14,6 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(o => o.Rate).IsRequired();
             builder.Property(o => o.Comment).HasMaxLength(500).IsRequired();
-            builder.Property(o => o.YerbaMate).IsRequired();
         }
     }
 }

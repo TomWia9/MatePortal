@@ -13,7 +13,6 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(c => c.Name).HasMaxLength(50).IsRequired();
             builder.Property(c => c.Description).HasMaxLength(1000).IsRequired();
-            builder.Property(c => c.YerbaMate).IsRequired();
         }
     }
 }
