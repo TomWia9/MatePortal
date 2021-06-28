@@ -27,6 +27,9 @@ namespace Infrastructure
             services.AddIdentityCore<ApplicationUser>()
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            
+            services.AddTransient<IDateTime, DateTimeService>();
+
 
             return services;
         }
