@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +20,9 @@ namespace Infrastructure
                     configuration.GetConnectionString("MatePortalConnection"),
                     x => x.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-            services.AddTransient<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+
+            services.AddScoped<IDomainEventService, DomainEventService>();
 
             services.AddIdentityCore<ApplicationUser>()
                 .AddRoles<IdentityRole<Guid>>()
