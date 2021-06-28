@@ -9,10 +9,9 @@ namespace Domain.Entities
         public Guid Id { get; set; }
         public int Rate { get; set; }
         public string Comment { get; set; }
-        
+
         public YerbaMate YerbaMate { get; set; }
-        public Guid UserId { get; set; }
-        
+
         public List<DomainEvent> DomainEvents { get; set; }
     }
 }
