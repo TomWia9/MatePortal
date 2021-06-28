@@ -6,7 +6,7 @@ namespace Domain.Entities
 {
     public class Brand : BaseEntity, IHasDomainEvent
     {
-        public Guid Guid { get; init; }
+        public Guid Id { get; init; }
         public string Name { get; set; }
         public string Description { get; set; }
        
