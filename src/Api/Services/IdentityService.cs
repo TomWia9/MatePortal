@@ -17,14 +17,12 @@ namespace Api.Services
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly JwtSettings _jwtSettings;
 
-        public IdentityService(UserManager<ApplicationUser> userManager, JwtSettings jwtSettings, RoleManager<IdentityRole<Guid>> roleManager)
+        public IdentityService(UserManager<ApplicationUser> userManager, JwtSettings jwtSettings)
         {
             _userManager = userManager;
             _jwtSettings = jwtSettings;
-            _roleManager = roleManager;
         }
 
 
