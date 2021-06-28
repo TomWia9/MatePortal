@@ -11,7 +11,7 @@ namespace Domain.Entities
         public string Description { get; set; }
        
         public Country Country { get; set; }
-        
-        public List<DomainEvent> DomainEvents { get; set; }
+
+        public List<DomainEvent> DomainEvents { get; set; } = new();
     }
 }

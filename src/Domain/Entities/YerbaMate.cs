@@ -13,10 +13,10 @@ namespace Domain.Entities
         public decimal AveragePrice { get; set; }
         public int NumberOfAddToFav { get; set; }
 
-        public List<Category> Categories { get; set; }
-        public List<Opinion> Opinions { get; set; }
-        public List<Favourite> Favourites { get; set; }
+        public IList<Category> Categories { get; set; } = new List<Category>();
+        public IList<Opinion> Opinions { get; set; } = new List<Opinion>();
+        public IList<Favourite> Favourites { get; set; } = new List<Favourite>();
 
-        public List<DomainEvent> DomainEvents { get; set; }
+        public List<DomainEvent> DomainEvents { get; set; } = new();
     }
 }

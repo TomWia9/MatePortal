@@ -7,7 +7,7 @@ namespace Infrastructure.Identity
 {
     public class ApplicationUser : IdentityUser<Guid>
     {
-        public List<Opinion> Opinions { get; set; }
-        public List<Favourite> Favourites { get; set; }
+        public IList<Opinion> Opinions { get; set; } = new List<Opinion>();
+        public IList<Favourite> Favourites { get; set; } = new List<Favourite>();
     }
 }

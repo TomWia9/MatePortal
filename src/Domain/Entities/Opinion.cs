@@ -12,6 +12,6 @@ namespace Domain.Entities
 
         public YerbaMate YerbaMate { get; set; }
 
-        public List<DomainEvent> DomainEvents { get; set; }
+        public List<DomainEvent> DomainEvents { get; set; } = new();
     }
 }

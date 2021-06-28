@@ -9,6 +9,6 @@ namespace Domain.Entities
         public Guid Id { get; set; }
         public YerbaMate YerbaMate { get; set; }
 
-        public List<DomainEvent> DomainEvents { get; set; }
+        public List<DomainEvent> DomainEvents { get; set; } = new();
     }
 }
