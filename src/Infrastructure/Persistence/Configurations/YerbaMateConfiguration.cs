@@ -11,7 +11,6 @@ namespace Infrastructure.Persistence.Configurations
             builder.Ignore(y => y.DomainEvents);
             builder.HasKey(y => y.Id);
 
-            builder.HasMany(y => y.Categories).WithOne(c => c.YerbaMate);
             builder.HasMany(y => y.Opinions).WithOne(o => o.YerbaMate);
             builder.HasMany(y => y.Favourites).WithOne(f => f.YerbaMate);
 

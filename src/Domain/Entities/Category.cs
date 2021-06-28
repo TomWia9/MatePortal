@@ -10,7 +10,7 @@ namespace Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         
-        public YerbaMate YerbaMate { get; set; }
+        public IList<YerbaMate> YerbaMate { get; set; } = new List<YerbaMate>();
 
         public List<DomainEvent> DomainEvents { get; set; } = new();
     }
