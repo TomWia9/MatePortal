@@ -4,14 +4,12 @@ using Domain.Common;
 
 namespace Domain.Entities
 {
-    public class Brand : BaseEntity
+    public class Shop : BaseEntity, IHasDomainEvent
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-       
-        public Country Country { get; set; }
-
+        public IList<ShopOpinion> Opinions { get; set; }
         public List<DomainEvent> DomainEvents { get; set; } = new();
     }
 }

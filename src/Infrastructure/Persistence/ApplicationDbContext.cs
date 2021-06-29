@@ -35,6 +35,8 @@ namespace Infrastructure.Persistence
         public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Opinion> Opinions { get; set; }
         public DbSet<YerbaMate> YerbaMate { get; set; }
+        public DbSet<Shop> Shops { get; set; }
+        public DbSet<ShopOpinion> ShopOpinions { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {

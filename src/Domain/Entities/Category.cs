@@ -4,7 +4,7 @@ using Domain.Common;
 
 namespace Domain.Entities
 {
-    public class Category : BaseEntity, IHasDomainEvent 
+    public class Category : BaseEntity 
     {
         public Guid Id { get; init; }
         public string Name { get; set; }
