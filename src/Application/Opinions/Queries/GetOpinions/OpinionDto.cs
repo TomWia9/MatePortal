@@ -8,5 +8,6 @@ namespace Application.Opinions.Queries.GetOpinions
         public int Rate { get; set; }
         public string Comment { get; set; }
         public Guid YerbaMateId { get; set; }
+        public string User { get; set; }
     }
 }

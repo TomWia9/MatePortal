@@ -8,6 +8,6 @@ namespace Application.Brands.Queries.GetBrands
         public Guid Id { get; init; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public CountryDto Country { get; set; }
+        public string Country { get; set; }
     }
 }
