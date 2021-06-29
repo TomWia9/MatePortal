@@ -85,7 +85,7 @@ namespace Api.Common
             var jwtSettings = new JwtSettings();
             configuration.Bind(nameof(JwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
-
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddAuthentication(options =>

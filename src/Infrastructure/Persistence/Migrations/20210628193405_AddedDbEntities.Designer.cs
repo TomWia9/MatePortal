@@ -4,14 +4,16 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210628193405_AddedDbEntities")]
+    partial class AddedDbEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,75 +169,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("YerbaMateId");
 
                     b.ToTable("Opinions");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Shop", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Shops");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ShopOpinion", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("LastModifiedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Rate")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("ShopId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ShopId");
-
-                    b.ToTable("ShopOpinions");
                 });
 
             modelBuilder.Entity("Domain.Entities.YerbaMate", b =>
@@ -508,15 +441,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("YerbaMate");
                 });
 
-            modelBuilder.Entity("Domain.Entities.ShopOpinion", b =>
-                {
-                    b.HasOne("Domain.Entities.Shop", "Shop")
-                        .WithMany("Opinions")
-                        .HasForeignKey("ShopId");
-
-                    b.Navigation("Shop");
-                });
-
             modelBuilder.Entity("Domain.Entities.YerbaMate", b =>
                 {
                     b.HasOne("Domain.Entities.Category", "Category")
@@ -585,11 +509,6 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Country", b =>
                 {
                     b.Navigation("Brands");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Shop", b =>
-                {
-                    b.Navigation("Opinions");
                 });
 
             modelBuilder.Entity("Domain.Entities.YerbaMate", b =>
