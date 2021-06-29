@@ -11,6 +11,7 @@ namespace Domain.Entities
         public string Description { get; set; }
        
         public Country Country { get; set; }
+        public IList<YerbaMate> YerbaMate { get; set; } = new List<YerbaMate>();
 
         public List<DomainEvent> DomainEvents { get; set; } = new();
     }
