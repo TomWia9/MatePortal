@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Application.YerbaMate.Queries.GetYerbaMate
+namespace Application.YerbaMates.Queries.GetYerbaMate
 {
     public class YerbaMateDto
     {
