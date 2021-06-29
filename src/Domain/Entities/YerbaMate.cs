@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Domain.Common;
 
@@ -7,6 +7,7 @@ namespace Domain.Entities
     public class YerbaMate : BaseEntity, IHasDomainEvent
     {
         public Guid Id { get; init; }
+        public Brand Brand { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string imgUrl { get; set; }
