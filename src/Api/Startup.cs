@@ -1,4 +1,5 @@
 using Api.Common;
+using Api.Filters;
 using Application;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -22,7 +23,11 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<ApiExceptionFilterAttribute>();
+            });
+            
             services.AddHttpContextAccessor();
             services.AddInternalServices(Configuration);
             services.AddApplication(Configuration);
