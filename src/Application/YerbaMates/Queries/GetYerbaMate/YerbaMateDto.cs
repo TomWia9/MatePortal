@@ -1,8 +1,11 @@
 ﻿using System;
+using Application.Common.Mappings;
+using AutoMapper;
+using Domain.Entities;
 
 namespace Application.YerbaMates.Queries.GetYerbaMate
 {
-    public class YerbaMateDto
+    public class YerbaMateDto : IMapFrom<YerbaMate>
     {
         public Guid Id { get; init; }
         public string Brand { get; set; }
@@ -12,5 +15,12 @@ namespace Application.YerbaMates.Queries.GetYerbaMate
         public string imgUrl { get; set; }
         public decimal AveragePrice { get; set; }
         public int NumberOfAddToFav { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<YerbaMate, YerbaMateDto>()
+                .ForMember(d => d.Brand, opt => opt.MapFrom(s => s.Brand.Name))
+                .ForMember(d => d.Category, opt => opt.MapFrom(s => s.Category.Name));
+        }
     }
 }

@@ -3,8 +3,16 @@ using System.Runtime.Serialization;
 using Application.Brands.Queries.GetBrands;
 using Application.Categories.Queries.GetCategories;
 using Application.Common.Mappings;
+using Application.Countries.Queries.GetCountries;
+using Application.Favourites.Queries.GetFavourites;
+using Application.Opinions.Queries.GetOpinions;
+using Application.ShopOpinions.Queries.GetShopOpinions;
+using Application.Shops.Queries.GetShops;
+using Application.Users.Queries.GetUser;
+using Application.YerbaMates.Queries.GetYerbaMate;
 using AutoMapper;
 using Domain.Entities;
+using Infrastructure.Identity;
 using Xunit;
 
 namespace Application.UnitTests.Common.Mappings
@@ -33,6 +41,13 @@ namespace Application.UnitTests.Common.Mappings
         [Theory]
         [InlineData(typeof(Brand), typeof(BrandDto))]
         [InlineData(typeof(Category), typeof(CategoryDto))]
+        [InlineData(typeof(Country), typeof(CountryDto))]
+        [InlineData(typeof(Favourite), typeof(FavouriteDto))]
+        [InlineData(typeof(Opinion), typeof(OpinionDto))]
+        [InlineData(typeof(ShopOpinion), typeof(ShopOpinionDto))]
+        [InlineData(typeof(Shop), typeof(ShopDto))]
+        [InlineData(typeof(YerbaMate), typeof(YerbaMateDto))]
+        //[InlineData(typeof(ApplicationUser), typeof(UserDto))]
         public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
         {
             var instance = GetInstanceOf(source);
