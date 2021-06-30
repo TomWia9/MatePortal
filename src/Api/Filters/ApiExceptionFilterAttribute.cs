@@ -17,6 +17,7 @@ namespace Api.Filters
             {
                 {typeof(ValidationException), HandleValidationException},
                 {typeof(NotFoundException), HandleNotFoundException},
+                {typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException},
                 {typeof(ForbiddenAccessException), HandleForbiddenAccessException},
             };
         }
@@ -71,6 +72,19 @@ namespace Api.Filters
             };
 
             context.Result = new NotFoundObjectResult(details);
+            context.ExceptionHandled = true;
+        }
+
+        private static void HandleUnauthorizedAccessException(ExceptionContext context)
+        {
+            var details = new ProblemDetails()
+            {
+                Title = "Unauthorized",
+                Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
+            };
+
+            context.Result = new UnauthorizedObjectResult(details);
+                
             context.ExceptionHandled = true;
         }
 
