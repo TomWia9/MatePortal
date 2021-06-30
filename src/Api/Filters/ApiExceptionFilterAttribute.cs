@@ -4,15 +4,19 @@ using Application.Common.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Api.Filters
 {
     public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
+        private readonly ILogger<ApiExceptionFilterAttribute> _logger;
 
-        public ApiExceptionFilterAttribute()
+        public ApiExceptionFilterAttribute(ILogger<ApiExceptionFilterAttribute> logger)
         {
+            _logger = logger;
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
                 {typeof(ValidationException), HandleValidationException},
@@ -46,7 +50,7 @@ namespace Api.Filters
             HandleUnknownException(context);
         }
 
-        private static void HandleValidationException(ExceptionContext context)
+        private void HandleValidationException(ExceptionContext context)
         {
             var exception = context.Exception as ValidationException;
 
@@ -55,12 +59,13 @@ namespace Api.Filters
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };
 
-            context.Result = new BadRequestObjectResult(details);
+            _logger.LogError(exception.Message);
 
+            context.Result = new BadRequestObjectResult(details);
             context.ExceptionHandled = true;
         }
 
-        private static void HandleNotFoundException(ExceptionContext context)
+        private void HandleNotFoundException(ExceptionContext context)
         {
             var exception = context.Exception as NotFoundException;
 
@@ -71,11 +76,13 @@ namespace Api.Filters
                 Detail = exception?.Message
             };
 
+            _logger.LogError(exception.Message);
+
             context.Result = new NotFoundObjectResult(details);
             context.ExceptionHandled = true;
         }
 
-        private static void HandleUnauthorizedAccessException(ExceptionContext context)
+        private void HandleUnauthorizedAccessException(ExceptionContext context)
         {
             var details = new ProblemDetails()
             {
@@ -83,12 +90,14 @@ namespace Api.Filters
                 Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
             };
 
+            
+            _logger.LogError(context.Exception.Message);
+
             context.Result = new UnauthorizedObjectResult(details);
-                
             context.ExceptionHandled = true;
         }
 
-        private static void HandleForbiddenAccessException(ExceptionContext context)
+        private void HandleForbiddenAccessException(ExceptionContext context)
         {
             var details = new ProblemDetails()
             {
@@ -96,6 +105,8 @@ namespace Api.Filters
                 Title = "Forbidden",
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
             };
+
+            _logger.LogError(context.Exception.Message);
 
             context.Result = new ObjectResult(details)
             {
@@ -106,19 +117,20 @@ namespace Api.Filters
         }
 
 
-        private static void HandleInvalidModelStateException(ExceptionContext context)
+        private void HandleInvalidModelStateException(ExceptionContext context)
         {
             var details = new ValidationProblemDetails(context.ModelState)
             {
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };
 
-            context.Result = new BadRequestObjectResult(details);
+            _logger.LogError(context.Exception.Message);
 
+            context.Result = new BadRequestObjectResult(details);
             context.ExceptionHandled = true;
         }
 
-        private static void HandleUnknownException(ExceptionContext context)
+        private void HandleUnknownException(ExceptionContext context)
         {
             var details = new ProblemDetails()
             {
@@ -126,6 +138,8 @@ namespace Api.Filters
                 Title = "An error occurred while processing your request.",
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
             };
+
+            _logger.LogError(context.Exception.Message);
 
             context.Result = new ObjectResult(details)
             {
