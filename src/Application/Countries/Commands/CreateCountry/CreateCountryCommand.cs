@@ -1,5 +1,4 @@
-﻿using System;
-using Application.Countries.Queries.GetCountries;
+﻿using Application.Countries.Queries.GetCountries;
 using MediatR;
 
 namespace Application.Countries.Commands.CreateCountry
