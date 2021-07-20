@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Application.Identity;
+using Application.Users;
 
 namespace Application.Common.Interfaces
 {
