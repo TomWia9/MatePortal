@@ -3,7 +3,7 @@ using Application.Common.Mappings;
 using AutoMapper;
 using Domain.Entities;
 
-namespace Application.Favourites.Queries.GetFavourites
+namespace Application.Favourites.Queries
 {
     public class FavouriteDto : IMapFrom<Favourite>
     {

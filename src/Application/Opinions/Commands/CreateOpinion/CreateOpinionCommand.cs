@@ -1,5 +1,5 @@
 ﻿using System;
-using Application.Opinions.Queries.GetOpinions;
+using Application.Opinions.Queries;
 using MediatR;
 
 namespace Application.Opinions.Commands.CreateOpinion

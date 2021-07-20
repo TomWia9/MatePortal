@@ -1,8 +1,8 @@
 ﻿using Application.Common.QueryParameters;
 
-namespace Application.ShopOpinions.Queries.GetShopOpinions
+namespace Application.Opinions.Queries
 {
-    public class ShopOpinionsQueryParameters : QueryParameters
+    public class OpinionsQueryParameters : QueryParameters
     {
         private int _minRate = 1;
         private int _maxRate = 10;

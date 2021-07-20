@@ -2,11 +2,12 @@
 using Application.Common.Mappings;
 using Domain.Entities;
 
-namespace Application.Countries.Queries.GetCountries
+namespace Application.Categories.Queries
 {
-    public class CountryDto : IMapFrom<Country>
+    public class CategoryDto : IMapFrom<Category>
     {
         public Guid Id { get; init; }
         public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

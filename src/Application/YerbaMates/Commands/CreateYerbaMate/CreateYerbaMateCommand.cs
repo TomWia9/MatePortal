@@ -1,4 +1,4 @@
-﻿using Application.YerbaMates.Queries.GetYerbaMate;
+﻿using Application.YerbaMates.Queries;
 using MediatR;
 
 namespace Application.YerbaMates.Commands.CreateYerbaMate

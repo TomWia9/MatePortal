@@ -1,4 +1,5 @@
 ﻿using System;
+using Application.Favourites.Queries;
 using Application.Favourites.Queries.GetFavourites;
 using MediatR;
 

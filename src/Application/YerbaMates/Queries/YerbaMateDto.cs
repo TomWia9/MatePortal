@@ -3,7 +3,7 @@ using Application.Common.Mappings;
 using AutoMapper;
 using Domain.Entities;
 
-namespace Application.YerbaMates.Queries.GetYerbaMate
+namespace Application.YerbaMates.Queries
 {
     public class YerbaMateDto : IMapFrom<YerbaMate>
     {

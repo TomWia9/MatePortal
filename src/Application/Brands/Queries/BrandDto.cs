@@ -3,7 +3,7 @@ using Application.Common.Mappings;
 using AutoMapper;
 using Domain.Entities;
 
-namespace Application.Brands.Queries.GetBrands
+namespace Application.Brands.Queries
 {
     public class BrandDto : IMapFrom<Brand>
     {

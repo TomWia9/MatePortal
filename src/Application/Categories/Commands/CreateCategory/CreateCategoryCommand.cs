@@ -1,4 +1,5 @@
-﻿using Application.Categories.Queries.GetCategories;
+﻿using Application.Categories.Queries;
+using Application.Categories.Queries.GetCategories;
 using MediatR;
 
 namespace Application.Categories.Commands.CreateCategory

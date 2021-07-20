@@ -1,7 +1,7 @@
 ﻿using Application.Common.Extensions;
 using Application.Common.QueryParameters;
 
-namespace Application.YerbaMates.Queries.GetYerbaMates
+namespace Application.YerbaMates.Queries
 {
     public class YerbaMatesQueryParameters : QueryParameters
     {

@@ -1,5 +1,5 @@
 ﻿using System;
-using Application.ShopOpinions.Queries.GetShopOpinions;
+using Application.ShopOpinions.Queries;
 using MediatR;
 
 namespace Application.ShopOpinions.Commands.CreateShopOpinion

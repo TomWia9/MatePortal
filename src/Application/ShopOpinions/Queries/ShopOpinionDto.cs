@@ -3,7 +3,7 @@ using Application.Common.Mappings;
 using AutoMapper;
 using Domain.Entities;
 
-namespace Application.ShopOpinions.Queries.GetShopOpinions
+namespace Application.ShopOpinions.Queries
 {
     public class ShopOpinionDto : IMapFrom<ShopOpinion>
     {

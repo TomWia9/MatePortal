@@ -1,6 +1,6 @@
 ﻿using Application.Common.QueryParameters;
 
-namespace Application.Shops.Queries.GetShops
+namespace Application.Shops.Queries
 {
     public class ShopsQueryParameters : QueryParameters
     {

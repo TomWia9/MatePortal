@@ -1,4 +1,4 @@
-﻿using Application.Brands.Queries.GetBrands;
+﻿using Application.Brands.Queries;
 using MediatR;
 
 namespace Application.Brands.Commands.CreateBrand

@@ -2,7 +2,7 @@
 using Application.Common.Mappings;
 using Domain.Entities;
 
-namespace Application.Shops.Queries.GetShops
+namespace Application.Shops.Queries
 {
     public class ShopDto : IMapFrom<Shop>
     {

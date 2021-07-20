@@ -1,7 +1,7 @@
 ﻿using Application.Common.Extensions;
 using Application.Common.QueryParameters;
 
-namespace Application.Brands.Queries.GetBrands
+namespace Application.Brands.Queries
 {
     public class BrandsQueryParameters : QueryParameters
     {

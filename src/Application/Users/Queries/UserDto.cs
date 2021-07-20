@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Application.Users.Queries.GetUser
+namespace Application.Users.Queries
 {
     //TODO Map ApplicationUser from infrastructure project to UserDto from Application project
     public class UserDto
