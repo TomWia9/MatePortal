@@ -3,11 +3,26 @@ using MediatR;
 
 namespace Application.Users.Commands.UpdateUser
 {
+    /// <summary>
+    /// Update user command
+    /// </summary>
     public class UpdateUserCommand : IRequest
     {
-        public Guid Id { get; set; }
+        /// <summary>
+        /// User's ID
+        /// </summary>
+        public Guid UserId { get; set; }
+        /// <summary>
+        /// User's email
+        /// </summary>
         public string Email { get; set; }
+        /// <summary>
+        /// User's username
+        /// </summary>
         public string Username { get; set; }
+        /// <summary>
+        /// User's password
+        /// </summary>
         public string Password { get; set; }
     }
 }

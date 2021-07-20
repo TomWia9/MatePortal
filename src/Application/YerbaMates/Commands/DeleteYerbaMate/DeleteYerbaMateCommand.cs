@@ -3,8 +3,14 @@ using MediatR;
 
 namespace Application.YerbaMates.Commands.DeleteYerbaMate
 {
+    /// <summary>
+    /// Delete yerba mate command
+    /// </summary>
     public class DeleteYerbaMateCommand : IRequest
     {
-        public Guid Id { get; set; }
+        /// <summary>
+        /// Yerba mate ID
+        /// </summary>
+        public Guid YerbaMateId { get; init; }
     }
 }

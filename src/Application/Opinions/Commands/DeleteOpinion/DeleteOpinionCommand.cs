@@ -3,8 +3,14 @@ using MediatR;
 
 namespace Application.Opinions.Commands.DeleteOpinion
 {
+    /// <summary>
+    /// Delete opinion command
+    /// </summary>
     public class DeleteOpinionCommand : IRequest
     {
-        public Guid Id { get; set; }
+        /// <summary>
+        /// Opinion ID
+        /// </summary>
+        public Guid OpinionId { get; set; }
     }
 }

@@ -3,8 +3,14 @@ using MediatR;
 
 namespace Application.Shops.Commands.DeleteShop
 {
+    /// <summary>
+    /// Delete shop command
+    /// </summary>
     public class DeleteShopCommand : IRequest
     {
-        public Guid Id { get; set; }
+        /// <summary>
+        /// Shop ID
+        /// </summary>
+        public Guid ShopId { get; set; }
     }
 }
