@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Application.Brands.Queries.GetBrands;
-using Application.Categories.Queries.GetCategories;
+using Application.Brands.Queries;
+using Application.Categories.Queries;
 using Application.Common.Mappings;
-using Application.Countries.Queries.GetCountries;
-using Application.Favourites.Queries.GetFavourites;
-using Application.Opinions.Queries.GetOpinions;
-using Application.ShopOpinions.Queries.GetShopOpinions;
-using Application.Shops.Queries.GetShops;
-using Application.Users.Queries.GetUser;
-using Application.YerbaMates.Queries.GetYerbaMate;
+using Application.Countries.Queries;
+using Application.Favourites.Queries;
+using Application.Opinions.Queries;
+using Application.ShopOpinions.Queries;
+using Application.Shops.Queries;
+using Application.YerbaMates.Queries;
 using AutoMapper;
 using Domain.Entities;
-using Infrastructure.Identity;
 using Xunit;
 
 namespace Application.UnitTests.Common.Mappings
@@ -24,10 +22,7 @@ namespace Application.UnitTests.Common.Mappings
 
         public MappingTests()
         {
-            _configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MappingProfile>();
-            });
+            _configuration = new MapperConfiguration(cfg => { cfg.AddProfile<MappingProfile>(); });
 
             _mapper = _configuration.CreateMapper();
         }

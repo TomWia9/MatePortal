@@ -7,6 +7,7 @@ namespace Domain.Entities
     {
         public Guid Id { get; init; }
         public string Name { get; set; }
+        // TODO Add description to Country
 
         public IList<Brand> Brands { get; set; } = new List<Brand>();
     }

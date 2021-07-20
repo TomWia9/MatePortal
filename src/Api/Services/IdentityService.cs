@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Api.Common;
 using Application.Common.Interfaces;
-using Application.Identity;
+using Application.Users;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;

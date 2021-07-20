@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Application.Common.Interfaces;
-using Application.Identity.Requests;
-using Application.Identity.Responses;
+using Application.Users.Commands.LoginUser;
+using Application.Users.Commands.RegisterUser;
+using Application.Users.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -17,10 +18,10 @@ namespace Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterUserCommand request)
         {
             var registrationResponse =
-                await _identityService.RegisterAsync(request.Email, request.UserName, request.Password);
+                await _identityService.RegisterAsync(request.Email, request.Username, request.Password);
             
             if (!registrationResponse.Success)
             {
@@ -37,7 +38,7 @@ namespace Api.Controllers
         }
         
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginUserCommand request)
         {
             var loginResponse =
                 await _identityService.LoginAsync(request.Email, request.Password);
