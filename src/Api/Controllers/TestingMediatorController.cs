@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Application.Brands.Commands.CreateBrand;
+using Application.Brands.Commands.DeleteBrand;
 using Application.Brands.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +29,14 @@ namespace Api.Controllers
             var result = await _mediator.Send(command);
 
             //return CreatedAtAction("GetBrand", new {id = result.Id}, result);
+            return NoContent();
+        }
+
+        [HttpDelete("DeleteBrand/{id}")]
+        public async Task<ActionResult<BrandDto>> DeleteBrand(Guid id)
+        {
+            await _mediator.Send(new DeleteBrandCommand {BrandId = id});
+
             return NoContent();
         }
     }
