@@ -4,13 +4,14 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace Application.Brands.Commands.DeleteBrand
+namespace Application.Brands.Commands.UpdateBrand
 {
     /// <summary>
-    /// Delete brand handler
+    /// Update brand handler
     /// </summary>
-    public class DeleteBrandHandler : IRequestHandler<DeleteBrandCommand>
+    public class UpdateBrandHandler : IRequestHandler<UpdateBrandCommand>
     {
         /// <summary>
         /// Database context
@@ -18,21 +19,21 @@ namespace Application.Brands.Commands.DeleteBrand
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// Initializes DeleteBrandHandler
+        /// Initializes UpdateBrandHandler
         /// </summary>
         /// <param name="context">Database context</param>
-        public DeleteBrandHandler(IApplicationDbContext context)
+        public UpdateBrandHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
         /// <summary>
-        /// Handles deleting brand
+        /// Handles updating brand 
         /// </summary>
-        /// <param name="request">Delete brand request</param>
+        /// <param name="request">Update brand request</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <exception cref="NotFoundException">Thrown when brand is not found</exception>
-        public async Task<Unit> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Brands.FindAsync(request.BrandId);
 
@@ -41,7 +42,15 @@ namespace Application.Brands.Commands.DeleteBrand
                 throw new NotFoundException(nameof(Brand), request.BrandId);
             }
 
-            _context.Brands.Remove(entity);
+            if (!await _context.Countries.AnyAsync(c => c.Id == request.CountryId,
+                cancellationToken))
+            {
+                throw new NotFoundException(nameof(Country), request.CountryId);
+            }
+
+            entity.Name = request.Name;
+            entity.Description = request.Description;
+            entity.CountryId = request.CountryId;
 
             await _context.SaveChangesAsync(cancellationToken);
 

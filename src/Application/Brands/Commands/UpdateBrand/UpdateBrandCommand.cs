@@ -24,8 +24,8 @@ namespace Application.Brands.Commands.UpdateBrand
         public string Description { get; set; }
 
         /// <summary>
-        /// Brand country
+        /// Brand country ID
         /// </summary>
-        public string Country { get; set; }
+        public Guid CountryId { get; set; }
     }
 }
