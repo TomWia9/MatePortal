@@ -85,7 +85,6 @@ namespace Api.Common
             var jwtSettings = new JwtSettings();
             configuration.Bind(nameof(JwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
-            services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddAuthentication(options =>
@@ -124,7 +123,7 @@ namespace Api.Common
         
         public static IServiceCollection AddInternalServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<IHttpService, HttpService>();
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
             return services;
         }
     }
