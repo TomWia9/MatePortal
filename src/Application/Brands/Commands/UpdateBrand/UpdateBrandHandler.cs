@@ -32,7 +32,7 @@ namespace Application.Brands.Commands.UpdateBrand
         /// </summary>
         /// <param name="request">Update brand request</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <exception cref="NotFoundException">Thrown when brand is not found</exception>
+        /// <exception cref="NotFoundException">Thrown when brand or updated country is not found</exception>
         public async Task<Unit> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Brands.FindAsync(request.BrandId);

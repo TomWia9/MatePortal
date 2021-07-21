@@ -20,6 +20,6 @@ namespace Application.Brands.Queries.GetBrand
         /// <summary>
         /// Brand ID
         /// </summary>
-        private Guid BrandId { get; }
+        public Guid BrandId { get; }
     }
 }
