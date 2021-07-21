@@ -1,4 +1,5 @@
-﻿using Application.Brands.Queries;
+﻿using System;
+using Application.Brands.Queries;
 using MediatR;
 
 namespace Application.Brands.Commands.CreateBrand
@@ -19,8 +20,8 @@ namespace Application.Brands.Commands.CreateBrand
         public string Description { get; set; }
 
         /// <summary>
-        /// Brand country
+        /// Brand country ID
         /// </summary>
-        public string Country { get; set; }
+        public Guid CountryId { get; set; }
     }
 }
