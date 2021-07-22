@@ -5,9 +5,13 @@ using Application.Brands.Commands.DeleteBrand;
 using Application.Brands.Commands.UpdateBrand;
 using Application.Brands.Queries;
 using Application.Brands.Queries.GetBrand;
+using Application.Brands.Queries.GetBrands;
+using Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Api.Controllers
 {
@@ -27,6 +31,32 @@ namespace Api.Controllers
         public async Task<ActionResult<BrandDto>> GetBrand(Guid id)
         {
             return await _mediator.Send(new GetBrandQuery(id));
+        }
+        
+        [HttpGet("GetBrands")]
+        public async Task<ActionResult<PaginatedList<BrandDto>>> GetBrands([FromQuery] BrandsQueryParameters parameters)
+        {
+            var result = await _mediator.Send(new GetBrandsQuery(parameters));
+            
+            var metadata = new
+            {
+                result.TotalCount,
+                result.PageSize,
+                result.CurrentPage,
+                result.TotalPages,
+                result.HasNext,
+                result.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata, new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            }));
+
+            return Ok(result);
         }
 
         [Authorize(Policy = "AdminAccess")]

@@ -16,10 +16,10 @@ namespace Application.Brands.Queries.GetBrands
         {
             Parameters = parameters;
         }
-        
+
         /// <summary>
         /// Brands query parameters
         /// </summary>
-        private BrandsQueryParameters Parameters { get; }
+        public BrandsQueryParameters Parameters { get; }
     }
 }
