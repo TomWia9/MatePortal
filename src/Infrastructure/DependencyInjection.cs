@@ -29,7 +29,7 @@ namespace Infrastructure
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddTransient<IDateTime, DateTimeService>();
-            services.AddTransient(typeof(IFilterService<>), typeof(FilterService<>));
+            services.AddTransient(typeof(ISortService<>), typeof(SortService<>));
             
             return services;
         }
