@@ -12,9 +12,9 @@ namespace Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("MatePortalConnection"),
@@ -27,10 +27,10 @@ namespace Infrastructure
             services.AddIdentityCore<ApplicationUser>()
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
             services.AddTransient<IDateTime, DateTimeService>();
-
-
+            services.AddTransient(typeof(IFilterService<>), typeof(FilterService<>));
+            
             return services;
         }
     }
