@@ -14,6 +14,12 @@ namespace Api.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Guid UserId => Guid.Parse(_httpContextAccessor.HttpContext?.User.FindFirstValue("id") ?? string.Empty);
+        public Guid? UserId => GetCurrentUserId();
+
+        private Guid? GetCurrentUserId()
+        {
+            var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue("id");
+            return string.IsNullOrEmpty(userId) ? null : Guid.Parse(userId);
+        }
     }
 }
