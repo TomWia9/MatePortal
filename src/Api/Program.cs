@@ -38,7 +38,7 @@ namespace Api
                 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
                 
-                await ApplicationDbContextSeed.SeedDatabase(userManager, roleManager);
+                await ApplicationDbContextSeed.SeedDatabase(userManager, roleManager, context);
                 
                 await host.RunAsync();
 
