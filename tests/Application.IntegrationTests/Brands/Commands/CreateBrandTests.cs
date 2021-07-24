@@ -11,16 +11,8 @@ namespace Application.IntegrationTests.Brands.Commands
     /// <summary>
     /// Create brand tests
     /// </summary>
-    public class CreateBrandTests : IntegrationTest
+    public class CreateBrandTests : IntegrationTest 
     {
-        /// <summary>
-        /// Initializes CreateBrandTests
-        /// </summary>
-        /// <param name="fixture">The fixture</param>
-        public CreateBrandTests(CustomWebApplicationFactory fixture) : base(fixture)
-        {
-        }
-        
         /// <summary>
         /// Create brand should create brand and return brand data transfer object
         /// </summary>

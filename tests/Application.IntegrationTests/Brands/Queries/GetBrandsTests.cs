@@ -9,12 +9,8 @@ namespace Application.IntegrationTests.Brands.Queries
     /// <summary>
     /// Get brands tests
     /// </summary>
-    public class GetBrandsTests : IntegrationTest
+    public class GetBrandsTests : IntegrationTest 
     {
-        public GetBrandsTests(CustomWebApplicationFactory fixture) : base(fixture)
-        {
-        }
-
         /// <summary>
         /// Get brands should return 5 brands
         /// </summary>
@@ -23,6 +19,17 @@ namespace Application.IntegrationTests.Brands.Queries
         {
             var response = await _mediator.Send(new GetBrandsQuery(new BrandsQueryParameters()));
             response.Count.Should().Be(5);
+        }
+
+        //TODO Test cases
+        /// <summary>
+        /// Get brands from Paraguay should return 2 brands
+        /// </summary>
+        [Fact]
+        public async Task GetBrandsFromParaguayShouldReturn2Brands()
+        {
+            var response = await _mediator.Send(new GetBrandsQuery(new BrandsQueryParameters() {Country = "Paraguay"}));
+            response.Count.Should().Be(2);
         }
     }
 }

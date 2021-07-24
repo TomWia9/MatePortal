@@ -28,10 +28,4 @@
       <ProjectReference Include="..\..\src\Api\Api.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="integrationsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
 </Project>

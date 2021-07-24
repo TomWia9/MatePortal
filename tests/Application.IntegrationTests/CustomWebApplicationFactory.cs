@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -20,9 +19,17 @@ namespace Application.IntegrationTests
     public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
     {
         /// <summary>
-        /// The configuration
+        /// Initializes CustomWebApplicationFactory
         /// </summary>
-        public IConfiguration Configuration { get; private set; }
+        public CustomWebApplicationFactory()
+        {
+            _databaseName = Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
+        /// Database name
+        /// </summary>
+        private readonly string _databaseName;
 
         /// <summary>
         /// Configures web host
@@ -30,16 +37,6 @@ namespace Application.IntegrationTests
         /// <param name="builder">The builder</param>
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            // Adds json config file to Configuration
-            builder.ConfigureAppConfiguration(config =>
-            {
-                Configuration = new ConfigurationBuilder()
-                    .AddJsonFile("integrationsettings.json")
-                    .Build();
-
-                config.AddConfiguration(Configuration);
-            });
-
             builder.ConfigureServices(services =>
             {
                 var descriptor = services.SingleOrDefault(
@@ -51,8 +48,8 @@ namespace Application.IntegrationTests
 
                 services.AddDbContext<ApplicationDbContext>((options, context) =>
                 {
-                    context.UseSqlServer(Configuration.GetConnectionString("MatePortalTestDbConnection"),
-                        x => x.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+                    context.UseSqlServer(
+                        $"Server=localhost\\sqlexpress;Database={_databaseName};Trusted_Connection=True;");
                 });
 
                 var sp = services.BuildServiceProvider();
@@ -74,7 +71,7 @@ namespace Application.IntegrationTests
                         ApplicationDbContextSeed.SeedDatabase(userManager, roleManager, context)
                             .Wait();
                         //Values seeded only in tests
-                        DbHelper.SeedTestBrands(context).Wait();
+                        TestSeeder.SeedTestBrands(context).Wait();
                     }
                     catch (Exception ex)
                     {

@@ -8,8 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.IntegrationTests.Helpers
 {
-    public static class DbHelper
+    /// <summary>
+    /// Test seeder for seeding test data to database
+    /// </summary>
+    public static class TestSeeder
     {
+        /// <summary>
+        /// Seed test brands
+        /// </summary>
+        /// <param name="context">Database context</param>
         public static async Task SeedTestBrands(IApplicationDbContext context)
         {
             if (!await context.Brands.AnyAsync())
@@ -19,6 +26,10 @@ namespace Application.IntegrationTests.Helpers
             }
         }
 
+        /// <summary>
+        /// Gets test brands
+        /// </summary>
+        /// <returns>List of test brands</returns>
         private static IEnumerable<Brand> GetBrands()
         {
             return new List<Brand>
