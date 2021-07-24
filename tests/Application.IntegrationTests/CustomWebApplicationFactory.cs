@@ -45,11 +45,10 @@ namespace Application.IntegrationTests
 
                 //Removes old db context and adds db context for tests
                 services.Remove(descriptor);
-
-                services.AddDbContext<ApplicationDbContext>((options, context) =>
+                
+                services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    context.UseSqlServer(
-                        $"Server=localhost\\sqlexpress;Database={_databaseName};Trusted_Connection=True;");
+                    options.UseInMemoryDatabase(_databaseName);
                 });
 
                 var sp = services.BuildServiceProvider();
