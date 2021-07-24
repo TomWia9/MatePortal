@@ -1,5 +1,5 @@
 ﻿using System;
-using Infrastructure.Persistence;
+using Application.IntegrationTests.Helpers;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,7 +18,7 @@ namespace Application.IntegrationTests
         /// <summary>
         /// Custom web application factory instance
         /// </summary>
-        private readonly CustomWebApplicationFactory _factory;
+        protected readonly CustomWebApplicationFactory _factory;
         
         /// <summary>
         /// Initializes Integration test
@@ -38,12 +38,7 @@ namespace Application.IntegrationTests
         /// </summary>
         public void Dispose()
         {
-            using var scope = _factory.Services.CreateScope();
-            {
-                var scopedServices = scope.ServiceProvider;
-                var context = scopedServices.GetRequiredService<ApplicationDbContext>();
-                context.Database.EnsureDeleted();
-            };
+            DbHelper.DeleteDatabase(_factory);
         }
     }
 }

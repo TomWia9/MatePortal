@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Api;
+using Application.Common.Interfaces;
 using Application.IntegrationTests.Helpers;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace Application.IntegrationTests
 {
@@ -30,7 +32,12 @@ namespace Application.IntegrationTests
         /// Database name
         /// </summary>
         private readonly string _databaseName;
-
+        
+        /// <summary>
+        /// Current user ID
+        /// </summary>
+        public Guid CurrentUserId { get; set; }
+        
         /// <summary>
         /// Configures web host
         /// </summary>
@@ -39,17 +46,25 @@ namespace Application.IntegrationTests
         {
             builder.ConfigureServices(services =>
             {
-                var descriptor = services.SingleOrDefault(
+                //Replace CurrentUserService
+
+                var currentUserServiceDescriptor = services.FirstOrDefault(d =>
+                    d.ServiceType == typeof(ICurrentUserService));
+
+                services.Remove(currentUserServiceDescriptor);
+                services.AddTransient(provider =>
+                    Mock.Of<ICurrentUserService>(s => s.UserId == CurrentUserId));
+
+
+                //Replace ApplicationDbContext
+
+                var applicationDbContextDescriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
                          typeof(DbContextOptions<ApplicationDbContext>));
 
-                //Removes old db context and adds db context for tests
-                services.Remove(descriptor);
-                
-                services.AddDbContext<ApplicationDbContext>(options =>
-                {
-                    options.UseInMemoryDatabase(_databaseName);
-                });
+                services.Remove(applicationDbContextDescriptor);
+                services.AddDbContext<ApplicationDbContext>(options => { options.UseInMemoryDatabase(_databaseName); });
+
 
                 var sp = services.BuildServiceProvider();
 
@@ -61,7 +76,7 @@ namespace Application.IntegrationTests
                     var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
                     var logger = scopedServices
                         .GetRequiredService<ILogger<CustomWebApplicationFactory>>();
-                    
+
                     context.Database.EnsureCreatedAsync().Wait();
 
                     try

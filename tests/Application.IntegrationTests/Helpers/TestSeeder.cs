@@ -36,7 +36,7 @@ namespace Application.IntegrationTests.Helpers
             {
                 new()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"),
                     Name = "Kurupi",
                     Description = "Kurupi description",
                     CountryId = Guid.Parse("A42066F2-2998-47DC-A193-FF4C4080056F"),
