@@ -28,4 +28,19 @@
       <ProjectReference Include="..\..\src\Api\Api.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Categories\Commands" />
+      <Folder Include="Categories\Queries" />
+      <Folder Include="Favourites\Commands" />
+      <Folder Include="Favourites\Queries" />
+      <Folder Include="Opinions\Commands" />
+      <Folder Include="Opinions\Queries" />
+      <Folder Include="ShopOpinions\Commands" />
+      <Folder Include="ShopOpinions\Queries" />
+      <Folder Include="Shops\Commands" />
+      <Folder Include="Shops\Queries" />
+      <Folder Include="YerbaMates\Commands" />
+      <Folder Include="YerbaMates\Queries" />
+    </ItemGroup>
+
 </Project>
