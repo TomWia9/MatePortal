@@ -20,6 +20,6 @@ namespace Application.Countries.Queries.GetCountry
         /// <summary>
         /// Country ID
         /// </summary>
-        private Guid CountryId { get; }
+        public Guid CountryId { get; }
     }
 }
