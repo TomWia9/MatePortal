@@ -23,6 +23,7 @@ namespace Api.Filters
                 {typeof(NotFoundException), HandleNotFoundException},
                 {typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException},
                 {typeof(ForbiddenAccessException), HandleForbiddenAccessException},
+                {typeof(ConflictException), HandleConflictException}
             };
         }
 
@@ -90,7 +91,7 @@ namespace Api.Filters
                 Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
             };
 
-            
+
             _logger.LogError(context.Exception.Message);
 
             context.Result = new UnauthorizedObjectResult(details);
@@ -113,6 +114,23 @@ namespace Api.Filters
                 StatusCode = StatusCodes.Status403Forbidden
             };
 
+            context.ExceptionHandled = true;
+        }
+
+        private void HandleConflictException(ExceptionContext context)
+        {
+            var exception = context.Exception as ConflictException;
+
+            var details = new ProblemDetails()
+            {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.8",
+                Title = "The specified resource conflict with another resource.",
+                Detail = exception?.Message
+            };
+
+            _logger.LogError(exception.Message);
+
+            context.Result = new ConflictObjectResult(details);
             context.ExceptionHandled = true;
         }
 
