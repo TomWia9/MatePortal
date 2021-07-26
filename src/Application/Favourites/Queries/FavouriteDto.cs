@@ -19,15 +19,5 @@ namespace Application.Favourites.Queries
         /// Yerba mate ID
         /// </summary>
         public Guid YerbaMateId { get; set; }
-
-        /// <summary>
-        /// Overrides Mapping method from IMapFrom interface by adding a custom YerbaMateId mapping 
-        /// </summary>
-        /// <param name="profile">Automapper profile</param>
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<Favourite, FavouriteDto>()
-                .ForMember(d => d.YerbaMateId, opt => opt.MapFrom(s => s.YerbaMate.Id));
-        }
     }
 }
