@@ -13,14 +13,21 @@ namespace Application.Favourites.Queries.GetFavourites
         /// Initializes GetFavouritesQuery
         /// </summary>
         /// <param name="userId">User ID</param>
-        public GetFavouritesQuery(Guid userId)
+        /// <param name="parameters">Favourites query parameters</param>
+        public GetFavouritesQuery(Guid userId, FavouritesQueryParameters parameters)
         {
             UserId = userId;
+            Parameters = parameters;
         }
 
         /// <summary>
         /// User ID
         /// </summary>
-        private Guid UserId { get; }
+        public Guid UserId { get; }
+
+        /// <summary>
+        /// Favourites query parameters
+        /// </summary>
+        public FavouritesQueryParameters Parameters { get; }
     }
 }

@@ -7,7 +7,7 @@ namespace Application.Favourites.Commands.CreateFavourite
     /// <summary>
     /// Create favourite command
     /// </summary>
-    public class CreateFavourite : IRequest<FavouriteDto>
+    public class CreateFavouriteCommand : IRequest<FavouriteDto>
     {
         /// <summary>
         /// User ID

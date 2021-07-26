@@ -43,7 +43,39 @@ namespace Application.IntegrationTests.Helpers
                 await context.SaveChangesAsync(CancellationToken.None);
             }
         }
-        
+
+        /// <summary>
+        /// Seed test favourites
+        /// </summary>
+        /// <param name="factory">Web application factory</param>
+        /// <param name="userId">User ID</param>
+        public static async Task SeedTestFavouritesAsync(CustomWebApplicationFactory factory)
+        {
+            var context = GetDbContext(factory);
+
+            if (!await context.Favourites.AnyAsync())
+            {
+                await context.Favourites.AddRangeAsync(GetFavourites());
+                await context.SaveChangesAsync(CancellationToken.None);
+            }
+        }
+
+        /// <summary>
+        /// Seed test yerba mates
+        /// </summary>
+        /// <param name="factory">Web application factory</param>
+        public static async Task SeedTestYerbaMatesAsync(CustomWebApplicationFactory factory)
+        {
+            var context = GetDbContext(factory);
+
+            if (!await context.YerbaMate.AnyAsync())
+            {
+                await context.YerbaMate.AddRangeAsync(GetYerbaMates());
+                await context.SaveChangesAsync(CancellationToken.None);
+            }
+        }
+
+
         /// <summary>
         /// Gets database context
         /// </summary>
@@ -120,6 +152,81 @@ namespace Application.IntegrationTests.Helpers
                     Id = Guid.NewGuid(),
                     Name = "Fruit",
                     Description = "Fruit description",
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets test favourites
+        /// </summary>
+        /// <returns>List of test favourites</returns>
+        private static IEnumerable<Favourite> GetFavourites()
+        {
+            return new List<Favourite>
+            {
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    YerbaMateId = Guid.NewGuid()
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    YerbaMateId = Guid.NewGuid()
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    YerbaMateId = Guid.NewGuid(),
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    YerbaMateId = Guid.NewGuid()
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets test yerba mates
+        /// </summary>
+        /// <returns>List of test yerba mates</returns>
+        private static IEnumerable<YerbaMate> GetYerbaMates()
+        {
+            return new List<YerbaMate>
+            {
+                new()
+                {
+                    Id = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"),
+                    BrandId = Guid.NewGuid(),
+                    Name = "Kurupi Katuava",
+                    Description = "One of the best herbal yerba",
+                    imgUrl = "test img url",
+                    AveragePrice = 15.21M,
+                    NumberOfAddToFav = 0,
+                    CategoryId = Guid.NewGuid()
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    BrandId = Guid.NewGuid(),
+                    Name = "Test 1",
+                    Description = "Description 1",
+                    imgUrl = "Test 1 img url",
+                    AveragePrice = 20.99M,
+                    NumberOfAddToFav = 0,
+                    CategoryId = Guid.NewGuid()
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    BrandId = Guid.NewGuid(),
+                    Name = "Test 2",
+                    Description = "Description 2",
+                    imgUrl = "Test 2 img url",
+                    AveragePrice = 9.99M,
+                    NumberOfAddToFav = 0,
+                    CategoryId = Guid.NewGuid()
                 }
             };
         }
