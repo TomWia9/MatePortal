@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Application.Brands.Queries.GetBrand;
 using Application.Common.Exceptions;
 using Application.Countries.Queries;
 using Application.Countries.Queries.GetCountry;

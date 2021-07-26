@@ -33,7 +33,7 @@ namespace Application.IntegrationTests.Countries.Commands
         }
 
         /// <summary>
-        /// Update country command should update brand
+        /// Update country command should update country
         /// </summary>
         [Fact]
         public async Task UpdateCountryShouldUpdateCountry()

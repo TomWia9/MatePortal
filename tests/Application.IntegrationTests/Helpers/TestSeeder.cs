@@ -4,7 +4,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Infrastructure.Persistence;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.IntegrationTests.Helpers
 {
@@ -24,6 +27,32 @@ namespace Application.IntegrationTests.Helpers
                 await context.Brands.AddRangeAsync(GetBrands());
                 await context.SaveChangesAsync(CancellationToken.None);
             }
+        }
+
+        /// <summary>
+        /// Seed test categories
+        /// </summary>
+        /// <param name="factory">Web application factory</param>
+        public static async Task SeedTestCategories(CustomWebApplicationFactory factory)
+        {
+            var context = GetDbContext(factory);
+
+            if (!await context.Categories.AnyAsync())
+            {
+                await context.Categories.AddRangeAsync(GetCategories());
+                await context.SaveChangesAsync(CancellationToken.None);
+            }
+        }
+        
+        /// <summary>
+        /// Gets database context
+        /// </summary>
+        /// <param name="factory">Web application factory</param>
+        /// <returns>ApplicationDbContext service</returns>
+        private static IApplicationDbContext GetDbContext(CustomWebApplicationFactory factory)
+        {
+            var scope = factory.Services.CreateScope();
+            return scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         }
 
         /// <summary>
@@ -68,6 +97,29 @@ namespace Application.IntegrationTests.Helpers
                     Name = "Baldo",
                     Description = "Baldo description",
                     CountryId = Guid.Parse("C08D5B41-C678-421B-9500-93D22004F9CF"),
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets test categories
+        /// </summary>
+        /// <returns>List of test categories</returns>
+        private static IEnumerable<Category> GetCategories()
+        {
+            return new List<Category>
+            {
+                new()
+                {
+                    Id = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"),
+                    Name = "Herbal",
+                    Description = "Herbal description",
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Fruit",
+                    Description = "Fruit description",
                 }
             };
         }

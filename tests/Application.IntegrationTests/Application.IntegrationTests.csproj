@@ -29,8 +29,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Categories\Commands" />
-      <Folder Include="Categories\Queries" />
       <Folder Include="Favourites\Commands" />
       <Folder Include="Favourites\Queries" />
       <Folder Include="Opinions\Commands" />
