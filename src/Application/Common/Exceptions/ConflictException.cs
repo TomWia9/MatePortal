@@ -15,20 +15,11 @@ namespace Application.Common.Exceptions
         }
 
         /// <summary>
-        /// Initializes ConflictException with message
-        /// </summary>
-        /// <param name="message">The message</param>
-        public ConflictException(string message) : base(message)
-        {
-        }
-
-        /// <summary>
         /// Initializes ConflictException with name and key of entity
         /// </summary>
         /// <param name="name">Entity name</param>
-        /// <param name="key">Entity key</param>
-        public ConflictException(string name, object key) : base(
-            $"Entity \"{name}\" ({key}) conflicts with another entity")
+        public ConflictException(string name) : base(
+            $"Entity \"{name}\" conflicts with another entity")
         {
         }
     }
