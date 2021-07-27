@@ -26,14 +26,21 @@ namespace Application.Favourites.Commands.CreateFavourite
         private readonly IMapper _mapper;
 
         /// <summary>
+        /// Yerba mate service
+        /// </summary>
+        private readonly IYerbaMateService _yerbaMateService;
+
+        /// <summary>
         /// Initializes CreateFavouriteHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
-        public CreateFavouriteHandler(IApplicationDbContext context, IMapper mapper)
+        /// <param name="yerbaMateService">Yerba mate service</param>
+        public CreateFavouriteHandler(IApplicationDbContext context, IMapper mapper, IYerbaMateService yerbaMateService)
         {
             _context = context;
             _mapper = mapper;
+            _yerbaMateService = yerbaMateService;
         }
 
         /// <summary>
@@ -49,7 +56,7 @@ namespace Application.Favourites.Commands.CreateFavourite
             {
                 throw new NotFoundException(nameof(YerbaMate), request.YerbaMateId);
             }
-            
+
             if (await _context.Favourites.AnyAsync(f =>
                 f.CreatedBy == request.UserId && f.YerbaMateId == request.YerbaMateId, cancellationToken))
             {
@@ -64,8 +71,8 @@ namespace Application.Favourites.Commands.CreateFavourite
             //entity.DomainEvents.Add(new FavouriteCreatedEvent(entity));
             _context.Favourites.Add(entity);
             await _context.SaveChangesAsync(cancellationToken);
-            
-            //TODO [PATCH] yerba mate numOfAddToFavs (Add YerbaMateService firstly)
+
+            await _yerbaMateService.IncreaseNumberOfAddToFav(request.YerbaMateId, cancellationToken);
 
             return _mapper.Map<FavouriteDto>(entity);
         }

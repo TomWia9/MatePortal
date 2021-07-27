@@ -52,6 +52,30 @@ namespace Application.IntegrationTests.Favourites.Commands
             item.Should().BeNull();
         }
 
-        //TODO Delete should decrease yerba numberOfAddToFav property
+        /// <summary>
+        /// Should decrease yerba mate number of additions to favourites
+        /// </summary>
+        [Fact]
+        public async Task ShouldDecreaseYerbaMateNumberOfAddToFav()
+        {
+            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+
+            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+
+            var command = new CreateFavouriteCommand()
+            {
+                UserId = userId,
+                YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
+            };
+
+            var favouriteToDeleteDto = await _mediator.Send(command);
+
+            //delete
+            await _mediator.Send(new DeleteFavouriteCommand() {FavouriteId = favouriteToDeleteDto.Id});
+
+            var yerbaMate = await DbHelper.FindAsync<YerbaMate>(_factory, command.YerbaMateId);
+
+            yerbaMate.NumberOfAddToFav.Should().Be(0);
+        }
     }
 }

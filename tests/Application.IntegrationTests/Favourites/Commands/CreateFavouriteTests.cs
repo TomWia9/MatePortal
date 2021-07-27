@@ -45,7 +45,28 @@ namespace Application.IntegrationTests.Favourites.Commands
             item.LastModifiedBy.Should().BeNull();
         }
 
-        //Todo Create should increase yerba numberOfAddToFav property
+        /// <summary>
+        /// Should increase yerba mate number of additions to favourites
+        /// </summary>
+        [Fact]
+        public async Task ShouldIncreaseYerbaMateNumberOfAddToFav()
+        {
+            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+
+            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+
+            var command = new CreateFavouriteCommand()
+            {
+                UserId = userId,
+                YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
+            };
+
+            await _mediator.Send(command);
+
+            var yerbaMate = await DbHelper.FindAsync<YerbaMate>(_factory, command.YerbaMateId);
+
+            yerbaMate.NumberOfAddToFav.Should().Be(1);
+        }
 
         /// <summary>
         /// Create favourite for nonexistent yerba should throw NotFound
