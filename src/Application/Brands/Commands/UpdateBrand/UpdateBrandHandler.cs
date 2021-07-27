@@ -42,6 +42,12 @@ namespace Application.Brands.Commands.UpdateBrand
                 throw new NotFoundException(nameof(Brand), request.BrandId);
             }
 
+            if (await _context.Brands.AnyAsync(b => b.Name == request.Name && entity.Name == request.Name,
+                cancellationToken: cancellationToken))
+            {
+                throw new ConflictException();
+            }
+
             if (!await _context.Countries.AnyAsync(c => c.Id == request.CountryId,
                 cancellationToken))
             {

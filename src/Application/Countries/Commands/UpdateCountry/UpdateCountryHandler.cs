@@ -4,6 +4,7 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Countries.Commands.UpdateCountry
 {
@@ -39,6 +40,12 @@ namespace Application.Countries.Commands.UpdateCountry
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Country), request.CountryId);
+            }
+
+            if (await _context.Countries.AnyAsync(c => c.Name == request.Name && entity.Name == request.Name,
+                cancellationToken: cancellationToken))
+            {
+                throw new ConflictException();
             }
 
             entity.Name = request.Name;

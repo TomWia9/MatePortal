@@ -6,6 +6,7 @@ using Application.Common.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Brands.Commands.CreateBrand
 {
@@ -44,6 +45,11 @@ namespace Application.Brands.Commands.CreateBrand
         /// <exception cref="NotFoundException">Thrown when country is not found</exception>
         public async Task<BrandDto> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
+            if (await _context.Brands.AnyAsync(b => b.Name == request.Name, cancellationToken: cancellationToken))
+            {
+                throw new ConflictException();
+            }
+            
             var brandCountry = await _context.Countries.FindAsync(request.CountryId);
 
             if (brandCountry == null)

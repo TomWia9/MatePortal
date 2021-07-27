@@ -4,6 +4,7 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Categories.Commands.UpdateCategory
 {
@@ -39,6 +40,12 @@ namespace Application.Categories.Commands.UpdateCategory
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Category), request.CategoryId);
+            }
+
+            if (await _context.Categories.AnyAsync(c => c.Name == request.Name && entity.Name == request.Name,
+                cancellationToken: cancellationToken))
+            {
+                throw new ConflictException();
             }
 
             entity.Name = request.Name;

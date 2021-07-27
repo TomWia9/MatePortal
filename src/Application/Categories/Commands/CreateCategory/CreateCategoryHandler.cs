@@ -1,10 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Categories.Queries;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Categories.Commands.CreateCategory
 {
@@ -42,6 +44,12 @@ namespace Application.Categories.Commands.CreateCategory
         /// <returns>Category data transfer object</returns>
         public async Task<CategoryDto> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
+            if (await _context.Categories.AnyAsync(b => b.Name == request.Name,
+                cancellationToken: cancellationToken))
+            {
+                throw new ConflictException();
+            }
+
             var entity = new Category()
             {
                 Name = request.Name,

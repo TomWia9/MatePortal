@@ -1,10 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Countries.Queries;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Countries.Commands.CreateCountry
 {
@@ -42,6 +44,12 @@ namespace Application.Countries.Commands.CreateCountry
         /// <returns>Country data transfer object</returns>
         public async Task<CountryDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
         {
+            if (await _context.Countries.AnyAsync(c => c.Name == request.Name,
+                cancellationToken: cancellationToken))
+            {
+                throw new ConflictException();
+            }
+
             var entity = new Country()
             {
                 Name = request.Name,

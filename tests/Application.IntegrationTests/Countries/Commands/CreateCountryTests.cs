@@ -51,7 +51,7 @@ namespace Application.IntegrationTests.Countries.Commands
             };
 
             FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<ValidationException>();
+                _mediator.Send(command)).Should().Throw<ConflictException>();
         }
     }
 }
