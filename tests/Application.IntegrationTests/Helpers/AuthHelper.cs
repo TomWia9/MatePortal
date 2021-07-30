@@ -69,6 +69,7 @@ namespace Application.IntegrationTests.Helpers
                 await userManager.AddToRoleAsync(user, role);
 
                 factory.CurrentUserId = user.Id;
+                factory.CurrentUserRole = role;
 
                 return factory.CurrentUserId;
             }

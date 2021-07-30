@@ -18,10 +18,11 @@ namespace Application.IntegrationTests.Opinions.Queries
         [Fact]
         public async Task ShouldReturnAllUserOpinions()
         {
-            await AuthHelper.RunAsDefaultUserAsync(_factory);
+            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
             await TestSeeder.SeedTestOpinionsAsync(_factory);
 
-            var response = await _mediator.Send(new GetUserYerbaMateOpinionsQuery(new OpinionsQueryParameters()));
+            var response =
+                await _mediator.Send(new GetUserYerbaMateOpinionsQuery(userId, new OpinionsQueryParameters()));
             response.Count.Should().Be(3);
         }
 
@@ -29,13 +30,18 @@ namespace Application.IntegrationTests.Opinions.Queries
         /// Get user's yerba mate opinions with specified min and max rate should return correct count of opinions
         /// </summary>
         [Theory]
-        [InlineData(1,10,3)]
+        [InlineData(1, 10, 3)]
         [InlineData(6, 6, 1)]
-        [InlineData(6,9,2)]
-        [InlineData(9,10,2)]
-        public async Task GetUsersYerbaMateOpinionsWithSpecifiedMinAndMaxRateShouldReturnCorrectCountOfOpinions(int minRate, int maxRate, int expectedCount)
+        [InlineData(6, 9, 2)]
+        [InlineData(9, 10, 2)]
+        public async Task GetUsersYerbaMateOpinionsWithSpecifiedMinAndMaxRateShouldReturnCorrectCountOfOpinions(
+            int minRate, int maxRate, int expectedCount)
         {
-            var response = await _mediator.Send(new GetUserYerbaMateOpinionsQuery(new OpinionsQueryParameters() {MinRate = minRate, MaxRate = maxRate}));
+            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+            await TestSeeder.SeedTestOpinionsAsync(_factory);
+
+            var response = await _mediator.Send(new GetUserYerbaMateOpinionsQuery(userId, new OpinionsQueryParameters()
+                {MinRate = minRate, MaxRate = maxRate}));
 
             response.Count.Should().Be(expectedCount);
         }
@@ -46,17 +52,17 @@ namespace Application.IntegrationTests.Opinions.Queries
         [Fact]
         public async Task GetUsersYerbaMateOpinionsWithSpecifiedSearchQueryShouldReturnCorrectOpinions()
         {
-            await AuthHelper.RunAsDefaultUserAsync(_factory);
+            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
             await TestSeeder.SeedTestOpinionsAsync(_factory);
-            
-            var response = await _mediator.Send(new GetUserYerbaMateOpinionsQuery(new OpinionsQueryParameters()
+
+            var response = await _mediator.Send(new GetUserYerbaMateOpinionsQuery(userId, new OpinionsQueryParameters()
             {
                 SearchQuery = "com"
             }));
 
             response.Count.Should().Be(2);
             response[0].Comment.Should().Be("Comment 1");
-            response[0].Comment.Should().Be("Comment 2");
+            response[1].Comment.Should().Be("Comment 2");
         }
     }
 }

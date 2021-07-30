@@ -72,7 +72,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         public async Task UserShouldNotBeAbleToUpdateOtherUserOpinion()
         {
             await TestSeeder.SeedTestYerbaMatesAsync(_factory);
-            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+            await AuthHelper.RunAsDefaultUserAsync(_factory);
 
             //create opinion firstly
             var opinionToUpdateDto = await _mediator.Send(new CreateOpinionCommand()
@@ -82,13 +82,12 @@ namespace Application.IntegrationTests.Opinions.Commands
                 YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
             });
 
-            // Todo check if this works
             _factory.CurrentUserId = Guid.NewGuid(); //other user
 
             FluentActions.Invoking(() =>
                     _mediator.Send(new UpdateOpinionCommand()
                         {OpinionId = opinionToUpdateDto.Id, Comment = "test", Rate = 1})).Should()
-                .Throw<NotFoundException>();
+                .Throw<ForbiddenAccessException>();
         }
 
         /// <summary>
@@ -97,36 +96,35 @@ namespace Application.IntegrationTests.Opinions.Commands
         [Fact]
         public async Task AdministratorShouldBeAbleToUpdateUserOpinion()
         {
-            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
             await AuthHelper.RunAsDefaultUserAsync(_factory);
+            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
 
             //create opinion firstly
-            var opinionToDeleteDto = await _mediator.Send(new CreateOpinionCommand()
+            var opinionToUpdateDto = await _mediator.Send(new CreateOpinionCommand()
             {
                 Rate = 10,
                 Comment = "test",
                 YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
             });
-
-            //TODO check if this works
-            var adminId = await AuthHelper.RunAsAdministratorAsync(_factory); //factory.Currentuser should be user with admin role now
-
+            
+            await AuthHelper.RunAsAdministratorAsync(_factory);
+            
             var command = new UpdateOpinionCommand()
             {
-                OpinionId = opinionToDeleteDto.Id,
+                OpinionId = opinionToUpdateDto.Id,
                 Comment = "test1",
                 Rate = 2
             };
-
+            
             await _mediator.Send(command);
-
+            
             //Assert that updated
-            var item = await DbHelper.FindAsync<Opinion>(_factory, opinionToDeleteDto.Id);
+            var item = await DbHelper.FindAsync<Opinion>(_factory, opinionToUpdateDto.Id);
             item.Rate.Should().Be(command.Rate);
             item.Comment.Should().Be(command.Comment);
             item.CreatedBy.Should().NotBeNull();
             item.LastModified.Should().BeCloseTo(DateTime.Now, 1000);
-            item.LastModifiedBy.Should().Be(adminId);
+            item.LastModifiedBy.Should().NotBeNull();
         }
     }
 }

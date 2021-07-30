@@ -32,11 +32,16 @@ namespace Application.IntegrationTests
         /// Database name
         /// </summary>
         private readonly string _databaseName;
-        
+
         /// <summary>
         /// Current user ID
         /// </summary>
         public Guid CurrentUserId { get; set; }
+
+        /// <summary>
+        /// Current user role
+        /// </summary>
+        public string CurrentUserRole { get; set; }
         
         /// <summary>
         /// Configures web host
@@ -53,7 +58,8 @@ namespace Application.IntegrationTests
 
                 services.Remove(currentUserServiceDescriptor);
                 services.AddTransient(provider =>
-                    Mock.Of<ICurrentUserService>(s => s.UserId == CurrentUserId));
+                    Mock.Of<ICurrentUserService>(s =>
+                        s.UserId == CurrentUserId && s.GetCurrentUserRoleAsync().Result == CurrentUserRole));
 
 
                 //Replace ApplicationDbContext

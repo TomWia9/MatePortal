@@ -76,7 +76,7 @@ namespace Application.IntegrationTests.Opinions.Commands
             //delete
             FluentActions.Invoking(() =>
                     _mediator.Send(new DeleteOpinionCommand() {OpinionId = opinionToDeleteDto.Id})).Should()
-                .Throw<NotFoundException>();
+                .Throw<ForbiddenAccessException>();
         }
 
         /// <summary>
@@ -85,8 +85,8 @@ namespace Application.IntegrationTests.Opinions.Commands
         [Fact]
         public async Task AdministratorShouldBeAbleToDeleteUserOpinion()
         {
-            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
             await AuthHelper.RunAsDefaultUserAsync(_factory);
+            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
 
             //create opinion firstly
             var opinionToDeleteDto = await _mediator.Send(new CreateOpinionCommand()
@@ -96,9 +96,9 @@ namespace Application.IntegrationTests.Opinions.Commands
                 YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
             });
 
-            //Todo check this
-            await AuthHelper.RunAsAdministratorAsync(_factory); //this should change factory.CurrentUser to user with admin role
-
+            await AuthHelper
+                .RunAsAdministratorAsync(_factory);
+            
             //delete
             await _mediator.Send(new DeleteOpinionCommand() {OpinionId = opinionToDeleteDto.Id});
 
