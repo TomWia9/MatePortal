@@ -1,4 +1,5 @@
-﻿using Application.Common.Models;
+﻿using System;
+using Application.Common.Models;
 using MediatR;
 
 namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
@@ -12,14 +13,20 @@ namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
         /// Initializes GetUserYerbaMateOpinionsQuery
         /// </summary>
         /// <param name="parameters">Opinions query parameters</param>
-        public GetUserYerbaMateOpinionsQuery(OpinionsQueryParameters parameters)
+        public GetUserYerbaMateOpinionsQuery(Guid userId, OpinionsQueryParameters parameters)
         {
+            UserId = userId;
             Parameters = parameters;
         }
 
         /// <summary>
+        /// User ID
+        /// </summary>
+        public Guid UserId { get; set; }
+
+        /// <summary>
         /// Opinions query parameters
         /// </summary>
-        private OpinionsQueryParameters Parameters { get; }
+        public OpinionsQueryParameters Parameters { get; }
     }
 }

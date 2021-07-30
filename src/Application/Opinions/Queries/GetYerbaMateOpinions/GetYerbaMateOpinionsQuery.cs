@@ -23,11 +23,11 @@ namespace Application.Opinions.Queries.GetYerbaMateOpinions
         /// <summary>
         /// YerbaMate ID from which opinions can be obtained
         /// </summary>
-        private Guid YerbaMateId { get; }
+        public Guid YerbaMateId { get; }
 
         /// <summary>
         /// Opinions query parameters
         /// </summary>
-        private OpinionsQueryParameters Parameters { get; }
+        public OpinionsQueryParameters Parameters { get; }
     }
 }

@@ -20,6 +20,6 @@ namespace Application.Opinions.Queries.GetYerbaMateOpinion
         /// <summary>
         /// Opinion ID
         /// </summary>
-        private Guid OpinionId { get; }
+        public Guid OpinionId { get; }
     }
 }
