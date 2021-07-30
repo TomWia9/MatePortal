@@ -26,6 +26,11 @@ namespace Application.Opinions.Queries
         public string Comment { get; set; }
 
         /// <summary>
+        /// Opinion created date
+        /// </summary>
+        public DateTime Created { get; set; }
+
+        /// <summary>
         /// Yerba mate ID 
         /// </summary>
         public Guid YerbaMateId { get; set; }
@@ -33,17 +38,6 @@ namespace Application.Opinions.Queries
         /// <summary>
         /// User ID
         /// </summary>
-        public Guid UserId { get; set; }
-
-        /// <summary>
-        /// Overrides Mapping method from IMapFrom interface by adding a custom UserId and YerbaMateId mappings
-        /// </summary>
-        /// <param name="profile">Automapper profile</param>
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<Opinion, OpinionDto>()
-                .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.CreatedBy))
-                .ForMember(d => d.YerbaMateId, opt => opt.MapFrom(s => s.YerbaMate.Id));
-        }
+        public Guid CreatedBy { get; set; }
     }
 }
