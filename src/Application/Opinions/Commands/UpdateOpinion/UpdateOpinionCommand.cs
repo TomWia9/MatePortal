@@ -22,15 +22,6 @@ namespace Application.Opinions.Commands.UpdateOpinion
         /// Opinion comment
         /// </summary>
         public string Comment { get; set; }
-
-        /// <summary>
-        /// Yerba mate ID
-        /// </summary>
-        public Guid YerbaMateId { get; set; }
-
-        /// <summary>
-        /// User ID
-        /// </summary>
-        public Guid UserId { get; set; }
+        
     }
 }

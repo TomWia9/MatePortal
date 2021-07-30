@@ -29,8 +29,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Opinions\Commands" />
-      <Folder Include="Opinions\Queries" />
       <Folder Include="ShopOpinions\Commands" />
       <Folder Include="ShopOpinions\Queries" />
       <Folder Include="Shops\Commands" />

@@ -75,6 +75,16 @@ namespace Application.IntegrationTests.Helpers
             }
         }
 
+        public static async Task SeedTestOpinionsAsync(CustomWebApplicationFactory factory)
+        {
+            var context = GetDbContext(factory);
+
+            if (!await context.Opinions.AnyAsync())
+            {
+                await context.Opinions.AddRangeAsync(GetYerbaMateOpinions());
+                await context.SaveChangesAsync(CancellationToken.None);
+            }
+        }
 
         /// <summary>
         /// Gets database context
@@ -228,6 +238,38 @@ namespace Application.IntegrationTests.Helpers
                     NumberOfAddToFav = 0,
                     CategoryId = Guid.NewGuid()
                 }
+            };
+        }
+
+        /// <summary>
+        /// Gets test opinions
+        /// </summary>
+        /// <returns>List of test yerba mate opinions</returns>
+        private static IEnumerable<Opinion> GetYerbaMateOpinions()
+        {
+            return new List<Opinion>
+            {
+                new()
+                {
+                    Id = Guid.Parse("EB2BB300-A4FF-486C-AB64-4EF0A7DB527F"),
+                    Rate = 10,
+                    Comment = "Comment 1",
+                    YerbaMateId = Guid.Parse("7B96511A-C4C8-4A47-9A7D-D5C3C6FB5EA6")
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Rate = 9,
+                    Comment = "Comment 2",
+                    YerbaMateId = Guid.NewGuid()
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Rate = 6,
+                    Comment = "test",
+                    YerbaMateId = Guid.Parse("7B96511A-C4C8-4A47-9A7D-D5C3C6FB5EA6")
+                },
             };
         }
     }
