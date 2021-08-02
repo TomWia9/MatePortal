@@ -18,7 +18,7 @@ namespace Application.IntegrationTests.Categories.Queries
         [Fact]
         public async Task ShouldReturnAllCategories()
         {
-            await TestSeeder.SeedTestCategories(_factory);
+            await TestSeeder.SeedTestCategoriesAsync(_factory);
 
             var response = await _mediator.Send(new GetCategoriesQuery());
             response.Count().Should().Be(2);

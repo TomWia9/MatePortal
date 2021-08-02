@@ -38,6 +38,9 @@ namespace Application.IntegrationTests.Brands.Commands
         public async Task UpdateBrandShouldUpdateBrand()
         {
             var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+            
+            await TestSeeder.SeedTestBrandsAsync(_factory);
+
             var brandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239");
 
             var command = new UpdateBrandCommand

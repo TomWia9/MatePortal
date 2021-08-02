@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Application.Brands.Queries;
 using Application.Brands.Queries.GetBrand;
 using Application.Common.Exceptions;
+using Application.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;
 
@@ -19,6 +20,8 @@ namespace Application.IntegrationTests.Brands.Queries
         [Fact]
         public async Task ShouldReturnCorrectBrand()
         {
+            await TestSeeder.SeedTestBrandsAsync(_factory);
+            
             var brandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"); //id of one of seeded brand
 
             var expectedResult = new BrandDto()

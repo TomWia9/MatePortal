@@ -32,6 +32,8 @@ namespace Application.IntegrationTests.Brands.Commands
         [Fact]
         public async Task ShouldDeleteBrand()
         {
+            await TestSeeder.SeedTestBrandsAsync(_factory);
+
             var brandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"); //one of seeded brand
 
             //delete

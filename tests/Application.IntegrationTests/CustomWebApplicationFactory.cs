@@ -90,8 +90,6 @@ namespace Application.IntegrationTests
                         //Values seeded in real and tests
                         ApplicationDbContextSeed.SeedDatabase(userManager, roleManager, context)
                             .Wait();
-                        //Values seeded only in tests
-                        TestSeeder.SeedTestBrands(context).Wait();
                     }
                     catch (Exception ex)
                     {

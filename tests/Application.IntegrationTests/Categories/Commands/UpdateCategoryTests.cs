@@ -39,7 +39,7 @@ namespace Application.IntegrationTests.Categories.Commands
         [Fact]
         public async Task UpdateCategoryShouldUpdateCategory()
         {
-            await TestSeeder.SeedTestCategories(_factory);
+            await TestSeeder.SeedTestCategoriesAsync(_factory);
 
             var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
             var categoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"); //one of seeded category

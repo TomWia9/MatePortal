@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Application.Brands.Queries;
 using Application.Brands.Queries.GetBrands;
+using Application.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;
 
@@ -17,6 +18,7 @@ namespace Application.IntegrationTests.Brands.Queries
         [Fact]
         public async Task ShouldReturn5Brands()
         {
+            await TestSeeder.SeedTestBrandsAsync(_factory);
             var response = await _mediator.Send(new GetBrandsQuery(new BrandsQueryParameters()));
             response.Count.Should().Be(5);
         }
@@ -31,6 +33,8 @@ namespace Application.IntegrationTests.Brands.Queries
         [InlineData("Uruguay", 1)]
         public async Task GetBrandsFromSpecifiedCountryShouldReturnCorrectBrands(string country, int expectedCount)
         {
+            await TestSeeder.SeedTestBrandsAsync(_factory);
+            
             var response = await _mediator.Send(new GetBrandsQuery(new BrandsQueryParameters() {Country = country}));
 
             response.Count.Should().Be(expectedCount);
@@ -47,6 +51,8 @@ namespace Application.IntegrationTests.Brands.Queries
         [Fact]
         public async Task GetBrandsWithSpecifiedQueryParametersShouldReturnCorrectBrands()
         {
+            await TestSeeder.SeedTestBrandsAsync(_factory);
+            
             var response = await _mediator.Send(new GetBrandsQuery(new BrandsQueryParameters()
             {
                 SearchQuery = "rup"

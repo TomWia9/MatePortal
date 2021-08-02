@@ -19,9 +19,11 @@ namespace Application.IntegrationTests.Helpers
         /// <summary>
         /// Seed test brands
         /// </summary>
-        /// <param name="context">Database context</param>
-        public static async Task SeedTestBrands(IApplicationDbContext context)
+        /// <param name="factory">Web application factory</param>
+        public static async Task SeedTestBrandsAsync(CustomWebApplicationFactory factory)
         {
+            var context = GetDbContext(factory);
+
             if (!await context.Brands.AnyAsync())
             {
                 await context.Brands.AddRangeAsync(GetBrands());
@@ -33,7 +35,7 @@ namespace Application.IntegrationTests.Helpers
         /// Seed test categories
         /// </summary>
         /// <param name="factory">Web application factory</param>
-        public static async Task SeedTestCategories(CustomWebApplicationFactory factory)
+        public static async Task SeedTestCategoriesAsync(CustomWebApplicationFactory factory)
         {
             var context = GetDbContext(factory);
 
