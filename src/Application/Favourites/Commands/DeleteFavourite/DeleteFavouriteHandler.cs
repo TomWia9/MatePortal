@@ -18,6 +18,11 @@ namespace Application.Favourites.Commands.DeleteFavourite
         private readonly IApplicationDbContext _context;
 
         /// <summary>
+        /// Current user service
+        /// </summary>
+        private readonly ICurrentUserService _currentUserService;
+
+        /// <summary>
         /// Yerba mate service
         /// </summary>
         private readonly IYerbaMateService _yerbaMateService;
@@ -27,10 +32,13 @@ namespace Application.Favourites.Commands.DeleteFavourite
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="yerbaMateService">Yerba mate service</param>
-        public DeleteFavouriteHandler(IApplicationDbContext context, IYerbaMateService yerbaMateService)
+        /// <param name="currentUserService">Current user service</param>
+        public DeleteFavouriteHandler(IApplicationDbContext context, IYerbaMateService yerbaMateService,
+            ICurrentUserService currentUserService)
         {
             _context = context;
             _yerbaMateService = yerbaMateService;
+            _currentUserService = currentUserService;
         }
 
         /// <summary>
@@ -48,8 +56,14 @@ namespace Application.Favourites.Commands.DeleteFavourite
                 throw new NotFoundException(nameof(Brand), request.FavouriteId);
             }
 
+            if (await _currentUserService.GetCurrentUserRoleAsync() != "Administrator" &&
+                entity.CreatedBy != _currentUserService.UserId)
+            {
+                throw new ForbiddenAccessException();
+            }
+
             _context.Favourites.Remove(entity);
-            
+
             await _yerbaMateService.DecreaseNumberOfAddToFav(entity.YerbaMateId, cancellationToken);
 
             await _context.SaveChangesAsync(cancellationToken);

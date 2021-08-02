@@ -10,10 +10,6 @@ namespace Application.Favourites.Commands.CreateFavourite
     public class CreateFavouriteCommand : IRequest<FavouriteDto>
     {
         /// <summary>
-        /// User ID
-        /// </summary>
-        public Guid UserId { get; set; }
-        /// <summary>
         /// Yerba mate ID
         /// </summary>
         public Guid YerbaMateId { get; set; }

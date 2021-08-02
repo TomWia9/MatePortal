@@ -26,6 +26,11 @@ namespace Application.Favourites.Commands.CreateFavourite
         private readonly IMapper _mapper;
 
         /// <summary>
+        /// Current user service
+        /// </summary>
+        private readonly ICurrentUserService _currentUserService;
+
+        /// <summary>
         /// Yerba mate service
         /// </summary>
         private readonly IYerbaMateService _yerbaMateService;
@@ -36,11 +41,13 @@ namespace Application.Favourites.Commands.CreateFavourite
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
         /// <param name="yerbaMateService">Yerba mate service</param>
-        public CreateFavouriteHandler(IApplicationDbContext context, IMapper mapper, IYerbaMateService yerbaMateService)
+        /// <param name="currentUserService"></param>
+        public CreateFavouriteHandler(IApplicationDbContext context, IMapper mapper, IYerbaMateService yerbaMateService, ICurrentUserService currentUserService)
         {
             _context = context;
             _mapper = mapper;
             _yerbaMateService = yerbaMateService;
+            _currentUserService = currentUserService;
         }
 
         /// <summary>
@@ -58,7 +65,7 @@ namespace Application.Favourites.Commands.CreateFavourite
             }
 
             if (await _context.Favourites.AnyAsync(f =>
-                f.CreatedBy == request.UserId && f.YerbaMateId == request.YerbaMateId, cancellationToken))
+                f.CreatedBy == _currentUserService.UserId && f.YerbaMateId == request.YerbaMateId, cancellationToken))
             {
                 throw new ConflictException(nameof(Favourite));
             }
