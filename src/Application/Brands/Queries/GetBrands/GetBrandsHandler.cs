@@ -75,11 +75,12 @@ namespace Application.Brands.Queries.GetBrands
             //searching
             if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
             {
-                var searchQuery = request.Parameters.SearchQuery.Trim();
+                var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
+                ;
 
-                collection = collection.Where(b => b.Name.Contains(searchQuery)
-                                                   || b.Description.Contains(searchQuery)
-                                                   || b.Country.Name.Contains(searchQuery));
+                collection = collection.Where(b => b.Name.ToLower().Contains(searchQuery)
+                                                   || b.Description.ToLower().Contains(searchQuery)
+                                                   || b.Country.Name.ToLower().Contains(searchQuery));
             }
 
             //sorting

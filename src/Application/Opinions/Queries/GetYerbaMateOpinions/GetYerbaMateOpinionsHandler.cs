@@ -73,9 +73,9 @@ namespace Application.Opinions.Queries.GetYerbaMateOpinions
             //searching
             if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
             {
-                var searchQuery = request.Parameters.SearchQuery.Trim();
+                var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
 
-                collection = collection.Where(o => o.Comment.Contains(searchQuery));
+                collection = collection.Where(o => o.Comment.ToLower().Contains(searchQuery));
             }
 
             //sorting
