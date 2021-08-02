@@ -40,7 +40,6 @@ namespace Application.IntegrationTests.Favourites.Commands
             //create favourite firstly
             var favouriteToDeleteDto = await _mediator.Send(new CreateFavouriteCommand()
             {
-                UserId = userId,
                 YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
             });
 
@@ -60,11 +59,10 @@ namespace Application.IntegrationTests.Favourites.Commands
         {
             await TestSeeder.SeedTestYerbaMatesAsync(_factory);
 
-            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+            await AuthHelper.RunAsDefaultUserAsync(_factory);
 
             var command = new CreateFavouriteCommand()
             {
-                UserId = userId,
                 YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
             };
 
@@ -76,6 +74,54 @@ namespace Application.IntegrationTests.Favourites.Commands
             var yerbaMate = await DbHelper.FindAsync<YerbaMate>(_factory, command.YerbaMateId);
 
             yerbaMate.NumberOfAddToFav.Should().Be(0);
+        }
+        
+        /// <summary>
+        /// User should not be able to delete other user favourite
+        /// </summary>
+        [Fact]
+        public async Task UserShouldNotBeAbleToDeleteOtherUserFavourite()
+        {
+            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+            await AuthHelper.RunAsDefaultUserAsync(_factory);
+
+            //create favourite firstly
+            var favouriteToDeleteDto = await _mediator.Send(new CreateFavouriteCommand()
+            {
+                YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
+            });
+
+            _factory.CurrentUserId = Guid.NewGuid(); //other user
+
+            //delete
+            FluentActions.Invoking(() =>
+                    _mediator.Send(new DeleteFavouriteCommand() {FavouriteId = favouriteToDeleteDto.Id})).Should()
+                .Throw<ForbiddenAccessException>();
+        }
+
+        /// <summary>
+        /// Administrator should be able to delete user favourite
+        /// </summary>
+        [Fact]
+        public async Task AdministratorShouldBeAbleToDeleteUserFavourite()
+        {
+            await AuthHelper.RunAsDefaultUserAsync(_factory);
+            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+
+            //create favourite firstly
+            var favouriteToDeleteDto = await _mediator.Send(new CreateFavouriteCommand()
+            {
+                YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
+            });
+
+            await AuthHelper.RunAsAdministratorAsync(_factory);
+            
+            //delete
+            await _mediator.Send(new DeleteFavouriteCommand() {FavouriteId = favouriteToDeleteDto.Id});
+
+            //Assert that deleted
+            var item = await DbHelper.FindAsync<Favourite>(_factory, favouriteToDeleteDto.Id);
+            item.Should().BeNull();
         }
     }
 }

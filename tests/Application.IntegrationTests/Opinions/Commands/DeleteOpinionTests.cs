@@ -70,7 +70,6 @@ namespace Application.IntegrationTests.Opinions.Commands
                 YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
             });
 
-            //Todo check if this works
             _factory.CurrentUserId = Guid.NewGuid(); //other user
 
             //delete

@@ -27,7 +27,6 @@ namespace Application.IntegrationTests.Favourites.Commands
 
             var command = new CreateFavouriteCommand()
             {
-                UserId = userId,
                 YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
             };
 
@@ -53,11 +52,10 @@ namespace Application.IntegrationTests.Favourites.Commands
         {
             await TestSeeder.SeedTestYerbaMatesAsync(_factory);
 
-            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+            await AuthHelper.RunAsDefaultUserAsync(_factory);
 
             var command = new CreateFavouriteCommand()
             {
-                UserId = userId,
                 YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
             };
 
@@ -74,12 +72,11 @@ namespace Application.IntegrationTests.Favourites.Commands
         [Fact]
         public async Task CreateFavouriteForNonexistentYerbaMateShouldThrowNotFound()
         {
-            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+            await AuthHelper.RunAsDefaultUserAsync(_factory);
             var yerbaMateId = Guid.NewGuid();
 
             var command = new CreateFavouriteCommand()
             {
-                UserId = userId,
                 YerbaMateId = yerbaMateId
             };
 
@@ -95,18 +92,16 @@ namespace Application.IntegrationTests.Favourites.Commands
         {
             await TestSeeder.SeedTestYerbaMatesAsync(_factory);
 
-            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+            await AuthHelper.RunAsDefaultUserAsync(_factory);
             var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //id of one of seeded yerba mate
 
             await _mediator.Send(new CreateFavouriteCommand()
             {
-                UserId = userId,
                 YerbaMateId = yerbaMateId
             });
 
             var command = new CreateFavouriteCommand()
             {
-                UserId = userId,
                 YerbaMateId = yerbaMateId
             };
 
