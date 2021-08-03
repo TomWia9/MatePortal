@@ -87,6 +87,36 @@ namespace Application.IntegrationTests.Helpers
                 await context.SaveChangesAsync(CancellationToken.None);
             }
         }
+        
+        /// <summary>
+        /// Seed test shops
+        /// </summary>
+        /// <param name="factory">Web application factory</param>
+        public static async Task SeedTestShopsAsync(CustomWebApplicationFactory factory)
+        {
+            var context = GetDbContext(factory);
+
+            if (!await context.Shops.AnyAsync())
+            {
+                await context.Shops.AddRangeAsync(GetShops());
+                await context.SaveChangesAsync(CancellationToken.None);
+            }
+        }
+        
+        /// <summary>
+        /// Seed test shop opinions
+        /// </summary>
+        /// <param name="factory">Web application factory</param>
+        public static async Task SeedTestShopOpinionsAsync(CustomWebApplicationFactory factory)
+        {
+            var context = GetDbContext(factory);
+
+            if (!await context.ShopOpinions.AnyAsync())
+            {
+                await context.ShopOpinions.AddRangeAsync(GetShopOpinions());
+                await context.SaveChangesAsync(CancellationToken.None);
+            }
+        }
 
         /// <summary>
         /// Gets database context
@@ -244,7 +274,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test opinions
+        /// Gets test yerba mate opinions
         /// </summary>
         /// <returns>List of test yerba mate opinions</returns>
         private static IEnumerable<Opinion> GetYerbaMateOpinions()
@@ -271,6 +301,67 @@ namespace Application.IntegrationTests.Helpers
                     Rate = 6,
                     Comment = "test",
                     YerbaMateId = Guid.Parse("7B96511A-C4C8-4A47-9A7D-D5C3C6FB5EA6")
+                },
+            };
+        }
+        
+        /// <summary>
+        /// Gets test shops
+        /// </summary>
+        /// <returns>List of test shops</returns>
+        private static IEnumerable<Shop> GetShops()
+        {
+            return new List<Shop>
+            {
+                new()
+                {
+                    Id = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"),
+                    Name = "Matemundo",
+                    Description = "Test description 1",
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Test 2",
+                    Description = "Test description 2",
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Test 3",
+                    Description = "Test description 3",
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets test shop opinions
+        /// </summary>
+        /// <returns>List of test shop opinions</returns>
+        private static IEnumerable<ShopOpinion> GetShopOpinions()
+        {
+            return new List<ShopOpinion>
+            {
+                new()
+                {
+                    Id = Guid.Parse("A0EDB43D-5195-4458-8C4B-8F6F9FD7E5C9"),
+                    Rate = 10,
+                    Comment = "Comment 1",
+                    ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5")
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Rate = 9,
+                    Comment = "Comment 2",
+                    ShopId = Guid.NewGuid()
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Rate = 6,
+                    Comment = "Super comment 3",
+                    ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5")
                 },
             };
         }

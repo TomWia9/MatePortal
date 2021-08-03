@@ -13,7 +13,7 @@ namespace Application.IntegrationTests.Opinions.Commands
     /// <summary>
     /// Update opinion tests
     /// </summary>
-    public class UpdateCountryTests : IntegrationTest
+    public class UpdateOpinionTests : IntegrationTest
     {
         /// <summary>
         /// Update opinion with incorrect id should throw not found exception
