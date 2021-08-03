@@ -20,6 +20,6 @@ namespace Application.ShopOpinions.Queries.GetShopOpinion
         /// <summary>
         /// Shop opinion ID
         /// </summary>
-        private Guid ShopOpinionId { get; }
+        public Guid ShopOpinionId { get; }
     }
 }

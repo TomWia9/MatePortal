@@ -23,10 +23,5 @@ namespace Application.ShopOpinions.Commands.CreateShopOpinion
         /// Shop ID
         /// </summary>
         public Guid ShopId { get; set; }
-
-        /// <summary>
-        /// User ID
-        /// </summary>
-        public Guid UserId { get; set; }
     }
 }

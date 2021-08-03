@@ -23,11 +23,11 @@ namespace Application.ShopOpinions.Queries.GetUserShopOpinions
         /// <summary>
         /// User ID
         /// </summary>
-        private Guid UserId { get; }
+        public Guid UserId { get; }
         
         /// <summary>
         /// Shop opinions query parameters
         /// </summary>
-        private ShopOpinionsQueryParameters Parameters { get; }
+        public ShopOpinionsQueryParameters Parameters { get; }
     }
 }
