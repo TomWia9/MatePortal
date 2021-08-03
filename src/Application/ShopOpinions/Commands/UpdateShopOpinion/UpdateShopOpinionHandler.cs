@@ -2,15 +2,16 @@
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Opinions.Commands.UpdateOpinion;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Opinions.Commands.UpdateOpinion
+namespace Application.ShopOpinions.Commands.UpdateShopOpinion
 {
-    /// <summary>
-    /// Update yerba mate opinion handler
+   /// <summary>
+    /// Update shop opinion handler
     /// </summary>
-    public class UpdateYerbaMateOpinionHandler : IRequestHandler<UpdateOpinionCommand>
+    public class UpdateShopOpinionHandler : IRequestHandler<UpdateShopOpinionCommand>
     {
         /// <summary>
         /// Database context
@@ -23,30 +24,30 @@ namespace Application.Opinions.Commands.UpdateOpinion
         private readonly ICurrentUserService _currentUserService;
         
         /// <summary>
-        /// Initializes UpdateYerbaMateOpinionHandler
+        /// Initializes UpdateShopOpinionHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="currentUserService">Current user service</param>
-        public UpdateYerbaMateOpinionHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
+        public UpdateShopOpinionHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
         {
             _context = context;
             _currentUserService = currentUserService;
         }
 
         /// <summary>
-        /// Handles updating yerba mate opinion 
+        /// Handles updating shop opinion 
         /// </summary>
-        /// <param name="request">Update yerba mate opinion request</param>
+        /// <param name="request">Update shop opinion request</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <exception cref="NotFoundException">Thrown when opinion is not found</exception>
-        /// <exception cref="ForbiddenAccessException">Thrown when user doesn't have access to opinion</exception>
-        public async Task<Unit> Handle(UpdateOpinionCommand request, CancellationToken cancellationToken)
+        /// <exception cref="NotFoundException">Thrown when shop opinion is not found</exception>
+        /// <exception cref="ForbiddenAccessException">Thrown when user doesn't have access to shop opinion</exception>
+        public async Task<Unit> Handle(UpdateShopOpinionCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Opinions.FindAsync(request.OpinionId);
+            var entity = await _context.ShopOpinions.FindAsync(request.ShopOpinionId);
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(Opinion), request.OpinionId);
+                throw new NotFoundException(nameof(ShopOpinion), request.ShopOpinionId);
             }
 
             var currentUserId = _currentUserService.UserId;

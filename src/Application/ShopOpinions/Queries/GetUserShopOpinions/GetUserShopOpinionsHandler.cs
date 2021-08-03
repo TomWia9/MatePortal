@@ -12,13 +12,13 @@ using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
+namespace Application.ShopOpinions.Queries.GetUserShopOpinions
 {
     /// <summary>
-    /// Get user's yerba mate opinions handler
+    /// Get user's shop opinions handler
     /// </summary>
     public class
-        GetUserYerbaMateOpinionsHandler : IRequestHandler<GetUserYerbaMateOpinionsQuery, PaginatedList<OpinionDto>>
+        GetUserShopOpinionsHandler : IRequestHandler<GetUserShopOpinionsQuery, PaginatedList<ShopOpinionDto>>
     {
         /// <summary>
         /// Database context
@@ -33,17 +33,17 @@ namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
         /// <summary>
         /// Sort service
         /// </summary>
-        private readonly ISortService<Opinion> _sortService;
+        private readonly ISortService<ShopOpinion> _sortService;
 
         /// <summary>
-        /// Initializes GetUsersYerbaMateOpinionsHandler
+        /// Initializes GetUserShopOpinionsHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
         /// <param name="sortService">Sort service</param>
-        public GetUserYerbaMateOpinionsHandler(IApplicationDbContext context,
+        public GetUserShopOpinionsHandler(IApplicationDbContext context,
             IMapper mapper,
-            ISortService<Opinion> sortService)
+            ISortService<ShopOpinion> sortService)
         {
             _context = context;
             _mapper = mapper;
@@ -51,13 +51,13 @@ namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
         }
 
         /// <summary>
-        /// Handles getting user's yerba mate opinions 
+        /// Handles getting user's shop opinions 
         /// </summary>
-        /// <param name="request">Get user's yerba mate opinions request</param>
+        /// <param name="request">Get user's shop opinions request</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Paginated list of opinion data transfer objects</returns>
+        /// <returns>Paginated list of shop opinion data transfer objects</returns>
         /// <exception cref="ArgumentNullException">Thrown when parameters object is null</exception>
-        public async Task<PaginatedList<OpinionDto>> Handle(GetUserYerbaMateOpinionsQuery request,
+        public async Task<PaginatedList<ShopOpinionDto>> Handle(GetUserShopOpinionsQuery request,
             CancellationToken cancellationToken)
         {
             if (request.Parameters == null)
@@ -65,7 +65,7 @@ namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
                 throw new ArgumentNullException(nameof(request.Parameters));
             }
 
-            var collection = _context.Opinions.AsQueryable();
+            var collection = _context.ShopOpinions.AsQueryable();
 
             //filtering
             collection = collection.Where(o => o.CreatedBy == request.UserId &&
@@ -83,7 +83,7 @@ namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
             //sorting
             if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
             {
-                var sortingColumns = new Dictionary<string, Expression<Func<Opinion, object>>>
+                var sortingColumns = new Dictionary<string, Expression<Func<ShopOpinion, object>>>
                 {
                     {nameof(Opinion.Created), o => o.Created},
                     {nameof(Opinion.Comment), o => o.Comment},
@@ -93,12 +93,12 @@ namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,
                     request.Parameters.SortDirection, sortingColumns);
 
-                return await collection.ProjectTo<OpinionDto>(_mapper.ConfigurationProvider)
+                return await collection.ProjectTo<ShopOpinionDto>(_mapper.ConfigurationProvider)
                     .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
             }
 
             //If sortBy is null, sort by created date
-            return await collection.OrderBy(o => o.Created).ProjectTo<OpinionDto>(_mapper.ConfigurationProvider)
+            return await collection.OrderBy(o => o.Created).ProjectTo<ShopOpinionDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
         }
     }

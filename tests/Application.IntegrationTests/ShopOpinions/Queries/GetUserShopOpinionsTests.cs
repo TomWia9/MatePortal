@@ -60,10 +60,10 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
                 SearchQuery = "com"
             }));
 
-            response.Count.Should().Be(2);
+            response.Count.Should().Be(3);
             response[0].Comment.Should().Be("Comment 1");
             response[1].Comment.Should().Be("Comment 2");
-            response[1].Comment.Should().Be("Super Comment 3");
+            response[2].Comment.Should().Be("Super comment 3");
         }
     }
 }

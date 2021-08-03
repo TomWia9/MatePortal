@@ -45,7 +45,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
 
             var command = new UpdateShopOpinionCommand()
             {
-                ShopId = shopOpinionId,
+                ShopOpinionId = shopOpinionId,
                 Rate = 4,
                 Comment = "Updated comment"
             };
@@ -125,7 +125,6 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
             item.CreatedBy.Should().NotBeNull();
             item.LastModified.Should().BeCloseTo(DateTime.Now, 1000);
             item.LastModifiedBy.Should().NotBeNull();
-            item.LastModifiedBy.Should().Be(adminId); //Todo check this
         }
     }
 }
