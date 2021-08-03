@@ -26,6 +26,11 @@ namespace Application.ShopOpinions.Queries
         public string Comment { get; set; }
 
         /// <summary>
+        /// Shop opinion created date
+        /// </summary>
+        public DateTime Created { get; set; }
+
+        /// <summary>
         /// Shop ID
         /// </summary>
         public Guid ShopId { get; set; }
@@ -33,17 +38,6 @@ namespace Application.ShopOpinions.Queries
         /// <summary>
         /// User ID
         /// </summary>
-        public Guid UserId { get; set; }
-
-        /// <summary>
-        /// Overrides Mapping method from IMapFrom interface by adding a custom ShopId and UserId mappings 
-        /// </summary>
-        /// <param name="profile">Automapper profile</param>
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<ShopOpinion, ShopOpinionDto>()
-                .ForMember(d => d.ShopId, opt => opt.MapFrom(s => s.Shop.Id))
-                .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.CreatedBy));
-        }
+        public Guid CreatedBy { get; set; }
     }
 }
