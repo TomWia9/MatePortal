@@ -14,9 +14,8 @@ namespace Application.Common.Interfaces
         Guid? UserId { get; }
         
         /// <summary>
-        /// Gets current user role
+        /// Current user role
         /// </summary>
-        /// <returns>Current user role</returns>
-        Task<string> GetCurrentUserRoleAsync();
+        string UserRole { get; }
     }
 }

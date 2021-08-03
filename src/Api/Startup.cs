@@ -29,11 +29,11 @@ namespace Api
             });
             
             services.AddHttpContextAccessor();
-            services.AddInternalServices(Configuration);
             services.AddApplication(Configuration);
             services.AddInfrastructure(Configuration);
             services.AddSwagger();
             services.AddJwtAuth(Configuration);
+            services.AddInternalServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

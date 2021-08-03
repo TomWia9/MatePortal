@@ -2,7 +2,6 @@
 using System.Linq;
 using Api;
 using Application.Common.Interfaces;
-using Application.IntegrationTests.Helpers;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
@@ -57,9 +56,9 @@ namespace Application.IntegrationTests
                     d.ServiceType == typeof(ICurrentUserService));
 
                 services.Remove(currentUserServiceDescriptor);
-                services.AddTransient(provider =>
+                services.AddTransient(_ =>
                     Mock.Of<ICurrentUserService>(s =>
-                        s.UserId == CurrentUserId && s.GetCurrentUserRoleAsync().Result == CurrentUserRole));
+                        s.UserId == CurrentUserId && s.UserRole == CurrentUserRole));
 
 
                 //Replace ApplicationDbContext

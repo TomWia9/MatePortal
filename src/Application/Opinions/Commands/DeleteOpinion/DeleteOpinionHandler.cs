@@ -48,7 +48,7 @@ namespace Application.Opinions.Commands.DeleteOpinion
                 throw new NotFoundException(nameof(Opinion), request.OpinionId);
             }
 
-            if (await _currentUserService.GetCurrentUserRoleAsync() != "Administrator" &&
+            if (_currentUserService.UserRole != "Administrator" &&
                 entity.CreatedBy != _currentUserService.UserId)
             {
                 throw new ForbiddenAccessException();

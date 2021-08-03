@@ -56,7 +56,7 @@ namespace Application.Favourites.Commands.DeleteFavourite
                 throw new NotFoundException(nameof(Brand), request.FavouriteId);
             }
 
-            if (await _currentUserService.GetCurrentUserRoleAsync() != "Administrator" &&
+            if (_currentUserService.UserRole != "Administrator" &&
                 entity.CreatedBy != _currentUserService.UserId)
             {
                 throw new ForbiddenAccessException();

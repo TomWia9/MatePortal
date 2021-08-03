@@ -50,7 +50,7 @@ namespace Application.Opinions.Commands.UpdateOpinion
             }
 
             var currentUserId = _currentUserService.UserId;
-            if (entity.CreatedBy != currentUserId && await _currentUserService.GetCurrentUserRoleAsync() != "Administrator")
+            if (entity.CreatedBy != currentUserId && _currentUserService.UserRole != "Administrator")
             {
                 throw new ForbiddenAccessException();
             }
