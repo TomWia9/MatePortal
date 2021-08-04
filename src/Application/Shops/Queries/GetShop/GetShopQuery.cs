@@ -20,6 +20,6 @@ namespace Application.Shops.Queries.GetShop
         /// <summary>
         /// Shop ID
         /// </summary>
-        private Guid ShopId { get; }
+        public Guid ShopId { get; }
     }
 }

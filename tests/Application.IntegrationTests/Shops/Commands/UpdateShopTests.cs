@@ -58,7 +58,7 @@ namespace Application.IntegrationTests.Shops.Commands
 
             item.Name.Should().Be(command.Name);
             item.Description.Should().Be(command.Description);
-            item.CreatedBy.Should().BeNull();
+            item.CreatedBy.Should().NotBeNull();
             item.LastModifiedBy.Should().NotBeNull();  
             item.LastModifiedBy.Should().Be(userId);
             item.LastModified.Should().NotBeNull();

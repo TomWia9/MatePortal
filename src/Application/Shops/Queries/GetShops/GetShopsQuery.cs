@@ -20,6 +20,6 @@ namespace Application.Shops.Queries.GetShops
         /// <summary>
         /// Shops query parameters
         /// </summary>
-        private ShopsQueryParameters Parameters { get; }
+        public ShopsQueryParameters Parameters { get; }
     }
 }
