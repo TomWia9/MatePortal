@@ -9,6 +9,9 @@ using Xunit;
 
 namespace Application.IntegrationTests.Brands.Commands
 {
+    /// <summary>
+    /// Update brand tests
+    /// </summary>
     public class UpdateBrandTests : IntegrationTest
     {
         /// <summary>
