@@ -19,6 +19,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
         [Fact]
         public async Task ShouldReturnAllShopOpinions()
         {
+            await TestSeeder.SeedTestShopsAsync(_factory);
             await TestSeeder.SeedTestShopOpinionsAsync(_factory);
             var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
 
@@ -38,6 +39,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
         public async Task GetShopOpinionsWithSpecifiedMinAndMaxRateShouldReturnCorrectCountOfShopOpinions(
             int minRate, int maxRate, int expectedCount)
         {
+            await TestSeeder.SeedTestShopsAsync(_factory);
             await TestSeeder.SeedTestShopOpinionsAsync(_factory);
             var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
 
@@ -53,6 +55,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
         [Fact]
         public async Task GetShopOpinionsWithSpecifiedSearchQueryShouldReturnCorrectShopOpinions()
         {
+            await TestSeeder.SeedTestShopsAsync(_factory);
             await TestSeeder.SeedTestShopOpinionsAsync(_factory);
             var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
 

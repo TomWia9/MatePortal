@@ -22,6 +22,8 @@ namespace Application.IntegrationTests.YerbaMates.Queries
         [Fact]
         public async Task ShouldReturnCorrectYerbaMate()
         {
+            await TestSeeder.SeedTestBrandsAsync(_factory);
+            await TestSeeder.SeedTestCategoriesAsync(_factory);
             await TestSeeder.SeedTestYerbaMatesAsync(_factory);
 
             var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //id of one of seeded yerba mates

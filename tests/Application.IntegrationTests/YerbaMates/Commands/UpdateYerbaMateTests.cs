@@ -45,7 +45,9 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         public async Task UpdateYerbaMateShouldUpdateYerbaMate()
         {
             var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
-            
+
+            await TestSeeder.SeedTestBrandsAsync(_factory);
+            await TestSeeder.SeedTestCategoriesAsync(_factory);
             await TestSeeder.SeedTestYerbaMatesAsync(_factory);
 
             var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //one of seeded yerba mates
@@ -70,7 +72,6 @@ namespace Application.IntegrationTests.YerbaMates.Commands
             item.Description.Should().Be(command.Description);
             item.imgUrl.Should().Be(command.imgUrl);
             item.AveragePrice.Should().Be(command.AveragePrice);
-            item.NumberOfAddToFav.Should().Be(command.NumberOfAddToFav);
             item.CategoryId.Should().Be(command.CategoryId);
             item.BrandId.Should().Be(command.BrandId);
             item.CreatedBy.Should().NotBeNull();

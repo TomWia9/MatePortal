@@ -52,10 +52,10 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         {
             await TestSeeder.SeedTestYerbaMatesAsync(_factory);
             await TestSeeder.SeedTestOpinionsAsync(_factory);
-            
+
             //one of seeded yerba mates
-            var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); 
-            
+            var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43");
+
             //seeded opinions about this yerba mate
             var yerbaMateOpinions = new List<Guid>()
             {
@@ -82,11 +82,11 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         public async Task DeleteYerbaMateShouldDeleteAllFavouritesWithThisYerbaMate()
         {
             await TestSeeder.SeedTestYerbaMatesAsync(_factory);
-            await TestSeeder.SeedTestOpinionsAsync(_factory);
-            
+            await TestSeeder.SeedTestFavouritesAsync(_factory);
+
             //one of seeded yerba mates
-            var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); 
-            
+            var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43");
+
             //seeded favourites about this yerba mate
             var yerbaMateFavourites = new List<Guid>()
             {
@@ -98,7 +98,6 @@ namespace Application.IntegrationTests.YerbaMates.Commands
             await _mediator.Send(new DeleteYerbaMateCommand { YerbaMateId = yerbaMateId });
 
             //Assert that favourites with this yerba mate deleted
-
             foreach (var favouriteId in yerbaMateFavourites)
             {
                 var item = await DbHelper.FindAsync<Favourite>(_factory, favouriteId);

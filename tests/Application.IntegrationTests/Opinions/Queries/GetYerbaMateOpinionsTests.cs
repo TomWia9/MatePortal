@@ -19,8 +19,9 @@ namespace Application.IntegrationTests.Opinions.Queries
         [Fact]
         public async Task ShouldReturnAllYerbaMateOpinions()
         {
-            var yerbaMateId = Guid.Parse("7B96511A-C4C8-4A47-9A7D-D5C3C6FB5EA6"); //seeded
+            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
             await TestSeeder.SeedTestOpinionsAsync(_factory);
+            var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //one of seeded yerba mates
 
             var response =
                 await _mediator.Send(new GetYerbaMateOpinionsQuery(yerbaMateId, new OpinionsQueryParameters()));
@@ -38,8 +39,9 @@ namespace Application.IntegrationTests.Opinions.Queries
         public async Task GetYerbaMateOpinionsWithSpecifiedMinAndMaxRateShouldReturnCorrectCountOfOpinions(
             int minRate, int maxRate, int expectedCount)
         {
+            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
             await TestSeeder.SeedTestOpinionsAsync(_factory);
-            var yerbaMateId = Guid.Parse("7B96511A-C4C8-4A47-9A7D-D5C3C6FB5EA6"); //seeded
+            var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //one of seeded yerba mates
 
             var response = await _mediator.Send(new GetYerbaMateOpinionsQuery(yerbaMateId,
                 new OpinionsQueryParameters() {MinRate = minRate, MaxRate = maxRate}));
@@ -53,8 +55,9 @@ namespace Application.IntegrationTests.Opinions.Queries
         [Fact]
         public async Task GetYerbaMateOpinionsWithSpecifiedSearchQueryShouldReturnCorrectOpinions()
         {
+            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
             await TestSeeder.SeedTestOpinionsAsync(_factory);
-            var yerbaMateId = Guid.Parse("7B96511A-C4C8-4A47-9A7D-D5C3C6FB5EA6"); //seeded
+            var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //one of seeded yerba mates
 
             var response = await _mediator.Send(new GetYerbaMateOpinionsQuery(yerbaMateId, new OpinionsQueryParameters()
             {

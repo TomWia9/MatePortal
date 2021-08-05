@@ -15,7 +15,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
     /// <summary>
     /// Create yerba mate tests
     /// </summary>
-    public class CreateShopTests : IntegrationTest
+    public class CreateYerbaMateTests : IntegrationTest
     {
         /// <summary>
         /// Create yerba mate should create yerba mate and return yerba mate data transfer object
@@ -81,6 +81,9 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         [Fact]
         public async Task ShouldRequireUniqueName()
         {
+            await TestSeeder.SeedTestBrandsAsync(_factory);
+            await TestSeeder.SeedTestCategoriesAsync(_factory);
+            
             var command = new CreateYerbaMateCommand()
             {
                 Name = "Test",

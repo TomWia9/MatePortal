@@ -50,7 +50,6 @@ namespace Application.IntegrationTests.Helpers
         /// Seed test favourites
         /// </summary>
         /// <param name="factory">Web application factory</param>
-        /// <param name="userId">User ID</param>
         public static async Task SeedTestFavouritesAsync(CustomWebApplicationFactory factory)
         {
             var context = GetDbContext(factory);
@@ -160,7 +159,7 @@ namespace Application.IntegrationTests.Helpers
                 },
                 new()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("2CDF8E36-2F3E-4C07-A253-513F7E617DFA"),
                     Name = "Erva Mate",
                     Description = "Erva Mate description",
                     CountryId = Guid.Parse("A7BBB4DA-12D5-4227-B6BA-690ECF40CD86"),
@@ -191,7 +190,7 @@ namespace Application.IntegrationTests.Helpers
                 },
                 new()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("F71D6A78-0196-4FA8-B369-39E29504DBA2"),
                     Name = "Fruit",
                     Description = "Fruit description",
                 }
@@ -257,18 +256,18 @@ namespace Application.IntegrationTests.Helpers
                     imgUrl = "Test 1 img url",
                     AveragePrice = 20.99M,
                     NumberOfAddToFav = 0,
-                    CategoryId = Guid.NewGuid()
+                    CategoryId = Guid.Parse("F71D6A78-0196-4FA8-B369-39E29504DBA2")
                 },
                 new()
                 {
                     Id = Guid.NewGuid(),
-                    BrandId = Guid.NewGuid(),
+                    BrandId = Guid.Parse("2CDF8E36-2F3E-4C07-A253-513F7E617DFA"),
                     Name = "Test 2",
                     Description = "Description 2",
                     imgUrl = "Test 2 img url",
                     AveragePrice = 9.99M,
                     NumberOfAddToFav = 0,
-                    CategoryId = Guid.NewGuid()
+                    CategoryId = Guid.Parse("F71D6A78-0196-4FA8-B369-39E29504DBA2")
                 }
             };
         }
