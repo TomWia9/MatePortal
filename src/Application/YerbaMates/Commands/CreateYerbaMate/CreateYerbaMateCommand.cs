@@ -30,11 +30,6 @@ namespace Application.YerbaMates.Commands.CreateYerbaMate
         public decimal AveragePrice { get; set; }
 
         /// <summary>
-        /// The number of additions of yerba to the favorites
-        /// </summary>
-        public int NumberOfAddToFav { get; set; }
-
-        /// <summary>
         /// Yerba mate category ID
         /// </summary>
         public Guid CategoryId { get; set; }

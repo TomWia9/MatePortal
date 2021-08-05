@@ -42,6 +42,6 @@ namespace Application.YerbaMates.Queries
         /// <summary>
         /// Maximum price parameter
         /// </summary>
-        public decimal MaxPrice { get; set; }
+        public decimal? MaxPrice { get; set; }
     }
 }

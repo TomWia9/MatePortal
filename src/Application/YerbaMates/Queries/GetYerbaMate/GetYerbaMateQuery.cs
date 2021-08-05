@@ -20,6 +20,6 @@ namespace Application.YerbaMates.Queries.GetYerbaMate
         /// <summary>
         /// Yerba mate ID
         /// </summary>
-        private Guid YerbaMateId { get; }
+        public Guid YerbaMateId { get; }
     }
 }

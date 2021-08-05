@@ -20,6 +20,6 @@ namespace Application.YerbaMates.Queries.GetYerbaMates
         /// <summary>
         /// Yerba mates query parameters
         /// </summary>
-        private YerbaMatesQueryParameters Parameters { get; }
+        public YerbaMatesQueryParameters Parameters { get; }
     }
 }
