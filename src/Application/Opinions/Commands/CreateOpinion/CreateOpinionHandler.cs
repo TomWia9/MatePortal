@@ -51,6 +51,7 @@ namespace Application.Opinions.Commands.CreateOpinion
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Opinion data transfer object</returns>
         /// <exception cref="NotFoundException">Thrown when yerba mate is not found</exception>
+        /// <exception cref="ConflictException">Thrown when yerba mate opinion conflicts with another opinion</exception>
         public async Task<OpinionDto> Handle(CreateOpinionCommand request, CancellationToken cancellationToken)
         {
             if (!await _context.YerbaMate.AnyAsync(y => y.Id == request.YerbaMateId, cancellationToken))

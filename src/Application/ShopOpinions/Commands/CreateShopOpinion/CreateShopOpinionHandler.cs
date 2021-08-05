@@ -53,6 +53,7 @@ namespace Application.ShopOpinions.Commands.CreateShopOpinion
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Shop opinion data transfer object</returns>
         /// <exception cref="NotFoundException">Thrown when shop is not found</exception>
+        /// <exception cref="ConflictException">Thrown when shop opinion conflicts with another shop opinion</exception>
         public async Task<ShopOpinionDto> Handle(CreateShopOpinionCommand request, CancellationToken cancellationToken)
         {
             if (!await _context.Shops.AnyAsync(s => s.Id == request.ShopId, cancellationToken))

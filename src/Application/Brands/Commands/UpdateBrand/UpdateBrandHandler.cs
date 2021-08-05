@@ -33,6 +33,7 @@ namespace Application.Brands.Commands.UpdateBrand
         /// <param name="request">Update brand request</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <exception cref="NotFoundException">Thrown when brand or updated country is not found</exception>
+        /// <exception cref="ConflictException">Thrown when brand conflicts with another brand</exception>
         public async Task<Unit> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Brands.FindAsync(request.BrandId);

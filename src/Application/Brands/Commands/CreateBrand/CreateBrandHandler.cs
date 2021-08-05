@@ -43,6 +43,7 @@ namespace Application.Brands.Commands.CreateBrand
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Brand data transfer object</returns>
         /// <exception cref="NotFoundException">Thrown when country is not found</exception>
+        /// <exception cref="ConflictException">Thrown when brand conflicts with another brand</exception>
         public async Task<BrandDto> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
             if (await _context.Brands.AnyAsync(b => b.Name == request.Name, cancellationToken: cancellationToken))

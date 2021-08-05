@@ -42,7 +42,7 @@ namespace Application.Shops.Commands.CreateShop
         /// <param name="request">The create shop request</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Shop data transfer object</returns>
-        /// <exception cref="NotFoundException">Thrown when country is not found</exception>
+        /// <exception cref="ConflictException">Thrown when shop name conflicts with another shop name</exception>
         public async Task<ShopDto> Handle(CreateShopCommand request, CancellationToken cancellationToken)
         {
             if (await _context.Shops.AnyAsync(s => s.Name == request.Name, cancellationToken: cancellationToken))

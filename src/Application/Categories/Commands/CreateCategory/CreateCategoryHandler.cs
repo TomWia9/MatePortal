@@ -42,6 +42,8 @@ namespace Application.Categories.Commands.CreateCategory
         /// <param name="request">The create category request</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Category data transfer object</returns>
+        /// <exception cref="ConflictException">Thrown when category conflicts with another category</exception>
+
         public async Task<CategoryDto> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             if (await _context.Categories.AnyAsync(b => b.Name == request.Name,

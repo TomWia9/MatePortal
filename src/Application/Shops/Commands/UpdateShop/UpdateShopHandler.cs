@@ -32,7 +32,8 @@ namespace Application.Shops.Commands.UpdateShop
         /// </summary>
         /// <param name="request">Update shop request</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <exception cref="NotFoundException">Thrown when shop or updated country is not found</exception>
+        /// <exception cref="NotFoundException">Thrown when shop is not found</exception>
+        /// <exception cref="ConflictException">Thrown when shop name conflicts with another shop name</exception>
         public async Task<Unit> Handle(UpdateShopCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Shops.FindAsync(request.ShopId);

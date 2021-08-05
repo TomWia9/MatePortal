@@ -57,6 +57,7 @@ namespace Application.Favourites.Commands.CreateFavourite
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Favourite data transfer object</returns>
         /// <exception cref="NotFoundException">Thrown when yerba mate is not found</exception>
+        /// <exception cref="ConflictException">Thrown when favourite conflicts with another favourite</exception>
         public async Task<FavouriteDto> Handle(CreateFavouriteCommand request, CancellationToken cancellationToken)
         {
             if (!await _context.YerbaMate.AnyAsync(y => y.Id == request.YerbaMateId, cancellationToken))

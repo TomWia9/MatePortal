@@ -33,6 +33,8 @@ namespace Application.Categories.Commands.UpdateCategory
         /// <param name="request">Update category request</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <exception cref="NotFoundException">Thrown when category is not found</exception>
+        /// <exception cref="ConflictException">Thrown when category conflicts with another category</exception>
+
         public async Task<Unit> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Categories.FindAsync(request.CategoryId);

@@ -42,6 +42,8 @@ namespace Application.Countries.Commands.CreateCountry
         /// <param name="request">Create country request</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Country data transfer object</returns>
+        /// <exception cref="ConflictException">Thrown when country conflicts with another country</exception>
+
         public async Task<CountryDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
         {
             if (await _context.Countries.AnyAsync(c => c.Name == request.Name,

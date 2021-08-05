@@ -33,6 +33,8 @@ namespace Application.Countries.Commands.UpdateCountry
         /// <param name="request">Update country request</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <exception cref="NotFoundException">Thrown when country not found</exception>
+        /// <exception cref="ConflictException">Thrown when country conflicts with another country</exception>
+
         public async Task<Unit> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Countries.FindAsync(request.CountryId);

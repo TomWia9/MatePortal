@@ -53,7 +53,7 @@ namespace Application.Favourites.Commands.DeleteFavourite
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(Brand), request.FavouriteId);
+                throw new NotFoundException(nameof(Favourite), request.FavouriteId);
             }
 
             if (_currentUserService.UserRole != "Administrator" &&
