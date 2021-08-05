@@ -153,7 +153,7 @@ namespace Application.IntegrationTests.Helpers
                 },
                 new()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("7CE3AB2A-1CD4-44F2-8977-96EEA486E3DE"),
                     Name = "Cruz de malta",
                     Description = "Cruz de malta description",
                     CountryId = Guid.Parse("68E2E690-B2F4-44AE-A21F-756922E25163"),
@@ -240,18 +240,18 @@ namespace Application.IntegrationTests.Helpers
                 new()
                 {
                     Id = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"),
-                    BrandId = Guid.NewGuid(),
+                    BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"),
                     Name = "Kurupi Katuava",
                     Description = "One of the best herbal yerba",
                     imgUrl = "test img url",
                     AveragePrice = 15.21M,
                     NumberOfAddToFav = 0,
-                    CategoryId = Guid.NewGuid()
+                    CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E")
                 },
                 new()
                 {
                     Id = Guid.NewGuid(),
-                    BrandId = Guid.NewGuid(),
+                    BrandId = Guid.Parse("7CE3AB2A-1CD4-44F2-8977-96EEA486E3DE"),
                     Name = "Test 1",
                     Description = "Description 1",
                     imgUrl = "Test 1 img url",

@@ -1,4 +1,5 @@
-﻿using Application.YerbaMates.Queries;
+﻿using System;
+using Application.YerbaMates.Queries;
 using MediatR;
 
 namespace Application.YerbaMates.Commands.CreateYerbaMate
@@ -9,11 +10,6 @@ namespace Application.YerbaMates.Commands.CreateYerbaMate
     public class CreateYerbaMateCommand : IRequest<YerbaMateDto>
     {
         /// <summary>
-        /// Yerba mate brand
-        /// </summary>
-        public string Brand { get; set; }
-
-        /// <summary>
         /// Yerba mate name
         /// </summary>
         public string Name { get; set; }
@@ -22,11 +18,6 @@ namespace Application.YerbaMates.Commands.CreateYerbaMate
         /// Yerba mate description
         /// </summary>
         public string Description { get; set; }
-
-        /// <summary>
-        /// Yerba mate category
-        /// </summary>
-        public string Category { get; set; }
 
         /// <summary>
         /// Yerba mate image url
@@ -41,6 +32,16 @@ namespace Application.YerbaMates.Commands.CreateYerbaMate
         /// <summary>
         /// The number of additions of yerba to the favorites
         /// </summary>
-        public int NumberOfAddToFav { get; set; } = 0;
+        public int NumberOfAddToFav { get; set; }
+
+        /// <summary>
+        /// Yerba mate category ID
+        /// </summary>
+        public Guid CategoryId { get; set; }
+
+        /// <summary>
+        /// Yerba mate brand ID
+        /// </summary>
+        public Guid BrandId { get; set; }
     }
 }

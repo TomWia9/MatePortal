@@ -1,4 +1,6 @@
 ﻿using System;
+using Application.Brands.Queries;
+using Application.Categories.Queries;
 using Application.Common.Mappings;
 using AutoMapper;
 using Domain.Entities;
@@ -15,10 +17,6 @@ namespace Application.YerbaMates.Queries
         /// </summary>
         public Guid Id { get; init; }
 
-        /// <summary>
-        /// Yerba mate brand
-        /// </summary>
-        public string Brand { get; set; }
 
         /// <summary>
         /// Yerba mate name
@@ -30,10 +28,6 @@ namespace Application.YerbaMates.Queries
         /// </summary>
         public string Description { get; set; }
 
-        /// <summary>
-        /// Yerba mate category
-        /// </summary>
-        public string Category { get; set; }
 
         /// <summary>
         /// Yerba mate image url
@@ -51,14 +45,13 @@ namespace Application.YerbaMates.Queries
         public int NumberOfAddToFav { get; set; }
 
         /// <summary>
-        /// Overrides Mapping method from IMapFrom interface by adding a custom Brand and Category mappings 
+        /// Yerba mate brand
         /// </summary>
-        /// <param name="profile">Automapper profile</param>
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<YerbaMate, YerbaMateDto>()
-                .ForMember(d => d.Brand, opt => opt.MapFrom(s => s.Brand.Name))
-                .ForMember(d => d.Category, opt => opt.MapFrom(s => s.Category.Name));
-        }
+        public BrandDto Brand { get; set; }
+
+        /// <summary>
+        /// Yerba mate category
+        /// </summary>
+        public CategoryDto Category { get; set; }
     }
 }

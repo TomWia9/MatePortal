@@ -14,11 +14,6 @@ namespace Application.YerbaMates.Commands.UpdateYerbaMate
         public Guid YerbaMateId { get; init; }
 
         /// <summary>
-        /// Yerba mate brand
-        /// </summary>
-        public string Brand { get; set; }
-
-        /// <summary>
         /// Yerba mate name
         /// </summary>
         public string Name { get; set; }
@@ -27,11 +22,6 @@ namespace Application.YerbaMates.Commands.UpdateYerbaMate
         /// Yerba mate description
         /// </summary>
         public string Description { get; set; }
-
-        /// <summary>
-        /// Yerba mate category
-        /// </summary>
-        public string Category { get; set; }
 
         /// <summary>
         /// Yerba mate image url
@@ -47,5 +37,15 @@ namespace Application.YerbaMates.Commands.UpdateYerbaMate
         /// The number of additions of yerba to the favorites
         /// </summary>
         public int NumberOfAddToFav { get; set; } = 0;
+
+        /// <summary>
+        /// Yerba mate brand ID
+        /// </summary>
+        public Guid BrandId { get; set; }
+
+        /// <summary>
+        /// Yerba mate category ID
+        /// </summary>
+        public Guid CategoryId { get; set; }
     }
 }
