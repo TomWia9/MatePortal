@@ -208,8 +208,8 @@ namespace Application.IntegrationTests.Helpers
             {
                 new()
                 {
-                    Id = Guid.NewGuid(),
-                    YerbaMateId = Guid.NewGuid()
+                    Id = Guid.Parse("5F07ACEC-B726-4DA8-968D-5088543D6D85"),
+                    YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43")
                 },
                 new()
                 {
@@ -218,8 +218,8 @@ namespace Application.IntegrationTests.Helpers
                 },
                 new()
                 {
-                    Id = Guid.NewGuid(),
-                    YerbaMateId = Guid.NewGuid(),
+                    Id = Guid.Parse("042C8BB9-311C-49B6-84D1-1E4993038270"),
+                    YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43")
                 },
                 new()
                 {
@@ -286,7 +286,7 @@ namespace Application.IntegrationTests.Helpers
                     Id = Guid.Parse("EB2BB300-A4FF-486C-AB64-4EF0A7DB527F"),
                     Rate = 10,
                     Comment = "Comment 1",
-                    YerbaMateId = Guid.Parse("7B96511A-C4C8-4A47-9A7D-D5C3C6FB5EA6")
+                    YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43")
                 },
                 new()
                 {
@@ -297,10 +297,10 @@ namespace Application.IntegrationTests.Helpers
                 },
                 new()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("E3544051-5179-4181-B1D9-662DF4BE7797"),
                     Rate = 6,
                     Comment = "test",
-                    YerbaMateId = Guid.Parse("7B96511A-C4C8-4A47-9A7D-D5C3C6FB5EA6")
+                    YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43")
                 },
             };
         }
@@ -358,7 +358,7 @@ namespace Application.IntegrationTests.Helpers
                 },
                 new()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("5887542F-A4BF-4666-88C4-A497E8240C0E"),
                     Rate = 6,
                     Comment = "Super comment 3",
                     ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5")
