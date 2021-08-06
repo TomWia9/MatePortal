@@ -4,6 +4,7 @@ using Application.Common.Exceptions;
 using Application.Favourites.Commands.CreateFavourite;
 using Application.Favourites.Commands.DeleteFavourite;
 using Application.IntegrationTests.Helpers;
+using Application.YerbaMates.Queries.GetYerbaMate;
 using Domain.Entities;
 using FluentAssertions;
 using Xunit;
@@ -57,6 +58,8 @@ namespace Application.IntegrationTests.Favourites.Commands
         [Fact]
         public async Task ShouldDecreaseYerbaMateNumberOfAddToFav()
         {
+            await TestSeeder.SeedTestBrandsAsync(_factory);
+            await TestSeeder.SeedTestCategoriesAsync(_factory);
             await TestSeeder.SeedTestYerbaMatesAsync(_factory);
 
             await AuthHelper.RunAsDefaultUserAsync(_factory);
@@ -71,8 +74,8 @@ namespace Application.IntegrationTests.Favourites.Commands
             //delete
             await _mediator.Send(new DeleteFavouriteCommand() { FavouriteId = favouriteToDeleteDto.Id });
 
-            var numberOfAddToFav = await DbHelper.GetYerbaMateAddToFavouritesCountAsync(_factory, command.YerbaMateId);
-            numberOfAddToFav.Should().Be(0);
+            var yerbaMateDto = await _mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
+            yerbaMateDto.NumberOfAddToFav.Should().Be(0);
         }
 
         /// <summary>

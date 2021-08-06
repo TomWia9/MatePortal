@@ -16,8 +16,7 @@ namespace Application.YerbaMates.Queries
         /// Yerba mate ID
         /// </summary>
         public Guid Id { get; init; }
-
-
+        
         /// <summary>
         /// Yerba mate name
         /// </summary>
@@ -27,8 +26,7 @@ namespace Application.YerbaMates.Queries
         /// Yerba mate description
         /// </summary>
         public string Description { get; set; }
-
-
+        
         /// <summary>
         /// Yerba mate image url
         /// </summary>
@@ -40,6 +38,16 @@ namespace Application.YerbaMates.Queries
         public decimal AveragePrice { get; set; }
 
         /// <summary>
+        /// Yerba mate number of add to fav
+        /// </summary>
+        public int NumberOfAddToFav { get; set; }
+
+        /// <summary>
+        /// Yerba mate number of opinions
+        /// </summary>
+        public int NumberOfOpinions { get; set; }
+
+        /// <summary>
         /// Yerba mate brand
         /// </summary>
         public BrandDto Brand { get; set; }
@@ -48,5 +56,16 @@ namespace Application.YerbaMates.Queries
         /// Yerba mate category
         /// </summary>
         public CategoryDto Category { get; set; }
+
+        /// <summary>
+        /// Overrides Mapping method from IMapFrom interface by adding a custom NumberOfAddToFav mapping
+        /// </summary>
+        /// <param name="profile">Automapper profile</param>
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<YerbaMate, YerbaMateDto>()
+                .ForMember(d => d.NumberOfAddToFav, opt => opt.MapFrom(y => y.Favourites.Count))
+                .ForMember(d => d.NumberOfOpinions, opt => opt.MapFrom(y => y.Opinions.Count));
+        }
     }
 }

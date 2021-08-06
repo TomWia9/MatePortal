@@ -13,27 +13,6 @@ namespace Application.IntegrationTests.Helpers
             var context = GetDbContext(factory);
             return await context.FindAsync<T>(id);
         }
-
-        public static async Task<int> GetYerbaMateOpinionsCountAsync(CustomWebApplicationFactory factory,
-            Guid yerbaMateId)
-        {
-            var context = GetDbContext(factory);
-            return await context.Opinions.CountAsync(o => o.YerbaMateId == yerbaMateId);
-        }
-        
-        public static async Task<int> GetYerbaMateAddToFavouritesCountAsync(CustomWebApplicationFactory factory,
-            Guid yerbaMateId)
-        {
-            var context = GetDbContext(factory);
-            return await context.Favourites.CountAsync(f => f.YerbaMateId == yerbaMateId);
-        }
-        
-        public static async Task<int> GetShopOpinionsCountAsync(CustomWebApplicationFactory factory,
-            Guid shopId)
-        {
-            var context = GetDbContext(factory);
-            return await context.ShopOpinions.CountAsync(s => s.ShopId == shopId);
-        }
         
         /// <summary>
         /// Gets database context

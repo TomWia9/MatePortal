@@ -48,6 +48,8 @@ namespace Application.YerbaMates.Queries.GetYerbaMate
                 .Include(y => y.Brand)
                 .Include(y => y.Brand.Country)
                 .Include(y => y.Category)
+                .Include(y => y.Opinions)
+                .Include(y => y.Favourites)
                 .FirstOrDefaultAsync(y => y.Id == request.YerbaMateId, cancellationToken);
 
             if (entity == null)
