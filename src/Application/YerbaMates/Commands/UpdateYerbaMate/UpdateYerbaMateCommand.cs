@@ -32,11 +32,6 @@ namespace Application.YerbaMates.Commands.UpdateYerbaMate
         /// Yerba mate average price
         /// </summary>
         public decimal AveragePrice { get; set; }
-        
-        /// <summary>
-        /// The number of additions of yerba to the favorites
-        /// </summary>
-        public int NumberOfAddToFav { get; set; } = 0;
 
         /// <summary>
         /// Yerba mate brand ID

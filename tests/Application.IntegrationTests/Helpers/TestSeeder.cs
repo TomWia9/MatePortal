@@ -22,7 +22,7 @@ namespace Application.IntegrationTests.Helpers
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestBrandsAsync(CustomWebApplicationFactory factory)
         {
-            var context = GetDbContext(factory);
+            var context = DbHelper.GetDbContext(factory);
 
             if (!await context.Brands.AnyAsync())
             {
@@ -37,7 +37,7 @@ namespace Application.IntegrationTests.Helpers
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestCategoriesAsync(CustomWebApplicationFactory factory)
         {
-            var context = GetDbContext(factory);
+            var context = DbHelper.GetDbContext(factory);
 
             if (!await context.Categories.AnyAsync())
             {
@@ -52,7 +52,7 @@ namespace Application.IntegrationTests.Helpers
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestFavouritesAsync(CustomWebApplicationFactory factory)
         {
-            var context = GetDbContext(factory);
+            var context = DbHelper.GetDbContext(factory);
 
             if (!await context.Favourites.AnyAsync())
             {
@@ -67,7 +67,7 @@ namespace Application.IntegrationTests.Helpers
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestYerbaMatesAsync(CustomWebApplicationFactory factory)
         {
-            var context = GetDbContext(factory);
+            var context = DbHelper.GetDbContext(factory);
 
             if (!await context.YerbaMate.AnyAsync())
             {
@@ -78,7 +78,7 @@ namespace Application.IntegrationTests.Helpers
 
         public static async Task SeedTestOpinionsAsync(CustomWebApplicationFactory factory)
         {
-            var context = GetDbContext(factory);
+            var context = DbHelper.GetDbContext(factory);
 
             if (!await context.Opinions.AnyAsync())
             {
@@ -93,7 +93,7 @@ namespace Application.IntegrationTests.Helpers
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestShopsAsync(CustomWebApplicationFactory factory)
         {
-            var context = GetDbContext(factory);
+            var context = DbHelper.GetDbContext(factory);
 
             if (!await context.Shops.AnyAsync())
             {
@@ -108,24 +108,13 @@ namespace Application.IntegrationTests.Helpers
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestShopOpinionsAsync(CustomWebApplicationFactory factory)
         {
-            var context = GetDbContext(factory);
+            var context = DbHelper.GetDbContext(factory);
 
             if (!await context.ShopOpinions.AnyAsync())
             {
                 await context.ShopOpinions.AddRangeAsync(GetShopOpinions());
                 await context.SaveChangesAsync(CancellationToken.None);
             }
-        }
-
-        /// <summary>
-        /// Gets database context
-        /// </summary>
-        /// <param name="factory">Web application factory</param>
-        /// <returns>ApplicationDbContext service</returns>
-        private static IApplicationDbContext GetDbContext(CustomWebApplicationFactory factory)
-        {
-            var scope = factory.Services.CreateScope();
-            return scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         }
 
         /// <summary>
@@ -244,7 +233,6 @@ namespace Application.IntegrationTests.Helpers
                     Description = "One of the best herbal yerba",
                     imgUrl = "test img url",
                     AveragePrice = 15.21M,
-                    NumberOfAddToFav = 0,
                     CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E")
                 },
                 new()
@@ -255,7 +243,6 @@ namespace Application.IntegrationTests.Helpers
                     Description = "Description 1",
                     imgUrl = "Test 1 img url",
                     AveragePrice = 20.99M,
-                    NumberOfAddToFav = 0,
                     CategoryId = Guid.Parse("F71D6A78-0196-4FA8-B369-39E29504DBA2")
                 },
                 new()
@@ -266,7 +253,6 @@ namespace Application.IntegrationTests.Helpers
                     Description = "Description 2",
                     imgUrl = "Test 2 img url",
                     AveragePrice = 9.99M,
-                    NumberOfAddToFav = 0,
                     CategoryId = Guid.Parse("F71D6A78-0196-4FA8-B369-39E29504DBA2")
                 }
             };

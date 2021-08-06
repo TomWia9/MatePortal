@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.IntegrationTests.Helpers
@@ -9,13 +10,40 @@ namespace Application.IntegrationTests.Helpers
     {
         public static async Task<T> FindAsync<T>(CustomWebApplicationFactory factory, Guid id) where T : class
         {
-            using var scope = factory.Services.CreateScope();
-            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-
-            if (context == null)
-                throw new Exception("Failed to get ApplicationDbContext service");
-
+            var context = GetDbContext(factory);
             return await context.FindAsync<T>(id);
+        }
+
+        public static async Task<int> GetYerbaMateOpinionsCountAsync(CustomWebApplicationFactory factory,
+            Guid yerbaMateId)
+        {
+            var context = GetDbContext(factory);
+            return await context.Opinions.CountAsync(o => o.YerbaMateId == yerbaMateId);
+        }
+        
+        public static async Task<int> GetYerbaMateAddToFavouritesCountAsync(CustomWebApplicationFactory factory,
+            Guid yerbaMateId)
+        {
+            var context = GetDbContext(factory);
+            return await context.Favourites.CountAsync(f => f.YerbaMateId == yerbaMateId);
+        }
+        
+        public static async Task<int> GetShopOpinionsCountAsync(CustomWebApplicationFactory factory,
+            Guid shopId)
+        {
+            var context = GetDbContext(factory);
+            return await context.ShopOpinions.CountAsync(s => s.ShopId == shopId);
+        }
+        
+        /// <summary>
+        /// Gets database context
+        /// </summary>
+        /// <param name="factory">Web application factory</param>
+        /// <returns>ApplicationDbContext service</returns>
+        public static ApplicationDbContext GetDbContext(CustomWebApplicationFactory factory)
+        {
+            var scope = factory.Services.CreateScope();
+            return scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         }
 
         public static void DeleteDatabase(CustomWebApplicationFactory factory)

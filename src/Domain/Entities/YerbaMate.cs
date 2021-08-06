@@ -13,9 +13,6 @@ namespace Domain.Entities
         public string Description { get; set; }
         public string imgUrl { get; set; }
         public decimal AveragePrice { get; set; }
-        
-        //Todo remove numberOfAddToFav
-        public int NumberOfAddToFav { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
         public IList<Opinion> Opinions { get; set; } = new List<Opinion>();

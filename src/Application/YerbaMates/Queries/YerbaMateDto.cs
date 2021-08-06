@@ -40,11 +40,6 @@ namespace Application.YerbaMates.Queries
         public decimal AveragePrice { get; set; }
 
         /// <summary>
-        /// The number of additions of yerba to the favorites
-        /// </summary>
-        public int NumberOfAddToFav { get; set; }
-
-        /// <summary>
         /// Yerba mate brand
         /// </summary>
         public BrandDto Brand { get; set; }

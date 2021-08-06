@@ -45,7 +45,6 @@ namespace Application.IntegrationTests.YerbaMates.Commands
                 Description = command.Description,
                 imgUrl = "https://test.com",
                 AveragePrice = 12.32M,
-                NumberOfAddToFav = 0,
                 Category = new CategoryDto() //one of seeded categories
                 {
                     Id = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"),

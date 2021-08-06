@@ -31,22 +31,16 @@ namespace Application.Favourites.Commands.CreateFavourite
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        /// Yerba mate service
-        /// </summary>
-        private readonly IYerbaMateService _yerbaMateService;
-
-        /// <summary>
         /// Initializes CreateFavouriteHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
-        /// <param name="yerbaMateService">Yerba mate service</param>
         /// <param name="currentUserService"></param>
-        public CreateFavouriteHandler(IApplicationDbContext context, IMapper mapper, IYerbaMateService yerbaMateService, ICurrentUserService currentUserService)
+        public CreateFavouriteHandler(IApplicationDbContext context, IMapper mapper,
+            ICurrentUserService currentUserService)
         {
             _context = context;
             _mapper = mapper;
-            _yerbaMateService = yerbaMateService;
             _currentUserService = currentUserService;
         }
 
@@ -79,8 +73,6 @@ namespace Application.Favourites.Commands.CreateFavourite
             //entity.DomainEvents.Add(new FavouriteCreatedEvent(entity));
             _context.Favourites.Add(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
-            await _yerbaMateService.IncreaseNumberOfAddToFav(request.YerbaMateId, cancellationToken);
 
             return _mapper.Map<FavouriteDto>(entity);
         }

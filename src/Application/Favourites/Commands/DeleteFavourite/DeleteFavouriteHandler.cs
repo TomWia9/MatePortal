@@ -23,21 +23,13 @@ namespace Application.Favourites.Commands.DeleteFavourite
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        /// Yerba mate service
-        /// </summary>
-        private readonly IYerbaMateService _yerbaMateService;
-
-        /// <summary>
         /// Initializes DeleteFavouriteHandler
         /// </summary>
         /// <param name="context">Database context</param>
-        /// <param name="yerbaMateService">Yerba mate service</param>
         /// <param name="currentUserService">Current user service</param>
-        public DeleteFavouriteHandler(IApplicationDbContext context, IYerbaMateService yerbaMateService,
-            ICurrentUserService currentUserService)
+        public DeleteFavouriteHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
         {
             _context = context;
-            _yerbaMateService = yerbaMateService;
             _currentUserService = currentUserService;
         }
 
@@ -63,8 +55,6 @@ namespace Application.Favourites.Commands.DeleteFavourite
             }
 
             _context.Favourites.Remove(entity);
-
-            await _yerbaMateService.DecreaseNumberOfAddToFav(entity.YerbaMateId, cancellationToken);
 
             await _context.SaveChangesAsync(cancellationToken);
 

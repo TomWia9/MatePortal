@@ -29,7 +29,6 @@ namespace Application.IntegrationTests.YerbaMates.Commands
                 Description = "Test description",
                 imgUrl = "https://test.com",
                 AveragePrice = 12.32M,
-                NumberOfAddToFav = 2,
                 CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), 
                 BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239")
             };
@@ -59,7 +58,6 @@ namespace Application.IntegrationTests.YerbaMates.Commands
                 Description = "Updated description",
                 imgUrl = "Updated img url",
                 AveragePrice = 14.32M,
-                NumberOfAddToFav = 2,
                 CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), //one of seeded categories
                 BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"), //one of seeded brands
             };

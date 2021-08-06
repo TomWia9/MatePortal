@@ -35,7 +35,6 @@ namespace Application.IntegrationTests.YerbaMates.Queries
                 Description = "One of the best herbal yerba",
                 imgUrl = "test img url",
                 AveragePrice = 15.21M,
-                NumberOfAddToFav = 0,
                 Category = new CategoryDto() 
                 {
                     Id = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"),

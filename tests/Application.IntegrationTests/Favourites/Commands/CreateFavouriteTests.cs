@@ -61,9 +61,9 @@ namespace Application.IntegrationTests.Favourites.Commands
 
             await _mediator.Send(command);
 
-            var yerbaMate = await DbHelper.FindAsync<YerbaMate>(_factory, command.YerbaMateId);
-
-            yerbaMate.NumberOfAddToFav.Should().Be(1);
+            var numberOfAddToFav = await DbHelper.GetYerbaMateAddToFavouritesCountAsync(_factory, command.YerbaMateId);
+            
+            numberOfAddToFav.Should().Be(1);
         }
 
         /// <summary>

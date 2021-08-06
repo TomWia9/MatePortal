@@ -24,7 +24,7 @@ namespace Application.IntegrationTests.Favourites.Commands
             var favouriteId = Guid.Empty;
 
             FluentActions.Invoking(() =>
-                    _mediator.Send(new DeleteFavouriteCommand() {FavouriteId = favouriteId})).Should()
+                    _mediator.Send(new DeleteFavouriteCommand() { FavouriteId = favouriteId })).Should()
                 .Throw<NotFoundException>();
         }
 
@@ -44,7 +44,7 @@ namespace Application.IntegrationTests.Favourites.Commands
             });
 
             //delete
-            await _mediator.Send(new DeleteFavouriteCommand() {FavouriteId = favouriteToDeleteDto.Id});
+            await _mediator.Send(new DeleteFavouriteCommand() { FavouriteId = favouriteToDeleteDto.Id });
 
             //Assert that deleted
             var item = await DbHelper.FindAsync<Favourite>(_factory, favouriteToDeleteDto.Id);
@@ -69,13 +69,12 @@ namespace Application.IntegrationTests.Favourites.Commands
             var favouriteToDeleteDto = await _mediator.Send(command);
 
             //delete
-            await _mediator.Send(new DeleteFavouriteCommand() {FavouriteId = favouriteToDeleteDto.Id});
+            await _mediator.Send(new DeleteFavouriteCommand() { FavouriteId = favouriteToDeleteDto.Id });
 
-            var yerbaMate = await DbHelper.FindAsync<YerbaMate>(_factory, command.YerbaMateId);
-
-            yerbaMate.NumberOfAddToFav.Should().Be(0);
+            var numberOfAddToFav = await DbHelper.GetYerbaMateAddToFavouritesCountAsync(_factory, command.YerbaMateId);
+            numberOfAddToFav.Should().Be(0);
         }
-        
+
         /// <summary>
         /// User should not be able to delete other user favourite
         /// </summary>
@@ -95,7 +94,7 @@ namespace Application.IntegrationTests.Favourites.Commands
 
             //delete
             FluentActions.Invoking(() =>
-                    _mediator.Send(new DeleteFavouriteCommand() {FavouriteId = favouriteToDeleteDto.Id})).Should()
+                    _mediator.Send(new DeleteFavouriteCommand() { FavouriteId = favouriteToDeleteDto.Id })).Should()
                 .Throw<ForbiddenAccessException>();
         }
 
@@ -115,9 +114,9 @@ namespace Application.IntegrationTests.Favourites.Commands
             });
 
             await AuthHelper.RunAsAdministratorAsync(_factory);
-            
+
             //delete
-            await _mediator.Send(new DeleteFavouriteCommand() {FavouriteId = favouriteToDeleteDto.Id});
+            await _mediator.Send(new DeleteFavouriteCommand() { FavouriteId = favouriteToDeleteDto.Id });
 
             //Assert that deleted
             var item = await DbHelper.FindAsync<Favourite>(_factory, favouriteToDeleteDto.Id);
