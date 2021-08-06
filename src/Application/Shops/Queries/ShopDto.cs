@@ -1,5 +1,7 @@
 ﻿using System;
 using Application.Common.Mappings;
+using Application.YerbaMates.Queries;
+using AutoMapper;
 using Domain.Entities;
 
 namespace Application.Shops.Queries
@@ -23,5 +25,20 @@ namespace Application.Shops.Queries
         /// Shop description
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Number of shop opinions
+        /// </summary>
+        public int NumberOfShopOpinions { get; set; }
+
+        /// <summary>
+        /// Overrides Mapping method from IMapFrom interface by adding a custom NumberOfShopOpinions mapping
+        /// </summary>
+        /// <param name="profile">Automapper profile</param>
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<Shop, ShopDto>()
+                .ForMember(d => d.NumberOfShopOpinions, opt => opt.MapFrom(s => s.Opinions.Count));
+        }
     }
 }

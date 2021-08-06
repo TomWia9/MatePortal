@@ -11,6 +11,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Shops.Queries.GetShops
 {
@@ -63,7 +64,7 @@ namespace Application.Shops.Queries.GetShops
                 throw new ArgumentNullException(nameof(request.Parameters));
             }
 
-            var collection = _context.Shops as IQueryable<Shop>;
+            var collection = _context.Shops.Include(s => s.Opinions) as IQueryable<Shop>;
 
             //searching
             if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
@@ -81,6 +82,7 @@ namespace Application.Shops.Queries.GetShops
                 {
                     { nameof(Shop.Name), s => s.Name },
                     { nameof(Shop.Description), s => s.Description },
+                    { nameof(Shop.Opinions), y => y.Opinions.Count }
                 };
 
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,

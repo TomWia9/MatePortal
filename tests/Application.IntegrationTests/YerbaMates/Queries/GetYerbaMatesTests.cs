@@ -73,7 +73,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
         /// Get yerba mates with specified sorting should return correct sorted yerba mates
         /// </summary>
         [Fact]
-        public async Task GetYerbaMatesWithSpecifiedQuerySortingShouldReturnCorrectSortedYerbaMates()
+        public async Task GetYerbaMatesWithSpecifiedSortingShouldReturnCorrectSortedYerbaMates()
         {
             await TestSeeder.SeedTestBrandsAsync(_factory);
             await TestSeeder.SeedTestCategoriesAsync(_factory);

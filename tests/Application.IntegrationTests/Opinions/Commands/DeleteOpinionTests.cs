@@ -4,6 +4,7 @@ using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
 using Application.Opinions.Commands.CreateOpinion;
 using Application.Opinions.Commands.DeleteOpinion;
+using Application.YerbaMates.Queries.GetYerbaMate;
 using Domain.Entities;
 using FluentAssertions;
 using Xunit;
@@ -104,6 +105,34 @@ namespace Application.IntegrationTests.Opinions.Commands
             //Assert that deleted
             var item = await DbHelper.FindAsync<Opinion>(_factory, opinionToDeleteDto.Id);
             item.Should().BeNull();
+        }
+        
+        /// <summary>
+        /// Delete should decrease yerba mate number of opinions
+        /// </summary>
+        [Fact]
+        public async Task ShouldDecreaseYerbaMateNumberOfOpinions()
+        {
+            await TestSeeder.SeedTestBrandsAsync(_factory);
+            await TestSeeder.SeedTestCategoriesAsync(_factory);
+            await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+
+            await AuthHelper.RunAsDefaultUserAsync(_factory);
+
+            var command = new CreateOpinionCommand()
+            {
+                Comment = "Test",
+                Rate = 8,
+                YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
+            };
+
+            var opinionToDeleteDto = await _mediator.Send(command);
+
+            //delete
+            await _mediator.Send(new DeleteOpinionCommand() { OpinionId = opinionToDeleteDto.Id });
+
+            var yerbaMateDto = await _mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
+            yerbaMateDto.NumberOfOpinions.Should().Be(0);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Application.Common.Enums;
 using Application.IntegrationTests.Helpers;
 using Application.Shops.Queries;
 using Application.Shops.Queries.GetShops;
@@ -38,6 +40,25 @@ namespace Application.IntegrationTests.Shops.Queries
             
             response.Count.Should().Be(1);
             response[0].Name.Should().Be("Matemundo");
+        }
+        
+        /// <summary>
+        /// Get shops with specified sorting should return correct sorted shops
+        /// </summary>
+        [Fact]
+        public async Task GetShopsWithSpecifiedQSortingShouldReturnCorrectSortedShops()
+        {
+            await TestSeeder.SeedTestShopsAsync(_factory);
+            await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+        
+            var response = await _mediator.Send(new GetShopsQuery(new ShopsQueryParameters()
+            {
+                SortBy = "Opinions",
+                SortDirection = SortDirection.ASC
+            }));
+        
+            response.Count.Should().Be(3);
+            response[2].Id.Should().Be(Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"));
         }
     }
 }

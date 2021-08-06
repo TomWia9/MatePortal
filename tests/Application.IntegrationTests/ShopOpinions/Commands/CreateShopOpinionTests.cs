@@ -4,6 +4,7 @@ using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
 using Application.ShopOpinions.Commands.CreateShopOpinion;
 using Application.ShopOpinions.Queries;
+using Application.Shops.Queries.GetShop;
 using Domain.Entities;
 using FluentAssertions;
 using Xunit;
@@ -96,6 +97,28 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
 
             FluentActions.Invoking(() =>
                 _mediator.Send(command)).Should().Throw<ConflictException>();
+        }
+        
+        /// <summary>
+        /// Create should increase shop number of opinions
+        /// </summary>
+        [Fact]
+        public async Task ShouldIncreaseShopNumberOfOpinions()
+        {
+            await TestSeeder.SeedTestShopsAsync(_factory);
+            await AuthHelper.RunAsDefaultUserAsync(_factory);
+
+            var command = new CreateShopOpinionCommand()
+            {
+                Comment = "Test",
+                Rate = 8,
+                ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5") //one of seeded shop
+            };
+
+            await _mediator.Send(command);
+
+            var shopDto = await _mediator.Send(new GetShopQuery(command.ShopId));
+            shopDto.NumberOfShopOpinions.Should().Be(1);
         }
     }
 }

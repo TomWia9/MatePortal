@@ -44,7 +44,7 @@ namespace Application.Shops.Queries.GetShop
         /// <exception cref="NotFoundException">Throws when shop is not found</exception>
         public async Task<ShopDto> Handle(GetShopQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Shops.FirstOrDefaultAsync(s => s.Id == request.ShopId, cancellationToken);
+            var entity = await _context.Shops.Include(s => s.Opinions).FirstOrDefaultAsync(s => s.Id == request.ShopId, cancellationToken);
 
             if (entity == null)
             {
