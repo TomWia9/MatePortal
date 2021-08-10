@@ -12,14 +12,12 @@ namespace Application.Users.Commands.UpdateUser
         /// User's ID
         /// </summary>
         public Guid UserId { get; set; }
-        /// <summary>
-        /// User's email
-        /// </summary>
-        public string Email { get; set; }
+        
         /// <summary>
         /// User's username
         /// </summary>
         public string Username { get; set; }
+        
         /// <summary>
         /// User's password
         /// </summary>

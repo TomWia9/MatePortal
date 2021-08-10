@@ -20,6 +20,6 @@ namespace Application.Users.Queries.GetUser
         /// <summary>
         /// User ID
         /// </summary>
-        private Guid UserId { get; }
+        public Guid UserId { get; }
     }
 }

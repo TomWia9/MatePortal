@@ -20,6 +20,6 @@ namespace Application.Users.Queries.GetUsers
         /// <summary>
         /// Users query parameters
         /// </summary>
-        private UsersQueryParameters Parameters { get; }
+        public UsersQueryParameters Parameters { get; }
     }
 }

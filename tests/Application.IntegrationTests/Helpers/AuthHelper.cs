@@ -1,6 +1,11 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Threading.Tasks;
+using Application.Users.Commands.RegisterUser;
+using Application.Users.Responses;
 using Infrastructure.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -32,6 +37,32 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
+        /// Gets user by jwt token
+        /// </summary>
+        /// <param name="mediator">The mediator instance</param>
+        /// <returns></returns>
+        public static async Task<IAuthResponse> RegisterTestUserAsync(ISender mediator)
+        {
+            var registerUserCommand = new RegisterUserCommand()
+            {
+                Email = "test@test.com",
+                Username = "Test",
+                Password = "Qwerty123_"
+            };
+
+            return await mediator.Send(registerUserCommand);
+        }
+        
+        public static async Task<ApplicationUser> GetUserByTokenAsync(CustomWebApplicationFactory factory, string jwt)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.ReadJwtToken(jwt);
+            var userId = token.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+
+            return await DbHelper.FindAsync<ApplicationUser>(factory, Guid.Parse(userId));
+        }
+
+        /// <summary>
         /// Runs as user
         /// </summary>
         /// <param name="factory">The factory instance</param>
@@ -51,7 +82,7 @@ namespace Application.IntegrationTests.Helpers
                 throw new Exception("Failed to get user or role manager");
             }
 
-            var user = new ApplicationUser {Email = userName, UserName = userName};
+            var user = new ApplicationUser { Email = userName, UserName = userName };
 
             var createdUser = await userManager.CreateAsync(user, password);
 
