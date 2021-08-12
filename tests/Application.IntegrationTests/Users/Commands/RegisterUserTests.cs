@@ -1,14 +1,7 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Application.IntegrationTests.Helpers;
 using Application.Users.Commands.RegisterUser;
-using Application.Users.Responses;
 using FluentAssertions;
-using Infrastructure.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
 namespace Application.IntegrationTests.Users.Commands
@@ -33,8 +26,7 @@ namespace Application.IntegrationTests.Users.Commands
 
             var result = await _mediator.Send(command);
 
-            result.Should().BeOfType<AuthSuccessResponse>();
-            var jwt = result.As<AuthSuccessResponse>().Token;
+            var jwt = result.Token;
             jwt.Should().NotBeNullOrEmpty();
 
             var user = await AuthHelper.GetUserByTokenAsync(_factory, jwt);
@@ -58,19 +50,22 @@ namespace Application.IntegrationTests.Users.Commands
                 Username = "Test",
                 Password = "Qwerty123_"
             };
-            
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().BeOfType<BadRequestObjectResult>();
+
+            var result = await _mediator.Send(command);
+
+            result.Success.Should().BeFalse();
+            result.Token.Should().BeNullOrEmpty();
+            result.ErrorMessages.Should().NotBeNullOrEmpty();
         }
         
         /// <summary>
-        /// Register user should throw when one or more properties are invalid
+        /// Register user should return error messages when one or more properties are invalid
         /// </summary>
         [Theory]
         [InlineData("email.com", "us", "password")]
         [InlineData("email@.com", "us", "Password")]
-        [InlineData("email@@email.com", "user", "Password123_")]
-        public void ShouldThrowWhenPropertiesAreInvalid(string email, string username, string password)
+        [InlineData("adgsg", "user", "P")]
+        public async Task ShouldReturnErrorMessagesWhenPropertiesAreInvalid(string email, string username, string password)
         {
             var command = new RegisterUserCommand()
             {
@@ -79,18 +74,21 @@ namespace Application.IntegrationTests.Users.Commands
                 Password = password
             };
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().BeOfType<BadRequestObjectResult>();
+            var result = await _mediator.Send(command);
+
+            result.Success.Should().BeFalse();
+            result.Token.Should().BeNullOrEmpty();
+            result.ErrorMessages.Should().NotBeNullOrEmpty();
         }
         
         /// <summary>
-        /// Register user should not throw when properties are valid
+        /// Register user should return token when properties are valid
         /// </summary>
         [Theory]
         [InlineData("email@test.com", "user", "Password123_")]
-        [InlineData("email@gmail.com", "User", "123___!dasfa")]
+        [InlineData("email@gmail.com", "User", "Test123!@fa")]
         [InlineData("EMAIL@TEST.COM", "user", "Password!!!!123_")]
-        public void ShouldNotThrowWhenPropertiesAreValid(string email, string username, string password)
+        public async Task ShouldReturnTokenWhenPropertiesAreValid(string email, string username, string password)
         {
             var command = new RegisterUserCommand()
             {
@@ -99,8 +97,11 @@ namespace Application.IntegrationTests.Users.Commands
                 Password = password
             };
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().BeOfType<BadRequestObjectResult>();
+            var result = await _mediator.Send(command);
+
+            result.Success.Should().BeTrue();
+            result.Token.Should().NotBeNullOrEmpty();
+            result.ErrorMessages.Should().BeNullOrEmpty();
         }
     }
 }

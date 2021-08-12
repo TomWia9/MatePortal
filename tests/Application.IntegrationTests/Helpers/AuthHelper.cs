@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Users;
 using Application.Users.Commands.RegisterUser;
 using Application.Users.Responses;
 using Infrastructure.Identity;
@@ -41,7 +42,7 @@ namespace Application.IntegrationTests.Helpers
         /// </summary>
         /// <param name="mediator">The mediator instance</param>
         /// <returns></returns>
-        public static async Task<IAuthResponse> RegisterTestUserAsync(ISender mediator)
+        public static async Task<AuthenticationResult> RegisterTestUserAsync(ISender mediator)
         {
             var registerUserCommand = new RegisterUserCommand()
             {

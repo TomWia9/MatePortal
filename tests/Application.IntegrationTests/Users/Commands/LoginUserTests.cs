@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Application.IntegrationTests.Helpers;
+using Application.Users;
 using Application.Users.Commands.LoginUser;
-using Application.Users.Responses;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
 namespace Application.IntegrationTests.Users.Commands
@@ -29,19 +28,19 @@ namespace Application.IntegrationTests.Users.Commands
 
             var result = await _mediator.Send(command);
 
-            result.Should().BeOfType<AuthSuccessResponse>();
-            var jwt = result.As<AuthSuccessResponse>().Token;
+            result.Should().BeOfType<AuthenticationResult>();
+            var jwt = result.Token;
             jwt.Should().NotBeNullOrEmpty();
         }
 
         /// <summary>
-        /// Login user should throw when one or more properties are invalid
+        /// Login user should return error messages when one or more properties are invalid
         /// </summary>
         [Theory]
         [InlineData("test.com", "test")]
         [InlineData("test@test.com", "test")]
         [InlineData("test.com", "Test123_")]
-        public async Task ShouldThrowWhenWhenPropertiesAreInvalid(string email, string password)
+        public async Task ShouldReturnErrorMessagesWhenPropertiesAreInvalid(string email, string password)
         {
             await AuthHelper.RegisterTestUserAsync(_mediator);
 
@@ -51,8 +50,11 @@ namespace Application.IntegrationTests.Users.Commands
                 Password = password
             };
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().BeOfType<BadRequestObjectResult>();
+            var result = await _mediator.Send(command);
+
+            result.Success.Should().BeFalse();
+            result.Token.Should().BeNullOrEmpty();
+            result.ErrorMessages.Should().NotBeNullOrEmpty();
         }
     }
 }

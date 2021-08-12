@@ -16,14 +16,14 @@ namespace Application.IntegrationTests.Users.Commands
         {
             //First, register user
             var result = await AuthHelper.RegisterTestUserAsync(_mediator);
-            var token = result.As<AuthSuccessResponse>().Token;
+            var token = result.Token;
             var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
             var userId = user.Id;
 
             _factory.CurrentUserId = userId;
             _factory.CurrentUserRole = Roles.User;
 
-            await _mediator.Send(new DeleteUserCommand() { UserId = userId });
+            await _mediator.Send(new DeleteUserCommand() { UserId = userId, Password = "Qwerty123_"});
 
             user = await AuthHelper.GetUserByTokenAsync(_factory, token);
 
@@ -31,28 +31,26 @@ namespace Application.IntegrationTests.Users.Commands
         }
 
         [Fact]
-        public async Task UserShouldNotBeAbleToDeleteOtherUserAccount()
+        public async Task UserShouldNotBeAbleToDeleteAccountWhenProvidedPasswordIsInvalid()
         {
             //First, register user
             var result = await AuthHelper.RegisterTestUserAsync(_mediator);
-            var token = result.As<AuthSuccessResponse>().Token;
+            var token = result.Token;
             var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
             var userId = user.Id;
-
-            await AuthHelper.RunAsDefaultUserAsync(_factory);
-
+            
             FluentActions.Invoking(() =>
-                    _mediator.Send(new DeleteUserCommand() { UserId = userId }))
+                    _mediator.Send(new DeleteUserCommand() { UserId = userId, Password = "123"}))
                 .Should()
                 .Throw<ForbiddenAccessException>();
         }
 
         [Fact]
-        public async Task AdminShouldBeAbleToDeleteUserAccount()
+        public async Task AdminShouldBeAbleToDeleteUserAccountWithoutProvidingPassword()
         {
             //First, register user
             var result = await AuthHelper.RegisterTestUserAsync(_mediator);
-            var token = result.As<AuthSuccessResponse>().Token;
+            var token = result.Token;
             var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
             var userId = user.Id;
 
