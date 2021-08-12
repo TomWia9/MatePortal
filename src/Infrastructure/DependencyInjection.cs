@@ -30,6 +30,7 @@ namespace Infrastructure
 
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient(typeof(ISortService<>), typeof(SortService<>));
+            services.AddTransient<IUsersService, UsersService>();
 
             return services;
         }

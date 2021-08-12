@@ -32,7 +32,8 @@ namespace Application.IntegrationTests.Users.Queries
 
             var response =
                 await _mediator.Send(new GetUsersQuery(new UsersQueryParameters()));
-            response.Count.Should().Be(2);
+
+            response.Count.Should().Be(3); //2 users + seeded admin
         }
 
         /// <summary>

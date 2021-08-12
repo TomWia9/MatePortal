@@ -12,15 +12,20 @@ namespace Application.Users.Commands.UpdateUser
         /// User's ID
         /// </summary>
         public Guid UserId { get; set; }
-        
+
         /// <summary>
         /// User's username
         /// </summary>
         public string Username { get; set; }
-        
+
         /// <summary>
-        /// User's password
+        /// User's current password
         /// </summary>
-        public string Password { get; set; }
+        public string CurrentPassword { get; set; }
+
+        /// <summary>
+        /// User's new password
+        /// </summary>
+        public string NewPassword { get; set; }
     }
 }

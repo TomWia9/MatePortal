@@ -4,7 +4,6 @@ using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
 using Application.Users.Queries;
 using Application.Users.Queries.GetUser;
-using Application.Users.Responses;
 using FluentAssertions;
 using Xunit;
 
@@ -23,7 +22,7 @@ namespace Application.IntegrationTests.Users.Queries
         {
             //First, register user
             var result = await AuthHelper.RegisterTestUserAsync(_mediator);
-            var token = result.As<AuthSuccessResponse>().Token;
+            var token = result.Token;
             var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
             var userId = user.Id;
 

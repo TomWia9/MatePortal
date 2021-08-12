@@ -12,5 +12,10 @@ namespace Application.Users.Commands.DeleteUser
         /// User's ID
         /// </summary>
         public Guid UserId { get; set; }
+
+        /// <summary>
+        /// User's password
+        /// </summary>
+        public string Password { get; set; }
     }
 }

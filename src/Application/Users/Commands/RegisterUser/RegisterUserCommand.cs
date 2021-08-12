@@ -1,12 +1,11 @@
-﻿using Application.Users.Responses;
-using MediatR;
+﻿using MediatR;
 
 namespace Application.Users.Commands.RegisterUser
 {
     /// <summary>
     /// Register user command
     /// </summary>
-    public class RegisterUserCommand : IRequest<IAuthResponse>
+    public class RegisterUserCommand : IRequest<AuthenticationResult>
     {
         /// <summary>
         /// User's email
