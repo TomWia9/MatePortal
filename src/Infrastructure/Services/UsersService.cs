@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
-using Application.Common.Mappings;
 using Application.Common.Models;
 using Application.Users.Commands.DeleteUser;
 using Application.Users.Commands.UpdateUser;
@@ -19,27 +18,27 @@ using Microsoft.AspNetCore.Identity;
 namespace Infrastructure.Services
 {
     /// <summary>
-    /// Users service
+    ///     Users service
     /// </summary>
     public class UsersService : IUsersService
     {
         /// <summary>
-        /// User manager
-        /// </summary>
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly ApplicationDbContext _context;
 
         /// <summary>
-        /// Sort service
+        ///     Sort service
         /// </summary>
         private readonly ISortService<ApplicationUser> _sortService;
 
         /// <summary>
-        /// Initializes UsersService
+        ///     User manager
+        /// </summary>
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        /// <summary>
+        ///     Initializes UsersService
         /// </summary>
         /// <param name="userManager">User manager</param>
         /// <param name="context">Database context</param>
@@ -53,7 +52,7 @@ namespace Infrastructure.Services
         }
 
         /// <summary>
-        /// Updates user
+        ///     Updates user
         /// </summary>
         /// <param name="request">Update user command</param>
         public async Task UpdateUserAsync(UpdateUserCommand request)
@@ -65,7 +64,7 @@ namespace Infrastructure.Services
         }
 
         /// <summary>
-        /// Deletes user
+        ///     Deletes user
         /// </summary>
         /// <param name="request">Delete user command</param>
         /// <param name="adminAccess">Administrator access</param>
@@ -80,7 +79,7 @@ namespace Infrastructure.Services
         }
 
         /// <summary>
-        /// Gets user 
+        ///     Gets user
         /// </summary>
         /// <param name="request">Get user query</param>
         /// <exception cref="NotFoundException">Throws when user is not found</exception>
@@ -88,12 +87,9 @@ namespace Infrastructure.Services
         {
             var entity = await _context.Users.FindAsync(request.UserId);
 
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(ApplicationUser), request.UserId);
-            }
+            if (entity == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
-            return new UserDto()
+            return new UserDto
             {
                 Id = entity.Id,
                 Email = entity.Email,
@@ -102,7 +98,7 @@ namespace Infrastructure.Services
         }
 
         /// <summary>
-        /// Gets users
+        ///     Gets users
         /// </summary>
         /// <param name="request">Get users query</param>
         public async Task<PaginatedList<UserDto>> GetUsersAsync(GetUsersQuery request)
@@ -124,7 +120,7 @@ namespace Infrastructure.Services
                 var sortingColumns = new Dictionary<string, Expression<Func<ApplicationUser, object>>>
                 {
                     { nameof(ApplicationUser.UserName), u => u.UserName },
-                    { nameof(ApplicationUser.Email), u => u.Email },
+                    { nameof(ApplicationUser.Email), u => u.Email }
                 };
 
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,
@@ -144,8 +140,8 @@ namespace Infrastructure.Services
 
         private static IList<UserDto> MapUsers(IEnumerable<ApplicationUser> collection)
         {
-            return collection.Select(user => new UserDto()
-                { Id = user.Id, Email = user.Email, Username = user.UserName }).ToList();
+            return collection.Select(user => new UserDto { Id = user.Id, Email = user.Email, Username = user.UserName })
+                .ToList();
         }
     }
 }

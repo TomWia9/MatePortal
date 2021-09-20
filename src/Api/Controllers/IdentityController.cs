@@ -23,14 +23,12 @@ namespace Api.Controllers
             var result = await _mediator.Send(request);
 
             if (!result.Success)
-            {
-                return BadRequest(new AuthFailedResponse()
+                return BadRequest(new AuthFailedResponse
                 {
                     ErrorMessages = result.ErrorMessages
                 });
-            }
 
-            return Ok(new AuthSuccessResponse()
+            return Ok(new AuthSuccessResponse
             {
                 Token = result.Token
             });
@@ -42,14 +40,12 @@ namespace Api.Controllers
             var result = await _mediator.Send(request);
 
             if (!result.Success)
-            {
-                return BadRequest(new AuthFailedResponse()
+                return BadRequest(new AuthFailedResponse
                 {
                     ErrorMessages = result.ErrorMessages
                 });
-            }
 
-            return Ok(new AuthSuccessResponse()
+            return Ok(new AuthSuccessResponse
             {
                 Token = result.Token
             });

@@ -4,16 +4,16 @@ using Application.Common.QueryParameters;
 namespace Application.YerbaMates.Queries
 {
     /// <summary>
-    /// Yerba mates query parameters
+    ///     Yerba mates query parameters
     /// </summary>
     public class YerbaMatesQueryParameters : QueryParameters
     {
-        private string _country;
         private string _brand;
         private string _category;
+        private string _country;
 
         /// <summary>
-        /// Country parameter that indicates from which country yerba mates should be taken
+        ///     Country parameter that indicates from which country yerba mates should be taken
         /// </summary>
         public string Country
         {
@@ -22,7 +22,7 @@ namespace Application.YerbaMates.Queries
         }
 
         /// <summary>
-        /// Brand parameter that indicates from which brand yerba mates should be taken
+        ///     Brand parameter that indicates from which brand yerba mates should be taken
         /// </summary>
         public string Brand
         {
@@ -31,7 +31,7 @@ namespace Application.YerbaMates.Queries
         }
 
         /// <summary>
-        /// Category parameter that indicates from which category yerba mates should be taken
+        ///     Category parameter that indicates from which category yerba mates should be taken
         /// </summary>
         public string Category
         {
@@ -40,7 +40,7 @@ namespace Application.YerbaMates.Queries
         }
 
         /// <summary>
-        /// Maximum price parameter
+        ///     Maximum price parameter
         /// </summary>
         public decimal? MaxPrice { get; set; }
     }

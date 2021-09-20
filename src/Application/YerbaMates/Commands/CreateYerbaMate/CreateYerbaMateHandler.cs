@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Categories.Queries;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.YerbaMates.Queries;
@@ -12,22 +11,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.YerbaMates.Commands.CreateYerbaMate
 {
     /// <summary>
-    /// Create yerba mate handler
+    ///     Create yerba mate handler
     /// </summary>
     public class CreateYerbaMateHandler : IRequestHandler<CreateYerbaMateCommand, YerbaMateDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes CreateYerbaMateHandler
+        ///     Initializes CreateYerbaMateHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -38,7 +37,7 @@ namespace Application.YerbaMates.Commands.CreateYerbaMate
         }
 
         /// <summary>
-        /// Handles creating yerba mate
+        ///     Handles creating yerba mate
         /// </summary>
         /// <param name="request">The create yerba mate request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -47,23 +46,17 @@ namespace Application.YerbaMates.Commands.CreateYerbaMate
         /// <exception cref="ConflictException">Thrown when yerba mate name conflicts with another yerba mate name</exception>
         public async Task<YerbaMateDto> Handle(CreateYerbaMateCommand request, CancellationToken cancellationToken)
         {
-            if (await _context.YerbaMate.AnyAsync(s => s.Name == request.Name, cancellationToken: cancellationToken))
-            {
+            if (await _context.YerbaMate.AnyAsync(s => s.Name == request.Name, cancellationToken))
                 throw new ConflictException();
-            }
 
-            if (!await _context.Brands.AnyAsync(b => b.Id == request.BrandId, cancellationToken: cancellationToken))
-            {
+            if (!await _context.Brands.AnyAsync(b => b.Id == request.BrandId, cancellationToken))
                 throw new NotFoundException(nameof(Brand), request.BrandId);
-            }
 
             if (!await _context.Categories.AnyAsync(c => c.Id == request.CategoryId,
-                cancellationToken: cancellationToken))
-            {
+                cancellationToken))
                 throw new NotFoundException(nameof(Category), request.CategoryId);
-            }
 
-            var entity = new YerbaMate()
+            var entity = new YerbaMate
             {
                 Name = request.Name,
                 Description = request.Description,
@@ -76,11 +69,11 @@ namespace Application.YerbaMates.Commands.CreateYerbaMate
             //entity.DomainEvents.Add(new YerbaMateCreatedEvent(entity));
             _context.YerbaMate.Add(entity);
             await _context.SaveChangesAsync(cancellationToken);
-            
+
             entity = await _context.YerbaMate
                 .Include(y => y.Brand)
                 .Include(y => y.Brand.Country)
-                .Include(y => y.Category).FirstOrDefaultAsync(y => y.Id == entity.Id, cancellationToken: cancellationToken);
+                .Include(y => y.Category).FirstOrDefaultAsync(y => y.Id == entity.Id, cancellationToken);
 
             var yerbaMateDto = _mapper.Map<YerbaMateDto>(entity);
 

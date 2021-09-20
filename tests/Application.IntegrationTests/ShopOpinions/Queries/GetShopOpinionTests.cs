@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.ShopOpinions.Queries
 {
     /// <summary>
-    /// Get single shop opinion tests
+    ///     Get single shop opinion tests
     /// </summary>
     public class GetShopOpinionTests : IntegrationTest
     {
         /// <summary>
-        /// Get shop opinion command should return correct shop opinion data transfer object
+        ///     Get shop opinion command should return correct shop opinion data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldReturnCorrectShopOpinion()
@@ -24,7 +24,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
 
             var shopOpinionId = Guid.Parse("A0EDB43D-5195-4458-8C4B-8F6F9FD7E5C9"); //id of one of seeded shop opinion
 
-            var expectedResult = new ShopOpinionDto()
+            var expectedResult = new ShopOpinionDto
             {
                 Id = shopOpinionId,
                 Rate = 10,
@@ -40,7 +40,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
         }
 
         /// <summary>
-        /// Get shop opinion with incorrect id should throw not found exception
+        ///     Get shop opinion with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void GetShopOpinionWithIncorrectIdShouldThrowNotFound()

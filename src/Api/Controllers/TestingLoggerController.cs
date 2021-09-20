@@ -13,7 +13,7 @@ namespace Api.Controllers
         {
             _logger = logger;
         }
-        
+
         [HttpGet("Debug")]
         public IActionResult LogDebug()
         {

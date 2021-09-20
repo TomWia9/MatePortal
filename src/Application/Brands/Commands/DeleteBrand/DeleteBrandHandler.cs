@@ -8,17 +8,17 @@ using MediatR;
 namespace Application.Brands.Commands.DeleteBrand
 {
     /// <summary>
-    /// Delete brand handler
+    ///     Delete brand handler
     /// </summary>
     public class DeleteBrandHandler : IRequestHandler<DeleteBrandCommand>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// Initializes DeleteBrandHandler
+        ///     Initializes DeleteBrandHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public DeleteBrandHandler(IApplicationDbContext context)
@@ -27,7 +27,7 @@ namespace Application.Brands.Commands.DeleteBrand
         }
 
         /// <summary>
-        /// Handles deleting brand
+        ///     Handles deleting brand
         /// </summary>
         /// <param name="request">Delete brand request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -36,10 +36,7 @@ namespace Application.Brands.Commands.DeleteBrand
         {
             var entity = await _context.Brands.FindAsync(request.BrandId);
 
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Brand), request.BrandId);
-            }
+            if (entity == null) throw new NotFoundException(nameof(Brand), request.BrandId);
 
             _context.Brands.Remove(entity);
 

@@ -11,21 +11,21 @@ using Xunit;
 namespace Application.IntegrationTests.ShopOpinions.Commands
 {
     /// <summary>
-    /// Update shop opinion tests
+    ///     Update shop opinion tests
     /// </summary>
     public class UpdateShopOpinionTests : IntegrationTest
     {
         /// <summary>
-        /// Update shop opinion with incorrect id should throw not found exception
+        ///     Update shop opinion with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateShopOpinionWithIncorrectIdShouldThrowNotFound()
         {
-            var command = new UpdateShopOpinionCommand()
+            var command = new UpdateShopOpinionCommand
             {
                 ShopId = Guid.Empty,
                 Rate = 2,
-                Comment = "Updated comment",
+                Comment = "Updated comment"
             };
 
             FluentActions.Invoking(() =>
@@ -33,7 +33,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
         }
 
         /// <summary>
-        /// Update shop opinion command should update shop opinion
+        ///     Update shop opinion command should update shop opinion
         /// </summary>
         [Fact]
         public async Task UpdateShopOpinionShouldUpdateShopOpinion()
@@ -43,7 +43,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
 
             var shopOpinionId = Guid.Parse("A0EDB43D-5195-4458-8C4B-8F6F9FD7E5C9"); //one of seeded shop opinions
 
-            var command = new UpdateShopOpinionCommand()
+            var command = new UpdateShopOpinionCommand
             {
                 ShopOpinionId = shopOpinionId,
                 Rate = 4,
@@ -64,7 +64,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
         }
 
         /// <summary>
-        /// User should not be able to update other user shop opinion
+        ///     User should not be able to update other user shop opinion
         /// </summary>
         [Fact]
         public async Task UserShouldNotBeAbleToUpdateOtherUserShopOpinion()
@@ -73,7 +73,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
             await AuthHelper.RunAsDefaultUserAsync(_factory);
 
             //create shop opinion firstly
-            var shopOpinionToUpdateDto = await _mediator.Send(new CreateShopOpinionCommand()
+            var shopOpinionToUpdateDto = await _mediator.Send(new CreateShopOpinionCommand
             {
                 Rate = 10,
                 Comment = "test",
@@ -84,13 +84,13 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
             _factory.CurrentUserId = Guid.NewGuid();
 
             FluentActions.Invoking(() =>
-                    _mediator.Send(new UpdateShopOpinionCommand()
-                        {ShopOpinionId = shopOpinionToUpdateDto.Id, Comment = "test", Rate = 1})).Should()
+                    _mediator.Send(new UpdateShopOpinionCommand
+                        { ShopOpinionId = shopOpinionToUpdateDto.Id, Comment = "test", Rate = 1 })).Should()
                 .Throw<ForbiddenAccessException>();
         }
 
         /// <summary>
-        /// Administrator should be able to update user shop opinion
+        ///     Administrator should be able to update user shop opinion
         /// </summary>
         [Fact]
         public async Task AdministratorShouldBeAbleToUpdateUserShopOpinion()
@@ -99,7 +99,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
             await TestSeeder.SeedTestShopsAsync(_factory);
 
             //create shop opinion firstly
-            var shopOpinionToUpdateDto = await _mediator.Send(new CreateShopOpinionCommand()
+            var shopOpinionToUpdateDto = await _mediator.Send(new CreateShopOpinionCommand
             {
                 Rate = 10,
                 Comment = "test",
@@ -109,7 +109,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
             //change user
             var adminId = await AuthHelper.RunAsAdministratorAsync(_factory);
 
-            var command = new UpdateShopOpinionCommand()
+            var command = new UpdateShopOpinionCommand
             {
                 ShopOpinionId = shopOpinionToUpdateDto.Id,
                 Comment = "test1",

@@ -6,17 +6,17 @@ using MediatR;
 namespace Application.Users.Commands.LoginUser
 {
     /// <summary>
-    /// Login user handler
+    ///     Login user handler
     /// </summary>
     public class LoginUserHandler : IRequestHandler<LoginUserCommand, AuthenticationResult>
     {
         /// <summary>
-        /// Identity service
+        ///     Identity service
         /// </summary>
         private readonly IIdentityService _identityService;
 
         /// <summary>
-        /// Initializes LoginUserHandler
+        ///     Initializes LoginUserHandler
         /// </summary>
         /// <param name="identityService">Identity service</param>
         public LoginUserHandler(IIdentityService identityService)
@@ -25,7 +25,7 @@ namespace Application.Users.Commands.LoginUser
         }
 
         /// <summary>
-        /// Handles login user
+        ///     Handles login user
         /// </summary>
         /// <param name="request">The login user request</param>
         /// <param name="cancellationToken">Cancellation token</param>

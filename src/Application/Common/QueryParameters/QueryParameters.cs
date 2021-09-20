@@ -6,7 +6,7 @@ namespace Application.Common.QueryParameters
     {
         private const int maxPageSize = 30;
         private int _pageSize = 10;
-        
+
         public string SortBy { get; set; }
         public SortDirection SortDirection { get; set; } = SortDirection.ASC;
         public string SearchQuery { get; set; }

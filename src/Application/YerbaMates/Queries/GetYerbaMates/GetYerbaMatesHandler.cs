@@ -16,27 +16,27 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.YerbaMates.Queries.GetYerbaMates
 {
     /// <summary>
-    /// Get yerba mates handler
+    ///     Get yerba mates handler
     /// </summary>
     public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, PaginatedList<YerbaMateDto>>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Sort service
+        ///     Sort service
         /// </summary>
         private readonly ISortService<YerbaMate> _sortService;
 
         /// <summary>
-        /// Initializes GetYerbaMatesHandler
+        ///     Initializes GetYerbaMatesHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -51,7 +51,7 @@ namespace Application.YerbaMates.Queries.GetYerbaMates
         }
 
         /// <summary>
-        /// Handles getting yerba mates
+        ///     Handles getting yerba mates
         /// </summary>
         /// <param name="request">Get yerba mates request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -60,10 +60,7 @@ namespace Application.YerbaMates.Queries.GetYerbaMates
         public async Task<PaginatedList<YerbaMateDto>> Handle(GetYerbaMatesQuery request,
             CancellationToken cancellationToken)
         {
-            if (request.Parameters == null)
-            {
-                throw new ArgumentNullException(nameof(request.Parameters));
-            }
+            if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
             var collection = _context.YerbaMate
                 .Include(y => y.Brand)
@@ -73,24 +70,16 @@ namespace Application.YerbaMates.Queries.GetYerbaMates
 
             //filtering
             if (request.Parameters.Brand != null)
-            {
                 collection = collection.Where(y => y.Brand.Name == request.Parameters.Brand);
-            }
 
             if (request.Parameters.Country != null)
-            {
                 collection = collection.Where(y => y.Brand.Country.Name == request.Parameters.Country);
-            }
 
             if (request.Parameters.Category != null)
-            {
                 collection = collection.Where(y => y.Category.Name == request.Parameters.Category);
-            }
 
             if (request.Parameters.MaxPrice != null)
-            {
                 collection = collection.Where(y => y.AveragePrice <= request.Parameters.MaxPrice);
-            }
 
 
             //searching
@@ -113,7 +102,7 @@ namespace Application.YerbaMates.Queries.GetYerbaMates
                     { nameof(YerbaMate.Name), y => y.Name },
                     { nameof(YerbaMate.AveragePrice), y => y.AveragePrice },
                     { nameof(YerbaMate.Opinions), y => y.Opinions.Count },
-                    { nameof(YerbaMate.Favourites), y => y.Favourites.Count },
+                    { nameof(YerbaMate.Favourites), y => y.Favourites.Count }
                 };
 
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,

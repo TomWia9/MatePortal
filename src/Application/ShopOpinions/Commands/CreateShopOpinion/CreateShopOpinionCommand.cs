@@ -5,22 +5,22 @@ using MediatR;
 namespace Application.ShopOpinions.Commands.CreateShopOpinion
 {
     /// <summary>
-    /// Create shop opinion command
+    ///     Create shop opinion command
     /// </summary>
     public class CreateShopOpinionCommand : IRequest<ShopOpinionDto>
     {
         /// <summary>
-        /// Shop opinion rate
+        ///     Shop opinion rate
         /// </summary>
         public int Rate { get; set; }
 
         /// <summary>
-        /// Shop opinion comment
+        ///     Shop opinion comment
         /// </summary>
         public string Comment { get; set; }
 
         /// <summary>
-        /// Shop ID
+        ///     Shop ID
         /// </summary>
         public Guid ShopId { get; set; }
     }

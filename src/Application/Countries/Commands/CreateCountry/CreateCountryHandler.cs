@@ -11,22 +11,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Countries.Commands.CreateCountry
 {
     /// <summary>
-    /// Create country handler
+    ///     Create country handler
     /// </summary>
     public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, CountryDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes CreateCountryHandler
+        ///     Initializes CreateCountryHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -37,24 +37,21 @@ namespace Application.Countries.Commands.CreateCountry
         }
 
         /// <summary>
-        /// Handles creating country
+        ///     Handles creating country
         /// </summary>
         /// <param name="request">Create country request</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Country data transfer object</returns>
         /// <exception cref="ConflictException">Thrown when country conflicts with another country</exception>
-
         public async Task<CountryDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
         {
             if (await _context.Countries.AnyAsync(c => c.Name == request.Name,
-                cancellationToken: cancellationToken))
-            {
+                cancellationToken))
                 throw new ConflictException();
-            }
 
-            var entity = new Country()
+            var entity = new Country
             {
-                Name = request.Name,
+                Name = request.Name
             };
 
             //entity.DomainEvents.Add(new CountryCreatedEvent(entity));

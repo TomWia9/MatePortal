@@ -1,22 +1,21 @@
 ﻿using System;
 using Application.Common.Mappings;
-using AutoMapper;
 using Domain.Entities;
 
 namespace Application.Favourites.Queries
 {
     /// <summary>
-    /// Favourite data transfer object
+    ///     Favourite data transfer object
     /// </summary>
     public class FavouriteDto : IMapFrom<Favourite>
     {
         /// <summary>
-        /// Favourite ID
+        ///     Favourite ID
         /// </summary>
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Yerba mate ID
+        ///     Yerba mate ID
         /// </summary>
         public Guid YerbaMateId { get; set; }
     }

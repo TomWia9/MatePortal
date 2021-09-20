@@ -11,22 +11,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Brands.Commands.CreateBrand
 {
     /// <summary>
-    /// Create brand handler
+    ///     Create brand handler
     /// </summary>
     public class CreateBrandHandler : IRequestHandler<CreateBrandCommand, BrandDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes CreateBrandHandler
+        ///     Initializes CreateBrandHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -37,7 +37,7 @@ namespace Application.Brands.Commands.CreateBrand
         }
 
         /// <summary>
-        /// Handles creating brand
+        ///     Handles creating brand
         /// </summary>
         /// <param name="request">The create brand request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -46,19 +46,14 @@ namespace Application.Brands.Commands.CreateBrand
         /// <exception cref="ConflictException">Thrown when brand conflicts with another brand</exception>
         public async Task<BrandDto> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
-            if (await _context.Brands.AnyAsync(b => b.Name == request.Name, cancellationToken: cancellationToken))
-            {
+            if (await _context.Brands.AnyAsync(b => b.Name == request.Name, cancellationToken))
                 throw new ConflictException();
-            }
-            
+
             var brandCountry = await _context.Countries.FindAsync(request.CountryId);
 
-            if (brandCountry == null)
-            {
-                throw new NotFoundException(nameof(Country), request.CountryId);
-            }
+            if (brandCountry == null) throw new NotFoundException(nameof(Country), request.CountryId);
 
-            var entity = new Brand()
+            var entity = new Brand
             {
                 Name = request.Name,
                 CountryId = request.CountryId,

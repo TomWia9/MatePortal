@@ -2,7 +2,6 @@
 using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
 using Application.Users.Commands.DeleteUser;
-using Application.Users.Responses;
 using FluentAssertions;
 using Infrastructure.Identity;
 using Xunit;
@@ -23,7 +22,7 @@ namespace Application.IntegrationTests.Users.Commands
             _factory.CurrentUserId = userId;
             _factory.CurrentUserRole = Roles.User;
 
-            await _mediator.Send(new DeleteUserCommand() { UserId = userId, Password = "Qwerty123_"});
+            await _mediator.Send(new DeleteUserCommand { UserId = userId, Password = "Qwerty123_" });
 
             user = await AuthHelper.GetUserByTokenAsync(_factory, token);
 
@@ -38,9 +37,9 @@ namespace Application.IntegrationTests.Users.Commands
             var token = result.Token;
             var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
             var userId = user.Id;
-            
+
             FluentActions.Invoking(() =>
-                    _mediator.Send(new DeleteUserCommand() { UserId = userId, Password = "123"}))
+                    _mediator.Send(new DeleteUserCommand { UserId = userId, Password = "123" }))
                 .Should()
                 .Throw<ForbiddenAccessException>();
         }
@@ -56,7 +55,7 @@ namespace Application.IntegrationTests.Users.Commands
 
             await AuthHelper.RunAsAdministratorAsync(_factory);
 
-            await _mediator.Send(new DeleteUserCommand() { UserId = userId });
+            await _mediator.Send(new DeleteUserCommand { UserId = userId });
 
             user = await AuthHelper.GetUserByTokenAsync(_factory, token);
 

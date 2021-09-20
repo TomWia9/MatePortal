@@ -60,14 +60,14 @@ namespace Api.Common
                 };
                 OpenApiSecurityRequirement securityRequirements = new()
                 {
-                    {securityScheme, Array.Empty<string>()}
+                    { securityScheme, Array.Empty<string>() }
                 };
                 setupAction.AddSecurityRequirement(securityRequirements);
 
                 //Collect all referenced projects output XML document file paths  
                 var currentAssembly = Assembly.GetExecutingAssembly();
                 var xmlDocs = currentAssembly.GetReferencedAssemblies()
-                    .Union(new[] {currentAssembly.GetName()})
+                    .Union(new[] { currentAssembly.GetName() })
                     .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location) ?? string.Empty,
                         $"{a.Name}.xml"))
                     .Where(File.Exists).ToList();
@@ -120,8 +120,9 @@ namespace Api.Common
 
             return services;
         }
-        
-        public static IServiceCollection AddInternalServices(this IServiceCollection services, IConfiguration configuration)
+
+        public static IServiceCollection AddInternalServices(this IServiceCollection services,
+            IConfiguration configuration)
         {
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             return services;

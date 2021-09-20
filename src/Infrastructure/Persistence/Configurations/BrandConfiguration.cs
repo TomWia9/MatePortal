@@ -13,7 +13,7 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasKey(b => b.Id);
 
             builder.HasMany(b => b.YerbaMate).WithOne(y => y.Brand);
-            
+
             builder.Property(b => b.Name).HasMaxLength(60).IsRequired();
             builder.Property(b => b.Description).HasMaxLength(1000).IsRequired();
         }

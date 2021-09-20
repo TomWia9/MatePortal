@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Shops.Queries
 {
     /// <summary>
-    /// Get shop tests
+    ///     Get shop tests
     /// </summary>
     public class GetShopTests : IntegrationTest
     {
         /// <summary>
-        /// Get shop command should return correct shop data transfer object
+        ///     Get shop command should return correct shop data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldReturnCorrectShop()
@@ -24,11 +24,11 @@ namespace Application.IntegrationTests.Shops.Queries
 
             var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //id of one of seeded shops
 
-            var expectedResult = new ShopDto()
+            var expectedResult = new ShopDto
             {
                 Id = shopId,
                 Name = "Matemundo",
-                Description = "Test description 1",
+                Description = "Test description 1"
             };
 
             var response = await _mediator.Send(new GetShopQuery(shopId));
@@ -38,7 +38,7 @@ namespace Application.IntegrationTests.Shops.Queries
         }
 
         /// <summary>
-        /// Get shop with incorrect id should throw not found exception
+        ///     Get shop with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void GetShopWithIncorrectIdShouldThrowNotFound()

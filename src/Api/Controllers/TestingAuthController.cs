@@ -24,12 +24,9 @@ namespace Api.Controllers
         {
             var userId = _currentUserService.UserId;
 
-            if (string.IsNullOrEmpty(userId.ToString()))
-            {
-                return BadRequest();
-            }
+            if (string.IsNullOrEmpty(userId.ToString())) return BadRequest();
 
-            return Ok(new {Id = userId, Role = HttpContext.User.IsInRole(Roles.User) ? "User" : "Not user"});
+            return Ok(new { Id = userId, Role = HttpContext.User.IsInRole(Roles.User) ? "User" : "Not user" });
         }
 
         [Authorize(Policy = "AdminAccess")]
@@ -38,10 +35,7 @@ namespace Api.Controllers
         {
             var userId = _currentUserService.UserId;
 
-            if (string.IsNullOrEmpty(userId.ToString()))
-            {
-                return BadRequest();
-            }
+            if (string.IsNullOrEmpty(userId.ToString())) return BadRequest();
 
             return Ok(new
             {

@@ -11,26 +11,26 @@ using Xunit;
 namespace Application.IntegrationTests.Brands.Commands
 {
     /// <summary>
-    /// Create brand tests
+    ///     Create brand tests
     /// </summary>
     public class CreateBrandTests : IntegrationTest
     {
         /// <summary>
-        /// Create brand should create brand and return brand data transfer object
+        ///     Create brand should create brand and return brand data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateBrandAndReturnBrandDto()
         {
             var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
 
-            var command = new CreateBrandCommand()
+            var command = new CreateBrandCommand
             {
                 CountryId = Guid.Parse("A42066F2-2998-47DC-A193-FF4C4080056F"), // One of seeded country
                 Name = "Test",
                 Description = "Test description"
             };
 
-            var expectedResult = new BrandDto()
+            var expectedResult = new BrandDto
             {
                 Name = command.Name,
                 Description = command.Description,
@@ -52,12 +52,12 @@ namespace Application.IntegrationTests.Brands.Commands
         }
 
         /// <summary>
-        /// Create brand with nonexistent country should throw not found
+        ///     Create brand with nonexistent country should throw not found
         /// </summary>
         [Fact]
         public void CreateBrandWithNonexistentCountryShouldThrowNotFound()
         {
-            var command = new CreateBrandCommand()
+            var command = new CreateBrandCommand
             {
                 CountryId = Guid.Parse("69FE90F5-6734-4E6B-BA81-2E03A95BB973"), //Nonexistent country id
                 Name = "Test",
@@ -69,19 +69,19 @@ namespace Application.IntegrationTests.Brands.Commands
         }
 
         /// <summary>
-        /// Brand should require unique name
+        ///     Brand should require unique name
         /// </summary>
         [Fact]
         public async Task ShouldRequireUniqueName()
         {
-            await _mediator.Send(new CreateBrandCommand()
+            await _mediator.Send(new CreateBrandCommand
             {
                 Name = "Test",
                 Description = "Test description",
                 CountryId = Guid.Parse("C08D5B41-C678-421B-9500-93D22004F9CF")
             });
 
-            var command = new CreateBrandCommand()
+            var command = new CreateBrandCommand
             {
                 Name = "Test",
                 Description = "Test description",

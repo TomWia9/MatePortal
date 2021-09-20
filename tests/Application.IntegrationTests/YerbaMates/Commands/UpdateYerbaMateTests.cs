@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.YerbaMates.Commands
 {
     /// <summary>
-    /// Update yerba mate tests
+    ///     Update yerba mate tests
     /// </summary>
     public class UpdateYerbaMateTests : IntegrationTest
     {
         /// <summary>
-        /// Update yerba mate with incorrect id should throw not found exception
+        ///     Update yerba mate with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateYerbaMateWithIncorrectIdShouldThrowNotFound()
@@ -29,7 +29,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
                 Description = "Test description",
                 imgUrl = "https://test.com",
                 AveragePrice = 12.32M,
-                CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), 
+                CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"),
                 BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239")
             };
 
@@ -38,7 +38,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         }
 
         /// <summary>
-        /// Update yerba mate command should update yerba mate
+        ///     Update yerba mate command should update yerba mate
         /// </summary>
         [Fact]
         public async Task UpdateYerbaMateShouldUpdateYerbaMate()
@@ -59,7 +59,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
                 imgUrl = "Updated img url",
                 AveragePrice = 14.32M,
                 CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), //one of seeded categories
-                BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"), //one of seeded brands
+                BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239") //one of seeded brands
             };
 
             await _mediator.Send(command);
@@ -73,7 +73,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
             item.CategoryId.Should().Be(command.CategoryId);
             item.BrandId.Should().Be(command.BrandId);
             item.CreatedBy.Should().NotBeNull();
-            item.LastModifiedBy.Should().NotBeNull();  
+            item.LastModifiedBy.Should().NotBeNull();
             item.LastModifiedBy.Should().Be(userId);
             item.LastModified.Should().NotBeNull();
             item.LastModified.Should().BeCloseTo(DateTime.Now, 1000);

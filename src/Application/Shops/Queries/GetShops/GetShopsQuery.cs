@@ -4,12 +4,12 @@ using MediatR;
 namespace Application.Shops.Queries.GetShops
 {
     /// <summary>
-    /// Get all shops query
+    ///     Get all shops query
     /// </summary>
     public class GetShopsQuery : IRequest<PaginatedList<ShopDto>>
     {
         /// <summary>
-        /// Initializes GetShopsQuery
+        ///     Initializes GetShopsQuery
         /// </summary>
         /// <param name="parameters">Shops query parameters</param>
         public GetShopsQuery(ShopsQueryParameters parameters)
@@ -18,7 +18,7 @@ namespace Application.Shops.Queries.GetShops
         }
 
         /// <summary>
-        /// Shops query parameters
+        ///     Shops query parameters
         /// </summary>
         public ShopsQueryParameters Parameters { get; }
     }

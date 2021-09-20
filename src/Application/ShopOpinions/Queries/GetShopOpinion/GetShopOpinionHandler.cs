@@ -10,22 +10,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.ShopOpinions.Queries.GetShopOpinion
 {
     /// <summary>
-    /// Get single shop opinion handler
+    ///     Get single shop opinion handler
     /// </summary>
     public class GetShopOpinionHandler : IRequestHandler<GetShopOpinionQuery, ShopOpinionDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes GetShopOpinionHandler
+        ///     Initializes GetShopOpinionHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -36,7 +36,7 @@ namespace Application.ShopOpinions.Queries.GetShopOpinion
         }
 
         /// <summary>
-        /// Handles getting shop opinion
+        ///     Handles getting shop opinion
         /// </summary>
         /// <param name="request">Get shop opinion request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -47,10 +47,7 @@ namespace Application.ShopOpinions.Queries.GetShopOpinion
             var entity = await _context.ShopOpinions
                 .FirstOrDefaultAsync(o => o.Id == request.ShopOpinionId, cancellationToken);
 
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(ShopOpinion), request.ShopOpinionId);
-            }
+            if (entity == null) throw new NotFoundException(nameof(ShopOpinion), request.ShopOpinionId);
 
             return _mapper.Map<ShopOpinionDto>(entity);
         }

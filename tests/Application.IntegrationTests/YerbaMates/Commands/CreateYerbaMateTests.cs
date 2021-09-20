@@ -13,12 +13,12 @@ using Xunit;
 namespace Application.IntegrationTests.YerbaMates.Commands
 {
     /// <summary>
-    /// Create yerba mate tests
+    ///     Create yerba mate tests
     /// </summary>
     public class CreateYerbaMateTests : IntegrationTest
     {
         /// <summary>
-        /// Create yerba mate should create yerba mate and return yerba mate data transfer object
+        ///     Create yerba mate should create yerba mate and return yerba mate data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateYerbaMateAndReturnYerbaMateDto()
@@ -27,18 +27,17 @@ namespace Application.IntegrationTests.YerbaMates.Commands
             await TestSeeder.SeedTestBrandsAsync(_factory);
             var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
 
-            var command = new CreateYerbaMateCommand()
+            var command = new CreateYerbaMateCommand
             {
                 Name = "Test",
                 Description = "Test description",
                 imgUrl = "https://test.com",
                 AveragePrice = 12.32M,
                 CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), //one of seeded categories
-                BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"), //one of seeded brands
-                
+                BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239") //one of seeded brands
             };
 
-            var expectedResult = new YerbaMateDto()
+            var expectedResult = new YerbaMateDto
             {
                 Name = command.Name,
                 Description = command.Description,
@@ -76,24 +75,24 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         }
 
         /// <summary>
-        /// Yerba Mate should require unique name
+        ///     Yerba Mate should require unique name
         /// </summary>
         [Fact]
         public async Task ShouldRequireUniqueName()
         {
             await TestSeeder.SeedTestBrandsAsync(_factory);
             await TestSeeder.SeedTestCategoriesAsync(_factory);
-            
-            var command = new CreateYerbaMateCommand()
+
+            var command = new CreateYerbaMateCommand
             {
                 Name = "Test",
                 Description = "Test description",
                 imgUrl = "https://test.com",
                 AveragePrice = 12.32M,
                 CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), //one of seeded categories
-                BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"), //one of seeded brands
+                BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239") //one of seeded brands
             };
-            
+
             await _mediator.Send(command);
 
             FluentActions.Invoking(() =>

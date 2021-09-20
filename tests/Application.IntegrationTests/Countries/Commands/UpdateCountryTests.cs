@@ -10,19 +10,19 @@ using Xunit;
 namespace Application.IntegrationTests.Countries.Commands
 {
     /// <summary>
-    /// Update country tests
+    ///     Update country tests
     /// </summary>
     public class UpdateCountryTests : IntegrationTest
     {
         /// <summary>
-        /// Update country with incorrect id should throw not found exception
+        ///     Update country with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateCountryWithIncorrectIdShouldThrowNotFound()
         {
             var countryId = Guid.Empty;
 
-            var command = new UpdateCountryCommand()
+            var command = new UpdateCountryCommand
             {
                 CountryId = countryId,
                 Name = "test"
@@ -33,14 +33,14 @@ namespace Application.IntegrationTests.Countries.Commands
         }
 
         /// <summary>
-        /// Update country command should update country
+        ///     Update country command should update country
         /// </summary>
         [Fact]
         public async Task UpdateCountryShouldUpdateCountry()
         {
             var countryId = Guid.Parse("A7BBB4DA-12D5-4227-B6BA-690ECF40CD86"); //one of seeded countries
 
-            var command = new UpdateCountryCommand()
+            var command = new UpdateCountryCommand
             {
                 CountryId = countryId,
                 Name = "Updated country"

@@ -15,12 +15,17 @@ using Moq;
 namespace Application.IntegrationTests
 {
     /// <summary>
-    /// Custom web application factory
+    ///     Custom web application factory
     /// </summary>
     public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
     {
         /// <summary>
-        /// Initializes CustomWebApplicationFactory
+        ///     Database name
+        /// </summary>
+        private readonly string _databaseName;
+
+        /// <summary>
+        ///     Initializes CustomWebApplicationFactory
         /// </summary>
         public CustomWebApplicationFactory()
         {
@@ -28,22 +33,17 @@ namespace Application.IntegrationTests
         }
 
         /// <summary>
-        /// Database name
-        /// </summary>
-        private readonly string _databaseName;
-
-        /// <summary>
-        /// Current user ID
+        ///     Current user ID
         /// </summary>
         public Guid CurrentUserId { get; set; }
 
         /// <summary>
-        /// Current user role
+        ///     Current user role
         /// </summary>
         public string CurrentUserRole { get; set; }
-        
+
         /// <summary>
-        /// Configures web host
+        ///     Configures web host
         /// </summary>
         /// <param name="builder">The builder</param>
         protected override void ConfigureWebHost(IWebHostBuilder builder)

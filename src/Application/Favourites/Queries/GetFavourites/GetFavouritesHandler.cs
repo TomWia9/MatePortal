@@ -12,22 +12,22 @@ using MediatR;
 namespace Application.Favourites.Queries.GetFavourites
 {
     /// <summary>
-    /// Get user's favourites handler
+    ///     Get user's favourites handler
     /// </summary>
     public class GetFavouritesHandler : IRequestHandler<GetFavouritesQuery, PaginatedList<FavouriteDto>>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes GetFavouritesHandler
+        ///     Initializes GetFavouritesHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -39,7 +39,7 @@ namespace Application.Favourites.Queries.GetFavourites
         }
 
         /// <summary>
-        /// Handles getting user's favourites 
+        ///     Handles getting user's favourites
         /// </summary>
         /// <param name="request">Get favourites request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -48,10 +48,7 @@ namespace Application.Favourites.Queries.GetFavourites
         public async Task<PaginatedList<FavouriteDto>> Handle(GetFavouritesQuery request,
             CancellationToken cancellationToken)
         {
-            if (request.Parameters == null)
-            {
-                throw new ArgumentNullException(nameof(request.Parameters));
-            }
+            if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
             var collection = _context.Favourites.Where(f => f.CreatedBy == request.UserId);
 

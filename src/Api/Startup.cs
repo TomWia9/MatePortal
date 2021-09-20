@@ -23,11 +23,8 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(options =>
-            {
-                options.Filters.Add<ApiExceptionFilterAttribute>();
-            });
-            
+            services.AddControllers(options => { options.Filters.Add<ApiExceptionFilterAttribute>(); });
+
             services.AddHttpContextAccessor();
             services.AddApplication(Configuration);
             services.AddInfrastructure(Configuration);
@@ -39,10 +36,7 @@ namespace Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -50,7 +44,7 @@ namespace Api
                 c.SwaggerEndpoint("swagger/MatePortalSpecification/swagger.json", "MatePortal");
                 c.RoutePrefix = string.Empty;
             });
-            
+
             app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();

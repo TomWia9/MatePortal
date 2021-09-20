@@ -11,22 +11,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Shops.Commands.CreateShop
 {
     /// <summary>
-    /// Create shop handler
+    ///     Create shop handler
     /// </summary>
     public class CreateShopHandler : IRequestHandler<CreateShopCommand, ShopDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes CreateShopHandler
+        ///     Initializes CreateShopHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -37,7 +37,7 @@ namespace Application.Shops.Commands.CreateShop
         }
 
         /// <summary>
-        /// Handles creating shop
+        ///     Handles creating shop
         /// </summary>
         /// <param name="request">The create shop request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -45,12 +45,10 @@ namespace Application.Shops.Commands.CreateShop
         /// <exception cref="ConflictException">Thrown when shop name conflicts with another shop name</exception>
         public async Task<ShopDto> Handle(CreateShopCommand request, CancellationToken cancellationToken)
         {
-            if (await _context.Shops.AnyAsync(s => s.Name == request.Name, cancellationToken: cancellationToken))
-            {
+            if (await _context.Shops.AnyAsync(s => s.Name == request.Name, cancellationToken))
                 throw new ConflictException();
-            }
 
-            var entity = new Shop()
+            var entity = new Shop
             {
                 Name = request.Name,
                 Description = request.Description

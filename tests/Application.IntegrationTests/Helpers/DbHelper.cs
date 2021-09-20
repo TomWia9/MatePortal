@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.IntegrationTests.Helpers
@@ -13,9 +12,9 @@ namespace Application.IntegrationTests.Helpers
             var context = GetDbContext(factory);
             return await context.FindAsync<T>(id);
         }
-        
+
         /// <summary>
-        /// Gets database context
+        ///     Gets database context
         /// </summary>
         /// <param name="factory">Web application factory</param>
         /// <returns>ApplicationDbContext service</returns>

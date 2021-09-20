@@ -8,17 +8,17 @@ using MediatR;
 namespace Application.Countries.Commands.DeleteCountry
 {
     /// <summary>
-    /// Delete country handler
+    ///     Delete country handler
     /// </summary>
     public class DeleteCountryHandler : IRequestHandler<DeleteCountryCommand>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// Initializes DeleteCountryHandler
+        ///     Initializes DeleteCountryHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public DeleteCountryHandler(IApplicationDbContext context)
@@ -27,7 +27,7 @@ namespace Application.Countries.Commands.DeleteCountry
         }
 
         /// <summary>
-        /// Handles deleting country
+        ///     Handles deleting country
         /// </summary>
         /// <param name="request">Delete country request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -36,10 +36,7 @@ namespace Application.Countries.Commands.DeleteCountry
         {
             var entity = await _context.Countries.FindAsync(request.CountryId);
 
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Country), request.CountryId);
-            }
+            if (entity == null) throw new NotFoundException(nameof(Country), request.CountryId);
 
             _context.Countries.Remove(entity);
 

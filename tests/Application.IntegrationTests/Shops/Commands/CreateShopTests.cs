@@ -11,25 +11,25 @@ using Xunit;
 namespace Application.IntegrationTests.Shops.Commands
 {
     /// <summary>
-    /// Create shop tests
+    ///     Create shop tests
     /// </summary>
     public class CreateShopTests : IntegrationTest
     {
         /// <summary>
-        /// Create shop should create shop and return shop data transfer object
+        ///     Create shop should create shop and return shop data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateShopAndReturnShopDto()
         {
             var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
 
-            var command = new CreateShopCommand()
+            var command = new CreateShopCommand
             {
                 Name = "Test",
                 Description = "Test description"
             };
 
-            var expectedResult = new ShopDto()
+            var expectedResult = new ShopDto
             {
                 Name = command.Name,
                 Description = command.Description
@@ -50,17 +50,17 @@ namespace Application.IntegrationTests.Shops.Commands
         }
 
         /// <summary>
-        /// Shop should require unique name
+        ///     Shop should require unique name
         /// </summary>
         [Fact]
         public async Task ShouldRequireUniqueName()
         {
-            var command = new CreateShopCommand()
+            var command = new CreateShopCommand
             {
                 Name = "Test",
-                Description = "Test description",
+                Description = "Test description"
             };
-            
+
             await _mediator.Send(command);
 
             FluentActions.Invoking(() =>

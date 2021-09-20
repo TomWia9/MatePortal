@@ -10,22 +10,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.YerbaMates.Queries.GetYerbaMate
 {
     /// <summary>
-    /// Get yerba mate handler
+    ///     Get yerba mate handler
     /// </summary>
     public class GetYerbaMateHandler : IRequestHandler<GetYerbaMateQuery, YerbaMateDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes GetYerbaMateHandler
+        ///     Initializes GetYerbaMateHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -36,7 +36,7 @@ namespace Application.YerbaMates.Queries.GetYerbaMate
         }
 
         /// <summary>
-        /// Handles getting yerba mate
+        ///     Handles getting yerba mate
         /// </summary>
         /// <param name="request">Get yerba mate request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -52,11 +52,8 @@ namespace Application.YerbaMates.Queries.GetYerbaMate
                 .Include(y => y.Favourites)
                 .FirstOrDefaultAsync(y => y.Id == request.YerbaMateId, cancellationToken);
 
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(YerbaMate), request.YerbaMateId);
-            }
-            
+            if (entity == null) throw new NotFoundException(nameof(YerbaMate), request.YerbaMateId);
+
             return _mapper.Map<YerbaMateDto>(entity);
         }
     }

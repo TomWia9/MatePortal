@@ -9,13 +9,13 @@ using Xunit;
 
 namespace Application.IntegrationTests.Shops.Commands
 {
-     /// <summary>
-    /// Update shop tests
+    /// <summary>
+    ///     Update shop tests
     /// </summary>
     public class UpdateShopTests : IntegrationTest
     {
         /// <summary>
-        /// Update shop with incorrect id should throw not found exception
+        ///     Update shop with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateShopWithIncorrectIdShouldThrowNotFound()
@@ -26,7 +26,7 @@ namespace Application.IntegrationTests.Shops.Commands
             {
                 ShopId = shopId,
                 Name = "Test",
-                Description = "Test description",
+                Description = "Test description"
             };
 
             FluentActions.Invoking(() =>
@@ -34,13 +34,13 @@ namespace Application.IntegrationTests.Shops.Commands
         }
 
         /// <summary>
-        /// Update shop command should update shop
+        ///     Update shop command should update shop
         /// </summary>
         [Fact]
         public async Task UpdateShopShouldUpdateShop()
         {
             var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
-            
+
             await TestSeeder.SeedTestShopsAsync(_factory);
 
             var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
@@ -49,7 +49,7 @@ namespace Application.IntegrationTests.Shops.Commands
             {
                 ShopId = shopId,
                 Name = "Updated shop name",
-                Description = "Updated description",
+                Description = "Updated description"
             };
 
             await _mediator.Send(command);
@@ -59,7 +59,7 @@ namespace Application.IntegrationTests.Shops.Commands
             item.Name.Should().Be(command.Name);
             item.Description.Should().Be(command.Description);
             item.CreatedBy.Should().NotBeNull();
-            item.LastModifiedBy.Should().NotBeNull();  
+            item.LastModifiedBy.Should().NotBeNull();
             item.LastModifiedBy.Should().Be(userId);
             item.LastModified.Should().NotBeNull();
             item.LastModified.Should().BeCloseTo(DateTime.Now, 1000);

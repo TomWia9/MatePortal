@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.IntegrationTests.Helpers
 {
     /// <summary>
-    /// Test seeder for seeding test data to database
+    ///     Test seeder for seeding test data to database
     /// </summary>
     public static class TestSeeder
     {
         /// <summary>
-        /// Seed test brands
+        ///     Seed test brands
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestBrandsAsync(CustomWebApplicationFactory factory)
@@ -28,7 +28,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Seed test categories
+        ///     Seed test categories
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestCategoriesAsync(CustomWebApplicationFactory factory)
@@ -43,7 +43,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Seed test favourites
+        ///     Seed test favourites
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestFavouritesAsync(CustomWebApplicationFactory factory)
@@ -58,7 +58,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Seed test yerba mates
+        ///     Seed test yerba mates
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestYerbaMatesAsync(CustomWebApplicationFactory factory)
@@ -82,9 +82,9 @@ namespace Application.IntegrationTests.Helpers
                 await context.SaveChangesAsync(CancellationToken.None);
             }
         }
-        
+
         /// <summary>
-        /// Seed test shops
+        ///     Seed test shops
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestShopsAsync(CustomWebApplicationFactory factory)
@@ -97,9 +97,9 @@ namespace Application.IntegrationTests.Helpers
                 await context.SaveChangesAsync(CancellationToken.None);
             }
         }
-        
+
         /// <summary>
-        /// Seed test shop opinions
+        ///     Seed test shop opinions
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestShopOpinionsAsync(CustomWebApplicationFactory factory)
@@ -114,7 +114,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test brands
+        ///     Gets test brands
         /// </summary>
         /// <returns>List of test brands</returns>
         private static IEnumerable<Brand> GetBrands()
@@ -126,41 +126,41 @@ namespace Application.IntegrationTests.Helpers
                     Id = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"),
                     Name = "Kurupi",
                     Description = "Kurupi description",
-                    CountryId = Guid.Parse("A42066F2-2998-47DC-A193-FF4C4080056F"),
+                    CountryId = Guid.Parse("A42066F2-2998-47DC-A193-FF4C4080056F")
                 },
                 new()
                 {
                     Id = Guid.NewGuid(),
                     Name = "Pajarito",
                     Description = "Pajarito description",
-                    CountryId = Guid.Parse("A42066F2-2998-47DC-A193-FF4C4080056F"),
+                    CountryId = Guid.Parse("A42066F2-2998-47DC-A193-FF4C4080056F")
                 },
                 new()
                 {
                     Id = Guid.Parse("7CE3AB2A-1CD4-44F2-8977-96EEA486E3DE"),
                     Name = "Cruz de malta",
                     Description = "Cruz de malta description",
-                    CountryId = Guid.Parse("68E2E690-B2F4-44AE-A21F-756922E25163"),
+                    CountryId = Guid.Parse("68E2E690-B2F4-44AE-A21F-756922E25163")
                 },
                 new()
                 {
                     Id = Guid.Parse("2CDF8E36-2F3E-4C07-A253-513F7E617DFA"),
                     Name = "Erva Mate",
                     Description = "Erva Mate description",
-                    CountryId = Guid.Parse("A7BBB4DA-12D5-4227-B6BA-690ECF40CD86"),
+                    CountryId = Guid.Parse("A7BBB4DA-12D5-4227-B6BA-690ECF40CD86")
                 },
                 new()
                 {
                     Id = Guid.NewGuid(),
                     Name = "Baldo",
                     Description = "Baldo description",
-                    CountryId = Guid.Parse("C08D5B41-C678-421B-9500-93D22004F9CF"),
+                    CountryId = Guid.Parse("C08D5B41-C678-421B-9500-93D22004F9CF")
                 }
             };
         }
 
         /// <summary>
-        /// Gets test categories
+        ///     Gets test categories
         /// </summary>
         /// <returns>List of test categories</returns>
         private static IEnumerable<Category> GetCategories()
@@ -171,19 +171,19 @@ namespace Application.IntegrationTests.Helpers
                 {
                     Id = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"),
                     Name = "Herbal",
-                    Description = "Herbal description",
+                    Description = "Herbal description"
                 },
                 new()
                 {
                     Id = Guid.Parse("F71D6A78-0196-4FA8-B369-39E29504DBA2"),
                     Name = "Fruit",
-                    Description = "Fruit description",
+                    Description = "Fruit description"
                 }
             };
         }
 
         /// <summary>
-        /// Gets test favourites
+        ///     Gets test favourites
         /// </summary>
         /// <returns>List of test favourites</returns>
         private static IEnumerable<Favourite> GetFavourites()
@@ -214,7 +214,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test yerba mates
+        ///     Gets test yerba mates
         /// </summary>
         /// <returns>List of test yerba mates</returns>
         private static IEnumerable<YerbaMate> GetYerbaMates()
@@ -255,7 +255,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test yerba mate opinions
+        ///     Gets test yerba mate opinions
         /// </summary>
         /// <returns>List of test yerba mate opinions</returns>
         private static IEnumerable<Opinion> GetYerbaMateOpinions()
@@ -282,12 +282,12 @@ namespace Application.IntegrationTests.Helpers
                     Rate = 6,
                     Comment = "test",
                     YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43")
-                },
+                }
             };
         }
-        
+
         /// <summary>
-        /// Gets test shops
+        ///     Gets test shops
         /// </summary>
         /// <returns>List of test shops</returns>
         private static IEnumerable<Shop> GetShops()
@@ -298,25 +298,25 @@ namespace Application.IntegrationTests.Helpers
                 {
                     Id = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"),
                     Name = "Matemundo",
-                    Description = "Test description 1",
+                    Description = "Test description 1"
                 },
                 new()
                 {
                     Id = Guid.NewGuid(),
                     Name = "Test 2",
-                    Description = "Test description 2",
+                    Description = "Test description 2"
                 },
                 new()
                 {
                     Id = Guid.NewGuid(),
                     Name = "Test 3",
-                    Description = "Test description 3",
+                    Description = "Test description 3"
                 }
             };
         }
 
         /// <summary>
-        /// Gets test shop opinions
+        ///     Gets test shop opinions
         /// </summary>
         /// <returns>List of test shop opinions</returns>
         private static IEnumerable<ShopOpinion> GetShopOpinions()
@@ -343,7 +343,7 @@ namespace Application.IntegrationTests.Helpers
                     Rate = 6,
                     Comment = "Super comment 3",
                     ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5")
-                },
+                }
             };
         }
     }

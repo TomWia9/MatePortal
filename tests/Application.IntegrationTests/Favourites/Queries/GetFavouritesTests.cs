@@ -8,12 +8,12 @@ using Xunit;
 namespace Application.IntegrationTests.Favourites.Queries
 {
     /// <summary>
-    /// Get favourites tests
+    ///     Get favourites tests
     /// </summary>
     public class GetFavouritesTests : IntegrationTest
     {
         /// <summary>
-        /// Get favourites should return all user's favourites
+        ///     Get favourites should return all user's favourites
         /// </summary>
         [Fact]
         public async Task ShouldReturnAllUsersFavourites()
@@ -21,7 +21,7 @@ namespace Application.IntegrationTests.Favourites.Queries
             var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
 
             await TestSeeder.SeedTestFavouritesAsync(_factory);
-            
+
             var response = await _mediator.Send(new GetFavouritesQuery(userId, new FavouritesQueryParameters()));
             response.Count.Should().Be(4);
         }

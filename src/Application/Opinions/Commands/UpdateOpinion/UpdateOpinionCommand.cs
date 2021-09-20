@@ -4,24 +4,23 @@ using MediatR;
 namespace Application.Opinions.Commands.UpdateOpinion
 {
     /// <summary>
-    /// Update opinion command
+    ///     Update opinion command
     /// </summary>
     public class UpdateOpinionCommand : IRequest
     {
         /// <summary>
-        /// Opinion ID
+        ///     Opinion ID
         /// </summary>
         public Guid OpinionId { get; set; }
 
         /// <summary>
-        /// Opinion rate
+        ///     Opinion rate
         /// </summary>
         public int Rate { get; set; }
 
         /// <summary>
-        /// Opinion comment
+        ///     Opinion comment
         /// </summary>
         public string Comment { get; set; }
-        
     }
 }

@@ -11,25 +11,25 @@ using Xunit;
 namespace Application.IntegrationTests.Categories.Commands
 {
     /// <summary>
-    /// Create category tests
+    ///     Create category tests
     /// </summary>
     public class CreateCategoryTests : IntegrationTest
     {
         /// <summary>
-        /// Create category should create category and return category data transfer object
+        ///     Create category should create category and return category data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateCategoryAndReturnCategoryDto()
         {
             var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
 
-            var command = new CreateCategoryCommand()
+            var command = new CreateCategoryCommand
             {
                 Name = "Test category",
                 Description = "Test description"
             };
 
-            var expectedResult = new CategoryDto()
+            var expectedResult = new CategoryDto
             {
                 Name = command.Name,
                 Description = command.Description
@@ -50,17 +50,17 @@ namespace Application.IntegrationTests.Categories.Commands
         }
 
         /// <summary>
-        /// Category should require unique name
+        ///     Category should require unique name
         /// </summary>
         [Fact]
         public async Task ShouldRequireUniqueName()
         {
-            await _mediator.Send(new CreateCategoryCommand()
+            await _mediator.Send(new CreateCategoryCommand
             {
                 Name = "Test"
             });
 
-            var command = new CreateCategoryCommand()
+            var command = new CreateCategoryCommand
             {
                 Name = "Test"
             };

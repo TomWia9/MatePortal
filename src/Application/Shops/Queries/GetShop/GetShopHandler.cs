@@ -10,22 +10,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Shops.Queries.GetShop
 {
     /// <summary>
-    /// Get shop handler
+    ///     Get shop handler
     /// </summary>
     public class GetShopHandler : IRequestHandler<GetShopQuery, ShopDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes GetShopHandler
+        ///     Initializes GetShopHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -36,7 +36,7 @@ namespace Application.Shops.Queries.GetShop
         }
 
         /// <summary>
-        /// Handles getting shop
+        ///     Handles getting shop
         /// </summary>
         /// <param name="request">Get shop request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -44,13 +44,11 @@ namespace Application.Shops.Queries.GetShop
         /// <exception cref="NotFoundException">Throws when shop is not found</exception>
         public async Task<ShopDto> Handle(GetShopQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Shops.Include(s => s.Opinions).FirstOrDefaultAsync(s => s.Id == request.ShopId, cancellationToken);
+            var entity = await _context.Shops.Include(s => s.Opinions)
+                .FirstOrDefaultAsync(s => s.Id == request.ShopId, cancellationToken);
 
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Shop), request.ShopId);
-            }
-            
+            if (entity == null) throw new NotFoundException(nameof(Shop), request.ShopId);
+
             return _mapper.Map<ShopDto>(entity);
         }
     }

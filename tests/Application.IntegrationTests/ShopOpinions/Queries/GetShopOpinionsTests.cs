@@ -9,12 +9,12 @@ using Xunit;
 namespace Application.IntegrationTests.ShopOpinions.Queries
 {
     /// <summary>
-    /// Get all shop opinions tests
+    ///     Get all shop opinions tests
     /// </summary>
     public class GetShopOpinionsTests : IntegrationTest
     {
         /// <summary>
-        /// Get shop opinions should return all shop opinions
+        ///     Get shop opinions should return all shop opinions
         /// </summary>
         [Fact]
         public async Task ShouldReturnAllShopOpinions()
@@ -29,7 +29,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
         }
 
         /// <summary>
-        /// Get all shops opinions with specified min and max rate should return correct count of opinions
+        ///     Get all shops opinions with specified min and max rate should return correct count of opinions
         /// </summary>
         [Theory]
         [InlineData(1, 10, 2)]
@@ -44,13 +44,13 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
             var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
 
             var response = await _mediator.Send(new GetShopOpinionsQuery(shopId,
-                new ShopOpinionsQueryParameters() {MinRate = minRate, MaxRate = maxRate}));
+                new ShopOpinionsQueryParameters { MinRate = minRate, MaxRate = maxRate }));
 
             response.Count.Should().Be(expectedCount);
         }
 
         /// <summary>
-        /// Get shop opinions with specified search query should return correct shop opinions
+        ///     Get shop opinions with specified search query should return correct shop opinions
         /// </summary>
         [Fact]
         public async Task GetShopOpinionsWithSpecifiedSearchQueryShouldReturnCorrectShopOpinions()
@@ -59,7 +59,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
             await TestSeeder.SeedTestShopOpinionsAsync(_factory);
             var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
 
-            var response = await _mediator.Send(new GetShopOpinionsQuery(shopId, new ShopOpinionsQueryParameters()
+            var response = await _mediator.Send(new GetShopOpinionsQuery(shopId, new ShopOpinionsQueryParameters
             {
                 SearchQuery = "uper"
             }));

@@ -8,12 +8,12 @@ using Xunit;
 namespace Application.IntegrationTests.ShopOpinions.Queries
 {
     /// <summary>
-    /// Get user's shop opinions tests
+    ///     Get user's shop opinions tests
     /// </summary>
     public class GetUserShopOpinionsTests : IntegrationTest
     {
         /// <summary>
-        /// Get shop opinions should return all user's shop opinions
+        ///     Get shop opinions should return all user's shop opinions
         /// </summary>
         [Fact]
         public async Task ShouldReturnAllUserShopOpinions()
@@ -27,7 +27,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
         }
 
         /// <summary>
-        /// Get user's shop opinions with specified min and max rate should return correct count of opinions
+        ///     Get user's shop opinions with specified min and max rate should return correct count of opinions
         /// </summary>
         [Theory]
         [InlineData(1, 10, 3)]
@@ -40,14 +40,14 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
             var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
             await TestSeeder.SeedTestShopOpinionsAsync(_factory);
 
-            var response = await _mediator.Send(new GetUserShopOpinionsQuery(userId, new ShopOpinionsQueryParameters()
-                {MinRate = minRate, MaxRate = maxRate}));
+            var response = await _mediator.Send(new GetUserShopOpinionsQuery(userId,
+                new ShopOpinionsQueryParameters { MinRate = minRate, MaxRate = maxRate }));
 
             response.Count.Should().Be(expectedCount);
         }
 
         /// <summary>
-        /// Get user's shop opinions with specified search query should return correct shop opinions
+        ///     Get user's shop opinions with specified search query should return correct shop opinions
         /// </summary>
         [Fact]
         public async Task GetUsersShopOpinionsWithSpecifiedSearchQueryShouldReturnCorrectShopOpinions()
@@ -55,7 +55,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
             var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
             await TestSeeder.SeedTestShopOpinionsAsync(_factory);
 
-            var response = await _mediator.Send(new GetUserShopOpinionsQuery(userId, new ShopOpinionsQueryParameters()
+            var response = await _mediator.Send(new GetUserShopOpinionsQuery(userId, new ShopOpinionsQueryParameters
             {
                 SearchQuery = "com"
             }));

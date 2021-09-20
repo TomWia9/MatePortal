@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.Opinions.Commands
 {
     /// <summary>
-    /// Create yerba mate opinion tests
+    ///     Create yerba mate opinion tests
     /// </summary>
     public class CreateOpinionTests : IntegrationTest
     {
         /// <summary>
-        /// Create yerba mate opinion should create opinion and return yerba mate opinion data transfer object
+        ///     Create yerba mate opinion should create opinion and return yerba mate opinion data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateYerbaMateOpinionAndReturnYerbaMateOpinionDto()
@@ -26,11 +26,11 @@ namespace Application.IntegrationTests.Opinions.Commands
 
             var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
 
-            var command = new CreateOpinionCommand()
+            var command = new CreateOpinionCommand
             {
                 Rate = 8,
                 Comment = "Test comment",
-                YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"), //one of seeded yerba mate
+                YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
             };
 
             var result = await _mediator.Send(command);
@@ -53,7 +53,7 @@ namespace Application.IntegrationTests.Opinions.Commands
 
 
         /// <summary>
-        /// Create opinion for nonexistent yerba should throw NotFound
+        ///     Create opinion for nonexistent yerba should throw NotFound
         /// </summary>
         [Fact]
         public async Task CreateOpinionForNonexistentYerbaMateShouldThrowNotFound()
@@ -61,7 +61,7 @@ namespace Application.IntegrationTests.Opinions.Commands
             await AuthHelper.RunAsDefaultUserAsync(_factory);
             var yerbaMateId = Guid.NewGuid();
 
-            var command = new CreateOpinionCommand()
+            var command = new CreateOpinionCommand
             {
                 Rate = 2,
                 Comment = "test",
@@ -73,7 +73,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        /// Opinion should not be added more than once to one yerba by one user
+        ///     Opinion should not be added more than once to one yerba by one user
         /// </summary>
         [Fact]
         public async Task OpinionShouldNotBeAddedMoreThanOnceToOneYerbaByOneUser()
@@ -82,14 +82,14 @@ namespace Application.IntegrationTests.Opinions.Commands
             await AuthHelper.RunAsDefaultUserAsync(_factory);
             var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //id of one of seeded yerba mate
 
-            await _mediator.Send(new CreateOpinionCommand()
+            await _mediator.Send(new CreateOpinionCommand
             {
                 Rate = 10,
                 Comment = "Test",
                 YerbaMateId = yerbaMateId
             });
 
-            var command = new CreateOpinionCommand()
+            var command = new CreateOpinionCommand
             {
                 Rate = 8,
                 Comment = "Test 2",
@@ -101,7 +101,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        /// Create should increase yerba mate number of opinions
+        ///     Create should increase yerba mate number of opinions
         /// </summary>
         [Fact]
         public async Task ShouldIncreaseYerbaMateNumberOfOpinions()
@@ -112,7 +112,7 @@ namespace Application.IntegrationTests.Opinions.Commands
 
             await AuthHelper.RunAsDefaultUserAsync(_factory);
 
-            var command = new CreateOpinionCommand()
+            var command = new CreateOpinionCommand
             {
                 Comment = "Test",
                 Rate = 8,

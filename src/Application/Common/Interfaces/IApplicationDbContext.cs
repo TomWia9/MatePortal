@@ -16,6 +16,5 @@ namespace Application.Common.Interfaces
         DbSet<Shop> Shops { get; set; }
         DbSet<ShopOpinion> ShopOpinions { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-
     }
 }

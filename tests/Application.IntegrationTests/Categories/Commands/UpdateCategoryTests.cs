@@ -10,19 +10,19 @@ using Xunit;
 namespace Application.IntegrationTests.Categories.Commands
 {
     /// <summary>
-    /// Update category tests
+    ///     Update category tests
     /// </summary>
     public class UpdateCategoryTests : IntegrationTest
     {
         /// <summary>
-        /// Update category with incorrect id should throw not found exception
+        ///     Update category with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateCategoryWithIncorrectIdShouldThrowNotFound()
         {
             var categoryId = Guid.Empty;
 
-            var command = new UpdateCategoryCommand()
+            var command = new UpdateCategoryCommand
             {
                 CategoryId = categoryId,
                 Name = "updated name",
@@ -34,7 +34,7 @@ namespace Application.IntegrationTests.Categories.Commands
         }
 
         /// <summary>
-        /// Update category command should update category
+        ///     Update category command should update category
         /// </summary>
         [Fact]
         public async Task UpdateCategoryShouldUpdateCategory()
@@ -44,7 +44,7 @@ namespace Application.IntegrationTests.Categories.Commands
             var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
             var categoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"); //one of seeded category
 
-            var command = new UpdateCategoryCommand()
+            var command = new UpdateCategoryCommand
             {
                 CategoryId = categoryId,
                 Name = "updated name",

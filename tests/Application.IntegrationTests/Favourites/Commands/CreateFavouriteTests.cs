@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.Favourites.Commands
 {
     /// <summary>
-    /// Create favourite tests
+    ///     Create favourite tests
     /// </summary>
     public class CreateFavouriteTests : IntegrationTest
     {
         /// <summary>
-        /// Create favourite should create favourite and return favourite data transfer object
+        ///     Create favourite should create favourite and return favourite data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateFavouriteAndReturnFavouriteDto()
@@ -26,7 +26,7 @@ namespace Application.IntegrationTests.Favourites.Commands
 
             var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
 
-            var command = new CreateFavouriteCommand()
+            var command = new CreateFavouriteCommand
             {
                 YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
             };
@@ -46,7 +46,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        /// Should increase yerba mate number of additions to favourites
+        ///     Should increase yerba mate number of additions to favourites
         /// </summary>
         [Fact]
         public async Task ShouldIncreaseYerbaMateNumberOfAddToFav()
@@ -57,7 +57,7 @@ namespace Application.IntegrationTests.Favourites.Commands
 
             await AuthHelper.RunAsDefaultUserAsync(_factory);
 
-            var command = new CreateFavouriteCommand()
+            var command = new CreateFavouriteCommand
             {
                 YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
             };
@@ -69,7 +69,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        /// Create favourite for nonexistent yerba should throw NotFound
+        ///     Create favourite for nonexistent yerba should throw NotFound
         /// </summary>
         [Fact]
         public async Task CreateFavouriteForNonexistentYerbaMateShouldThrowNotFound()
@@ -77,7 +77,7 @@ namespace Application.IntegrationTests.Favourites.Commands
             await AuthHelper.RunAsDefaultUserAsync(_factory);
             var yerbaMateId = Guid.NewGuid();
 
-            var command = new CreateFavouriteCommand()
+            var command = new CreateFavouriteCommand
             {
                 YerbaMateId = yerbaMateId
             };
@@ -87,7 +87,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        /// Favourite should not be added more than once to one item by one user
+        ///     Favourite should not be added more than once to one item by one user
         /// </summary>
         [Fact]
         public async Task FavouriteShouldNotBeAddedMoreThanOnceToOneItemByOneUser()
@@ -97,12 +97,12 @@ namespace Application.IntegrationTests.Favourites.Commands
             await AuthHelper.RunAsDefaultUserAsync(_factory);
             var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //id of one of seeded yerba mate
 
-            await _mediator.Send(new CreateFavouriteCommand()
+            await _mediator.Send(new CreateFavouriteCommand
             {
                 YerbaMateId = yerbaMateId
             });
 
-            var command = new CreateFavouriteCommand()
+            var command = new CreateFavouriteCommand
             {
                 YerbaMateId = yerbaMateId
             };

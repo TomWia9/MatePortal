@@ -8,19 +8,19 @@ using Xunit;
 namespace Application.IntegrationTests.Users.Commands
 {
     /// <summary>
-    /// Login user tests
+    ///     Login user tests
     /// </summary>
     public class LoginUserTests : IntegrationTest
     {
         /// <summary>
-        /// Login user should return auth response
+        ///     Login user should return auth response
         /// </summary>
         [Fact]
         public async Task ShouldReturnAuthResponse()
         {
             await AuthHelper.RegisterTestUserAsync(_mediator);
-            
-            var command = new LoginUserCommand()
+
+            var command = new LoginUserCommand
             {
                 Email = "test@test.com",
                 Password = "Qwerty123_"
@@ -34,7 +34,7 @@ namespace Application.IntegrationTests.Users.Commands
         }
 
         /// <summary>
-        /// Login user should return error messages when one or more properties are invalid
+        ///     Login user should return error messages when one or more properties are invalid
         /// </summary>
         [Theory]
         [InlineData("test.com", "test")]
@@ -44,7 +44,7 @@ namespace Application.IntegrationTests.Users.Commands
         {
             await AuthHelper.RegisterTestUserAsync(_mediator);
 
-            var command = new LoginUserCommand()
+            var command = new LoginUserCommand
             {
                 Email = email,
                 Password = password

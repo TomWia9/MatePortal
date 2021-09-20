@@ -10,21 +10,21 @@ using Xunit;
 namespace Application.IntegrationTests.Brands.Queries
 {
     /// <summary>
-    /// Get brand tests
+    ///     Get brand tests
     /// </summary>
     public class GetBrandTests : IntegrationTest
     {
         /// <summary>
-        /// Get brand command should return correct brand data transfer object
+        ///     Get brand command should return correct brand data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldReturnCorrectBrand()
         {
             await TestSeeder.SeedTestBrandsAsync(_factory);
-            
+
             var brandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"); //id of one of seeded brand
 
-            var expectedResult = new BrandDto()
+            var expectedResult = new BrandDto
             {
                 Id = brandId,
                 Name = "Kurupi",
@@ -39,7 +39,7 @@ namespace Application.IntegrationTests.Brands.Queries
         }
 
         /// <summary>
-        /// Get brand with incorrect id should throw not found exception
+        ///     Get brand with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void GetBrandWithIncorrectIdShouldThrowNotFound()

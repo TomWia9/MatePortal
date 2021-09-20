@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Serilog;
 
 namespace Api.Filters
 {
@@ -19,11 +18,11 @@ namespace Api.Filters
             _logger = logger;
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
-                {typeof(ValidationException), HandleValidationException},
-                {typeof(NotFoundException), HandleNotFoundException},
-                {typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException},
-                {typeof(ForbiddenAccessException), HandleForbiddenAccessException},
-                {typeof(ConflictException), HandleConflictException}
+                { typeof(ValidationException), HandleValidationException },
+                { typeof(NotFoundException), HandleNotFoundException },
+                { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
+                { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
+                { typeof(ConflictException), HandleConflictException }
             };
         }
 
@@ -70,7 +69,7 @@ namespace Api.Filters
         {
             var exception = context.Exception as NotFoundException;
 
-            var details = new ProblemDetails()
+            var details = new ProblemDetails
             {
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
                 Title = "The specified resource was not found.",
@@ -85,7 +84,7 @@ namespace Api.Filters
 
         private void HandleUnauthorizedAccessException(ExceptionContext context)
         {
-            var details = new ProblemDetails()
+            var details = new ProblemDetails
             {
                 Title = "Unauthorized",
                 Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
@@ -100,7 +99,7 @@ namespace Api.Filters
 
         private void HandleForbiddenAccessException(ExceptionContext context)
         {
-            var details = new ProblemDetails()
+            var details = new ProblemDetails
             {
                 Status = StatusCodes.Status403Forbidden,
                 Title = "Forbidden",
@@ -121,7 +120,7 @@ namespace Api.Filters
         {
             var exception = context.Exception as ConflictException;
 
-            var details = new ProblemDetails()
+            var details = new ProblemDetails
             {
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.8",
                 Title = "The specified resource conflict with another resource.",
@@ -150,7 +149,7 @@ namespace Api.Filters
 
         private void HandleUnknownException(ExceptionContext context)
         {
-            var details = new ProblemDetails()
+            var details = new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
                 Title = "An error occurred while processing your request.",

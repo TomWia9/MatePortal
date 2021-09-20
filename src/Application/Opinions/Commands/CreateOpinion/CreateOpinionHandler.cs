@@ -11,27 +11,27 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Opinions.Commands.CreateOpinion
 {
     /// <summary>
-    /// Create yerba mate opinion handler
+    ///     Create yerba mate opinion handler
     /// </summary>
     public class CreateYerbaMateOpinionHandler : IRequestHandler<CreateOpinionCommand, OpinionDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
-        /// </summary>
-        private readonly IMapper _mapper;
-
-        /// <summary>
-        /// Current user service
+        ///     Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        /// Initializes CreateYerbaMateOpinionHandler
+        ///     The mapper
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        /// <summary>
+        ///     Initializes CreateYerbaMateOpinionHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -45,7 +45,7 @@ namespace Application.Opinions.Commands.CreateOpinion
         }
 
         /// <summary>
-        /// Handles creating yerba mate opinion
+        ///     Handles creating yerba mate opinion
         /// </summary>
         /// <param name="request">The create yerba mate opinion request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -55,17 +55,13 @@ namespace Application.Opinions.Commands.CreateOpinion
         public async Task<OpinionDto> Handle(CreateOpinionCommand request, CancellationToken cancellationToken)
         {
             if (!await _context.YerbaMate.AnyAsync(y => y.Id == request.YerbaMateId, cancellationToken))
-            {
                 throw new NotFoundException(nameof(YerbaMate), request.YerbaMateId);
-            }
 
             if (await _context.Opinions.AnyAsync(o =>
                 o.CreatedBy == _currentUserService.UserId && o.YerbaMateId == request.YerbaMateId, cancellationToken))
-            {
                 throw new ConflictException(nameof(Favourite));
-            }
 
-            var entity = new Opinion()
+            var entity = new Opinion
             {
                 Rate = request.Rate,
                 Comment = request.Comment,

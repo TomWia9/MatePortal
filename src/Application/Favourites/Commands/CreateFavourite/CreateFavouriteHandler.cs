@@ -11,27 +11,27 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Favourites.Commands.CreateFavourite
 {
     /// <summary>
-    /// Create favourite handler
+    ///     Create favourite handler
     /// </summary>
     public class CreateFavouriteHandler : IRequestHandler<CreateFavouriteCommand, FavouriteDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
-        /// </summary>
-        private readonly IMapper _mapper;
-
-        /// <summary>
-        /// Current user service
+        ///     Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        /// Initializes CreateFavouriteHandler
+        ///     The mapper
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        /// <summary>
+        ///     Initializes CreateFavouriteHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -45,7 +45,7 @@ namespace Application.Favourites.Commands.CreateFavourite
         }
 
         /// <summary>
-        /// Handles creating favourite
+        ///     Handles creating favourite
         /// </summary>
         /// <param name="request">The create favourite request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -55,17 +55,13 @@ namespace Application.Favourites.Commands.CreateFavourite
         public async Task<FavouriteDto> Handle(CreateFavouriteCommand request, CancellationToken cancellationToken)
         {
             if (!await _context.YerbaMate.AnyAsync(y => y.Id == request.YerbaMateId, cancellationToken))
-            {
                 throw new NotFoundException(nameof(YerbaMate), request.YerbaMateId);
-            }
 
             if (await _context.Favourites.AnyAsync(f =>
                 f.CreatedBy == _currentUserService.UserId && f.YerbaMateId == request.YerbaMateId, cancellationToken))
-            {
                 throw new ConflictException(nameof(Favourite));
-            }
 
-            var entity = new Favourite()
+            var entity = new Favourite
             {
                 YerbaMateId = request.YerbaMateId
             };

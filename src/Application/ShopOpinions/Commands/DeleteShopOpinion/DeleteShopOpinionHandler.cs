@@ -8,22 +8,22 @@ using MediatR;
 namespace Application.ShopOpinions.Commands.DeleteShopOpinion
 {
     /// <summary>
-    /// Delete shop opinion handler
+    ///     Delete shop opinion handler
     /// </summary>
     public class DeleteShopOpinionHandler : IRequestHandler<DeleteShopOpinionCommand>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// Current user service
+        ///     Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        /// Initializes DeleteShopOpinionHandler
+        ///     Initializes DeleteShopOpinionHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="currentUserService">Current user service</param>
@@ -34,7 +34,7 @@ namespace Application.ShopOpinions.Commands.DeleteShopOpinion
         }
 
         /// <summary>
-        /// Handles deleting shop opinion
+        ///     Handles deleting shop opinion
         /// </summary>
         /// <param name="request">Delete shop opinion request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -43,16 +43,11 @@ namespace Application.ShopOpinions.Commands.DeleteShopOpinion
         {
             var entity = await _context.ShopOpinions.FindAsync(request.ShopOpinionId);
 
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(ShopOpinion), request.ShopOpinionId);
-            }
+            if (entity == null) throw new NotFoundException(nameof(ShopOpinion), request.ShopOpinionId);
 
             if (_currentUserService.UserRole != "Administrator" &&
                 entity.CreatedBy != _currentUserService.UserId)
-            {
                 throw new ForbiddenAccessException();
-            }
 
             _context.ShopOpinions.Remove(entity);
 

@@ -16,27 +16,27 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Shops.Queries.GetShops
 {
     /// <summary>
-    /// Get shops handler
+    ///     Get shops handler
     /// </summary>
     public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<ShopDto>>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Sort service
+        ///     Sort service
         /// </summary>
         private readonly ISortService<Shop> _sortService;
 
         /// <summary>
-        /// Initializes GetShopsHandler
+        ///     Initializes GetShopsHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -51,7 +51,7 @@ namespace Application.Shops.Queries.GetShops
         }
 
         /// <summary>
-        /// Handles getting shops 
+        ///     Handles getting shops
         /// </summary>
         /// <param name="request">Get shops request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -59,10 +59,7 @@ namespace Application.Shops.Queries.GetShops
         /// <exception cref="ArgumentNullException">Thrown when parameters object is null</exception>
         public async Task<PaginatedList<ShopDto>> Handle(GetShopsQuery request, CancellationToken cancellationToken)
         {
-            if (request.Parameters == null)
-            {
-                throw new ArgumentNullException(nameof(request.Parameters));
-            }
+            if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
             var collection = _context.Shops.Include(s => s.Opinions) as IQueryable<Shop>;
 

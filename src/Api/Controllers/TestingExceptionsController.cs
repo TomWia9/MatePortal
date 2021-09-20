@@ -13,19 +13,19 @@ namespace Api.Controllers
         {
             throw new ForbiddenAccessException();
         }
-        
+
         [HttpGet("unauthorized")]
         public IActionResult UnauthorizedEx()
         {
             throw new UnauthorizedAccessException("test unauthorized exception");
         }
-        
+
         [HttpGet("notfound")]
         public IActionResult NotFoundEx()
         {
             throw new NotFoundException("test notFound exception");
         }
-        
+
         [HttpGet("validation")]
         public IActionResult ValidationEx()
         {

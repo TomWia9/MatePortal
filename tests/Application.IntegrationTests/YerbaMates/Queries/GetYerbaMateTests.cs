@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.YerbaMates.Queries
 {
     /// <summary>
-    /// Get yerba mate tests
+    ///     Get yerba mate tests
     /// </summary>
     public class GetYerbaMateTests : IntegrationTest
     {
         /// <summary>
-        /// Get yerba mate command should return correct yerba mate data transfer object
+        ///     Get yerba mate command should return correct yerba mate data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldReturnCorrectYerbaMate()
@@ -28,7 +28,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
 
             var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //id of one of seeded yerba mates
 
-            var expectedResult = new YerbaMateDto()
+            var expectedResult = new YerbaMateDto
             {
                 Id = yerbaMateId,
                 Name = "Kurupi Katuava",
@@ -37,13 +37,13 @@ namespace Application.IntegrationTests.YerbaMates.Queries
                 AveragePrice = 15.21M,
                 NumberOfOpinions = 0,
                 NumberOfAddToFav = 0,
-                Category = new CategoryDto() 
+                Category = new CategoryDto
                 {
                     Id = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"),
                     Name = "Herbal",
                     Description = "Herbal description"
                 },
-                Brand = new BrandDto() 
+                Brand = new BrandDto
                 {
                     Id = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"),
                     Name = "Kurupi",
@@ -59,7 +59,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
         }
 
         /// <summary>
-        /// Get yerba mate with incorrect id should throw not found exception
+        ///     Get yerba mate with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void GetYerbaMateWithIncorrectIdShouldThrowNotFound()

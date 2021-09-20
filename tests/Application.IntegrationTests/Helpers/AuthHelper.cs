@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Users;
 using Application.Users.Commands.RegisterUser;
-using Application.Users.Responses;
 using Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -13,12 +12,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Application.IntegrationTests.Helpers
 {
     /// <summary>
-    /// Auth helper
+    ///     Auth helper
     /// </summary>
     public static class AuthHelper
     {
         /// <summary>
-        /// Runs as default user
+        ///     Runs as default user
         /// </summary>
         /// <param name="factory">The factory instance</param>
         /// <returns>User ID</returns>
@@ -28,7 +27,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Runs as administrator
+        ///     Runs as administrator
         /// </summary>
         /// <param name="factory">The factory instance</param>
         /// <returns>Administrator ID</returns>
@@ -38,13 +37,13 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets user by jwt token
+        ///     Gets user by jwt token
         /// </summary>
         /// <param name="mediator">The mediator instance</param>
         /// <returns></returns>
         public static async Task<AuthenticationResult> RegisterTestUserAsync(ISender mediator)
         {
-            var registerUserCommand = new RegisterUserCommand()
+            var registerUserCommand = new RegisterUserCommand
             {
                 Email = "test@test.com",
                 Username = "Test",
@@ -53,7 +52,7 @@ namespace Application.IntegrationTests.Helpers
 
             return await mediator.Send(registerUserCommand);
         }
-        
+
         public static async Task<ApplicationUser> GetUserByTokenAsync(CustomWebApplicationFactory factory, string jwt)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -64,7 +63,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Runs as user
+        ///     Runs as user
         /// </summary>
         /// <param name="factory">The factory instance</param>
         /// <param name="userName">User name</param>
@@ -78,10 +77,7 @@ namespace Application.IntegrationTests.Helpers
             var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
             var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole<Guid>>>();
 
-            if (userManager == null || roleManager == null)
-            {
-                throw new Exception("Failed to get user or role manager");
-            }
+            if (userManager == null || roleManager == null) throw new Exception("Failed to get user or role manager");
 
             var user = new ApplicationUser { Email = userName, UserName = userName };
 
@@ -90,13 +86,11 @@ namespace Application.IntegrationTests.Helpers
             if (createdUser.Succeeded)
             {
                 if (!await roleManager.RoleExistsAsync(role))
-                {
-                    await roleManager.CreateAsync(new IdentityRole<Guid>()
+                    await roleManager.CreateAsync(new IdentityRole<Guid>
                     {
                         Name = role,
                         NormalizedName = role.ToUpper()
                     });
-                }
 
                 await userManager.AddToRoleAsync(user, role);
 

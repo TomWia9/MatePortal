@@ -8,22 +8,22 @@ using MediatR;
 namespace Application.Opinions.Commands.DeleteOpinion
 {
     /// <summary>
-    /// Delete yerba mate opinion handler
+    ///     Delete yerba mate opinion handler
     /// </summary>
     public class DeleteOpinionHandler : IRequestHandler<DeleteOpinionCommand>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// Current user service
+        ///     Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        /// Initializes DeleteOpinionHandler
+        ///     Initializes DeleteOpinionHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="currentUserService">Current user service</param>
@@ -34,7 +34,7 @@ namespace Application.Opinions.Commands.DeleteOpinion
         }
 
         /// <summary>
-        /// Handles deleting yerba mate opinion
+        ///     Handles deleting yerba mate opinion
         /// </summary>
         /// <param name="request">Delete yerba mate opinion request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -43,16 +43,11 @@ namespace Application.Opinions.Commands.DeleteOpinion
         {
             var entity = await _context.Opinions.FindAsync(request.OpinionId);
 
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(Opinion), request.OpinionId);
-            }
+            if (entity == null) throw new NotFoundException(nameof(Opinion), request.OpinionId);
 
             if (_currentUserService.UserRole != "Administrator" &&
                 entity.CreatedBy != _currentUserService.UserId)
-            {
                 throw new ForbiddenAccessException();
-            }
 
             _context.Opinions.Remove(entity);
 

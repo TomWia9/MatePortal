@@ -41,7 +41,6 @@ namespace Infrastructure.Persistence
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {
             foreach (var entry in ChangeTracker.Entries<BaseEntity>())
-            {
                 switch (entry.State)
                 {
                     case EntityState.Added:
@@ -54,7 +53,6 @@ namespace Infrastructure.Persistence
                         entry.Entity.LastModified = _dateTime.Now;
                         break;
                 }
-            }
 
             var result = await base.SaveChangesAsync(cancellationToken);
 

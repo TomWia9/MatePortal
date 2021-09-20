@@ -31,22 +31,18 @@ namespace Infrastructure.Persistence
                 Log.Logger.Information("Seeding roles");
 
                 if (!await roleManager.RoleExistsAsync(Roles.User))
-                {
-                    await roleManager.CreateAsync(new IdentityRole<Guid>()
+                    await roleManager.CreateAsync(new IdentityRole<Guid>
                     {
                         Name = Roles.User,
                         NormalizedName = Roles.User.ToUpper()
                     });
-                }
 
                 if (!await roleManager.RoleExistsAsync(Roles.Administrator))
-                {
-                    await roleManager.CreateAsync(new IdentityRole<Guid>()
+                    await roleManager.CreateAsync(new IdentityRole<Guid>
                     {
                         Name = Roles.Administrator,
                         NormalizedName = Roles.Administrator.ToUpper()
                     });
-                }
             }
         }
 
@@ -60,7 +56,7 @@ namespace Infrastructure.Persistence
                 var administrator = new ApplicationUser
                 {
                     Email = "admin@admin.com",
-                    UserName = "Administrator",
+                    UserName = "Administrator"
                 };
 
                 await userManager.CreateAsync(administrator, "Admin123_");
@@ -81,7 +77,7 @@ namespace Infrastructure.Persistence
 
         private static IEnumerable<Country> GetCountries()
         {
-            return new List<Country>()
+            return new List<Country>
             {
                 new()
                 {

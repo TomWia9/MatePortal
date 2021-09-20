@@ -9,17 +9,17 @@ using MediatR;
 namespace Application.Categories.Queries.GetCategories
 {
     /// <summary>
-    /// Get categories handler
+    ///     Get categories handler
     /// </summary>
     public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, IEnumerable<CategoryDto>>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// Initializes GetCategoriesHandler
+        ///     Initializes GetCategoriesHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public GetCategoriesHandler(IApplicationDbContext context)
@@ -28,7 +28,7 @@ namespace Application.Categories.Queries.GetCategories
         }
 
         /// <summary>
-        /// Handles getting categories 
+        ///     Handles getting categories
         /// </summary>
         /// <param name="request">Get categories request</param>
         /// <param name="cancellationToken">Cancellation token</param>

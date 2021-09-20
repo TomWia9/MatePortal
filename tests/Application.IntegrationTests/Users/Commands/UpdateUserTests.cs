@@ -7,7 +7,7 @@ using Xunit;
 namespace Application.IntegrationTests.Users.Commands
 {
     /// <summary>
-    /// Update user tests
+    ///     Update user tests
     /// </summary>
     public class UpdateUserTests : IntegrationTest
     {
@@ -20,7 +20,7 @@ namespace Application.IntegrationTests.Users.Commands
             var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
             var userId = user.Id;
 
-            var command = new UpdateUserCommand()
+            var command = new UpdateUserCommand
             {
                 UserId = userId,
                 Username = "UpdatedUsername",

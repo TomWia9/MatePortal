@@ -5,12 +5,12 @@ using MediatR;
 namespace Application.ShopOpinions.Queries.GetShopOpinions
 {
     /// <summary>
-    /// Get all opinions about single shop query
+    ///     Get all opinions about single shop query
     /// </summary>
     public class GetShopOpinionsQuery : IRequest<PaginatedList<ShopOpinionDto>>
     {
         /// <summary>
-        /// Initializes GetShopOpinionsQuery 
+        ///     Initializes GetShopOpinionsQuery
         /// </summary>
         /// <param name="shopId">Shop ID from which opinions can be obtained</param>
         /// <param name="parameters">Shop opinions query parameters</param>
@@ -21,12 +21,12 @@ namespace Application.ShopOpinions.Queries.GetShopOpinions
         }
 
         /// <summary>
-        /// Shop ID from which opinions can be obtained
+        ///     Shop ID from which opinions can be obtained
         /// </summary>
         public Guid ShopId { get; }
 
         /// <summary>
-        /// Shop opinions query parameters
+        ///     Shop opinions query parameters
         /// </summary>
         public ShopOpinionsQueryParameters Parameters { get; }
     }

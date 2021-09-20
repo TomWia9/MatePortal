@@ -6,14 +6,14 @@ using MediatR;
 namespace Application.Users.Queries.GetUser
 {
     /// <summary>
-    /// Get user handler
+    ///     Get user handler
     /// </summary>
     public class GetUserHandler : IRequestHandler<GetUserQuery, UserDto>
     {
         private readonly IUsersService _usersService;
 
         /// <summary>
-        /// Initializes GetUserHandler
+        ///     Initializes GetUserHandler
         /// </summary>
         public GetUserHandler(IUsersService usersService)
         {
@@ -21,7 +21,7 @@ namespace Application.Users.Queries.GetUser
         }
 
         /// <summary>
-        /// Handles getting user
+        ///     Handles getting user
         /// </summary>
         /// <param name="request">Get user request</param>
         /// <param name="cancellationToken">Cancellation token</param>
