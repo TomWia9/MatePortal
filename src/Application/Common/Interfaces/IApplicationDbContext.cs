@@ -15,8 +15,6 @@ namespace Application.Common.Interfaces
         DbSet<YerbaMate> YerbaMate { get; set; }
         DbSet<Shop> Shops { get; set; }
         DbSet<ShopOpinion> ShopOpinions { get; set; }
-        
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-
     }
 }

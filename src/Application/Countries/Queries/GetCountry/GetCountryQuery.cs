@@ -4,12 +4,12 @@ using MediatR;
 namespace Application.Countries.Queries.GetCountry
 {
     /// <summary>
-    /// Get single country query
+    ///     Get single country query
     /// </summary>
     public class GetCountryQuery : IRequest<CountryDto>
     {
         /// <summary>
-        /// Initializes GetCountryQuery
+        ///     Initializes GetCountryQuery
         /// </summary>
         /// <param name="countryId">Country ID</param>
         public GetCountryQuery(Guid countryId)
@@ -18,8 +18,8 @@ namespace Application.Countries.Queries.GetCountry
         }
 
         /// <summary>
-        /// Country ID
+        ///     Country ID
         /// </summary>
-        private Guid CountryId { get; }
+        public Guid CountryId { get; }
     }
 }

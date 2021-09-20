@@ -30,18 +30,17 @@ namespace Api
             try
             {
                 Log.Information("Starting up");
-                
+
                 var context = services.GetRequiredService<ApplicationDbContext>();
-                
+
                 await context.Database.MigrateAsync();
-                
+
                 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-                
-                await ApplicationDbContextSeed.SeedDatabase(userManager, roleManager);
-                
-                await host.RunAsync();
 
+                await ApplicationDbContextSeed.SeedDatabase(userManager, roleManager, context);
+
+                await host.RunAsync();
             }
             catch (Exception ex)
             {
@@ -51,12 +50,13 @@ namespace Api
             {
                 Log.CloseAndFlush();
             }
-
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+        }
     }
 }

@@ -1,26 +1,27 @@
-﻿using Application.Brands.Queries;
+﻿using System;
+using Application.Brands.Queries;
 using MediatR;
 
 namespace Application.Brands.Commands.CreateBrand
 {
     /// <summary>
-    /// Create brand command
+    ///     Create brand command
     /// </summary>
     public class CreateBrandCommand : IRequest<BrandDto>
     {
         /// <summary>
-        /// Brand name
+        ///     Brand name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Brand description
+        ///     Brand description
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// Brand country
+        ///     Brand country ID
         /// </summary>
-        public string Country { get; set; }
+        public Guid CountryId { get; set; }
     }
 }

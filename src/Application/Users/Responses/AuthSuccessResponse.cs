@@ -1,12 +1,12 @@
 ﻿namespace Application.Users.Responses
 {
     /// <summary>
-    /// Auth success response
+    ///     Auth success response
     /// </summary>
     public class AuthSuccessResponse : IAuthResponse
     {
         /// <summary>
-        /// Authentication token
+        ///     Authentication token
         /// </summary>
         public string Token { get; set; }
     }

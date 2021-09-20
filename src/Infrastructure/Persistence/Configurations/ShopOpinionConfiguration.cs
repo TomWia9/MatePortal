@@ -10,7 +10,7 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.Ignore(s => s.DomainEvents);
             builder.HasKey(s => s.Id);
-            
+
             builder.Property(o => o.Rate).IsRequired();
             builder.Property(o => o.Comment).HasMaxLength(500).IsRequired();
         }

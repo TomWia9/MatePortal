@@ -4,12 +4,12 @@ using MediatR;
 namespace Application.Brands.Queries.GetBrand
 {
     /// <summary>
-    /// Get single brand query
+    ///     Get single brand query
     /// </summary>
     public class GetBrandQuery : IRequest<BrandDto>
     {
         /// <summary>
-        /// Initializes GetBrandQuery
+        ///     Initializes GetBrandQuery
         /// </summary>
         /// <param name="brandId">Brand ID</param>
         public GetBrandQuery(Guid brandId)
@@ -18,8 +18,8 @@ namespace Application.Brands.Queries.GetBrand
         }
 
         /// <summary>
-        /// Brand ID
+        ///     Brand ID
         /// </summary>
-        private Guid BrandId { get; }
+        public Guid BrandId { get; }
     }
 }

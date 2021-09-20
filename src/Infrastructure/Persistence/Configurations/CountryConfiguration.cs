@@ -10,7 +10,7 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(c => c.Id);
             builder.HasMany(c => c.Brands).WithOne(b => b.Country);
-            
+
             builder.Property(c => c.Name).HasMaxLength(50);
         }
     }

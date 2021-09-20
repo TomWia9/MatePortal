@@ -16,8 +16,8 @@ namespace Api.Services
 {
     public class IdentityService : IIdentityService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly JwtSettings _jwtSettings;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public IdentityService(UserManager<ApplicationUser> userManager, JwtSettings jwtSettings)
         {
@@ -30,14 +30,12 @@ namespace Api.Services
         {
             var userExists = await _userManager.FindByEmailAsync(email);
             if (userExists != null)
-            {
-                return new AuthenticationResult()
+                return new AuthenticationResult
                 {
-                    ErrorMessages = new[] {"User with this email already exists"}
+                    ErrorMessages = new[] { "User with this email already exists" }
                 };
-            }
 
-            var newUser = new ApplicationUser()
+            var newUser = new ApplicationUser
             {
                 Email = email,
                 UserName = username
@@ -46,12 +44,10 @@ namespace Api.Services
             var createdUser = await _userManager.CreateAsync(newUser, password);
 
             if (!createdUser.Succeeded)
-            {
-                return new AuthenticationResult()
+                return new AuthenticationResult
                 {
                     ErrorMessages = createdUser.Errors.Select(x => x.Description)
                 };
-            }
 
             await _userManager.AddToRoleAsync(newUser, Roles.User);
 
@@ -62,22 +58,18 @@ namespace Api.Services
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
-            {
-                return new AuthenticationResult()
+                return new AuthenticationResult
                 {
-                    ErrorMessages = new[] {"User doesn't exist"}
+                    ErrorMessages = new[] { "User doesn't exist" }
                 };
-            }
 
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, password);
 
             if (!isPasswordValid)
-            {
-                return new AuthenticationResult()
+                return new AuthenticationResult
                 {
-                    ErrorMessages = new[] {"Password is wrong"}
+                    ErrorMessages = new[] { "Password is wrong" }
                 };
-            }
 
             return await GenerateAuthenticationResult(user);
         }
@@ -86,18 +78,18 @@ namespace Api.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
-            var claims = new List<Claim>()
+            var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("id", user.Id.ToString())
+                new(JwtRegisteredClaimNames.Sub, user.Email),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(JwtRegisteredClaimNames.Email, user.Email),
+                new("id", user.Id.ToString())
             };
-            
+
             var userRoles = await _userManager.GetRolesAsync(user);
             claims.AddRange(userRoles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));
-            
-            var tokenDescriptor = new SecurityTokenDescriptor()
+
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(7),
@@ -107,7 +99,7 @@ namespace Api.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return new AuthenticationResult()
+            return new AuthenticationResult
             {
                 Success = true,
                 Token = tokenHandler.WriteToken(token)

@@ -3,7 +3,7 @@
 namespace Application.Shops.Queries
 {
     /// <summary>
-    /// Shop query parameters
+    ///     Shop query parameters
     /// </summary>
     public class ShopsQueryParameters : QueryParameters
     {

@@ -4,12 +4,12 @@ using MediatR;
 namespace Application.YerbaMates.Queries.GetYerbaMate
 {
     /// <summary>
-    /// Get single yerba mate query
+    ///     Get single yerba mate query
     /// </summary>
     public class GetYerbaMateQuery : IRequest<YerbaMateDto>
     {
         /// <summary>
-        /// Initializes GetYerbaMateQuery
+        ///     Initializes GetYerbaMateQuery
         /// </summary>
         /// <param name="yerbaMateId">Yerba mate ID</param>
         public GetYerbaMateQuery(Guid yerbaMateId)
@@ -18,8 +18,8 @@ namespace Application.YerbaMates.Queries.GetYerbaMate
         }
 
         /// <summary>
-        /// Yerba mate ID
+        ///     Yerba mate ID
         /// </summary>
-        private Guid YerbaMateId { get; }
+        public Guid YerbaMateId { get; }
     }
 }

@@ -4,17 +4,17 @@ using MediatR;
 namespace Application.Categories.Commands.CreateCategory
 {
     /// <summary>
-    /// Create category command
+    ///     Create category command
     /// </summary>
     public class CreateCategoryCommand : IRequest<CategoryDto>
     {
         /// <summary>
-        /// Category name
+        ///     Category name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Category description
+        ///     Category description
         /// </summary>
         public string Description { get; set; }
     }

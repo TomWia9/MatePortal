@@ -11,37 +11,31 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class TestingAuthController : ControllerBase
     {
-        private readonly IHttpService _httpService;
+        private readonly ICurrentUserService _currentUserService;
 
-        public TestingAuthController(IHttpService httpService)
+        public TestingAuthController(ICurrentUserService currentUserService)
         {
-            _httpService = httpService;
+            _currentUserService = currentUserService;
         }
 
         [Authorize(Policy = "UserAccess")]
         [HttpGet("getUser")]
         public IActionResult GetUserId()
         {
-            var userId = _httpService.GetUserId();
+            var userId = _currentUserService.UserId;
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return BadRequest();
-            }
+            if (string.IsNullOrEmpty(userId.ToString())) return BadRequest();
 
-            return Ok(new {Id = userId, Role = HttpContext.User.IsInRole(Roles.User) ? "User" : "Not user"});
+            return Ok(new { Id = userId, Role = HttpContext.User.IsInRole(Roles.User) ? "User" : "Not user" });
         }
 
         [Authorize(Policy = "AdminAccess")]
         [HttpGet("getAdmin")]
         public IActionResult GetAdminId()
         {
-            var userId = _httpService.GetUserId();
+            var userId = _currentUserService.UserId;
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return BadRequest();
-            }
+            if (string.IsNullOrEmpty(userId.ToString())) return BadRequest();
 
             return Ok(new
             {

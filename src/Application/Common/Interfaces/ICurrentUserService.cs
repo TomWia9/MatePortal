@@ -2,8 +2,19 @@
 
 namespace Application.Common.Interfaces
 {
+    /// <summary>
+    ///     Current user service interface
+    /// </summary>
     public interface ICurrentUserService
     {
-        Guid UserId { get; }
+        /// <summary>
+        ///     Current user ID
+        /// </summary>
+        Guid? UserId { get; }
+
+        /// <summary>
+        ///     Current user role
+        /// </summary>
+        string UserRole { get; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Application.Common.Interfaces;
 using Application.Users.Commands.LoginUser;
 using Application.Users.Commands.RegisterUser;
 using Application.Users.Responses;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -10,50 +10,44 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class IdentityController : ControllerBase
     {
-        private readonly IIdentityService _identityService;
+        private readonly IMediator _mediator;
 
-        public IdentityController(IIdentityService identityService)
+        public IdentityController(IMediator mediator)
         {
-            _identityService = identityService;
+            _mediator = mediator;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserCommand request)
         {
-            var registrationResponse =
-                await _identityService.RegisterAsync(request.Email, request.Username, request.Password);
-            
-            if (!registrationResponse.Success)
-            {
-                return BadRequest(new AuthFailedResponse()
-                {
-                    ErrorMessages = registrationResponse.ErrorMessages
-                });
-            }
+            var result = await _mediator.Send(request);
 
-            return Ok(new AuthSuccessResponse()
+            if (!result.Success)
+                return BadRequest(new AuthFailedResponse
+                {
+                    ErrorMessages = result.ErrorMessages
+                });
+
+            return Ok(new AuthSuccessResponse
             {
-                Token = registrationResponse.Token
+                Token = result.Token
             });
         }
-        
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserCommand request)
         {
-            var loginResponse =
-                await _identityService.LoginAsync(request.Email, request.Password);
-            
-            if (!loginResponse.Success)
-            {
-                return BadRequest(new AuthFailedResponse()
-                {
-                    ErrorMessages = loginResponse.ErrorMessages
-                });
-            }
+            var result = await _mediator.Send(request);
 
-            return Ok(new AuthSuccessResponse()
+            if (!result.Success)
+                return BadRequest(new AuthFailedResponse
+                {
+                    ErrorMessages = result.ErrorMessages
+                });
+
+            return Ok(new AuthSuccessResponse
             {
-                Token = loginResponse.Token
+                Token = result.Token
             });
         }
     }
