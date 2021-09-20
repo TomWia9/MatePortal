@@ -1,9 +1,13 @@
+using Api.Common;
+using Api.Filters;
+using Application;
+using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using Serilog;
 
 namespace Api
 {
@@ -19,27 +23,35 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "MatePortal", Version = "v1"});
-            });
+            services.AddControllers(options => { options.Filters.Add<ApiExceptionFilterAttribute>(); });
+
+            services.AddHttpContextAccessor();
+            services.AddApplication(Configuration);
+            services.AddInfrastructure(Configuration);
+            services.AddSwagger();
+            services.AddJwtAuth(Configuration);
+            services.AddInternalServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MatePortal v1"));
-            }
+                c.SwaggerEndpoint("swagger/MatePortalSpecification/swagger.json", "MatePortal");
+                c.RoutePrefix = string.Empty;
+            });
+
+            app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

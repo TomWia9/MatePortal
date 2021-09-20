@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mateportaldb:
+    container_name: mateportaldb
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=MatePortal123!
+      - MSSQL_TCP_PORT=1433
+    ports:
+      - "1400:1433"
+  mateportalapi:
+    container_name: mateportalapi
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - ConnectionStrings__MatePortalConnection=Server=mateportaldb;Database=MatePortal;User=sa;Password=MatePortal123!
+    ports:
+      - "5005:5005"
+    depends_on:
+      - mateportaldb
