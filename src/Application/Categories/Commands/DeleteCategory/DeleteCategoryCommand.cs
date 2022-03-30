@@ -4,12 +4,12 @@ using MediatR;
 namespace Application.Categories.Commands.DeleteCategory
 {
     /// <summary>
-    ///     Delete category command
+    /// Delete category command
     /// </summary>
     public class DeleteCategoryCommand : IRequest
     {
         /// <summary>
-        ///     Category ID
+        /// Category ID
         /// </summary>
         public Guid CategoryId { get; set; }
     }

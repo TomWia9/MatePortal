@@ -4,12 +4,12 @@ using MediatR;
 namespace Application.Countries.Commands.CreateCountry
 {
     /// <summary>
-    ///     Create country command
+    /// Create country command
     /// </summary>
     public class CreateCountryCommand : IRequest<CountryDto>
     {
         /// <summary>
-        ///     Country name
+        /// Country name
         /// </summary>
         public string Name { get; set; }
     }

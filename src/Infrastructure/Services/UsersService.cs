@@ -18,27 +18,27 @@ using Microsoft.AspNetCore.Identity;
 namespace Infrastructure.Services
 {
     /// <summary>
-    ///     Users service
+    /// Users service
     /// </summary>
     public class UsersService : IUsersService
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly ApplicationDbContext _context;
 
         /// <summary>
-        ///     Sort service
+        /// Sort service
         /// </summary>
         private readonly ISortService<ApplicationUser> _sortService;
 
         /// <summary>
-        ///     User manager
+        /// User manager
         /// </summary>
         private readonly UserManager<ApplicationUser> _userManager;
 
         /// <summary>
-        ///     Initializes UsersService
+        /// Initializes UsersService
         /// </summary>
         /// <param name="userManager">User manager</param>
         /// <param name="context">Database context</param>
@@ -52,7 +52,7 @@ namespace Infrastructure.Services
         }
 
         /// <summary>
-        ///     Updates user
+        /// Updates user
         /// </summary>
         /// <param name="request">Update user command</param>
         public async Task UpdateUserAsync(UpdateUserCommand request)
@@ -64,7 +64,7 @@ namespace Infrastructure.Services
         }
 
         /// <summary>
-        ///     Deletes user
+        /// Deletes user
         /// </summary>
         /// <param name="request">Delete user command</param>
         /// <param name="adminAccess">Administrator access</param>
@@ -79,7 +79,7 @@ namespace Infrastructure.Services
         }
 
         /// <summary>
-        ///     Gets user
+        /// Gets user
         /// </summary>
         /// <param name="request">Get user query</param>
         /// <exception cref="NotFoundException">Throws when user is not found</exception>
@@ -98,7 +98,7 @@ namespace Infrastructure.Services
         }
 
         /// <summary>
-        ///     Gets users
+        /// Gets users
         /// </summary>
         /// <param name="request">Get users query</param>
         public async Task<PaginatedList<UserDto>> GetUsersAsync(GetUsersQuery request)

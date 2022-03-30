@@ -16,27 +16,27 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Brands.Queries.GetBrands
 {
     /// <summary>
-    ///     Get brands handler
+    /// Get brands handler
     /// </summary>
     public class GetBrandsHandler : IRequestHandler<GetBrandsQuery, PaginatedList<BrandDto>>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     The mapper
+        /// The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        ///     Sort service
+        /// Sort service
         /// </summary>
         private readonly ISortService<Brand> _sortService;
 
         /// <summary>
-        ///     Initializes GetBrandsHandler
+        /// Initializes GetBrandsHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -51,7 +51,7 @@ namespace Application.Brands.Queries.GetBrands
         }
 
         /// <summary>
-        ///     Handles getting brands
+        /// Handles getting brands
         /// </summary>
         /// <param name="request">Get brands request</param>
         /// <param name="cancellationToken">Cancellation token</param>

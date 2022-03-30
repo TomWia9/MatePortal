@@ -4,12 +4,12 @@ using MediatR;
 namespace Application.Shops.Queries.GetShop
 {
     /// <summary>
-    ///     Get single shop query
+    /// Get single shop query
     /// </summary>
     public class GetShopQuery : IRequest<ShopDto>
     {
         /// <summary>
-        ///     Initializes GetShopQuery
+        /// Initializes GetShopQuery
         /// </summary>
         /// <param name="shopId">Shop ID</param>
         public GetShopQuery(Guid shopId)
@@ -18,7 +18,7 @@ namespace Application.Shops.Queries.GetShop
         }
 
         /// <summary>
-        ///     Shop ID
+        /// Shop ID
         /// </summary>
         public Guid ShopId { get; }
     }

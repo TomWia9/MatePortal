@@ -5,13 +5,23 @@ using AutoMapper;
 
 namespace Application.Common.Mappings
 {
+    /// <summary>
+    /// Mapping profile
+    /// </summary>
     public class MappingProfile : Profile
     {
+        /// <summary>
+        /// Initializes mapping profile
+        /// </summary>
         public MappingProfile()
         {
             ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
+        /// <summary>
+        /// Applies mappings from assembly 
+        /// </summary>
+        /// <param name="assembly">The assembly</param>
         private void ApplyMappingsFromAssembly(Assembly assembly)
         {
             var types = assembly.GetExportedTypes()

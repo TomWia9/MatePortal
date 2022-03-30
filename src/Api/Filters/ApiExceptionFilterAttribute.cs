@@ -8,11 +8,26 @@ using Microsoft.Extensions.Logging;
 
 namespace Api.Filters
 {
+    /// <summary>
+    /// The Api Exception filter attribute
+    /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
+        /// <summary>
+        /// The collection of exception handlers
+        /// </summary>
         private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
+        
+        /// <summary>
+        /// The logger
+        /// </summary>
         private readonly ILogger<ApiExceptionFilterAttribute> _logger;
 
+        /// <summary>
+        /// Initializes ApiExceptionFilterAttribute
+        /// </summary>
+        /// <param name="logger">The logger</param>
         public ApiExceptionFilterAttribute(ILogger<ApiExceptionFilterAttribute> logger)
         {
             _logger = logger;
@@ -26,12 +41,20 @@ namespace Api.Filters
             };
         }
 
+        /// <summary>
+        /// Handles exception
+        /// </summary>
+        /// <param name="context">The exception context</param>
         public override void OnException(ExceptionContext context)
         {
             HandleException(context);
             base.OnException(context);
         }
 
+        /// <summary>
+        /// Handles exception
+        /// </summary>
+        /// <param name="context">The exception context</param>
         private void HandleException(ExceptionContext context)
         {
             var type = context.Exception.GetType();
@@ -50,6 +73,10 @@ namespace Api.Filters
             HandleUnknownException(context);
         }
 
+        /// <summary>
+        /// Handles validation exception
+        /// </summary>
+        /// <param name="context">The exception context</param>
         private void HandleValidationException(ExceptionContext context)
         {
             var exception = context.Exception as ValidationException;
@@ -65,6 +92,10 @@ namespace Api.Filters
             context.ExceptionHandled = true;
         }
 
+        /// <summary>
+        /// Handles NotFound exception
+        /// </summary>
+        /// <param name="context">The exception context</param>
         private void HandleNotFoundException(ExceptionContext context)
         {
             var exception = context.Exception as NotFoundException;
@@ -82,6 +113,10 @@ namespace Api.Filters
             context.ExceptionHandled = true;
         }
 
+        /// <summary>
+        /// Handles UnauthorizedAccess exception
+        /// </summary>
+        /// <param name="context">The exception context</param>
         private void HandleUnauthorizedAccessException(ExceptionContext context)
         {
             var details = new ProblemDetails
@@ -97,6 +132,10 @@ namespace Api.Filters
             context.ExceptionHandled = true;
         }
 
+        /// <summary>
+        /// Handles ForbiddenAccess exception
+        /// </summary>
+        /// <param name="context">The exception context</param>
         private void HandleForbiddenAccessException(ExceptionContext context)
         {
             var details = new ProblemDetails
@@ -116,6 +155,10 @@ namespace Api.Filters
             context.ExceptionHandled = true;
         }
 
+        /// <summary>
+        /// Handles Conflict exception
+        /// </summary>
+        /// <param name="context">The exception context</param>
         private void HandleConflictException(ExceptionContext context)
         {
             var exception = context.Exception as ConflictException;
@@ -133,7 +176,10 @@ namespace Api.Filters
             context.ExceptionHandled = true;
         }
 
-
+        /// <summary>
+        /// Handles InvalidModelState exception
+        /// </summary>
+        /// <param name="context">The exception context</param>
         private void HandleInvalidModelStateException(ExceptionContext context)
         {
             var details = new ValidationProblemDetails(context.ModelState)
@@ -147,6 +193,10 @@ namespace Api.Filters
             context.ExceptionHandled = true;
         }
 
+        /// <summary>
+        /// Handles Unknown exception
+        /// </summary>
+        /// <param name="context">The exception context</param>
         private void HandleUnknownException(ExceptionContext context)
         {
             var details = new ProblemDetails

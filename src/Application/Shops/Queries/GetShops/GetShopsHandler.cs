@@ -16,27 +16,27 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Shops.Queries.GetShops
 {
     /// <summary>
-    ///     Get shops handler
+    /// Get shops handler
     /// </summary>
     public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<ShopDto>>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     The mapper
+        /// The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        ///     Sort service
+        /// Sort service
         /// </summary>
         private readonly ISortService<Shop> _sortService;
 
         /// <summary>
-        ///     Initializes GetShopsHandler
+        /// Initializes GetShopsHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -51,7 +51,7 @@ namespace Application.Shops.Queries.GetShops
         }
 
         /// <summary>
-        ///     Handles getting shops
+        /// Handles getting shops
         /// </summary>
         /// <param name="request">Get shops request</param>
         /// <param name="cancellationToken">Cancellation token</param>

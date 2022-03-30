@@ -4,14 +4,14 @@ using Application.Common.QueryParameters;
 namespace Application.Brands.Queries
 {
     /// <summary>
-    ///     Brands query parameters
+    /// Brands query parameters
     /// </summary>
     public class BrandsQueryParameters : QueryParameters
     {
         private string _country;
 
         /// <summary>
-        ///     Country parameter that indicates from which country the brands should be taken
+        /// Country parameter that indicates from which country the brands should be taken
         /// </summary>
         public string Country
         {

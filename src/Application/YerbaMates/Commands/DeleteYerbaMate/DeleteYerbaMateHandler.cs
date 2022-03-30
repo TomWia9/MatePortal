@@ -8,17 +8,17 @@ using MediatR;
 namespace Application.YerbaMates.Commands.DeleteYerbaMate
 {
     /// <summary>
-    ///     Delete yerba mate handler
+    /// Delete yerba mate handler
     /// </summary>
     public class DeleteYerbaMateHandler : IRequestHandler<DeleteYerbaMateCommand>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     Initializes DeleteYerbaMateHandler
+        /// Initializes DeleteYerbaMateHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public DeleteYerbaMateHandler(IApplicationDbContext context)
@@ -27,7 +27,7 @@ namespace Application.YerbaMates.Commands.DeleteYerbaMate
         }
 
         /// <summary>
-        ///     Handles deleting yerba mate
+        /// Handles deleting yerba mate
         /// </summary>
         /// <param name="request">Delete yerba mate request</param>
         /// <param name="cancellationToken">Cancellation token</param>

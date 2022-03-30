@@ -11,22 +11,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.YerbaMates.Commands.CreateYerbaMate
 {
     /// <summary>
-    ///     Create yerba mate handler
+    /// Create yerba mate handler
     /// </summary>
     public class CreateYerbaMateHandler : IRequestHandler<CreateYerbaMateCommand, YerbaMateDto>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     The mapper
+        /// The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        ///     Initializes CreateYerbaMateHandler
+        /// Initializes CreateYerbaMateHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -37,7 +37,7 @@ namespace Application.YerbaMates.Commands.CreateYerbaMate
         }
 
         /// <summary>
-        ///     Handles creating yerba mate
+        /// Handles creating yerba mate
         /// </summary>
         /// <param name="request">The create yerba mate request</param>
         /// <param name="cancellationToken">Cancellation token</param>

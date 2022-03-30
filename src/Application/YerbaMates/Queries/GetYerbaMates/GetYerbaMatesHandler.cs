@@ -16,27 +16,27 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.YerbaMates.Queries.GetYerbaMates
 {
     /// <summary>
-    ///     Get yerba mates handler
+    /// Get yerba mates handler
     /// </summary>
     public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, PaginatedList<YerbaMateDto>>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     The mapper
+        /// The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        ///     Sort service
+        /// Sort service
         /// </summary>
         private readonly ISortService<YerbaMate> _sortService;
 
         /// <summary>
-        ///     Initializes GetYerbaMatesHandler
+        /// Initializes GetYerbaMatesHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -51,7 +51,7 @@ namespace Application.YerbaMates.Queries.GetYerbaMates
         }
 
         /// <summary>
-        ///     Handles getting yerba mates
+        /// Handles getting yerba mates
         /// </summary>
         /// <param name="request">Get yerba mates request</param>
         /// <param name="cancellationToken">Cancellation token</param>

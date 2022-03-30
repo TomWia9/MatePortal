@@ -8,22 +8,22 @@ using MediatR;
 namespace Application.ShopOpinions.Commands.UpdateShopOpinion
 {
     /// <summary>
-    ///     Update shop opinion handler
+    /// Update shop opinion handler
     /// </summary>
     public class UpdateShopOpinionHandler : IRequestHandler<UpdateShopOpinionCommand>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     Current user service
+        /// Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        ///     Initializes UpdateShopOpinionHandler
+        /// Initializes UpdateShopOpinionHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="currentUserService">Current user service</param>
@@ -34,7 +34,7 @@ namespace Application.ShopOpinions.Commands.UpdateShopOpinion
         }
 
         /// <summary>
-        ///     Handles updating shop opinion
+        /// Handles updating shop opinion
         /// </summary>
         /// <param name="request">Update shop opinion request</param>
         /// <param name="cancellationToken">Cancellation token</param>

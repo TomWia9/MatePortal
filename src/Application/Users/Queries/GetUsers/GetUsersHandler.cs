@@ -8,17 +8,17 @@ using MediatR;
 namespace Application.Users.Queries.GetUsers
 {
     /// <summary>
-    ///     Get users handler
+    /// Get users handler
     /// </summary>
     public class GetUsersHandler : IRequestHandler<GetUsersQuery, PaginatedList<UserDto>>
     {
         /// <summary>
-        ///     Users service
+        /// Users service
         /// </summary>
         private readonly IUsersService _userService;
 
         /// <summary>
-        ///     Initializes GetUsersHandler
+        /// Initializes GetUsersHandler
         /// </summary>
         public GetUsersHandler(IUsersService userService)
         {
@@ -26,7 +26,7 @@ namespace Application.Users.Queries.GetUsers
         }
 
         /// <summary>
-        ///     Handles getting users
+        /// Handles getting users
         /// </summary>
         /// <param name="request">Get users request</param>
         /// <param name="cancellationToken">Cancellation token</param>

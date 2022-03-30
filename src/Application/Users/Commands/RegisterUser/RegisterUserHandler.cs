@@ -6,17 +6,17 @@ using MediatR;
 namespace Application.Users.Commands.RegisterUser
 {
     /// <summary>
-    ///     Register user handler
+    /// Register user handler
     /// </summary>
     public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, AuthenticationResult>
     {
         /// <summary>
-        ///     Identity service
+        /// Identity service
         /// </summary>
         private readonly IIdentityService _identityService;
 
         /// <summary>
-        ///     Initializes RegisterUserHandler
+        /// Initializes RegisterUserHandler
         /// </summary>
         /// <param name="identityService">Identity service</param>
         public RegisterUserHandler(IIdentityService identityService)
@@ -25,7 +25,7 @@ namespace Application.Users.Commands.RegisterUser
         }
 
         /// <summary>
-        ///     Handles register user
+        /// Handles register user
         /// </summary>
         /// <param name="request">The register user request</param>
         /// <param name="cancellationToken">Cancellation token</param>

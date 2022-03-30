@@ -11,27 +11,27 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.ShopOpinions.Commands.CreateShopOpinion
 {
     /// <summary>
-    ///     Create shop opinion handler
+    /// Create shop opinion handler
     /// </summary>
     public class CreateShopOpinionHandler : IRequestHandler<CreateShopOpinionCommand, ShopOpinionDto>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     Current user service
+        /// Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        ///     The mapper
+        /// The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        ///     Initializes CreateShopOpinionHandler
+        /// Initializes CreateShopOpinionHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -45,7 +45,7 @@ namespace Application.ShopOpinions.Commands.CreateShopOpinion
         }
 
         /// <summary>
-        ///     Handles creating shop opinion
+        /// Handles creating shop opinion
         /// </summary>
         /// <param name="request">The create shop opinion request</param>
         /// <param name="cancellationToken">Cancellation token</param>

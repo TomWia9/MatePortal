@@ -8,22 +8,22 @@ using MediatR;
 namespace Application.Opinions.Commands.UpdateOpinion
 {
     /// <summary>
-    ///     Update yerba mate opinion handler
+    /// Update yerba mate opinion handler
     /// </summary>
     public class UpdateYerbaMateOpinionHandler : IRequestHandler<UpdateOpinionCommand>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     Current user service
+        /// Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        ///     Initializes UpdateYerbaMateOpinionHandler
+        /// Initializes UpdateYerbaMateOpinionHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="currentUserService">Current user service</param>
@@ -34,7 +34,7 @@ namespace Application.Opinions.Commands.UpdateOpinion
         }
 
         /// <summary>
-        ///     Handles updating yerba mate opinion
+        /// Handles updating yerba mate opinion
         /// </summary>
         /// <param name="request">Update yerba mate opinion request</param>
         /// <param name="cancellationToken">Cancellation token</param>

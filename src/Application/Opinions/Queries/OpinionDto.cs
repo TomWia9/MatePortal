@@ -5,37 +5,37 @@ using Domain.Entities;
 namespace Application.Opinions.Queries
 {
     /// <summary>
-    ///     Opinion data transfer object
+    /// Opinion data transfer object
     /// </summary>
     public class OpinionDto : IMapFrom<Opinion>
     {
         /// <summary>
-        ///     Opinion ID
+        /// Opinion ID
         /// </summary>
         public Guid Id { get; set; }
 
         /// <summary>
-        ///     Opinion rate
+        /// Opinion rate
         /// </summary>
         public int Rate { get; set; }
 
         /// <summary>
-        ///     Opinion comment
+        /// Opinion comment
         /// </summary>
         public string Comment { get; set; }
 
         /// <summary>
-        ///     Opinion created date
+        /// Opinion created date
         /// </summary>
         public DateTime Created { get; set; }
 
         /// <summary>
-        ///     Yerba mate ID
+        /// Yerba mate ID
         /// </summary>
         public Guid YerbaMateId { get; set; }
 
         /// <summary>
-        ///     User ID
+        /// User ID
         /// </summary>
         public Guid CreatedBy { get; set; }
     }

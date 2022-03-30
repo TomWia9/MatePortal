@@ -4,27 +4,27 @@ using MediatR;
 namespace Application.ShopOpinions.Commands.UpdateShopOpinion
 {
     /// <summary>
-    ///     Update shop opinion command
+    /// Update shop opinion command
     /// </summary>
     public class UpdateShopOpinionCommand : IRequest
     {
         /// <summary>
-        ///     Shop opinion ID
+        /// Shop opinion ID
         /// </summary>
         public Guid ShopOpinionId { get; set; }
 
         /// <summary>
-        ///     Shop opinion rate
+        /// Shop opinion rate
         /// </summary>
         public int Rate { get; set; }
 
         /// <summary>
-        ///     Shop opinion comment
+        /// Shop opinion comment
         /// </summary>
         public string Comment { get; set; }
 
         /// <summary>
-        ///     Shop ID
+        /// Shop ID
         /// </summary>
         public Guid ShopId { get; set; }
     }

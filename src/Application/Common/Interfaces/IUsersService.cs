@@ -9,31 +9,31 @@ using Application.Users.Queries.GetUsers;
 namespace Application.Common.Interfaces
 {
     /// <summary>
-    ///     IUsersService interface
+    /// Users service interface
     /// </summary>
     public interface IUsersService
     {
         /// <summary>
-        ///     Updates user
+        /// Updates user
         /// </summary>
         /// <param name="request">Update user command</param>
         Task UpdateUserAsync(UpdateUserCommand request);
 
         /// <summary>
-        ///     Deletes user
+        /// Deletes user
         /// </summary>
         /// <param name="request">Delete user command</param>
         /// <param name="adminAccess">Administrator access</param>
         Task DeleteUserAsync(DeleteUserCommand request, bool adminAccess);
 
         /// <summary>
-        ///     Gets user
+        /// Gets user
         /// </summary>
         /// <param name="request">Get user query</param>
         Task<UserDto> GetUserAsync(GetUserQuery request);
 
         /// <summary>
-        ///     Gets users
+        /// Gets users
         /// </summary>
         /// <param name="request">Get users query</param>
         Task<PaginatedList<UserDto>> GetUsersAsync(GetUsersQuery request);

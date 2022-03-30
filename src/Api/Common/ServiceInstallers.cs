@@ -14,9 +14,16 @@ using Microsoft.OpenApi.Models;
 
 namespace Api.Common
 {
+    /// <summary>
+    /// The service installers
+    /// </summary>
     public static class ServiceInstallers
     {
-        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        /// <summary>
+        /// Adds swagger support
+        /// </summary>
+        /// <param name="services">The services collection</param>
+        public static void AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(setupAction =>
             {
@@ -60,14 +67,14 @@ namespace Api.Common
                 };
                 OpenApiSecurityRequirement securityRequirements = new()
                 {
-                    { securityScheme, Array.Empty<string>() }
+                    {securityScheme, Array.Empty<string>()}
                 };
                 setupAction.AddSecurityRequirement(securityRequirements);
 
                 //Collect all referenced projects output XML document file paths  
                 var currentAssembly = Assembly.GetExecutingAssembly();
                 var xmlDocs = currentAssembly.GetReferencedAssemblies()
-                    .Union(new[] { currentAssembly.GetName() })
+                    .Union(new[] {currentAssembly.GetName()})
                     .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location) ?? string.Empty,
                         $"{a.Name}.xml"))
                     .Where(File.Exists).ToList();
@@ -76,11 +83,14 @@ namespace Api.Common
 
                 //setupAction.AddFluentValidationRules();
             });
-
-            return services;
         }
 
-        public static IServiceCollection AddJwtAuth(this IServiceCollection services, IConfiguration configuration)
+        /// <summary>
+        /// Adds json web token authorization
+        /// </summary>
+        /// <param name="services">The services collection</param>
+        /// <param name="configuration">The configuration</param>
+        public static void AddJwtAuth(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = new JwtSettings();
             configuration.Bind(nameof(JwtSettings), jwtSettings);
@@ -116,16 +126,17 @@ namespace Api.Common
                 options.AddPolicy(Policies.AdminAccess,
                     policy => policy.RequireAssertion(context => context.User.IsInRole(Roles.Administrator)));
             });
-
-
-            return services;
         }
 
-        public static IServiceCollection AddInternalServices(this IServiceCollection services,
+        /// <summary>
+        /// Adds internal services
+        /// </summary>
+        /// <param name="services">The services collection</param>
+        /// <param name="configuration">The configuration</param>
+        public static void AddInternalServices(this IServiceCollection services,
             IConfiguration configuration)
         {
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
-            return services;
         }
     }
 }
