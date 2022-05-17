@@ -11,27 +11,27 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Favourites.Commands.CreateFavourite
 {
     /// <summary>
-    ///     Create favourite handler
+    /// Create favourite handler
     /// </summary>
     public class CreateFavouriteHandler : IRequestHandler<CreateFavouriteCommand, FavouriteDto>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     Current user service
+        /// Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        ///     The mapper
+        /// The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        ///     Initializes CreateFavouriteHandler
+        /// Initializes CreateFavouriteHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -45,7 +45,7 @@ namespace Application.Favourites.Commands.CreateFavourite
         }
 
         /// <summary>
-        ///     Handles creating favourite
+        /// Handles creating favourite
         /// </summary>
         /// <param name="request">The create favourite request</param>
         /// <param name="cancellationToken">Cancellation token</param>

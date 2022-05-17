@@ -11,27 +11,27 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Opinions.Commands.CreateOpinion
 {
     /// <summary>
-    ///     Create yerba mate opinion handler
+    /// Create yerba mate opinion handler
     /// </summary>
     public class CreateYerbaMateOpinionHandler : IRequestHandler<CreateOpinionCommand, OpinionDto>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     Current user service
+        /// Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        ///     The mapper
+        /// The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        ///     Initializes CreateYerbaMateOpinionHandler
+        /// Initializes CreateYerbaMateOpinionHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -45,7 +45,7 @@ namespace Application.Opinions.Commands.CreateOpinion
         }
 
         /// <summary>
-        ///     Handles creating yerba mate opinion
+        /// Handles creating yerba mate opinion
         /// </summary>
         /// <param name="request">The create yerba mate opinion request</param>
         /// <param name="cancellationToken">Cancellation token</param>

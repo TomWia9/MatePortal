@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.Opinions.Commands
 {
     /// <summary>
-    ///     Delete opinion tests
+    /// Delete opinion tests
     /// </summary>
     public class DeleteOpinionTests : IntegrationTest
     {
         /// <summary>
-        ///     Delete opinion with incorrect id should throw not found exception
+        /// Delete opinion with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void DeleteOpinionWithIncorrectIdShouldThrowNotFound()
@@ -30,7 +30,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        ///     Delete opinion command should delete opinion
+        /// Delete opinion command should delete opinion
         /// </summary>
         [Fact]
         public async Task ShouldDeleteFavourite()
@@ -55,7 +55,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        ///     User should not be able to delete other user opinion
+        /// User should not be able to delete other user opinion
         /// </summary>
         [Fact]
         public async Task UserShouldNotBeAbleToDeleteOtherUserOpinion()
@@ -80,7 +80,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        ///     Administrator should be able to delete user opinion
+        /// Administrator should be able to delete user opinion
         /// </summary>
         [Fact]
         public async Task AdministratorShouldBeAbleToDeleteUserOpinion()
@@ -108,7 +108,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        ///     Delete should decrease yerba mate number of opinions
+        /// Delete should decrease yerba mate number of opinions
         /// </summary>
         [Fact]
         public async Task ShouldDecreaseYerbaMateNumberOfOpinions()

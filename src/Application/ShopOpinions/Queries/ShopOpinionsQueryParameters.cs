@@ -3,7 +3,7 @@
 namespace Application.ShopOpinions.Queries
 {
     /// <summary>
-    ///     Shop opinions query parameters
+    /// Shop opinions query parameters
     /// </summary>
     public class ShopOpinionsQueryParameters : QueryParameters
     {
@@ -11,7 +11,7 @@ namespace Application.ShopOpinions.Queries
         private int _minRate = 1;
 
         /// <summary>
-        ///     Minimum rate parameter
+        /// Minimum rate parameter
         /// </summary>
         public int MinRate
         {
@@ -20,7 +20,7 @@ namespace Application.ShopOpinions.Queries
         }
 
         /// <summary>
-        ///     Maximum rate parameter
+        /// Maximum rate parameter
         /// </summary>
         public int MaxRate
         {

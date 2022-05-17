@@ -5,12 +5,12 @@ using MediatR;
 namespace Application.Favourites.Queries.GetFavourites
 {
     /// <summary>
-    ///     Get user favourites yerba mates query
+    /// Get user favourites yerba mates query
     /// </summary>
     public class GetFavouritesQuery : IRequest<PaginatedList<FavouriteDto>>
     {
         /// <summary>
-        ///     Initializes GetFavouritesQuery
+        /// Initializes GetFavouritesQuery
         /// </summary>
         /// <param name="userId">User ID</param>
         /// <param name="parameters">Favourites query parameters</param>
@@ -21,12 +21,12 @@ namespace Application.Favourites.Queries.GetFavourites
         }
 
         /// <summary>
-        ///     User ID
+        /// User ID
         /// </summary>
         public Guid UserId { get; }
 
         /// <summary>
-        ///     Favourites query parameters
+        /// Favourites query parameters
         /// </summary>
         public FavouritesQueryParameters Parameters { get; }
     }

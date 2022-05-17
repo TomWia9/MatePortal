@@ -4,12 +4,12 @@ using MediatR;
 namespace Application.Opinions.Queries.GetYerbaMateOpinion
 {
     /// <summary>
-    ///     Get single opinion about yerba mate query
+    /// Get single opinion about yerba mate query
     /// </summary>
     public class GetYerbaMateOpinionQuery : IRequest<OpinionDto>
     {
         /// <summary>
-        ///     Initializes GetYerbaMateOpinionQuery
+        /// Initializes GetYerbaMateOpinionQuery
         /// </summary>
         /// <param name="opinionId">Opinion ID</param>
         public GetYerbaMateOpinionQuery(Guid opinionId)
@@ -18,7 +18,7 @@ namespace Application.Opinions.Queries.GetYerbaMateOpinion
         }
 
         /// <summary>
-        ///     Opinion ID
+        /// Opinion ID
         /// </summary>
         public Guid OpinionId { get; }
     }

@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.ShopOpinions.Commands
 {
     /// <summary>
-    ///     Delete shop opinion tests
+    /// Delete shop opinion tests
     /// </summary>
     public class DeleteShopOpinionTests : IntegrationTest
     {
         /// <summary>
-        ///     Delete shop opinion with incorrect id should throw not found exception
+        /// Delete shop opinion with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void DeleteShopOpinionWithIncorrectIdShouldThrowNotFound()
@@ -28,7 +28,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
         }
 
         /// <summary>
-        ///     Delete shop opinion command should delete shop opinion
+        /// Delete shop opinion command should delete shop opinion
         /// </summary>
         [Fact]
         public async Task ShouldDeleteFavourite()
@@ -53,7 +53,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
         }
 
         /// <summary>
-        ///     User should not be able to delete other user shop opinion
+        /// User should not be able to delete other user shop opinion
         /// </summary>
         [Fact]
         public async Task UserShouldNotBeAbleToDeleteOtherUserShopOpinion()
@@ -80,7 +80,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
         }
 
         /// <summary>
-        ///     Administrator should be able to delete user shop opinion
+        /// Administrator should be able to delete user shop opinion
         /// </summary>
         [Fact]
         public async Task AdministratorShouldBeAbleToDeleteUserShopOpinion()
@@ -109,7 +109,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
 
 
         /// <summary>
-        ///     Delete should decrease shop number of opinions
+        /// Delete should decrease shop number of opinions
         /// </summary>
         [Fact]
         public async Task ShouldDecreaseShopNumberOfOpinions()

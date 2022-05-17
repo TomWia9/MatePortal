@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.YerbaMates.Commands
 {
     /// <summary>
-    ///     Update yerba mate tests
+    /// Update yerba mate tests
     /// </summary>
     public class UpdateYerbaMateTests : IntegrationTest
     {
         /// <summary>
-        ///     Update yerba mate with incorrect id should throw not found exception
+        /// Update yerba mate with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateYerbaMateWithIncorrectIdShouldThrowNotFound()
@@ -38,7 +38,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         }
 
         /// <summary>
-        ///     Update yerba mate command should update yerba mate
+        /// Update yerba mate command should update yerba mate
         /// </summary>
         [Fact]
         public async Task UpdateYerbaMateShouldUpdateYerbaMate()

@@ -9,17 +9,17 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Categories.Commands.UpdateCategory
 {
     /// <summary>
-    ///     Update category handler
+    /// Update category handler
     /// </summary>
     public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     Initializes UpdateCategoryHandler
+        /// Initializes UpdateCategoryHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public UpdateCategoryHandler(IApplicationDbContext context)
@@ -28,7 +28,7 @@ namespace Application.Categories.Commands.UpdateCategory
         }
 
         /// <summary>
-        ///     Handles updating category
+        /// Handles updating category
         /// </summary>
         /// <param name="request">Update category request</param>
         /// <param name="cancellationToken">Cancellation token</param>

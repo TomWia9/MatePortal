@@ -8,17 +8,17 @@ using MediatR;
 namespace Application.Shops.Commands.DeleteShop
 {
     /// <summary>
-    ///     Delete shop handler
+    /// Delete shop handler
     /// </summary>
     public class DeleteShopHandler : IRequestHandler<DeleteShopCommand>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     Initializes DeleteShopHandler
+        /// Initializes DeleteShopHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public DeleteShopHandler(IApplicationDbContext context)
@@ -27,7 +27,7 @@ namespace Application.Shops.Commands.DeleteShop
         }
 
         /// <summary>
-        ///     Handles deleting shop
+        /// Handles deleting shop
         /// </summary>
         /// <param name="request">Delete shop request</param>
         /// <param name="cancellationToken">Cancellation token</param>

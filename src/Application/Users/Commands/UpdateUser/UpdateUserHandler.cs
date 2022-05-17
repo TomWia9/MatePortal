@@ -6,17 +6,17 @@ using MediatR;
 namespace Application.Users.Commands.UpdateUser
 {
     /// <summary>
-    ///     Update user handler
+    /// Update user handler
     /// </summary>
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand>
     {
         /// <summary>
-        ///     User service
+        /// User service
         /// </summary>
         private readonly IUsersService _userService;
 
         /// <summary>
-        ///     Initializes UpdateUserHandler
+        /// Initializes UpdateUserHandler
         /// </summary>
         /// <param name="userService">User service</param>
         public UpdateUserHandler(IUsersService userService)
@@ -25,7 +25,7 @@ namespace Application.Users.Commands.UpdateUser
         }
 
         /// <summary>
-        ///     Handles updating user
+        /// Handles updating user
         /// </summary>
         /// <param name="request">The update user request</param>
         /// <param name="cancellationToken">Cancellation token</param>

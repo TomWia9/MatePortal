@@ -8,57 +8,57 @@ using Domain.Entities;
 namespace Application.YerbaMates.Queries
 {
     /// <summary>
-    ///     Yerba mate data transfer object
+    /// Yerba mate data transfer object
     /// </summary>
     public class YerbaMateDto : IMapFrom<YerbaMate>
     {
         /// <summary>
-        ///     Yerba mate ID
+        /// Yerba mate ID
         /// </summary>
         public Guid Id { get; init; }
 
         /// <summary>
-        ///     Yerba mate name
+        /// Yerba mate name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        ///     Yerba mate description
+        /// Yerba mate description
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        ///     Yerba mate image url
+        /// Yerba mate image url
         /// </summary>
         public string imgUrl { get; set; }
 
         /// <summary>
-        ///     Yerba ate average price
+        /// Yerba ate average price
         /// </summary>
         public decimal AveragePrice { get; set; }
 
         /// <summary>
-        ///     Yerba mate number of add to fav
+        /// Yerba mate number of add to fav
         /// </summary>
         public int NumberOfAddToFav { get; set; }
 
         /// <summary>
-        ///     Yerba mate number of opinions
+        /// Yerba mate number of opinions
         /// </summary>
         public int NumberOfOpinions { get; set; }
 
         /// <summary>
-        ///     Yerba mate brand
+        /// Yerba mate brand
         /// </summary>
         public BrandDto Brand { get; set; }
 
         /// <summary>
-        ///     Yerba mate category
+        /// Yerba mate category
         /// </summary>
         public CategoryDto Category { get; set; }
 
         /// <summary>
-        ///     Overrides Mapping method from IMapFrom interface by adding a custom NumberOfAddToFav mapping
+        /// Overrides Mapping method from IMapFrom interface by adding a custom NumberOfAddToFav mapping
         /// </summary>
         /// <param name="profile">Automapper profile</param>
         public void Mapping(Profile profile)

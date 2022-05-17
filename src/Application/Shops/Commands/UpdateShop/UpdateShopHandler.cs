@@ -9,17 +9,17 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Shops.Commands.UpdateShop
 {
     /// <summary>
-    ///     Update shop handler
+    /// Update shop handler
     /// </summary>
     public class UpdateShopHandler : IRequestHandler<UpdateShopCommand>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     Initializes UpdateShopHandler
+        /// Initializes UpdateShopHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public UpdateShopHandler(IApplicationDbContext context)
@@ -28,7 +28,7 @@ namespace Application.Shops.Commands.UpdateShop
         }
 
         /// <summary>
-        ///     Handles updating shop
+        /// Handles updating shop
         /// </summary>
         /// <param name="request">Update shop request</param>
         /// <param name="cancellationToken">Cancellation token</param>

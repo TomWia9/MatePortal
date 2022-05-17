@@ -14,7 +14,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        ///     Gets database context
+        /// Gets database context
         /// </summary>
         /// <param name="factory">Web application factory</param>
         /// <returns>ApplicationDbContext service</returns>

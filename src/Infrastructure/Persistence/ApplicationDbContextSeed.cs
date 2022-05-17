@@ -12,8 +12,17 @@ using Serilog;
 
 namespace Infrastructure.Persistence
 {
+    /// <summary>
+    /// Application database context seed
+    /// </summary>
     public static class ApplicationDbContextSeed
     {
+        /// <summary>
+        /// Seeds database
+        /// </summary>
+        /// <param name="userManager">The user manager</param>
+        /// <param name="roleManager">The role manager</param>
+        /// <param name="context">The Db context</param>
         public static async Task SeedDatabase(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole<Guid>> roleManager, IApplicationDbContext context)
         {
@@ -21,7 +30,7 @@ namespace Infrastructure.Persistence
             await SeedDefaultUserAsync(userManager);
             await SeedCountries(context);
         }
-
+        
         private static async Task SeedRolesAsync(
             RoleManager<IdentityRole<Guid>> roleManager)
         {

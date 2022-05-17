@@ -13,12 +13,12 @@ using Xunit;
 namespace Application.IntegrationTests.YerbaMates.Commands
 {
     /// <summary>
-    ///     Create yerba mate tests
+    /// Create yerba mate tests
     /// </summary>
     public class CreateYerbaMateTests : IntegrationTest
     {
         /// <summary>
-        ///     Create yerba mate should create yerba mate and return yerba mate data transfer object
+        /// Create yerba mate should create yerba mate and return yerba mate data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateYerbaMateAndReturnYerbaMateDto()
@@ -75,7 +75,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         }
 
         /// <summary>
-        ///     Yerba Mate should require unique name
+        /// Yerba Mate should require unique name
         /// </summary>
         [Fact]
         public async Task ShouldRequireUniqueName()

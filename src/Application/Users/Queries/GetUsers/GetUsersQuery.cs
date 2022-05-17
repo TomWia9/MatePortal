@@ -4,12 +4,12 @@ using MediatR;
 namespace Application.Users.Queries.GetUsers
 {
     /// <summary>
-    ///     Get all users query
+    /// Get all users query
     /// </summary>
     public class GetUsersQuery : IRequest<PaginatedList<UserDto>>
     {
         /// <summary>
-        ///     Initializes GetUsersQuery
+        /// Initializes GetUsersQuery
         /// </summary>
         /// <param name="parameters">Users query parameters</param>
         public GetUsersQuery(UsersQueryParameters parameters)
@@ -18,7 +18,7 @@ namespace Application.Users.Queries.GetUsers
         }
 
         /// <summary>
-        ///     Users query parameters
+        /// Users query parameters
         /// </summary>
         public UsersQueryParameters Parameters { get; }
     }

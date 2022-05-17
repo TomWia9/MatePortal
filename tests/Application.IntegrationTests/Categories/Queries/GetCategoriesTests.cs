@@ -8,12 +8,12 @@ using Xunit;
 namespace Application.IntegrationTests.Categories.Queries
 {
     /// <summary>
-    ///     Get categories tests
+    /// Get categories tests
     /// </summary>
     public class GetCategories : IntegrationTest
     {
         /// <summary>
-        ///     Get categories should return all categories
+        /// Get categories should return all categories
         /// </summary>
         [Fact]
         public async Task ShouldReturnAllCategories()

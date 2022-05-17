@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Http;
 namespace Api.Services
 {
     /// <summary>
-    ///     Current user service
+    /// Current user service
     /// </summary>
     public class CurrentUserService : ICurrentUserService
     {
         /// <summary>
-        ///     Http context accessor
+        /// Http context accessor
         /// </summary>
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
-        ///     Initializes CurrentUSerService
+        /// Initializes CurrentUSerService
         /// </summary>
         /// <param name="httpContextAccessor">Http context accessor</param>
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
@@ -26,14 +26,17 @@ namespace Api.Services
         }
 
         /// <summary>
-        ///     Current user ID
+        /// Current user ID
         /// </summary>
         public Guid? UserId => GetCurrentUserId();
 
+        /// <summary>
+        /// Current user role
+        /// </summary>
         public string UserRole => GetCurrentUserRole();
 
         /// <summary>
-        ///     Gets current user ID
+        /// Gets current user ID
         /// </summary>
         /// <returns>Current user ID</returns>
         private Guid? GetCurrentUserId()
@@ -43,7 +46,7 @@ namespace Api.Services
         }
 
         /// <summary>
-        ///     Gets current user role
+        /// Gets current user role
         /// </summary>
         /// <returns>Current user role</returns>
         private string GetCurrentUserRole()

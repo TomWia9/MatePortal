@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Shops.Commands
 {
     /// <summary>
-    ///     Update shop tests
+    /// Update shop tests
     /// </summary>
     public class UpdateShopTests : IntegrationTest
     {
         /// <summary>
-        ///     Update shop with incorrect id should throw not found exception
+        /// Update shop with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateShopWithIncorrectIdShouldThrowNotFound()
@@ -34,7 +34,7 @@ namespace Application.IntegrationTests.Shops.Commands
         }
 
         /// <summary>
-        ///     Update shop command should update shop
+        /// Update shop command should update shop
         /// </summary>
         [Fact]
         public async Task UpdateShopShouldUpdateShop()

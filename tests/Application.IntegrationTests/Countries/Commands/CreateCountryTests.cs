@@ -8,12 +8,12 @@ using Xunit;
 namespace Application.IntegrationTests.Countries.Commands
 {
     /// <summary>
-    ///     Create country tests
+    /// Create country tests
     /// </summary>
     public class CreateCountryTests : IntegrationTest
     {
         /// <summary>
-        ///     Create country should create country and return country data transfer object
+        /// Create country should create country and return country data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateCountryAndReturnCountryDto()
@@ -35,7 +35,7 @@ namespace Application.IntegrationTests.Countries.Commands
         }
 
         /// <summary>
-        ///     Country should require unique name
+        /// Country should require unique name
         /// </summary>
         [Fact]
         public async Task ShouldRequireUniqueName()

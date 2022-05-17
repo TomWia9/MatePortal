@@ -5,22 +5,22 @@ using Domain.Entities;
 namespace Application.Categories.Queries
 {
     /// <summary>
-    ///     Category data transfer object
+    /// Category data transfer object
     /// </summary>
     public class CategoryDto : IMapFrom<Category>
     {
         /// <summary>
-        ///     Category ID
+        /// Category ID
         /// </summary>
         public Guid Id { get; init; }
 
         /// <summary>
-        ///     Category name
+        /// Category name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        ///     Category description
+        /// Category description
         /// </summary>
         public string Description { get; set; }
     }

@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Brands.Commands
 {
     /// <summary>
-    ///     Delete brand tests
+    /// Delete brand tests
     /// </summary>
     public class DeleteBrandTests : IntegrationTest
     {
         /// <summary>
-        ///     Delete brand with incorrect id should throw not found exception
+        /// Delete brand with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void DeleteBrandWithIncorrectIdShouldThrowNotFound()
@@ -27,7 +27,7 @@ namespace Application.IntegrationTests.Brands.Commands
         }
 
         /// <summary>
-        ///     Delete brand command should delete brand
+        /// Delete brand command should delete brand
         /// </summary>
         [Fact]
         public async Task ShouldDeleteBrand()

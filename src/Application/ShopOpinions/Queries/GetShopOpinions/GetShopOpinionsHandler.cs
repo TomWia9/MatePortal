@@ -15,27 +15,27 @@ using MediatR;
 namespace Application.ShopOpinions.Queries.GetShopOpinions
 {
     /// <summary>
-    ///     Get shop opinions handler
+    /// Get shop opinions handler
     /// </summary>
     public class GetShopOpinionsHandler : IRequestHandler<GetShopOpinionsQuery, PaginatedList<ShopOpinionDto>>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     The mapper
+        /// The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        ///     Sort service
+        /// Sort service
         /// </summary>
         private readonly ISortService<ShopOpinion> _sortService;
 
         /// <summary>
-        ///     Initializes GetShopOpinionsHandler
+        /// Initializes GetShopOpinionsHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -50,7 +50,7 @@ namespace Application.ShopOpinions.Queries.GetShopOpinions
         }
 
         /// <summary>
-        ///     Handles getting shop opinions
+        /// Handles getting shop opinions
         /// </summary>
         /// <param name="request">Get shop opinions request</param>
         /// <param name="cancellationToken">Cancellation token</param>

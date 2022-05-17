@@ -7,7 +7,7 @@ using Xunit;
 namespace Application.IntegrationTests.Users.Commands
 {
     /// <summary>
-    ///     Update user tests
+    /// Update user tests
     /// </summary>
     public class UpdateUserTests : IntegrationTest
     {

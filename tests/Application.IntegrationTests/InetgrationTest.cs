@@ -6,22 +6,22 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Application.IntegrationTests
 {
     /// <summary>
-    ///     Abstract integration test with 'one per test content'
+    /// Abstract integration test with 'one per test content'
     /// </summary>
     public abstract class IntegrationTest : IDisposable
     {
         /// <summary>
-        ///     Custom web application factory instance
+        /// Custom web application factory instance
         /// </summary>
         protected readonly CustomWebApplicationFactory _factory;
 
         /// <summary>
-        ///     The mediator
+        /// The mediator
         /// </summary>
         protected readonly ISender _mediator;
 
         /// <summary>
-        ///     Initializes Integration test
+        /// Initializes Integration test
         /// </summary>
         protected IntegrationTest()
         {
@@ -34,7 +34,7 @@ namespace Application.IntegrationTests
         }
 
         /// <summary>
-        ///     Disposes integration test by deleting database
+        /// Disposes integration test by deleting database
         /// </summary>
         public void Dispose()
         {

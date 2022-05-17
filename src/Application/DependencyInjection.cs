@@ -6,12 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Application
 {
     /// <summary>
-    ///     Dependency Injection class for adding Application services
+    /// Dependency Injection class for adding Application services
     /// </summary>
     public static class DependencyInjection
     {
         /// <summary>
-        ///     Adds application services
+        /// Adds application services
         /// </summary>
         /// <param name="services">The services</param>
         /// <param name="configuration">The configuration</param>

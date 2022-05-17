@@ -9,12 +9,12 @@ using Xunit;
 namespace Application.IntegrationTests.Opinions.Queries
 {
     /// <summary>
-    ///     Get all yerba mate opinions tests
+    /// Get all yerba mate opinions tests
     /// </summary>
     public class GetYerbaMateOpinionsTests : IntegrationTest
     {
         /// <summary>
-        ///     Get opinions should return all yerba mate opinions
+        /// Get opinions should return all yerba mate opinions
         /// </summary>
         [Fact]
         public async Task ShouldReturnAllYerbaMateOpinions()
@@ -29,7 +29,7 @@ namespace Application.IntegrationTests.Opinions.Queries
         }
 
         /// <summary>
-        ///     Get all yerba mate opinions with specified min and max rate should return correct count of opinions
+        /// Get all yerba mate opinions with specified min and max rate should return correct count of opinions
         /// </summary>
         [Theory]
         [InlineData(1, 10, 2)]
@@ -50,7 +50,7 @@ namespace Application.IntegrationTests.Opinions.Queries
         }
 
         /// <summary>
-        ///     Get yerba mate opinions with specified search query should return correct opinions
+        /// Get yerba mate opinions with specified search query should return correct opinions
         /// </summary>
         [Fact]
         public async Task GetYerbaMateOpinionsWithSpecifiedSearchQueryShouldReturnCorrectOpinions()

@@ -4,8 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations
 {
+    /// <summary>
+    /// Shop opinion configuration
+    /// </summary>
     public class ShopOpinionConfiguration : IEntityTypeConfiguration<ShopOpinion>
     {
+        /// <summary>
+        /// Configures shops
+        /// </summary>
+        /// <param name="builder">Entity type builder</param>
         public void Configure(EntityTypeBuilder<ShopOpinion> builder)
         {
             builder.Ignore(s => s.DomainEvents);

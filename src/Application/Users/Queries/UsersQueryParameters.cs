@@ -3,7 +3,7 @@
 namespace Application.Users.Queries
 {
     /// <summary>
-    ///     Users query parameters
+    /// Users query parameters
     /// </summary>
     public class UsersQueryParameters : QueryParameters
     {

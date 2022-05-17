@@ -8,22 +8,22 @@ using MediatR;
 namespace Application.Favourites.Commands.DeleteFavourite
 {
     /// <summary>
-    ///     Delete favourite handler
+    /// Delete favourite handler
     /// </summary>
     public class DeleteFavouriteHandler : IRequestHandler<DeleteFavouriteCommand>
     {
         /// <summary>
-        ///     Database context
+        /// Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        ///     Current user service
+        /// Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        ///     Initializes DeleteFavouriteHandler
+        /// Initializes DeleteFavouriteHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="currentUserService">Current user service</param>
@@ -34,7 +34,7 @@ namespace Application.Favourites.Commands.DeleteFavourite
         }
 
         /// <summary>
-        ///     Handles deleting favourite
+        /// Handles deleting favourite
         /// </summary>
         /// <param name="request">Delete favourite request</param>
         /// <param name="cancellationToken">Cancellation token</param>

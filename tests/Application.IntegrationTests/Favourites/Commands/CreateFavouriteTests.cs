@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.Favourites.Commands
 {
     /// <summary>
-    ///     Create favourite tests
+    /// Create favourite tests
     /// </summary>
     public class CreateFavouriteTests : IntegrationTest
     {
         /// <summary>
-        ///     Create favourite should create favourite and return favourite data transfer object
+        /// Create favourite should create favourite and return favourite data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateFavouriteAndReturnFavouriteDto()
@@ -46,7 +46,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        ///     Should increase yerba mate number of additions to favourites
+        /// Should increase yerba mate number of additions to favourites
         /// </summary>
         [Fact]
         public async Task ShouldIncreaseYerbaMateNumberOfAddToFav()
@@ -69,7 +69,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        ///     Create favourite for nonexistent yerba should throw NotFound
+        /// Create favourite for nonexistent yerba should throw NotFound
         /// </summary>
         [Fact]
         public async Task CreateFavouriteForNonexistentYerbaMateShouldThrowNotFound()
@@ -87,7 +87,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        ///     Favourite should not be added more than once to one item by one user
+        /// Favourite should not be added more than once to one item by one user
         /// </summary>
         [Fact]
         public async Task FavouriteShouldNotBeAddedMoreThanOnceToOneItemByOneUser()
