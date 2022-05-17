@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Opinions.Queries
 {
     /// <summary>
-    ///     Get single yerba mate opinion tests
+    /// Get single yerba mate opinion tests
     /// </summary>
     public class GetYerbaMateOpinionTests : IntegrationTest
     {
         /// <summary>
-        ///     Get yerba mate opinion command should return correct opinion data transfer object
+        /// Get yerba mate opinion command should return correct opinion data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldReturnCorrectOpinion()
@@ -40,7 +40,7 @@ namespace Application.IntegrationTests.Opinions.Queries
         }
 
         /// <summary>
-        ///     Get yerba mate opinion with incorrect id should throw not found exception
+        /// Get yerba mate opinion with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void GetYerbaMateOpinionWithIncorrectIdShouldThrowNotFound()

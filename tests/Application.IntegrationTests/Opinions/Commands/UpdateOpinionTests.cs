@@ -11,12 +11,12 @@ using Xunit;
 namespace Application.IntegrationTests.Opinions.Commands
 {
     /// <summary>
-    ///     Update opinion tests
+    /// Update opinion tests
     /// </summary>
     public class UpdateOpinionTests : IntegrationTest
     {
         /// <summary>
-        ///     Update opinion with incorrect id should throw not found exception
+        /// Update opinion with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateOpinionWithIncorrectIdShouldThrowNotFound()
@@ -35,7 +35,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        ///     Update opinion command should update opinion
+        /// Update opinion command should update opinion
         /// </summary>
         [Fact]
         public async Task UpdateOpinionShouldUpdateOpinion()
@@ -66,7 +66,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        ///     User should not be able to update other user opinion
+        /// User should not be able to update other user opinion
         /// </summary>
         [Fact]
         public async Task UserShouldNotBeAbleToUpdateOtherUserOpinion()
@@ -91,7 +91,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        ///     Administrator should be able to update user opinion
+        /// Administrator should be able to update user opinion
         /// </summary>
         [Fact]
         public async Task AdministratorShouldBeAbleToUpdateUserOpinion()

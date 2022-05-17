@@ -7,12 +7,12 @@ using Xunit;
 namespace Application.IntegrationTests.Countries.Queries
 {
     /// <summary>
-    ///     Get countries tests
+    /// Get countries tests
     /// </summary>
     public class GetCountries : IntegrationTest
     {
         /// <summary>
-        ///     Get countries should return 4 countries
+        /// Get countries should return 4 countries
         /// </summary>
         [Fact]
         public async Task ShouldReturn4Countries()

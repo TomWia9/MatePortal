@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.Opinions.Commands
 {
     /// <summary>
-    ///     Create yerba mate opinion tests
+    /// Create yerba mate opinion tests
     /// </summary>
     public class CreateOpinionTests : IntegrationTest
     {
         /// <summary>
-        ///     Create yerba mate opinion should create opinion and return yerba mate opinion data transfer object
+        /// Create yerba mate opinion should create opinion and return yerba mate opinion data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateYerbaMateOpinionAndReturnYerbaMateOpinionDto()
@@ -53,7 +53,7 @@ namespace Application.IntegrationTests.Opinions.Commands
 
 
         /// <summary>
-        ///     Create opinion for nonexistent yerba should throw NotFound
+        /// Create opinion for nonexistent yerba should throw NotFound
         /// </summary>
         [Fact]
         public async Task CreateOpinionForNonexistentYerbaMateShouldThrowNotFound()
@@ -73,7 +73,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        ///     Opinion should not be added more than once to one yerba by one user
+        /// Opinion should not be added more than once to one yerba by one user
         /// </summary>
         [Fact]
         public async Task OpinionShouldNotBeAddedMoreThanOnceToOneYerbaByOneUser()
@@ -101,7 +101,7 @@ namespace Application.IntegrationTests.Opinions.Commands
         }
 
         /// <summary>
-        ///     Create should increase yerba mate number of opinions
+        /// Create should increase yerba mate number of opinions
         /// </summary>
         [Fact]
         public async Task ShouldIncreaseYerbaMateNumberOfOpinions()

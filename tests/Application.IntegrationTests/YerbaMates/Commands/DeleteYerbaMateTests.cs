@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.YerbaMates.Commands
 {
     /// <summary>
-    ///     Delete yerba mate tests
+    /// Delete yerba mate tests
     /// </summary>
     public class DeleteYerbaMateTests : IntegrationTest
     {
         /// <summary>
-        ///     Delete yerba mate with incorrect id should throw not found exception
+        /// Delete yerba mate with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void DeleteYerbaMateWithIncorrectIdShouldThrowNotFound()
@@ -26,7 +26,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         }
 
         /// <summary>
-        ///     Delete yerba mate command should delete yerba mate
+        /// Delete yerba mate command should delete yerba mate
         /// </summary>
         [Fact]
         public async Task ShouldDeleteYerbaMate()

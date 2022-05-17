@@ -8,12 +8,12 @@ using Xunit;
 namespace Application.IntegrationTests.Users.Commands
 {
     /// <summary>
-    ///     Login user tests
+    /// Login user tests
     /// </summary>
     public class LoginUserTests : IntegrationTest
     {
         /// <summary>
-        ///     Login user should return auth response
+        /// Login user should return auth response
         /// </summary>
         [Fact]
         public async Task ShouldReturnAuthResponse()
@@ -34,7 +34,7 @@ namespace Application.IntegrationTests.Users.Commands
         }
 
         /// <summary>
-        ///     Login user should return error messages when one or more properties are invalid
+        /// Login user should return error messages when one or more properties are invalid
         /// </summary>
         [Theory]
         [InlineData("test.com", "test")]

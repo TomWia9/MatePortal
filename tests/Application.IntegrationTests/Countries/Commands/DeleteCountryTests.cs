@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Countries.Commands
 {
     /// <summary>
-    ///     Delete country tests
+    /// Delete country tests
     /// </summary>
     public class DeleteCountryTests : IntegrationTest
     {
         /// <summary>
-        ///     Delete country with incorrect id should throw not found exception
+        /// Delete country with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void DeleteCountryWithIncorrectIdShouldThrowNotFound()
@@ -27,7 +27,7 @@ namespace Application.IntegrationTests.Countries.Commands
         }
 
         /// <summary>
-        ///     Delete country command should delete country
+        /// Delete country command should delete country
         /// </summary>
         [Fact]
         public async Task ShouldDeleteCountry()

@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Categories.Commands
 {
     /// <summary>
-    ///     Delete category tests
+    /// Delete category tests
     /// </summary>
     public class DeleteCategoryTests : IntegrationTest
     {
         /// <summary>
-        ///     Delete category with incorrect id should throw not found exception
+        /// Delete category with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void DeleteCategoryWithIncorrectIdShouldThrowNotFound()
@@ -28,7 +28,7 @@ namespace Application.IntegrationTests.Categories.Commands
         }
 
         /// <summary>
-        ///     Delete category command should delete category
+        /// Delete category command should delete category
         /// </summary>
         [Fact]
         public async Task ShouldDeleteCategory()

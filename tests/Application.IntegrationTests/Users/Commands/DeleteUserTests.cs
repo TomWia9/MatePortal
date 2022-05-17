@@ -8,8 +8,14 @@ using Xunit;
 
 namespace Application.IntegrationTests.Users.Commands
 {
+    /// <summary>
+    /// Delete user tests
+    /// </summary>
     public class DeleteUserTests : IntegrationTest
     {
+        /// <summary>
+        /// User should be able to delete account
+        /// </summary>
         [Fact]
         public async Task UserShouldBeAbleToDeleteAccount()
         {
@@ -29,6 +35,9 @@ namespace Application.IntegrationTests.Users.Commands
             user.Should().BeNull();
         }
 
+        /// <summary>
+        /// User should not be able to delete account when provided password is invalid
+        /// </summary>
         [Fact]
         public async Task UserShouldNotBeAbleToDeleteAccountWhenProvidedPasswordIsInvalid()
         {
@@ -44,6 +53,9 @@ namespace Application.IntegrationTests.Users.Commands
                 .Throw<ForbiddenAccessException>();
         }
 
+        /// <summary>
+        /// Admin should be able to delete user account without providing password
+        /// </summary>
         [Fact]
         public async Task AdminShouldBeAbleToDeleteUserAccountWithoutProvidingPassword()
         {

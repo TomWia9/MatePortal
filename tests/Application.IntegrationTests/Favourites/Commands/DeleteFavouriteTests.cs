@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.Favourites.Commands
 {
     /// <summary>
-    ///     Delete favourite tests
+    /// Delete favourite tests
     /// </summary>
     public class DeleteFavouriteTests : IntegrationTest
     {
         /// <summary>
-        ///     Delete favourite with incorrect id should throw not found exception
+        /// Delete favourite with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void DeleteFavouriteWithIncorrectIdShouldThrowNotFound()
@@ -30,7 +30,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        ///     Delete favourite command should delete favourite
+        /// Delete favourite command should delete favourite
         /// </summary>
         [Fact]
         public async Task ShouldDeleteFavourite()
@@ -53,7 +53,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        ///     Should decrease yerba mate number of additions to favourites
+        /// Should decrease yerba mate number of additions to favourites
         /// </summary>
         [Fact]
         public async Task ShouldDecreaseYerbaMateNumberOfAddToFav()
@@ -79,7 +79,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        ///     User should not be able to delete other user favourite
+        /// User should not be able to delete other user favourite
         /// </summary>
         [Fact]
         public async Task UserShouldNotBeAbleToDeleteOtherUserFavourite()
@@ -102,7 +102,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        ///     Administrator should be able to delete user favourite
+        /// Administrator should be able to delete user favourite
         /// </summary>
         [Fact]
         public async Task AdministratorShouldBeAbleToDeleteUserFavourite()

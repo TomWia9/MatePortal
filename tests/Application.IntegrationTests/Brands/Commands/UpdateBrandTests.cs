@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Brands.Commands
 {
     /// <summary>
-    ///     Update brand tests
+    /// Update brand tests
     /// </summary>
     public class UpdateBrandTests : IntegrationTest
     {
         /// <summary>
-        ///     Update brand with incorrect id should throw not found exception
+        /// Update brand with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateBrandWithIncorrectIdShouldThrowNotFound()
@@ -35,7 +35,7 @@ namespace Application.IntegrationTests.Brands.Commands
         }
 
         /// <summary>
-        ///     Update brand command should update brand
+        /// Update brand command should update brand
         /// </summary>
         [Fact]
         public async Task UpdateBrandShouldUpdateBrand()
