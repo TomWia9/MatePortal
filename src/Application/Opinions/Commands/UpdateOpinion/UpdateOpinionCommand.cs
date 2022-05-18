@@ -11,16 +11,16 @@ namespace Application.Opinions.Commands.UpdateOpinion
         /// <summary>
         ///     Opinion ID
         /// </summary>
-        public Guid OpinionId { get; set; }
+        public Guid OpinionId { get; init; }
 
         /// <summary>
         ///     Opinion rate
         /// </summary>
-        public int Rate { get; set; }
+        public int Rate { get; init; }
 
         /// <summary>
         ///     Opinion comment
         /// </summary>
-        public string Comment { get; set; }
+        public string Comment { get; init; }
     }
 }

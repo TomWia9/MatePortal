@@ -11,6 +11,6 @@ namespace Application.Shops.Commands.DeleteShop
         /// <summary>
         ///     Shop ID
         /// </summary>
-        public Guid ShopId { get; set; }
+        public Guid ShopId { get; init; }
     }
 }

@@ -8,7 +8,7 @@ namespace Application.Brands.Queries
     /// </summary>
     public class BrandsQueryParameters : QueryParameters
     {
-        private string _country;
+        private readonly string _country;
 
         /// <summary>
         ///     Country parameter that indicates from which country the brands should be taken
@@ -16,7 +16,7 @@ namespace Application.Brands.Queries
         public string Country
         {
             get => string.IsNullOrEmpty(_country) ? _country : _country.FirstCharToUpper();
-            set => _country = value;
+            init => _country = value;
         }
     }
 }

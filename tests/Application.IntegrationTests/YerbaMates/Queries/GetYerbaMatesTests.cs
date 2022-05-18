@@ -83,7 +83,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
             var response = await _mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters
             {
                 SortBy = "Opinions",
-                SortDirection = SortDirection.ASC
+                SortDirection = SortDirection.Asc
             }));
 
             response.Count.Should().Be(3);

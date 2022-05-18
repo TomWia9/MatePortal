@@ -12,16 +12,16 @@ namespace Application.ShopOpinions.Commands.CreateShopOpinion
         /// <summary>
         ///     Shop opinion rate
         /// </summary>
-        public int Rate { get; set; }
+        public int Rate { get; init; }
 
         /// <summary>
         ///     Shop opinion comment
         /// </summary>
-        public string Comment { get; set; }
+        public string Comment { get; init; }
 
         /// <summary>
         ///     Shop ID
         /// </summary>
-        public Guid ShopId { get; set; }
+        public Guid ShopId { get; init; }
     }
 }

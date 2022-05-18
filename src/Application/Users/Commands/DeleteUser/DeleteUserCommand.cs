@@ -11,11 +11,11 @@ namespace Application.Users.Commands.DeleteUser
         /// <summary>
         ///     User's ID
         /// </summary>
-        public Guid UserId { get; set; }
+        public Guid UserId { get; init; }
 
         /// <summary>
         ///     User's password
         /// </summary>
-        public string Password { get; set; }
+        public string Password { get; init; }
     }
 }

@@ -11,6 +11,6 @@ namespace Application.Opinions.Commands.DeleteOpinion
         /// <summary>
         ///     Opinion ID
         /// </summary>
-        public Guid OpinionId { get; set; }
+        public Guid OpinionId { get; init; }
     }
 }

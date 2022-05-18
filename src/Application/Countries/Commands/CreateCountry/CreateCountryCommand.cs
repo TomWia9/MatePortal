@@ -11,6 +11,6 @@ namespace Application.Countries.Commands.CreateCountry
         /// <summary>
         ///     Country name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
     }
 }

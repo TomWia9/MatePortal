@@ -12,6 +12,6 @@ namespace Application.Favourites.Commands.CreateFavourite
         /// <summary>
         ///     Yerba mate ID
         /// </summary>
-        public Guid YerbaMateId { get; set; }
+        public Guid YerbaMateId { get; init; }
     }
 }

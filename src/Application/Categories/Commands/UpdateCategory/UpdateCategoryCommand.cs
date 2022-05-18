@@ -11,16 +11,16 @@ namespace Application.Categories.Commands.UpdateCategory
         /// <summary>
         ///     Category ID
         /// </summary>
-        public Guid CategoryId { get; set; }
+        public Guid CategoryId { get; init; }
 
         /// <summary>
         ///     Category name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
         ///     Category description
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; init; }
     }
 }

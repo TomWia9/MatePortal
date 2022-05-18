@@ -8,11 +8,11 @@
         /// <summary>
         ///     Ascending direction
         /// </summary>
-        ASC,
+        Asc,
 
         /// <summary>
         ///     Descending direction
         /// </summary>
-        DESC
+        Desc
     }
 }

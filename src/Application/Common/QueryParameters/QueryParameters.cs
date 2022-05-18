@@ -7,23 +7,23 @@ namespace Application.Common.QueryParameters
     /// </summary>
     public abstract class QueryParameters
     {
-        private const int maxPageSize = 30;
+        private const int MaxPageSize = 30;
         private int _pageSize = 10;
 
         /// <summary>
         ///     The column by which to sort
         /// </summary>
-        public string SortBy { get; set; }
+        public string SortBy { get; init; }
 
         /// <summary>
         ///     The sort direction
         /// </summary>
-        public SortDirection SortDirection { get; set; } = SortDirection.ASC;
+        public SortDirection SortDirection { get; init; } = SortDirection.Asc;
 
         /// <summary>
         ///     The search query
         /// </summary>
-        public string SearchQuery { get; set; }
+        public string SearchQuery { get; init; }
 
         /// <summary>
         ///     The page number
@@ -36,7 +36,7 @@ namespace Application.Common.QueryParameters
         public int PageSize
         {
             get => _pageSize;
-            set => _pageSize = value > maxPageSize ? maxPageSize : value;
+            set => _pageSize = value > MaxPageSize ? MaxPageSize : value;
         }
     }
 }

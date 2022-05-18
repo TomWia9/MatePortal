@@ -16,31 +16,31 @@ namespace Application.YerbaMates.Commands.UpdateYerbaMate
         /// <summary>
         ///     Yerba mate name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
         ///     Yerba mate description
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; init; }
 
         /// <summary>
         ///     Yerba mate image url
         /// </summary>
-        public string imgUrl { get; set; }
+        public string imgUrl { get; init; }
 
         /// <summary>
         ///     Yerba mate average price
         /// </summary>
-        public decimal AveragePrice { get; set; }
+        public decimal AveragePrice { get; init; }
 
         /// <summary>
         ///     Yerba mate brand ID
         /// </summary>
-        public Guid BrandId { get; set; }
+        public Guid BrandId { get; init; }
 
         /// <summary>
         ///     Yerba mate category ID
         /// </summary>
-        public Guid CategoryId { get; set; }
+        public Guid CategoryId { get; init; }
     }
 }

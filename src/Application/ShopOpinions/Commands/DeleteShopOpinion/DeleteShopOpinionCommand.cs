@@ -11,6 +11,6 @@ namespace Application.ShopOpinions.Commands.DeleteShopOpinion
         /// <summary>
         ///     Shop opinion ID
         /// </summary>
-        public Guid ShopOpinionId { get; set; }
+        public Guid ShopOpinionId { get; init; }
     }
 }

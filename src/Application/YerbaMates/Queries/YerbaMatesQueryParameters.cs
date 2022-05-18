@@ -8,9 +8,9 @@ namespace Application.YerbaMates.Queries
     /// </summary>
     public class YerbaMatesQueryParameters : QueryParameters
     {
-        private string _brand;
-        private string _category;
-        private string _country;
+        private readonly string _brand;
+        private readonly string _category;
+        private readonly string _country;
 
         /// <summary>
         ///     Country parameter that indicates from which country yerba mates should be taken
@@ -18,7 +18,7 @@ namespace Application.YerbaMates.Queries
         public string Country
         {
             get => string.IsNullOrEmpty(_country) ? _country : _country.FirstCharToUpper();
-            set => _country = value;
+            init => _country = value;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Application.YerbaMates.Queries
         public string Brand
         {
             get => string.IsNullOrEmpty(_brand) ? _brand : _brand.FirstCharToUpper();
-            set => _brand = value;
+            init => _brand = value;
         }
 
         /// <summary>
@@ -36,12 +36,12 @@ namespace Application.YerbaMates.Queries
         public string Category
         {
             get => string.IsNullOrEmpty(_category) ? _category : _category.FirstCharToUpper();
-            set => _category = value;
+            init => _category = value;
         }
 
         /// <summary>
         ///     Maximum price parameter
         /// </summary>
-        public decimal? MaxPrice { get; set; }
+        public decimal? MaxPrice { get; init; }
     }
 }

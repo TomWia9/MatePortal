@@ -11,6 +11,6 @@ namespace Application.Brands.Commands.DeleteBrand
         /// <summary>
         ///     Brand ID
         /// </summary>
-        public Guid BrandId { get; set; }
+        public Guid BrandId { get; init; }
     }
 }

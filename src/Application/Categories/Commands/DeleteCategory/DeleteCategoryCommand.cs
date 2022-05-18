@@ -11,6 +11,6 @@ namespace Application.Categories.Commands.DeleteCategory
         /// <summary>
         ///     Category ID
         /// </summary>
-        public Guid CategoryId { get; set; }
+        public Guid CategoryId { get; init; }
     }
 }

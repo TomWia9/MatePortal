@@ -28,7 +28,7 @@ namespace Api
         /// <summary>
         ///     The configuration
         /// </summary>
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         /// <summary>
         ///     Configures the services.

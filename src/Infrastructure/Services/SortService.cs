@@ -28,7 +28,7 @@ namespace Infrastructure.Services
         {
             var selectedColumn = sortingColumns[sortBy.FirstCharToUpper()];
 
-            collection = sortDirection == SortDirection.ASC
+            collection = sortDirection == SortDirection.Asc
                 ? collection.OrderBy(selectedColumn)
                 : collection.OrderByDescending(selectedColumn);
 

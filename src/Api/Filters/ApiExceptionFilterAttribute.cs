@@ -86,7 +86,7 @@ namespace Api.Filters
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };
 
-            _logger.LogError(exception.Message);
+            if (exception != null) _logger.LogError(exception.Message);
 
             context.Result = new BadRequestObjectResult(details);
             context.ExceptionHandled = true;
@@ -107,7 +107,7 @@ namespace Api.Filters
                 Detail = exception?.Message
             };
 
-            _logger.LogError(exception.Message);
+            if (exception != null) _logger.LogError(exception.Message);
 
             context.Result = new NotFoundObjectResult(details);
             context.ExceptionHandled = true;
@@ -170,7 +170,7 @@ namespace Api.Filters
                 Detail = exception?.Message
             };
 
-            _logger.LogError(exception.Message);
+            if (exception != null) _logger.LogError(exception.Message);
 
             context.Result = new ConflictObjectResult(details);
             context.ExceptionHandled = true;

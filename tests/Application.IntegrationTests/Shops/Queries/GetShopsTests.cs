@@ -54,7 +54,7 @@ namespace Application.IntegrationTests.Shops.Queries
             var response = await _mediator.Send(new GetShopsQuery(new ShopsQueryParameters
             {
                 SortBy = "Opinions",
-                SortDirection = SortDirection.ASC
+                SortDirection = SortDirection.Asc
             }));
 
             response.Count.Should().Be(3);

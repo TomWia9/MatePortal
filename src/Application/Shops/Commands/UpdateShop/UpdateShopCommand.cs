@@ -11,16 +11,16 @@ namespace Application.Shops.Commands.UpdateShop
         /// <summary>
         ///     Shop ID
         /// </summary>
-        public Guid ShopId { get; set; }
+        public Guid ShopId { get; init; }
 
         /// <summary>
         ///     Shop name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
         ///     Shop description
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; init; }
     }
 }

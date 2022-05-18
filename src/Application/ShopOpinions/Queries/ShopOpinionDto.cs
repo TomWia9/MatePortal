@@ -12,17 +12,17 @@ namespace Application.ShopOpinions.Queries
         /// <summary>
         ///     Shop opinion ID
         /// </summary>
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
         /// <summary>
         ///     Shop opinion rate
         /// </summary>
-        public int Rate { get; set; }
+        public int Rate { get; init; }
 
         /// <summary>
         ///     Shop opinion comment
         /// </summary>
-        public string Comment { get; set; }
+        public string Comment { get; init; }
 
         /// <summary>
         ///     Shop opinion created date

@@ -11,6 +11,6 @@ namespace Application.Favourites.Commands.DeleteFavourite
         /// <summary>
         ///     Favourite ID
         /// </summary>
-        public Guid FavouriteId { get; set; }
+        public Guid FavouriteId { get; init; }
     }
 }

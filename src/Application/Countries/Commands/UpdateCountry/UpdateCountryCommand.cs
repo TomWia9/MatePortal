@@ -16,6 +16,6 @@ namespace Application.Countries.Commands.UpdateCountry
         /// <summary>
         ///     Country name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
     }
 }

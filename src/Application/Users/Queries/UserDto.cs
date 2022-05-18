@@ -20,11 +20,11 @@ namespace Application.Users.Queries
         /// <summary>
         ///     User's email
         /// </summary>
-        public string Email { get; set; }
+        public string Email { get; init; }
 
         /// <summary>
         ///     User's username
         /// </summary>
-        public string Username { get; set; }
+        public string Username { get; init; }
     }
 }

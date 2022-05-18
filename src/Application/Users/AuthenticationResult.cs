@@ -10,16 +10,16 @@ namespace Application.Users
         /// <summary>
         ///     Authentication token
         /// </summary>
-        public string Token { get; set; }
+        public string Token { get; init; }
 
         /// <summary>
         ///     Indicates success
         /// </summary>
-        public bool Success { get; set; }
+        public bool Success { get; init; }
 
         /// <summary>
         ///     Error messages list
         /// </summary>
-        public IEnumerable<string> ErrorMessages { get; set; }
+        public IEnumerable<string> ErrorMessages { get; init; }
     }
 }

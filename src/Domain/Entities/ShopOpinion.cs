@@ -12,7 +12,7 @@ namespace Domain.Entities
         /// <summary>
         ///     The shop opinion ID
         /// </summary>
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
         /// <summary>
         ///     The shop opinion rate

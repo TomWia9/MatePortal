@@ -12,16 +12,16 @@ namespace Application.Opinions.Commands.CreateOpinion
         /// <summary>
         ///     Opinion rate
         /// </summary>
-        public int Rate { get; set; }
+        public int Rate { get; init; }
 
         /// <summary>
         ///     Opinion comment
         /// </summary>
-        public string Comment { get; set; }
+        public string Comment { get; init; }
 
         /// <summary>
         ///     Yerba mate ID
         /// </summary>
-        public Guid YerbaMateId { get; set; }
+        public Guid YerbaMateId { get; init; }
     }
 }

@@ -12,16 +12,16 @@ namespace Application.Brands.Commands.CreateBrand
         /// <summary>
         ///     Brand name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
         ///     Brand description
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; init; }
 
         /// <summary>
         ///     Brand country ID
         /// </summary>
-        public Guid CountryId { get; set; }
+        public Guid CountryId { get; init; }
     }
 }
