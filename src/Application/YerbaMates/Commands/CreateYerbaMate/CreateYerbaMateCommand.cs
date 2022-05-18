@@ -22,7 +22,7 @@ namespace Application.YerbaMates.Commands.CreateYerbaMate
         /// <summary>
         ///     Yerba mate image url
         /// </summary>
-        public string imgUrl { get; init; }
+        public string ImgUrl { get; init; }
 
         /// <summary>
         ///     Yerba mate average price

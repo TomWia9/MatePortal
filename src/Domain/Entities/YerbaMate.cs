@@ -37,8 +37,7 @@ namespace Domain.Entities
         /// <summary>
         ///     The yerba mate image url
         /// </summary>
-        //TODO change to uppercase
-        public string imgUrl { get; set; }
+        public string ImgUrl { get; set; }
 
         /// <summary>
         ///     The yerba mate average price

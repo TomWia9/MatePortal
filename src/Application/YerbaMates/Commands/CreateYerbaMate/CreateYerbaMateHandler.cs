@@ -60,7 +60,7 @@ namespace Application.YerbaMates.Commands.CreateYerbaMate
             {
                 Name = request.Name,
                 Description = request.Description,
-                imgUrl = request.imgUrl,
+                ImgUrl = request.ImgUrl,
                 AveragePrice = request.AveragePrice,
                 CategoryId = request.CategoryId,
                 BrandId = request.BrandId

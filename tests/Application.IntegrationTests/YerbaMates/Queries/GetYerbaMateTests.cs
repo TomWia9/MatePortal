@@ -33,7 +33,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
                 Id = yerbaMateId,
                 Name = "Kurupi Katuava",
                 Description = "One of the best herbal yerba",
-                imgUrl = "test img url",
+                ImgUrl = "test img url",
                 AveragePrice = 15.21M,
                 NumberOfOpinions = 0,
                 NumberOfAddToFav = 0,

@@ -53,7 +53,7 @@ namespace Application.YerbaMates.Commands.UpdateYerbaMate
 
             entity.Name = request.Name;
             entity.Description = request.Description;
-            entity.imgUrl = request.imgUrl;
+            entity.ImgUrl = request.ImgUrl;
             entity.AveragePrice = request.AveragePrice;
             entity.BrandId = request.BrandId;
             entity.CategoryId = request.CategoryId;

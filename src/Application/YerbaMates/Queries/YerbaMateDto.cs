@@ -30,7 +30,7 @@ namespace Application.YerbaMates.Queries
         /// <summary>
         ///     Yerba mate image url
         /// </summary>
-        public string imgUrl { get; set; }
+        public string ImgUrl { get; set; }
 
         /// <summary>
         ///     Yerba ate average price

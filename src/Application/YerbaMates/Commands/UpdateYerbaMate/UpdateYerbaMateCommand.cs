@@ -26,7 +26,7 @@ namespace Application.YerbaMates.Commands.UpdateYerbaMate
         /// <summary>
         ///     Yerba mate image url
         /// </summary>
-        public string imgUrl { get; init; }
+        public string ImgUrl { get; init; }
 
         /// <summary>
         ///     Yerba mate average price

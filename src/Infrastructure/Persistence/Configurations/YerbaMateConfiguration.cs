@@ -23,7 +23,7 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(y => y.Name).HasMaxLength(200).IsRequired();
             builder.Property(y => y.Description).HasMaxLength(1000).IsRequired();
-            builder.Property(y => y.imgUrl).HasMaxLength(500);
+            builder.Property(y => y.ImgUrl).HasMaxLength(500);
             builder.Property(y => y.AveragePrice).HasColumnType("money").IsRequired();
         }
     }
