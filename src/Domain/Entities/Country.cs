@@ -4,23 +4,23 @@ using System.Collections.Generic;
 namespace Domain.Entities
 {
     /// <summary>
-    /// The country
+    ///     The country
     /// </summary>
     public class Country
     {
         /// <summary>
-        /// The country ID
+        ///     The country ID
         /// </summary>
         public Guid Id { get; init; }
 
         /// <summary>
-        /// The country name
+        ///     The country name
         /// </summary>
         public string Name { get; set; }
         // TODO Add description to Country
 
         /// <summary>
-        /// The country brands
+        ///     The country brands
         /// </summary>
         public IList<Brand> Brands { get; set; } = new List<Brand>();
     }

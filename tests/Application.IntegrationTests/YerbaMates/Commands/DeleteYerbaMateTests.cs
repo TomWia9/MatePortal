@@ -10,23 +10,23 @@ using Xunit;
 namespace Application.IntegrationTests.YerbaMates.Commands
 {
     /// <summary>
-    /// Delete yerba mate tests
+    ///     Delete yerba mate tests
     /// </summary>
     public class DeleteYerbaMateTests : IntegrationTest
     {
         /// <summary>
-        /// Delete yerba mate with incorrect id should throw not found exception
+        ///     Delete yerba mate with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void DeleteYerbaMateWithIncorrectIdShouldThrowNotFound()
         {
             FluentActions.Invoking(() =>
-                    _mediator.Send(new DeleteYerbaMateCommand { YerbaMateId = Guid.Empty })).Should()
+                    _mediator.Send(new DeleteYerbaMateCommand {YerbaMateId = Guid.Empty})).Should()
                 .Throw<NotFoundException>();
         }
 
         /// <summary>
-        /// Delete yerba mate command should delete yerba mate
+        ///     Delete yerba mate command should delete yerba mate
         /// </summary>
         [Fact]
         public async Task ShouldDeleteYerbaMate()
@@ -36,7 +36,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
             var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //one of seeded yerba mates
 
             //delete
-            await _mediator.Send(new DeleteYerbaMateCommand { YerbaMateId = yerbaMateId });
+            await _mediator.Send(new DeleteYerbaMateCommand {YerbaMateId = yerbaMateId});
 
             //Assert that deleted
             var item = await DbHelper.FindAsync<YerbaMate>(_factory, yerbaMateId);

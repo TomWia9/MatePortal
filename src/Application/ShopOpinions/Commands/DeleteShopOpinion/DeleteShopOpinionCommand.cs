@@ -4,13 +4,13 @@ using MediatR;
 namespace Application.ShopOpinions.Commands.DeleteShopOpinion
 {
     /// <summary>
-    /// Delete shop opinion command
+    ///     Delete shop opinion command
     /// </summary>
     public class DeleteShopOpinionCommand : IRequest
     {
         /// <summary>
-        /// Shop opinion ID
+        ///     Shop opinion ID
         /// </summary>
-        public Guid ShopOpinionId { get; set; }
+        public Guid ShopOpinionId { get; init; }
     }
 }

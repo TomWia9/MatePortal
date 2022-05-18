@@ -3,12 +3,12 @@
 namespace Domain.Common
 {
     /// <summary>
-    /// Domain event
+    ///     Domain event
     /// </summary>
     public abstract class DomainEvent
     {
         /// <summary>
-        /// Initializes domain event
+        ///     Initializes domain event
         /// </summary>
         protected DomainEvent()
         {
@@ -16,12 +16,12 @@ namespace Domain.Common
         }
 
         /// <summary>
-        /// Indicates that event is published
+        ///     Indicates that event is published
         /// </summary>
         public bool IsPublished { get; set; }
-        
+
         /// <summary>
-        /// Date occured
+        ///     Date occured
         /// </summary>
         public DateTimeOffset DateOccured { get; } = DateTime.UtcNow;
     }

@@ -6,22 +6,22 @@ using MediatR;
 namespace Application.Users.Commands.DeleteUser
 {
     /// <summary>
-    /// Delete user handler
+    ///     Delete user handler
     /// </summary>
     public class DeleteUserHandler : IRequestHandler<DeleteUserCommand>
     {
         /// <summary>
-        /// Current user service
+        ///     Current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
 
         /// <summary>
-        /// User service
+        ///     User service
         /// </summary>
         private readonly IUsersService _userService;
 
         /// <summary>
-        /// Initializes DeleteUserHandler
+        ///     Initializes DeleteUserHandler
         /// </summary>
         /// <param name="userService">User service</param>
         /// <param name="currentUserService">Current user service</param>
@@ -32,7 +32,7 @@ namespace Application.Users.Commands.DeleteUser
         }
 
         /// <summary>
-        /// Handles deleting user
+        ///     Handles deleting user
         /// </summary>
         /// <param name="request">The delete user request</param>
         /// <param name="cancellationToken">Cancellation token</param>

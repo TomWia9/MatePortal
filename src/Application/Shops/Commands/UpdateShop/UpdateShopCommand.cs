@@ -4,23 +4,23 @@ using MediatR;
 namespace Application.Shops.Commands.UpdateShop
 {
     /// <summary>
-    /// Update shop command
+    ///     Update shop command
     /// </summary>
     public class UpdateShopCommand : IRequest
     {
         /// <summary>
-        /// Shop ID
+        ///     Shop ID
         /// </summary>
-        public Guid ShopId { get; set; }
+        public Guid ShopId { get; init; }
 
         /// <summary>
-        /// Shop name
+        ///     Shop name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
-        /// Shop description
+        ///     Shop description
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; init; }
     }
 }

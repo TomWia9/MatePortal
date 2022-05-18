@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Countries.Commands
 {
     /// <summary>
-    /// Update country tests
+    ///     Update country tests
     /// </summary>
     public class UpdateCountryTests : IntegrationTest
     {
         /// <summary>
-        /// Update country with incorrect id should throw not found exception
+        ///     Update country with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateCountryWithIncorrectIdShouldThrowNotFound()
@@ -33,7 +33,7 @@ namespace Application.IntegrationTests.Countries.Commands
         }
 
         /// <summary>
-        /// Update country command should update country
+        ///     Update country command should update country
         /// </summary>
         [Fact]
         public async Task UpdateCountryShouldUpdateCountry()

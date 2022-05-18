@@ -1,7 +1,7 @@
 ﻿namespace Application.Users.Responses
 {
     /// <summary>
-    /// IAuthResponse interface
+    ///     IAuthResponse interface
     /// </summary>
     public interface IAuthResponse
     {

@@ -5,13 +5,13 @@ using MediatR;
 namespace Application.Favourites.Commands.CreateFavourite
 {
     /// <summary>
-    /// Create favourite command
+    ///     Create favourite command
     /// </summary>
     public class CreateFavouriteCommand : IRequest<FavouriteDto>
     {
         /// <summary>
-        /// Yerba mate ID
+        ///     Yerba mate ID
         /// </summary>
-        public Guid YerbaMateId { get; set; }
+        public Guid YerbaMateId { get; init; }
     }
 }

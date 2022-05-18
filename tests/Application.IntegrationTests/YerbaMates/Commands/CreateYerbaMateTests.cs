@@ -13,12 +13,12 @@ using Xunit;
 namespace Application.IntegrationTests.YerbaMates.Commands
 {
     /// <summary>
-    /// Create yerba mate tests
+    ///     Create yerba mate tests
     /// </summary>
     public class CreateYerbaMateTests : IntegrationTest
     {
         /// <summary>
-        /// Create yerba mate should create yerba mate and return yerba mate data transfer object
+        ///     Create yerba mate should create yerba mate and return yerba mate data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateYerbaMateAndReturnYerbaMateDto()
@@ -31,7 +31,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
             {
                 Name = "Test",
                 Description = "Test description",
-                imgUrl = "https://test.com",
+                ImgUrl = "https://test.com",
                 AveragePrice = 12.32M,
                 CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), //one of seeded categories
                 BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239") //one of seeded brands
@@ -41,7 +41,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
             {
                 Name = command.Name,
                 Description = command.Description,
-                imgUrl = "https://test.com",
+                ImgUrl = "https://test.com",
                 AveragePrice = 12.32M,
                 NumberOfOpinions = 0,
                 NumberOfAddToFav = 0,
@@ -75,7 +75,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         }
 
         /// <summary>
-        /// Yerba Mate should require unique name
+        ///     Yerba Mate should require unique name
         /// </summary>
         [Fact]
         public async Task ShouldRequireUniqueName()
@@ -87,7 +87,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
             {
                 Name = "Test",
                 Description = "Test description",
-                imgUrl = "https://test.com",
+                ImgUrl = "https://test.com",
                 AveragePrice = 12.32M,
                 CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), //one of seeded categories
                 BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239") //one of seeded brands

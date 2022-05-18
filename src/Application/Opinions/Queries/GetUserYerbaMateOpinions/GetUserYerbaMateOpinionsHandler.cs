@@ -15,28 +15,28 @@ using MediatR;
 namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
 {
     /// <summary>
-    /// Get user's yerba mate opinions handler
+    ///     Get user's yerba mate opinions handler
     /// </summary>
     public class
         GetUserYerbaMateOpinionsHandler : IRequestHandler<GetUserYerbaMateOpinionsQuery, PaginatedList<OpinionDto>>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Sort service
+        ///     Sort service
         /// </summary>
         private readonly ISortService<Opinion> _sortService;
 
         /// <summary>
-        /// Initializes GetUsersYerbaMateOpinionsHandler
+        ///     Initializes GetUsersYerbaMateOpinionsHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -51,7 +51,7 @@ namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
         }
 
         /// <summary>
-        /// Handles getting user's yerba mate opinions
+        ///     Handles getting user's yerba mate opinions
         /// </summary>
         /// <param name="request">Get user's yerba mate opinions request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -82,9 +82,9 @@ namespace Application.Opinions.Queries.GetUserYerbaMateOpinions
             {
                 var sortingColumns = new Dictionary<string, Expression<Func<Opinion, object>>>
                 {
-                    { nameof(Opinion.Created), o => o.Created },
-                    { nameof(Opinion.Comment), o => o.Comment },
-                    { nameof(Opinion.Rate), o => o.Rate }
+                    {nameof(Opinion.Created), o => o.Created},
+                    {nameof(Opinion.Comment), o => o.Comment},
+                    {nameof(Opinion.Rate), o => o.Rate}
                 };
 
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,

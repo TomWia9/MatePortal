@@ -9,14 +9,14 @@ using Application.Common.Interfaces;
 namespace Infrastructure.Services
 {
     /// <summary>
-    /// Sort service
+    ///     Sort service
     /// </summary>
     /// <typeparam name="T">The type of sorted collection</typeparam>
     public class SortService<T> : ISortService<T>
         where T : class
     {
         /// <summary>
-        /// Sorts the given collection on the given property in the specified direction
+        ///     Sorts the given collection on the given property in the specified direction
         /// </summary>
         /// <param name="collection">Collection to sort</param>
         /// <param name="sortBy">Property by which to sort</param>
@@ -28,7 +28,7 @@ namespace Infrastructure.Services
         {
             var selectedColumn = sortingColumns[sortBy.FirstCharToUpper()];
 
-            collection = sortDirection == SortDirection.ASC
+            collection = sortDirection == SortDirection.Asc
                 ? collection.OrderBy(selectedColumn)
                 : collection.OrderByDescending(selectedColumn);
 

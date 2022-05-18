@@ -8,12 +8,12 @@ using Xunit;
 namespace Application.IntegrationTests.Favourites.Queries
 {
     /// <summary>
-    /// Get favourites tests
+    ///     Get favourites tests
     /// </summary>
     public class GetFavouritesTests : IntegrationTest
     {
         /// <summary>
-        /// Get favourites should return all user's favourites
+        ///     Get favourites should return all user's favourites
         /// </summary>
         [Fact]
         public async Task ShouldReturnAllUsersFavourites()

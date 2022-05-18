@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.YerbaMates.Queries
 {
     /// <summary>
-    /// Get yerba mates tests
+    ///     Get yerba mates tests
     /// </summary>
     public class GetYerbaMatesTests : IntegrationTest
     {
         /// <summary>
-        /// Get yerba mates should return all yerba mates
+        ///     Get yerba mates should return all yerba mates
         /// </summary>
         [Fact]
         public async Task ShouldReturnAllYerbaMates()
@@ -28,7 +28,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
         }
 
         /// <summary>
-        /// Get yerba mates with specified query search should return correct yerba mates
+        ///     Get yerba mates with specified query search should return correct yerba mates
         /// </summary>
         [Fact]
         public async Task GetYerbaMatesWithSpecifiedQuerySearchShouldReturnCorrectYerbaMates()
@@ -48,7 +48,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
         }
 
         /// <summary>
-        /// Get yerba mates with specified query parameters should return correct yerba mates
+        ///     Get yerba mates with specified query parameters should return correct yerba mates
         /// </summary>
         [Fact]
         public async Task GetYerbaMatesWithSpecifiedQueryParametersShouldReturnCorrectYerbaMates()
@@ -70,7 +70,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
         }
 
         /// <summary>
-        /// Get yerba mates with specified sorting should return correct sorted yerba mates
+        ///     Get yerba mates with specified sorting should return correct sorted yerba mates
         /// </summary>
         [Fact]
         public async Task GetYerbaMatesWithSpecifiedSortingShouldReturnCorrectSortedYerbaMates()
@@ -83,7 +83,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
             var response = await _mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters
             {
                 SortBy = "Opinions",
-                SortDirection = SortDirection.ASC
+                SortDirection = SortDirection.Asc
             }));
 
             response.Count.Should().Be(3);

@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.IntegrationTests.Helpers
 {
     /// <summary>
-    /// Test seeder for seeding test data to database
+    ///     Test seeder for seeding test data to database
     /// </summary>
     public static class TestSeeder
     {
         /// <summary>
-        /// Seed test brands
+        ///     Seed test brands
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestBrandsAsync(CustomWebApplicationFactory factory)
@@ -28,7 +28,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Seed test categories
+        ///     Seed test categories
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestCategoriesAsync(CustomWebApplicationFactory factory)
@@ -43,7 +43,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Seed test favourites
+        ///     Seed test favourites
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestFavouritesAsync(CustomWebApplicationFactory factory)
@@ -58,7 +58,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Seed test yerba mates
+        ///     Seed test yerba mates
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestYerbaMatesAsync(CustomWebApplicationFactory factory)
@@ -84,7 +84,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Seed test shops
+        ///     Seed test shops
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestShopsAsync(CustomWebApplicationFactory factory)
@@ -99,7 +99,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Seed test shop opinions
+        ///     Seed test shop opinions
         /// </summary>
         /// <param name="factory">Web application factory</param>
         public static async Task SeedTestShopOpinionsAsync(CustomWebApplicationFactory factory)
@@ -114,7 +114,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test brands
+        ///     Gets test brands
         /// </summary>
         /// <returns>List of test brands</returns>
         private static IEnumerable<Brand> GetBrands()
@@ -160,7 +160,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test categories
+        ///     Gets test categories
         /// </summary>
         /// <returns>List of test categories</returns>
         private static IEnumerable<Category> GetCategories()
@@ -183,7 +183,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test favourites
+        ///     Gets test favourites
         /// </summary>
         /// <returns>List of test favourites</returns>
         private static IEnumerable<Favourite> GetFavourites()
@@ -214,7 +214,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test yerba mates
+        ///     Gets test yerba mates
         /// </summary>
         /// <returns>List of test yerba mates</returns>
         private static IEnumerable<YerbaMate> GetYerbaMates()
@@ -227,7 +227,7 @@ namespace Application.IntegrationTests.Helpers
                     BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"),
                     Name = "Kurupi Katuava",
                     Description = "One of the best herbal yerba",
-                    imgUrl = "test img url",
+                    ImgUrl = "test img url",
                     AveragePrice = 15.21M,
                     CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E")
                 },
@@ -237,7 +237,7 @@ namespace Application.IntegrationTests.Helpers
                     BrandId = Guid.Parse("7CE3AB2A-1CD4-44F2-8977-96EEA486E3DE"),
                     Name = "Test 1",
                     Description = "Description 1",
-                    imgUrl = "Test 1 img url",
+                    ImgUrl = "Test 1 img url",
                     AveragePrice = 20.99M,
                     CategoryId = Guid.Parse("F71D6A78-0196-4FA8-B369-39E29504DBA2")
                 },
@@ -247,7 +247,7 @@ namespace Application.IntegrationTests.Helpers
                     BrandId = Guid.Parse("2CDF8E36-2F3E-4C07-A253-513F7E617DFA"),
                     Name = "Test 2",
                     Description = "Description 2",
-                    imgUrl = "Test 2 img url",
+                    ImgUrl = "Test 2 img url",
                     AveragePrice = 9.99M,
                     CategoryId = Guid.Parse("F71D6A78-0196-4FA8-B369-39E29504DBA2")
                 }
@@ -255,7 +255,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test yerba mate opinions
+        ///     Gets test yerba mate opinions
         /// </summary>
         /// <returns>List of test yerba mate opinions</returns>
         private static IEnumerable<Opinion> GetYerbaMateOpinions()
@@ -287,7 +287,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test shops
+        ///     Gets test shops
         /// </summary>
         /// <returns>List of test shops</returns>
         private static IEnumerable<Shop> GetShops()
@@ -316,7 +316,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets test shop opinions
+        ///     Gets test shop opinions
         /// </summary>
         /// <returns>List of test shop opinions</returns>
         private static IEnumerable<ShopOpinion> GetShopOpinions()

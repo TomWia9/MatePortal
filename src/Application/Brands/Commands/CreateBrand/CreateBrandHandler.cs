@@ -11,22 +11,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Brands.Commands.CreateBrand
 {
     /// <summary>
-    /// Create brand handler
+    ///     Create brand handler
     /// </summary>
     public class CreateBrandHandler : IRequestHandler<CreateBrandCommand, BrandDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes CreateBrandHandler
+        ///     Initializes CreateBrandHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -37,7 +37,7 @@ namespace Application.Brands.Commands.CreateBrand
         }
 
         /// <summary>
-        /// Handles creating brand
+        ///     Handles creating brand
         /// </summary>
         /// <param name="request">The create brand request</param>
         /// <param name="cancellationToken">Cancellation token</param>

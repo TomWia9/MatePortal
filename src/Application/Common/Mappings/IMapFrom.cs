@@ -3,13 +3,13 @@
 namespace Application.Common.Mappings
 {
     /// <summary>
-    /// IMapFrom interface
+    ///     IMapFrom interface
     /// </summary>
     /// <typeparam name="T">Source type</typeparam>
     public interface IMapFrom<T>
     {
         /// <summary>
-        /// Creates map
+        ///     Creates map
         /// </summary>
         /// <param name="profile">The profile</param>
         void Mapping(Profile profile)

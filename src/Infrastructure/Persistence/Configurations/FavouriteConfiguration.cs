@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Persistence.Configurations
 {
     /// <summary>
-    /// The favourite configuration
+    ///     The favourite configuration
     /// </summary>
     public class FavouriteConfiguration : IEntityTypeConfiguration<Favourite>
     {
         /// <summary>
-        /// Configures favourites
+        ///     Configures favourites
         /// </summary>
         /// <param name="builder">Entity type builder</param>
         public void Configure(EntityTypeBuilder<Favourite> builder)

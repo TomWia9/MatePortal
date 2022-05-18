@@ -9,17 +9,17 @@ using MediatR;
 namespace Application.Countries.Queries.GetCountries
 {
     /// <summary>
-    /// Get countries handler
+    ///     Get countries handler
     /// </summary>
     public class GetCountriesHandler : IRequestHandler<GetCountriesQuery, IEnumerable<CountryDto>>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// Initializes GetCountriesHandler
+        ///     Initializes GetCountriesHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public GetCountriesHandler(IApplicationDbContext context)
@@ -28,7 +28,7 @@ namespace Application.Countries.Queries.GetCountries
         }
 
         /// <summary>
-        /// Handles getting countries
+        ///     Handles getting countries
         /// </summary>
         /// <param name="request">Get countries request</param>
         /// <param name="cancellationToken">Cancellation token</param>

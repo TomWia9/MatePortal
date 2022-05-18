@@ -4,43 +4,43 @@ using MediatR;
 namespace Application.YerbaMates.Commands.UpdateYerbaMate
 {
     /// <summary>
-    /// Update yerba mate command
+    ///     Update yerba mate command
     /// </summary>
     public class UpdateYerbaMateCommand : IRequest
     {
         /// <summary>
-        /// Yerba mate ID
+        ///     Yerba mate ID
         /// </summary>
         public Guid YerbaMateId { get; init; }
 
         /// <summary>
-        /// Yerba mate name
+        ///     Yerba mate name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
-        /// Yerba mate description
+        ///     Yerba mate description
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; init; }
 
         /// <summary>
-        /// Yerba mate image url
+        ///     Yerba mate image url
         /// </summary>
-        public string imgUrl { get; set; }
+        public string ImgUrl { get; init; }
 
         /// <summary>
-        /// Yerba mate average price
+        ///     Yerba mate average price
         /// </summary>
-        public decimal AveragePrice { get; set; }
+        public decimal AveragePrice { get; init; }
 
         /// <summary>
-        /// Yerba mate brand ID
+        ///     Yerba mate brand ID
         /// </summary>
-        public Guid BrandId { get; set; }
+        public Guid BrandId { get; init; }
 
         /// <summary>
-        /// Yerba mate category ID
+        ///     Yerba mate category ID
         /// </summary>
-        public Guid CategoryId { get; set; }
+        public Guid CategoryId { get; init; }
     }
 }

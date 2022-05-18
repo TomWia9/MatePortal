@@ -11,22 +11,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Categories.Commands.CreateCategory
 {
     /// <summary>
-    /// Create category handler
+    ///     Create category handler
     /// </summary>
     public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, CategoryDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes CreateCategoryHandler
+        ///     Initializes CreateCategoryHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -37,7 +37,7 @@ namespace Application.Categories.Commands.CreateCategory
         }
 
         /// <summary>
-        /// Handles creating category
+        ///     Handles creating category
         /// </summary>
         /// <param name="request">The create category request</param>
         /// <param name="cancellationToken">Cancellation token</param>

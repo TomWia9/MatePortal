@@ -8,12 +8,12 @@ using Xunit;
 namespace Application.IntegrationTests.Opinions.Queries
 {
     /// <summary>
-    /// Get user's yerba mate opinions tests
+    ///     Get user's yerba mate opinions tests
     /// </summary>
     public class GetUserYerbaMateOpinionsTests : IntegrationTest
     {
         /// <summary>
-        /// Get opinions should return all user's opinions
+        ///     Get opinions should return all user's opinions
         /// </summary>
         [Fact]
         public async Task ShouldReturnAllUserOpinions()
@@ -27,7 +27,7 @@ namespace Application.IntegrationTests.Opinions.Queries
         }
 
         /// <summary>
-        /// Get user's yerba mate opinions with specified min and max rate should return correct count of opinions
+        ///     Get user's yerba mate opinions with specified min and max rate should return correct count of opinions
         /// </summary>
         [Theory]
         [InlineData(1, 10, 3)]
@@ -41,13 +41,13 @@ namespace Application.IntegrationTests.Opinions.Queries
             await TestSeeder.SeedTestOpinionsAsync(_factory);
 
             var response = await _mediator.Send(new GetUserYerbaMateOpinionsQuery(userId,
-                new OpinionsQueryParameters { MinRate = minRate, MaxRate = maxRate }));
+                new OpinionsQueryParameters {MinRate = minRate, MaxRate = maxRate}));
 
             response.Count.Should().Be(expectedCount);
         }
 
         /// <summary>
-        /// Get user's yerba mate opinions with specified search query should return correct opinions
+        ///     Get user's yerba mate opinions with specified search query should return correct opinions
         /// </summary>
         [Fact]
         public async Task GetUsersYerbaMateOpinionsWithSpecifiedSearchQueryShouldReturnCorrectOpinions()

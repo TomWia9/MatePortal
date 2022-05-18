@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.ShopOpinions.Commands
 {
     /// <summary>
-    /// Create shop opinion tests
+    ///     Create shop opinion tests
     /// </summary>
     public class CreateOpinionTests : IntegrationTest
     {
         /// <summary>
-        /// Create shop opinion should create opinion and return shop opinion data transfer object
+        ///     Create shop opinion should create opinion and return shop opinion data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateShopOpinionAndReturnShopOpinionDto()
@@ -53,7 +53,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
 
 
         /// <summary>
-        /// Create shop opinion for nonexistent shop should throw NotFound
+        ///     Create shop opinion for nonexistent shop should throw NotFound
         /// </summary>
         [Fact]
         public async Task CreateShopOpinionForNonexistentShopShouldThrowNotFound()
@@ -72,7 +72,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
         }
 
         /// <summary>
-        /// Shop opinion should not be added more than once to one shop by one user
+        ///     Shop opinion should not be added more than once to one shop by one user
         /// </summary>
         [Fact]
         public async Task ShopOpinionShouldNotBeAddedMoreThanOnceToOneShopByOneUser()
@@ -100,7 +100,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
         }
 
         /// <summary>
-        /// Create should increase shop number of opinions
+        ///     Create should increase shop number of opinions
         /// </summary>
         [Fact]
         public async Task ShouldIncreaseShopNumberOfOpinions()

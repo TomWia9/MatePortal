@@ -4,13 +4,13 @@ using MediatR;
 namespace Application.Brands.Commands.DeleteBrand
 {
     /// <summary>
-    /// Delete brand command
+    ///     Delete brand command
     /// </summary>
     public class DeleteBrandCommand : IRequest
     {
         /// <summary>
-        /// Brand ID
+        ///     Brand ID
         /// </summary>
-        public Guid BrandId { get; set; }
+        public Guid BrandId { get; init; }
     }
 }

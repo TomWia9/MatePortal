@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.ShopOpinions.Queries
 {
     /// <summary>
-    /// Get single shop opinion tests
+    ///     Get single shop opinion tests
     /// </summary>
     public class GetShopOpinionTests : IntegrationTest
     {
         /// <summary>
-        /// Get shop opinion command should return correct shop opinion data transfer object
+        ///     Get shop opinion command should return correct shop opinion data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldReturnCorrectShopOpinion()
@@ -40,7 +40,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
         }
 
         /// <summary>
-        /// Get shop opinion with incorrect id should throw not found exception
+        ///     Get shop opinion with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void GetShopOpinionWithIncorrectIdShouldThrowNotFound()

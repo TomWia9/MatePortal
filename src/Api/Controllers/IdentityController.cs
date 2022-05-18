@@ -8,18 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers
 {
     /// <summary>
-    /// The identity controller
+    ///     The identity controller
     /// </summary>
     [Route("api/[controller]")]
     public class IdentityController : ControllerBase
     {
         /// <summary>
-        /// The mediator
+        ///     The mediator
         /// </summary>
         private readonly IMediator _mediator;
 
         /// <summary>
-        /// Initializes IdentityController
+        ///     Initializes IdentityController
         /// </summary>
         /// <param name="mediator">The mediator</param>
         public IdentityController(IMediator mediator)
@@ -28,7 +28,7 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Registers the user
+        ///     Registers the user
         /// </summary>
         /// <param name="request">The register request</param>
         /// <returns>An IActionResult</returns>
@@ -52,7 +52,7 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Authenticates the user
+        ///     Authenticates the user
         /// </summary>
         /// <param name="request">The user login request</param>
         /// <returns>An IActionResult</returns>

@@ -7,14 +7,14 @@ using Application.Common.Enums;
 namespace Application.Common.Interfaces
 {
     /// <summary>
-    /// Sort service interface
+    ///     Sort service interface
     /// </summary>
     /// <typeparam name="T">The type of sorted collection</typeparam>
     public interface ISortService<T>
         where T : class
     {
         /// <summary>
-        /// Sorts the given collection on the given property in the specified direction
+        ///     Sorts the given collection on the given property in the specified direction
         /// </summary>
         /// <param name="collection">Collection to sort</param>
         /// <param name="sortBy">Property by which to sort</param>

@@ -9,12 +9,12 @@ using Xunit;
 namespace Application.IntegrationTests.Users.Commands
 {
     /// <summary>
-    /// Delete user tests
+    ///     Delete user tests
     /// </summary>
     public class DeleteUserTests : IntegrationTest
     {
         /// <summary>
-        /// User should be able to delete account
+        ///     User should be able to delete account
         /// </summary>
         [Fact]
         public async Task UserShouldBeAbleToDeleteAccount()
@@ -28,7 +28,7 @@ namespace Application.IntegrationTests.Users.Commands
             _factory.CurrentUserId = userId;
             _factory.CurrentUserRole = Roles.User;
 
-            await _mediator.Send(new DeleteUserCommand { UserId = userId, Password = "Qwerty123_" });
+            await _mediator.Send(new DeleteUserCommand {UserId = userId, Password = "Qwerty123_"});
 
             user = await AuthHelper.GetUserByTokenAsync(_factory, token);
 
@@ -36,7 +36,7 @@ namespace Application.IntegrationTests.Users.Commands
         }
 
         /// <summary>
-        /// User should not be able to delete account when provided password is invalid
+        ///     User should not be able to delete account when provided password is invalid
         /// </summary>
         [Fact]
         public async Task UserShouldNotBeAbleToDeleteAccountWhenProvidedPasswordIsInvalid()
@@ -48,13 +48,13 @@ namespace Application.IntegrationTests.Users.Commands
             var userId = user.Id;
 
             FluentActions.Invoking(() =>
-                    _mediator.Send(new DeleteUserCommand { UserId = userId, Password = "123" }))
+                    _mediator.Send(new DeleteUserCommand {UserId = userId, Password = "123"}))
                 .Should()
                 .Throw<ForbiddenAccessException>();
         }
 
         /// <summary>
-        /// Admin should be able to delete user account without providing password
+        ///     Admin should be able to delete user account without providing password
         /// </summary>
         [Fact]
         public async Task AdminShouldBeAbleToDeleteUserAccountWithoutProvidingPassword()
@@ -67,7 +67,7 @@ namespace Application.IntegrationTests.Users.Commands
 
             await AuthHelper.RunAsAdministratorAsync(_factory);
 
-            await _mediator.Send(new DeleteUserCommand { UserId = userId });
+            await _mediator.Send(new DeleteUserCommand {UserId = userId});
 
             user = await AuthHelper.GetUserByTokenAsync(_factory, token);
 

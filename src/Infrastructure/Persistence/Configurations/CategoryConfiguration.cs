@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Persistence.Configurations
 {
     /// <summary>
-    /// The category configuration
+    ///     The category configuration
     /// </summary>
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
         /// <summary>
-        /// Configures categories
+        ///     Configures categories
         /// </summary>
         /// <param name="builder">Entity type builder</param>
         public void Configure(EntityTypeBuilder<Category> builder)

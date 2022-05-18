@@ -6,12 +6,12 @@ using AutoMapper;
 namespace Application.Common.Mappings
 {
     /// <summary>
-    /// Mapping profile
+    ///     Mapping profile
     /// </summary>
     public class MappingProfile : Profile
     {
         /// <summary>
-        /// Initializes mapping profile
+        ///     Initializes mapping profile
         /// </summary>
         public MappingProfile()
         {
@@ -19,7 +19,7 @@ namespace Application.Common.Mappings
         }
 
         /// <summary>
-        /// Applies mappings from assembly 
+        ///     Applies mappings from assembly
         /// </summary>
         /// <param name="assembly">The assembly</param>
         private void ApplyMappingsFromAssembly(Assembly assembly)
@@ -34,7 +34,7 @@ namespace Application.Common.Mappings
                 var instance = Activator.CreateInstance(type);
                 var methodInfo = type.GetMethod("Mapping") ?? type.GetInterface("IMapFrom`1")?.GetMethod("Mapping");
 
-                methodInfo?.Invoke(instance, new object[] { this });
+                methodInfo?.Invoke(instance, new object[] {this});
             }
         }
     }

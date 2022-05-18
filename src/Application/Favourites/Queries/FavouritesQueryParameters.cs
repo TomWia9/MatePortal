@@ -3,7 +3,7 @@
 namespace Application.Favourites.Queries
 {
     /// <summary>
-    /// Favourites query parameters
+    ///     Favourites query parameters
     /// </summary>
     public class FavouritesQueryParameters : QueryParameters
     {

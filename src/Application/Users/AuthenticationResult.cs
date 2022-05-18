@@ -3,23 +3,23 @@
 namespace Application.Users
 {
     /// <summary>
-    /// Authentication result
+    ///     Authentication result
     /// </summary>
     public class AuthenticationResult
     {
         /// <summary>
-        /// Authentication token
+        ///     Authentication token
         /// </summary>
-        public string Token { get; set; }
+        public string Token { get; init; }
 
         /// <summary>
-        /// Indicates success
+        ///     Indicates success
         /// </summary>
-        public bool Success { get; set; }
+        public bool Success { get; init; }
 
         /// <summary>
-        /// Error messages list
+        ///     Error messages list
         /// </summary>
-        public IEnumerable<string> ErrorMessages { get; set; }
+        public IEnumerable<string> ErrorMessages { get; init; }
     }
 }

@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.YerbaMates.Queries
 {
     /// <summary>
-    /// Get yerba mate tests
+    ///     Get yerba mate tests
     /// </summary>
     public class GetYerbaMateTests : IntegrationTest
     {
         /// <summary>
-        /// Get yerba mate command should return correct yerba mate data transfer object
+        ///     Get yerba mate command should return correct yerba mate data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldReturnCorrectYerbaMate()
@@ -33,7 +33,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
                 Id = yerbaMateId,
                 Name = "Kurupi Katuava",
                 Description = "One of the best herbal yerba",
-                imgUrl = "test img url",
+                ImgUrl = "test img url",
                 AveragePrice = 15.21M,
                 NumberOfOpinions = 0,
                 NumberOfAddToFav = 0,
@@ -59,7 +59,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
         }
 
         /// <summary>
-        /// Get yerba mate with incorrect id should throw not found exception
+        ///     Get yerba mate with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void GetYerbaMateWithIncorrectIdShouldThrowNotFound()

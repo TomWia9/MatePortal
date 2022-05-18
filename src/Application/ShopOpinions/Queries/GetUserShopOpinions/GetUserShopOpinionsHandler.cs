@@ -15,28 +15,28 @@ using MediatR;
 namespace Application.ShopOpinions.Queries.GetUserShopOpinions
 {
     /// <summary>
-    /// Get user's shop opinions handler
+    ///     Get user's shop opinions handler
     /// </summary>
     public class
         GetUserShopOpinionsHandler : IRequestHandler<GetUserShopOpinionsQuery, PaginatedList<ShopOpinionDto>>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Sort service
+        ///     Sort service
         /// </summary>
         private readonly ISortService<ShopOpinion> _sortService;
 
         /// <summary>
-        /// Initializes GetUserShopOpinionsHandler
+        ///     Initializes GetUserShopOpinionsHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -51,7 +51,7 @@ namespace Application.ShopOpinions.Queries.GetUserShopOpinions
         }
 
         /// <summary>
-        /// Handles getting user's shop opinions
+        ///     Handles getting user's shop opinions
         /// </summary>
         /// <param name="request">Get user's shop opinions request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -82,9 +82,9 @@ namespace Application.ShopOpinions.Queries.GetUserShopOpinions
             {
                 var sortingColumns = new Dictionary<string, Expression<Func<ShopOpinion, object>>>
                 {
-                    { nameof(Opinion.Created), o => o.Created },
-                    { nameof(Opinion.Comment), o => o.Comment },
-                    { nameof(Opinion.Rate), o => o.Rate }
+                    {nameof(Opinion.Created), o => o.Created},
+                    {nameof(Opinion.Comment), o => o.Comment},
+                    {nameof(Opinion.Rate), o => o.Rate}
                 };
 
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,

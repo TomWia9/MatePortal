@@ -4,23 +4,23 @@ using MediatR;
 namespace Application.Categories.Commands.UpdateCategory
 {
     /// <summary>
-    /// Update category command
+    ///     Update category command
     /// </summary>
     public class UpdateCategoryCommand : IRequest
     {
         /// <summary>
-        /// Category ID
+        ///     Category ID
         /// </summary>
-        public Guid CategoryId { get; set; }
+        public Guid CategoryId { get; init; }
 
         /// <summary>
-        /// Category name
+        ///     Category name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
-        /// Category description
+        ///     Category description
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; init; }
     }
 }

@@ -9,23 +9,23 @@ using Microsoft.Extensions.Logging;
 namespace Api.Filters
 {
     /// <summary>
-    /// The Api Exception filter attribute
+    ///     The Api Exception filter attribute
     /// </summary>
     // ReSharper disable once ClassNeverInstantiated.Global
     public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         /// <summary>
-        /// The collection of exception handlers
+        ///     The collection of exception handlers
         /// </summary>
         private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
-        
+
         /// <summary>
-        /// The logger
+        ///     The logger
         /// </summary>
         private readonly ILogger<ApiExceptionFilterAttribute> _logger;
 
         /// <summary>
-        /// Initializes ApiExceptionFilterAttribute
+        ///     Initializes ApiExceptionFilterAttribute
         /// </summary>
         /// <param name="logger">The logger</param>
         public ApiExceptionFilterAttribute(ILogger<ApiExceptionFilterAttribute> logger)
@@ -33,16 +33,16 @@ namespace Api.Filters
             _logger = logger;
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
-                { typeof(ValidationException), HandleValidationException },
-                { typeof(NotFoundException), HandleNotFoundException },
-                { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
-                { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
-                { typeof(ConflictException), HandleConflictException }
+                {typeof(ValidationException), HandleValidationException},
+                {typeof(NotFoundException), HandleNotFoundException},
+                {typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException},
+                {typeof(ForbiddenAccessException), HandleForbiddenAccessException},
+                {typeof(ConflictException), HandleConflictException}
             };
         }
 
         /// <summary>
-        /// Handles exception
+        ///     Handles exception
         /// </summary>
         /// <param name="context">The exception context</param>
         public override void OnException(ExceptionContext context)
@@ -52,7 +52,7 @@ namespace Api.Filters
         }
 
         /// <summary>
-        /// Handles exception
+        ///     Handles exception
         /// </summary>
         /// <param name="context">The exception context</param>
         private void HandleException(ExceptionContext context)
@@ -74,7 +74,7 @@ namespace Api.Filters
         }
 
         /// <summary>
-        /// Handles validation exception
+        ///     Handles validation exception
         /// </summary>
         /// <param name="context">The exception context</param>
         private void HandleValidationException(ExceptionContext context)
@@ -86,14 +86,14 @@ namespace Api.Filters
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };
 
-            _logger.LogError(exception.Message);
+            if (exception != null) _logger.LogError(exception.Message);
 
             context.Result = new BadRequestObjectResult(details);
             context.ExceptionHandled = true;
         }
 
         /// <summary>
-        /// Handles NotFound exception
+        ///     Handles NotFound exception
         /// </summary>
         /// <param name="context">The exception context</param>
         private void HandleNotFoundException(ExceptionContext context)
@@ -107,14 +107,14 @@ namespace Api.Filters
                 Detail = exception?.Message
             };
 
-            _logger.LogError(exception.Message);
+            if (exception != null) _logger.LogError(exception.Message);
 
             context.Result = new NotFoundObjectResult(details);
             context.ExceptionHandled = true;
         }
 
         /// <summary>
-        /// Handles UnauthorizedAccess exception
+        ///     Handles UnauthorizedAccess exception
         /// </summary>
         /// <param name="context">The exception context</param>
         private void HandleUnauthorizedAccessException(ExceptionContext context)
@@ -133,7 +133,7 @@ namespace Api.Filters
         }
 
         /// <summary>
-        /// Handles ForbiddenAccess exception
+        ///     Handles ForbiddenAccess exception
         /// </summary>
         /// <param name="context">The exception context</param>
         private void HandleForbiddenAccessException(ExceptionContext context)
@@ -156,7 +156,7 @@ namespace Api.Filters
         }
 
         /// <summary>
-        /// Handles Conflict exception
+        ///     Handles Conflict exception
         /// </summary>
         /// <param name="context">The exception context</param>
         private void HandleConflictException(ExceptionContext context)
@@ -170,14 +170,14 @@ namespace Api.Filters
                 Detail = exception?.Message
             };
 
-            _logger.LogError(exception.Message);
+            if (exception != null) _logger.LogError(exception.Message);
 
             context.Result = new ConflictObjectResult(details);
             context.ExceptionHandled = true;
         }
 
         /// <summary>
-        /// Handles InvalidModelState exception
+        ///     Handles InvalidModelState exception
         /// </summary>
         /// <param name="context">The exception context</param>
         private void HandleInvalidModelStateException(ExceptionContext context)
@@ -194,7 +194,7 @@ namespace Api.Filters
         }
 
         /// <summary>
-        /// Handles Unknown exception
+        ///     Handles Unknown exception
         /// </summary>
         /// <param name="context">The exception context</param>
         private void HandleUnknownException(ExceptionContext context)

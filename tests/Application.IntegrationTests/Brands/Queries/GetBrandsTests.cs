@@ -8,12 +8,12 @@ using Xunit;
 namespace Application.IntegrationTests.Brands.Queries
 {
     /// <summary>
-    /// Get brands tests
+    ///     Get brands tests
     /// </summary>
     public class GetBrandsTests : IntegrationTest
     {
         /// <summary>
-        /// Get brands should return 5 brands
+        ///     Get brands should return 5 brands
         /// </summary>
         [Fact]
         public async Task ShouldReturn5Brands()
@@ -24,7 +24,7 @@ namespace Application.IntegrationTests.Brands.Queries
         }
 
         /// <summary>
-        /// Get brands from specified country should return correct brands
+        ///     Get brands from specified country should return correct brands
         /// </summary>
         [Theory]
         [InlineData("Paraguay", 2)]
@@ -35,7 +35,7 @@ namespace Application.IntegrationTests.Brands.Queries
         {
             await TestSeeder.SeedTestBrandsAsync(_factory);
 
-            var response = await _mediator.Send(new GetBrandsQuery(new BrandsQueryParameters { Country = country }));
+            var response = await _mediator.Send(new GetBrandsQuery(new BrandsQueryParameters {Country = country}));
 
             response.Count.Should().Be(expectedCount);
 
@@ -43,7 +43,7 @@ namespace Application.IntegrationTests.Brands.Queries
         }
 
         /// <summary>
-        /// Get brands with specified query parameters should return correct brands
+        ///     Get brands with specified query parameters should return correct brands
         /// </summary>
         [Fact]
         public async Task GetBrandsWithSpecifiedQueryParametersShouldReturnCorrectBrands()

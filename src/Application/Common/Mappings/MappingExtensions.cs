@@ -9,12 +9,12 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Common.Mappings
 {
     /// <summary>
-    /// Mapping extensions
+    ///     Mapping extensions
     /// </summary>
     public static class MappingExtensions
     {
         /// <summary>
-        /// Creates paginated list
+        ///     Creates paginated list
         /// </summary>
         /// <param name="queryable">The queryable</param>
         /// <param name="pageNumber">The page number</param>
@@ -28,7 +28,7 @@ namespace Application.Common.Mappings
         }
 
         /// <summary>
-        /// Projects queryable to list
+        ///     Projects queryable to list
         /// </summary>
         /// <param name="queryable">The queryable</param>
         /// <param name="configuration">The configuration</param>

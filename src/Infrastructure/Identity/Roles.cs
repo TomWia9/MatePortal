@@ -1,17 +1,17 @@
 ﻿namespace Infrastructure.Identity
 {
     /// <summary>
-    /// The user roles
+    ///     The user roles
     /// </summary>
     public static class Roles
     {
         /// <summary>
-        /// The user
+        ///     The user
         /// </summary>
         public static string User = "User";
-        
+
         /// <summary>
-        /// The administrator
+        ///     The administrator
         /// </summary>
         public static string Administrator = "Administrator";
     }

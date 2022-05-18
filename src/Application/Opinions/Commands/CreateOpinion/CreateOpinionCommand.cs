@@ -5,23 +5,23 @@ using MediatR;
 namespace Application.Opinions.Commands.CreateOpinion
 {
     /// <summary>
-    /// Create opinion command
+    ///     Create opinion command
     /// </summary>
     public class CreateOpinionCommand : IRequest<OpinionDto>
     {
         /// <summary>
-        /// Opinion rate
+        ///     Opinion rate
         /// </summary>
-        public int Rate { get; set; }
+        public int Rate { get; init; }
 
         /// <summary>
-        /// Opinion comment
+        ///     Opinion comment
         /// </summary>
-        public string Comment { get; set; }
+        public string Comment { get; init; }
 
         /// <summary>
-        /// Yerba mate ID
+        ///     Yerba mate ID
         /// </summary>
-        public Guid YerbaMateId { get; set; }
+        public Guid YerbaMateId { get; init; }
     }
 }
