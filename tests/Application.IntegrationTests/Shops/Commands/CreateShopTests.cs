@@ -11,12 +11,12 @@ using Xunit;
 namespace Application.IntegrationTests.Shops.Commands
 {
     /// <summary>
-    /// Create shop tests
+    ///     Create shop tests
     /// </summary>
     public class CreateShopTests : IntegrationTest
     {
         /// <summary>
-        /// Create shop should create shop and return shop data transfer object
+        ///     Create shop should create shop and return shop data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateShopAndReturnShopDto()
@@ -50,7 +50,7 @@ namespace Application.IntegrationTests.Shops.Commands
         }
 
         /// <summary>
-        /// Shop should require unique name
+        ///     Shop should require unique name
         /// </summary>
         [Fact]
         public async Task ShouldRequireUniqueName()

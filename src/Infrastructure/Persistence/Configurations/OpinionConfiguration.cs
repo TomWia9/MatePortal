@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Persistence.Configurations
 {
     /// <summary>
-    /// Opinion configuration
+    ///     Opinion configuration
     /// </summary>
     public class OpinionConfiguration : IEntityTypeConfiguration<Opinion>
     {
         /// <summary>
-        /// Configures opinions
+        ///     Configures opinions
         /// </summary>
         /// <param name="builder">Entity type builder</param>
         public void Configure(EntityTypeBuilder<Opinion> builder)

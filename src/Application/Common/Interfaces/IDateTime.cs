@@ -3,12 +3,12 @@
 namespace Application.Common.Interfaces
 {
     /// <summary>
-    /// DateTime interface
+    ///     DateTime interface
     /// </summary>
     public interface IDateTime
     {
         /// <summary>
-        /// Current date time
+        ///     Current date time
         /// </summary>
         DateTime Now { get; }
     }

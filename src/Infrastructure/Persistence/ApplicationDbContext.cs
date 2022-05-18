@@ -14,28 +14,28 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Persistence
 {
     /// <summary>
-    /// Application database context
+    ///     Application database context
     /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>,
         IApplicationDbContext
     {
         /// <summary>
-        /// The current user service
+        ///     The current user service
         /// </summary>
         private readonly ICurrentUserService _currentUserService;
-        
+
         /// <summary>
-        /// The date time service
+        ///     The date time service
         /// </summary>
         private readonly IDateTime _dateTime;
-        
+
         /// <summary>
-        /// The domain event service
+        ///     The domain event service
         /// </summary>
         private readonly IDomainEventService _domainEventService;
 
         /// <summary>
-        /// Initializes ApplicationDbContext
+        ///     Initializes ApplicationDbContext
         /// </summary>
         /// <param name="options">The options</param>
         /// <param name="currentUserService">The current user service</param>
@@ -51,47 +51,47 @@ namespace Infrastructure.Persistence
         }
 
         /// <summary>
-        /// The brands DbSet
+        ///     The brands DbSet
         /// </summary>
         public DbSet<Brand> Brands { get; set; }
-        
+
         /// <summary>
-        /// The Categories DbSet
+        ///     The Categories DbSet
         /// </summary>
         public DbSet<Category> Categories { get; set; }
-        
+
         /// <summary>
-        /// The Countries DbSet
+        ///     The Countries DbSet
         /// </summary>
         public DbSet<Country> Countries { get; set; }
-        
+
         /// <summary>
-        /// User's yerba mate favorites DbSet
+        ///     User's yerba mate favorites DbSet
         /// </summary>
         public DbSet<Favourite> Favourites { get; set; }
-        
+
         /// <summary>
-        /// User's yerba mate opinions DbSet
+        ///     User's yerba mate opinions DbSet
         /// </summary>
         public DbSet<Opinion> Opinions { get; set; }
-        
+
         /// <summary>
-        /// The YerbaMates DbSet
+        ///     The YerbaMates DbSet
         /// </summary>
         public DbSet<YerbaMate> YerbaMate { get; set; }
-        
+
         /// <summary>
-        /// The Shops DbSet
+        ///     The Shops DbSet
         /// </summary>
         public DbSet<Shop> Shops { get; set; }
-        
+
         /// <summary>
-        /// User's shop opinions DbSet
+        ///     User's shop opinions DbSet
         /// </summary>
         public DbSet<ShopOpinion> ShopOpinions { get; set; }
 
         /// <summary>
-        /// Saves changes async
+        ///     Saves changes async
         /// </summary>
         /// <param name="cancellationToken">The cancellation token</param>
         /// <returns>The task result of int</returns>

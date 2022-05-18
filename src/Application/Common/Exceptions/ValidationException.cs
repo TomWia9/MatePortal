@@ -4,12 +4,12 @@ using System.Collections.Generic;
 namespace Application.Common.Exceptions
 {
     /// <summary>
-    /// Validation exception
+    ///     Validation exception
     /// </summary>
     public class ValidationException : Exception
     {
         /// <summary>
-        /// Initializes default ValidationException with message
+        ///     Initializes default ValidationException with message
         /// </summary>
         public ValidationException() : base("One or more validation failures have occured")
         {
@@ -17,7 +17,7 @@ namespace Application.Common.Exceptions
         }
 
         /// <summary>
-        /// The errors
+        ///     The errors
         /// </summary>
         public IDictionary<string, string[]> Errors { get; }
 

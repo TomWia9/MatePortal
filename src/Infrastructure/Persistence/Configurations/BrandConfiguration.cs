@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Persistence.Configurations
 {
     /// <summary>
-    /// The brand configuration
+    ///     The brand configuration
     /// </summary>
     public class BrandConfiguration : IEntityTypeConfiguration<Brand>
     {
         /// <summary>
-        /// Configures brands
+        ///     Configures brands
         /// </summary>
         /// <param name="builder">Entity type builder</param>
         public void Configure(EntityTypeBuilder<Brand> builder)

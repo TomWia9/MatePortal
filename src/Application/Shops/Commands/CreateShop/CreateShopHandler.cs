@@ -11,22 +11,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Shops.Commands.CreateShop
 {
     /// <summary>
-    /// Create shop handler
+    ///     Create shop handler
     /// </summary>
     public class CreateShopHandler : IRequestHandler<CreateShopCommand, ShopDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes CreateShopHandler
+        ///     Initializes CreateShopHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -37,7 +37,7 @@ namespace Application.Shops.Commands.CreateShop
         }
 
         /// <summary>
-        /// Handles creating shop
+        ///     Handles creating shop
         /// </summary>
         /// <param name="request">The create shop request</param>
         /// <param name="cancellationToken">Cancellation token</param>

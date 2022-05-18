@@ -10,22 +10,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Opinions.Queries.GetYerbaMateOpinion
 {
     /// <summary>
-    /// Get single yerba mate opinion handler
+    ///     Get single yerba mate opinion handler
     /// </summary>
     public class GetYerbaMateOpinionHandler : IRequestHandler<GetYerbaMateOpinionQuery, OpinionDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes GetYerbaMateOpinionHandler
+        ///     Initializes GetYerbaMateOpinionHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -36,7 +36,7 @@ namespace Application.Opinions.Queries.GetYerbaMateOpinion
         }
 
         /// <summary>
-        /// Handles getting yerba mate opinion
+        ///     Handles getting yerba mate opinion
         /// </summary>
         /// <param name="request">Get yerba mate opinion request</param>
         /// <param name="cancellationToken">Cancellation token</param>

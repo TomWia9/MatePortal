@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Shops.Queries
 {
     /// <summary>
-    /// Get shops tests
+    ///     Get shops tests
     /// </summary>
     public class GetShopsTests : IntegrationTest
     {
         /// <summary>
-        /// Get shops should return all shops
+        ///     Get shops should return all shops
         /// </summary>
         [Fact]
         public async Task ShouldReturnAllShops()
@@ -26,7 +26,7 @@ namespace Application.IntegrationTests.Shops.Queries
         }
 
         /// <summary>
-        /// Get shops with specified query parameters should return correct shops
+        ///     Get shops with specified query parameters should return correct shops
         /// </summary>
         [Fact]
         public async Task GetShopsWithSpecifiedQueryParametersShouldReturnCorrectShops()
@@ -43,7 +43,7 @@ namespace Application.IntegrationTests.Shops.Queries
         }
 
         /// <summary>
-        /// Get shops with specified sorting should return correct sorted shops
+        ///     Get shops with specified sorting should return correct sorted shops
         /// </summary>
         [Fact]
         public async Task GetShopsWithSpecifiedQSortingShouldReturnCorrectSortedShops()

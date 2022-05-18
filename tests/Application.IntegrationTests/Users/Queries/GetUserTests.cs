@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Users.Queries
 {
     /// <summary>
-    /// Get user tests
+    ///     Get user tests
     /// </summary>
     public class GetUserTests : IntegrationTest
     {
         /// <summary>
-        /// Get user should return user
+        ///     Get user should return user
         /// </summary>
         [Fact]
         public async Task ShouldReturnUser()
@@ -35,7 +35,7 @@ namespace Application.IntegrationTests.Users.Queries
         }
 
         /// <summary>
-        /// Get user with incorrect id should throw not found exception
+        ///     Get user with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void GetUserWithIncorrectIdShouldThrowNotFound()

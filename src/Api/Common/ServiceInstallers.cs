@@ -15,12 +15,12 @@ using Microsoft.OpenApi.Models;
 namespace Api.Common
 {
     /// <summary>
-    /// The service installers
+    ///     The service installers
     /// </summary>
     public static class ServiceInstallers
     {
         /// <summary>
-        /// Adds swagger support
+        ///     Adds swagger support
         /// </summary>
         /// <param name="services">The services collection</param>
         public static void AddSwagger(this IServiceCollection services)
@@ -86,7 +86,7 @@ namespace Api.Common
         }
 
         /// <summary>
-        /// Adds json web token authorization
+        ///     Adds json web token authorization
         /// </summary>
         /// <param name="services">The services collection</param>
         /// <param name="configuration">The configuration</param>
@@ -129,7 +129,7 @@ namespace Api.Common
         }
 
         /// <summary>
-        /// Adds internal services
+        ///     Adds internal services
         /// </summary>
         /// <param name="services">The services collection</param>
         /// <param name="configuration">The configuration</param>

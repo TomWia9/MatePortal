@@ -6,17 +6,17 @@ using Microsoft.Extensions.Logging;
 namespace Infrastructure.Services
 {
     /// <summary>
-    /// Domain event service
+    ///     Domain event service
     /// </summary>
     public class DomainEventService : IDomainEventService
     {
         /// <summary>
-        /// The logger
+        ///     The logger
         /// </summary>
         private readonly ILogger<DomainEventService> _logger;
 
         /// <summary>
-        /// Initializes DomainEventService 
+        ///     Initializes DomainEventService
         /// </summary>
         /// <param name="logger">The logger</param>
         public DomainEventService(ILogger<DomainEventService> logger)
@@ -25,7 +25,7 @@ namespace Infrastructure.Services
         }
 
         /// <summary>
-        /// Publishes domain event
+        ///     Publishes domain event
         /// </summary>
         /// <param name="domainEvent">The domain event</param>
         /// <returns></returns>

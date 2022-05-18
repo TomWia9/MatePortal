@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Brands.Queries
 {
     /// <summary>
-    /// Get brand tests
+    ///     Get brand tests
     /// </summary>
     public class GetBrandTests : IntegrationTest
     {
         /// <summary>
-        /// Get brand command should return correct brand data transfer object
+        ///     Get brand command should return correct brand data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldReturnCorrectBrand()
@@ -39,7 +39,7 @@ namespace Application.IntegrationTests.Brands.Queries
         }
 
         /// <summary>
-        /// Get brand with incorrect id should throw not found exception
+        ///     Get brand with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void GetBrandWithIncorrectIdShouldThrowNotFound()

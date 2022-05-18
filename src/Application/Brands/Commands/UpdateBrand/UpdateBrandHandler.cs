@@ -9,17 +9,17 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Brands.Commands.UpdateBrand
 {
     /// <summary>
-    /// Update brand handler
+    ///     Update brand handler
     /// </summary>
     public class UpdateBrandHandler : IRequestHandler<UpdateBrandCommand>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// Initializes UpdateBrandHandler
+        ///     Initializes UpdateBrandHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public UpdateBrandHandler(IApplicationDbContext context)
@@ -28,7 +28,7 @@ namespace Application.Brands.Commands.UpdateBrand
         }
 
         /// <summary>
-        /// Handles updating brand
+        ///     Handles updating brand
         /// </summary>
         /// <param name="request">Update brand request</param>
         /// <param name="cancellationToken">Cancellation token</param>

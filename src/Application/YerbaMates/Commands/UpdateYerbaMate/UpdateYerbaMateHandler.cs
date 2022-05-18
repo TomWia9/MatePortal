@@ -9,17 +9,17 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.YerbaMates.Commands.UpdateYerbaMate
 {
     /// <summary>
-    /// Update yerba mate handler
+    ///     Update yerba mate handler
     /// </summary>
     public class UpdateYerbaMateHandler : IRequestHandler<UpdateYerbaMateCommand>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// Initializes UpdateYerbaMateHandler
+        ///     Initializes UpdateYerbaMateHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public UpdateYerbaMateHandler(IApplicationDbContext context)
@@ -28,7 +28,7 @@ namespace Application.YerbaMates.Commands.UpdateYerbaMate
         }
 
         /// <summary>
-        /// Handles updating yerba mate
+        ///     Handles updating yerba mate
         /// </summary>
         /// <param name="request">Update yerba mate request</param>
         /// <param name="cancellationToken">Cancellation token</param>

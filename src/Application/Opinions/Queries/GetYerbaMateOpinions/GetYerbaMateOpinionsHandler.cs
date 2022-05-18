@@ -15,27 +15,27 @@ using MediatR;
 namespace Application.Opinions.Queries.GetYerbaMateOpinions
 {
     /// <summary>
-    /// Get yerba mate opinions handler
+    ///     Get yerba mate opinions handler
     /// </summary>
     public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQuery, PaginatedList<OpinionDto>>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Sort service
+        ///     Sort service
         /// </summary>
         private readonly ISortService<Opinion> _sortService;
 
         /// <summary>
-        /// Initializes GetYerbaMateOpinionsHandler
+        ///     Initializes GetYerbaMateOpinionsHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -50,7 +50,7 @@ namespace Application.Opinions.Queries.GetYerbaMateOpinions
         }
 
         /// <summary>
-        /// Handles getting yerba mate opinions
+        ///     Handles getting yerba mate opinions
         /// </summary>
         /// <param name="request">Get yerba mate opinions request</param>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -80,9 +80,9 @@ namespace Application.Opinions.Queries.GetYerbaMateOpinions
             {
                 var sortingColumns = new Dictionary<string, Expression<Func<Opinion, object>>>
                 {
-                    { nameof(Opinion.Created), o => o.Created },
-                    { nameof(Opinion.Comment), o => o.Comment },
-                    { nameof(Opinion.Rate), o => o.Rate }
+                    {nameof(Opinion.Created), o => o.Created},
+                    {nameof(Opinion.Comment), o => o.Comment},
+                    {nameof(Opinion.Rate), o => o.Rate}
                 };
 
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,

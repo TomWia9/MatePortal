@@ -12,12 +12,12 @@ using Xunit;
 namespace Application.IntegrationTests.Favourites.Commands
 {
     /// <summary>
-    /// Delete favourite tests
+    ///     Delete favourite tests
     /// </summary>
     public class DeleteFavouriteTests : IntegrationTest
     {
         /// <summary>
-        /// Delete favourite with incorrect id should throw not found exception
+        ///     Delete favourite with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void DeleteFavouriteWithIncorrectIdShouldThrowNotFound()
@@ -25,12 +25,12 @@ namespace Application.IntegrationTests.Favourites.Commands
             var favouriteId = Guid.Empty;
 
             FluentActions.Invoking(() =>
-                    _mediator.Send(new DeleteFavouriteCommand { FavouriteId = favouriteId })).Should()
+                    _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteId})).Should()
                 .Throw<NotFoundException>();
         }
 
         /// <summary>
-        /// Delete favourite command should delete favourite
+        ///     Delete favourite command should delete favourite
         /// </summary>
         [Fact]
         public async Task ShouldDeleteFavourite()
@@ -45,7 +45,7 @@ namespace Application.IntegrationTests.Favourites.Commands
             });
 
             //delete
-            await _mediator.Send(new DeleteFavouriteCommand { FavouriteId = favouriteToDeleteDto.Id });
+            await _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id});
 
             //Assert that deleted
             var item = await DbHelper.FindAsync<Favourite>(_factory, favouriteToDeleteDto.Id);
@@ -53,7 +53,7 @@ namespace Application.IntegrationTests.Favourites.Commands
         }
 
         /// <summary>
-        /// Should decrease yerba mate number of additions to favourites
+        ///     Should decrease yerba mate number of additions to favourites
         /// </summary>
         [Fact]
         public async Task ShouldDecreaseYerbaMateNumberOfAddToFav()
@@ -72,14 +72,14 @@ namespace Application.IntegrationTests.Favourites.Commands
             var favouriteToDeleteDto = await _mediator.Send(command);
 
             //delete
-            await _mediator.Send(new DeleteFavouriteCommand { FavouriteId = favouriteToDeleteDto.Id });
+            await _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id});
 
             var yerbaMateDto = await _mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
             yerbaMateDto.NumberOfAddToFav.Should().Be(0);
         }
 
         /// <summary>
-        /// User should not be able to delete other user favourite
+        ///     User should not be able to delete other user favourite
         /// </summary>
         [Fact]
         public async Task UserShouldNotBeAbleToDeleteOtherUserFavourite()
@@ -97,12 +97,12 @@ namespace Application.IntegrationTests.Favourites.Commands
 
             //delete
             FluentActions.Invoking(() =>
-                    _mediator.Send(new DeleteFavouriteCommand { FavouriteId = favouriteToDeleteDto.Id })).Should()
+                    _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id})).Should()
                 .Throw<ForbiddenAccessException>();
         }
 
         /// <summary>
-        /// Administrator should be able to delete user favourite
+        ///     Administrator should be able to delete user favourite
         /// </summary>
         [Fact]
         public async Task AdministratorShouldBeAbleToDeleteUserFavourite()
@@ -119,7 +119,7 @@ namespace Application.IntegrationTests.Favourites.Commands
             await AuthHelper.RunAsAdministratorAsync(_factory);
 
             //delete
-            await _mediator.Send(new DeleteFavouriteCommand { FavouriteId = favouriteToDeleteDto.Id });
+            await _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id});
 
             //Assert that deleted
             var item = await DbHelper.FindAsync<Favourite>(_factory, favouriteToDeleteDto.Id);

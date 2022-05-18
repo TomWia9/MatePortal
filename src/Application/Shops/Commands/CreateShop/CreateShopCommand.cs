@@ -4,17 +4,17 @@ using MediatR;
 namespace Application.Shops.Commands.CreateShop
 {
     /// <summary>
-    /// Create shop command
+    ///     Create shop command
     /// </summary>
     public class CreateShopCommand : IRequest<ShopDto>
     {
         /// <summary>
-        /// Shop name
+        ///     Shop name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Shop description
+        ///     Shop description
         /// </summary>
         public string Description { get; set; }
     }

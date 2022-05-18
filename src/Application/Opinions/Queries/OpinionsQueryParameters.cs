@@ -3,7 +3,7 @@
 namespace Application.Opinions.Queries
 {
     /// <summary>
-    /// Opinions query parameters
+    ///     Opinions query parameters
     /// </summary>
     public class OpinionsQueryParameters : QueryParameters
     {
@@ -11,7 +11,7 @@ namespace Application.Opinions.Queries
         private int _minRate = 1;
 
         /// <summary>
-        /// Minimum rate parameter
+        ///     Minimum rate parameter
         /// </summary>
         public int MinRate
         {
@@ -20,7 +20,7 @@ namespace Application.Opinions.Queries
         }
 
         /// <summary>
-        /// Maximum rate parameter
+        ///     Maximum rate parameter
         /// </summary>
         public int MaxRate
         {

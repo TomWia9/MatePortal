@@ -11,12 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Infrastructure
 {
     /// <summary>
-    /// Dependency injection of infrastructure project
+    ///     Dependency injection of infrastructure project
     /// </summary>
     public static class DependencyInjection
     {
         /// <summary>
-        /// Ads infrastructure dependencies 
+        ///     Ads infrastructure dependencies
         /// </summary>
         /// <param name="services">The services</param>
         /// <param name="configuration">The configuration</param>

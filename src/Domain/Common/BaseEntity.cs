@@ -3,27 +3,27 @@
 namespace Domain.Common
 {
     /// <summary>
-    /// Base entity
+    ///     Base entity
     /// </summary>
     public abstract class BaseEntity
     {
         /// <summary>
-        /// Date of creation
+        ///     Date of creation
         /// </summary>
         public DateTime Created { get; set; }
-        
+
         /// <summary>
-        /// Id of the creator
+        ///     Id of the creator
         /// </summary>
         public Guid? CreatedBy { get; set; }
-        
+
         /// <summary>
-        /// Date of last modification
+        ///     Date of last modification
         /// </summary>
         public DateTime? LastModified { get; set; }
-        
+
         /// <summary>
-        /// Id of the last modificator
+        ///     Id of the last modificator
         /// </summary>
         public Guid? LastModifiedBy { get; set; }
     }

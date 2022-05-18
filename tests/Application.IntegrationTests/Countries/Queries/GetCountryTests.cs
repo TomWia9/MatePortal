@@ -9,12 +9,12 @@ using Xunit;
 namespace Application.IntegrationTests.Countries.Queries
 {
     /// <summary>
-    /// Get country tests
+    ///     Get country tests
     /// </summary>
     public class GetCountryTests : IntegrationTest
     {
         /// <summary>
-        /// Get country command should return correct country data transfer object
+        ///     Get country command should return correct country data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldReturnCorrectCountry()
@@ -34,7 +34,7 @@ namespace Application.IntegrationTests.Countries.Queries
         }
 
         /// <summary>
-        /// Get country with incorrect id should throw not found exception
+        ///     Get country with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void GetCountryWithIncorrectIdShouldThrowNotFound()

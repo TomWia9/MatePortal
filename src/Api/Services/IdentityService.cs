@@ -15,22 +15,22 @@ using Microsoft.IdentityModel.Tokens;
 namespace Api.Services
 {
     /// <summary>
-    /// The identity service
+    ///     The identity service
     /// </summary>
     public class IdentityService : IIdentityService
     {
         /// <summary>
-        /// The json web token settings
+        ///     The json web token settings
         /// </summary>
         private readonly JwtSettings _jwtSettings;
-        
+
         /// <summary>
-        /// The user manager
+        ///     The user manager
         /// </summary>
         private readonly UserManager<ApplicationUser> _userManager;
 
         /// <summary>
-        /// Initializes the IdentityService
+        ///     Initializes the IdentityService
         /// </summary>
         /// <param name="userManager">TThe user manager</param>
         /// <param name="jwtSettings">The user manager</param>
@@ -39,9 +39,9 @@ namespace Api.Services
             _userManager = userManager;
             _jwtSettings = jwtSettings;
         }
-        
+
         /// <summary>
-        /// Registers the user 
+        ///     Registers the user
         /// </summary>
         /// <param name="email">The email</param>
         /// <param name="username">The username</param>
@@ -53,7 +53,7 @@ namespace Api.Services
             if (userExists != null)
                 return new AuthenticationResult
                 {
-                    ErrorMessages = new[] { "User with this email already exists" }
+                    ErrorMessages = new[] {"User with this email already exists"}
                 };
 
             var newUser = new ApplicationUser
@@ -76,7 +76,7 @@ namespace Api.Services
         }
 
         /// <summary>
-        /// Authenticates the user
+        ///     Authenticates the user
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
@@ -87,7 +87,7 @@ namespace Api.Services
             if (user == null)
                 return new AuthenticationResult
                 {
-                    ErrorMessages = new[] { "User doesn't exist" }
+                    ErrorMessages = new[] {"User doesn't exist"}
                 };
 
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, password);
@@ -95,14 +95,14 @@ namespace Api.Services
             if (!isPasswordValid)
                 return new AuthenticationResult
                 {
-                    ErrorMessages = new[] { "Password is wrong" }
+                    ErrorMessages = new[] {"Password is wrong"}
                 };
 
             return await GenerateAuthenticationResult(user);
         }
 
         /// <summary>
-        /// Generates authentication result
+        ///     Generates authentication result
         /// </summary>
         /// <param name="user">The user</param>
         /// <returns>An AuthenticationResult</returns>

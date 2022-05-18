@@ -4,12 +4,12 @@ using Application.Common.Interfaces;
 namespace Infrastructure.Services
 {
     /// <summary>
-    /// Date time service
+    ///     Date time service
     /// </summary>
     public class DateTimeService : IDateTime
     {
         /// <summary>
-        /// Current Date time
+        ///     Current Date time
         /// </summary>
         public DateTime Now => DateTime.Now;
     }

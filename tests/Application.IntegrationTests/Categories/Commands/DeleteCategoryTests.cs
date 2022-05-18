@@ -10,12 +10,12 @@ using Xunit;
 namespace Application.IntegrationTests.Categories.Commands
 {
     /// <summary>
-    /// Delete category tests
+    ///     Delete category tests
     /// </summary>
     public class DeleteCategoryTests : IntegrationTest
     {
         /// <summary>
-        /// Delete category with incorrect id should throw not found exception
+        ///     Delete category with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void DeleteCategoryWithIncorrectIdShouldThrowNotFound()
@@ -23,12 +23,12 @@ namespace Application.IntegrationTests.Categories.Commands
             var categoryId = Guid.Empty;
 
             FluentActions.Invoking(() =>
-                    _mediator.Send(new DeleteCategoryCommand { CategoryId = categoryId })).Should()
+                    _mediator.Send(new DeleteCategoryCommand {CategoryId = categoryId})).Should()
                 .Throw<NotFoundException>();
         }
 
         /// <summary>
-        /// Delete category command should delete category
+        ///     Delete category command should delete category
         /// </summary>
         [Fact]
         public async Task ShouldDeleteCategory()
@@ -38,7 +38,7 @@ namespace Application.IntegrationTests.Categories.Commands
             var categoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"); //one of seeded category
 
             //delete
-            await _mediator.Send(new DeleteCategoryCommand { CategoryId = categoryId });
+            await _mediator.Send(new DeleteCategoryCommand {CategoryId = categoryId});
 
             //Assert that deleted
             var item = await DbHelper.FindAsync<Category>(_factory, categoryId);

@@ -9,12 +9,12 @@ using Xunit;
 namespace Application.IntegrationTests.Users.Queries
 {
     /// <summary>
-    /// Get all users tests
+    ///     Get all users tests
     /// </summary>
     public class GetUsersTests : IntegrationTest
     {
         /// <summary>
-        /// Get users should return all users
+        ///     Get users should return all users
         /// </summary>
         [Fact]
         public async Task ShouldReturnAllUsers()
@@ -37,7 +37,7 @@ namespace Application.IntegrationTests.Users.Queries
         }
 
         /// <summary>
-        /// Get users with specified search query should return correct users
+        ///     Get users with specified search query should return correct users
         /// </summary>
         [Fact]
         public async Task GetUsersWithSpecifiedSearchQueryShouldReturnCorrectUsers()

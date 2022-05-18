@@ -11,12 +11,12 @@ using Xunit;
 namespace Application.IntegrationTests.ShopOpinions.Commands
 {
     /// <summary>
-    /// Update shop opinion tests
+    ///     Update shop opinion tests
     /// </summary>
     public class UpdateShopOpinionTests : IntegrationTest
     {
         /// <summary>
-        /// Update shop opinion with incorrect id should throw not found exception
+        ///     Update shop opinion with incorrect id should throw not found exception
         /// </summary>
         [Fact]
         public void UpdateShopOpinionWithIncorrectIdShouldThrowNotFound()
@@ -33,7 +33,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
         }
 
         /// <summary>
-        /// Update shop opinion command should update shop opinion
+        ///     Update shop opinion command should update shop opinion
         /// </summary>
         [Fact]
         public async Task UpdateShopOpinionShouldUpdateShopOpinion()
@@ -64,7 +64,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
         }
 
         /// <summary>
-        /// User should not be able to update other user shop opinion
+        ///     User should not be able to update other user shop opinion
         /// </summary>
         [Fact]
         public async Task UserShouldNotBeAbleToUpdateOtherUserShopOpinion()
@@ -85,12 +85,12 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
 
             FluentActions.Invoking(() =>
                     _mediator.Send(new UpdateShopOpinionCommand
-                        { ShopOpinionId = shopOpinionToUpdateDto.Id, Comment = "test", Rate = 1 })).Should()
+                        {ShopOpinionId = shopOpinionToUpdateDto.Id, Comment = "test", Rate = 1})).Should()
                 .Throw<ForbiddenAccessException>();
         }
 
         /// <summary>
-        /// Administrator should be able to update user shop opinion
+        ///     Administrator should be able to update user shop opinion
         /// </summary>
         [Fact]
         public async Task AdministratorShouldBeAbleToUpdateUserShopOpinion()

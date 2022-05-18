@@ -7,12 +7,12 @@ using Xunit;
 namespace Application.IntegrationTests.Users.Commands
 {
     /// <summary>
-    /// Register new user tests
+    ///     Register new user tests
     /// </summary>
     public class RegisterUserTests : IntegrationTest
     {
         /// <summary>
-        /// Register user should create user and return auth response
+        ///     Register user should create user and return auth response
         /// </summary>
         [Fact]
         public async Task ShouldCreateUserAndReturnAuthResponse()
@@ -37,7 +37,7 @@ namespace Application.IntegrationTests.Users.Commands
         }
 
         /// <summary>
-        /// User should require unique email
+        ///     User should require unique email
         /// </summary>
         [Fact]
         public async Task ShouldRequireUniqueEmail()
@@ -59,7 +59,7 @@ namespace Application.IntegrationTests.Users.Commands
         }
 
         /// <summary>
-        /// Register user should return error messages when one or more properties are invalid
+        ///     Register user should return error messages when one or more properties are invalid
         /// </summary>
         [Theory]
         [InlineData("email.com", "us", "password")]
@@ -83,7 +83,7 @@ namespace Application.IntegrationTests.Users.Commands
         }
 
         /// <summary>
-        /// Register user should return token when properties are valid
+        ///     Register user should return token when properties are valid
         /// </summary>
         [Theory]
         [InlineData("email@test.com", "user", "Password123_")]

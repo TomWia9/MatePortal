@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Persistence.Configurations
 {
     /// <summary>
-    /// Country configuration
+    ///     Country configuration
     /// </summary>
     public class CountryConfiguration : IEntityTypeConfiguration<Country>
     {
         /// <summary>
-        /// Configures countries
+        ///     Configures countries
         /// </summary>
         /// <param name="builder">Entity type builder</param>
         public void Configure(EntityTypeBuilder<Country> builder)

@@ -10,22 +10,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Brands.Queries.GetBrand
 {
     /// <summary>
-    /// Get brand handler
+    ///     Get brand handler
     /// </summary>
     public class GetBrandHandler : IRequestHandler<GetBrandQuery, BrandDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes GetBrandHandler
+        ///     Initializes GetBrandHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -36,7 +36,7 @@ namespace Application.Brands.Queries.GetBrand
         }
 
         /// <summary>
-        /// Handles getting brand
+        ///     Handles getting brand
         /// </summary>
         /// <param name="request">Get brand request</param>
         /// <param name="cancellationToken">Cancellation token</param>

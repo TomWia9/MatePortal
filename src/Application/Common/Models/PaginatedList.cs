@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Common.Models
 {
     /// <summary>
-    /// Paginated list
+    ///     Paginated list
     /// </summary>
     /// <typeparam name="T">Type of the paginated list</typeparam>
     public class PaginatedList<T> : List<T>
     {
         /// <summary>
-        /// Initializes paginated list
+        ///     Initializes paginated list
         /// </summary>
         /// <param name="items">The items</param>
         /// <param name="count">The items count</param>
@@ -24,42 +24,42 @@ namespace Application.Common.Models
             TotalCount = count;
             PageSize = pageSize;
             CurrentPage = pageNumber;
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            TotalPages = (int) Math.Ceiling(count / (double) pageSize);
             AddRange(items);
         }
 
         /// <summary>
-        /// The current page
+        ///     The current page
         /// </summary>
         public int CurrentPage { get; }
-        
+
         /// <summary>
-        /// The total number of pages
+        ///     The total number of pages
         /// </summary>
         public int TotalPages { get; }
-        
+
         /// <summary>
-        /// The page size
+        ///     The page size
         /// </summary>
         public int PageSize { get; }
-        
+
         /// <summary>
-        /// The total count of items
+        ///     The total count of items
         /// </summary>
         public int TotalCount { get; }
 
         /// <summary>
-        /// Checks that list has a previous page
+        ///     Checks that list has a previous page
         /// </summary>
         public bool HasPrevious => CurrentPage > 1;
-        
+
         /// <summary>
-        /// Checks that the list has a next page
+        ///     Checks that the list has a next page
         /// </summary>
         public bool HasNext => CurrentPage < TotalPages;
 
         /// <summary>
-        /// Converts queryable to the paginated list
+        ///     Converts queryable to the paginated list
         /// </summary>
         /// <param name="source">The source with specified type</param>
         /// <param name="pageNumber">The page number</param>

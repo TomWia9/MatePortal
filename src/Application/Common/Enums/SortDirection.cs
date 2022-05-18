@@ -1,17 +1,17 @@
 ﻿namespace Application.Common.Enums
 {
     /// <summary>
-    /// Sort direction enum
+    ///     Sort direction enum
     /// </summary>
     public enum SortDirection
     {
         /// <summary>
-        /// Ascending direction
+        ///     Ascending direction
         /// </summary>
         ASC,
-        
+
         /// <summary>
-        /// Descending direction
+        ///     Descending direction
         /// </summary>
         DESC
     }

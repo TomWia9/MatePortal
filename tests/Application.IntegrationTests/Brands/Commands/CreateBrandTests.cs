@@ -11,12 +11,12 @@ using Xunit;
 namespace Application.IntegrationTests.Brands.Commands
 {
     /// <summary>
-    /// Create brand tests
+    ///     Create brand tests
     /// </summary>
     public class CreateBrandTests : IntegrationTest
     {
         /// <summary>
-        /// Create brand should create brand and return brand data transfer object
+        ///     Create brand should create brand and return brand data transfer object
         /// </summary>
         [Fact]
         public async Task ShouldCreateBrandAndReturnBrandDto()
@@ -52,7 +52,7 @@ namespace Application.IntegrationTests.Brands.Commands
         }
 
         /// <summary>
-        /// Create brand with nonexistent country should throw not found
+        ///     Create brand with nonexistent country should throw not found
         /// </summary>
         [Fact]
         public void CreateBrandWithNonexistentCountryShouldThrowNotFound()
@@ -69,7 +69,7 @@ namespace Application.IntegrationTests.Brands.Commands
         }
 
         /// <summary>
-        /// Brand should require unique name
+        ///     Brand should require unique name
         /// </summary>
         [Fact]
         public async Task ShouldRequireUniqueName()

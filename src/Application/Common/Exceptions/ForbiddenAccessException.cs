@@ -3,7 +3,7 @@
 namespace Application.Common.Exceptions
 {
     /// <summary>
-    /// Forbidden access exception
+    ///     Forbidden access exception
     /// </summary>
     public class ForbiddenAccessException : Exception
     {

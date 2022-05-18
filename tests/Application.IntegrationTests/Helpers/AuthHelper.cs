@@ -12,12 +12,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Application.IntegrationTests.Helpers
 {
     /// <summary>
-    /// Auth helper
+    ///     Auth helper
     /// </summary>
     public static class AuthHelper
     {
         /// <summary>
-        /// Runs as default user
+        ///     Runs as default user
         /// </summary>
         /// <param name="factory">The factory instance</param>
         /// <returns>User ID</returns>
@@ -27,7 +27,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Runs as administrator
+        ///     Runs as administrator
         /// </summary>
         /// <param name="factory">The factory instance</param>
         /// <returns>Administrator ID</returns>
@@ -37,7 +37,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Gets user by jwt token
+        ///     Gets user by jwt token
         /// </summary>
         /// <param name="mediator">The mediator instance</param>
         /// <returns></returns>
@@ -63,7 +63,7 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        /// Runs as user
+        ///     Runs as user
         /// </summary>
         /// <param name="factory">The factory instance</param>
         /// <param name="userName">User name</param>
@@ -79,7 +79,7 @@ namespace Application.IntegrationTests.Helpers
 
             if (userManager == null || roleManager == null) throw new Exception("Failed to get user or role manager");
 
-            var user = new ApplicationUser { Email = userName, UserName = userName };
+            var user = new ApplicationUser {Email = userName, UserName = userName};
 
             var createdUser = await userManager.CreateAsync(user, password);
 

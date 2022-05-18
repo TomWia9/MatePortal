@@ -4,12 +4,12 @@ using System.Linq;
 namespace Application.Common.Extensions
 {
     /// <summary>
-    /// String extensions
+    ///     String extensions
     /// </summary>
     public static class StringExtensions
     {
         /// <summary>
-        /// Transforms the first letter of text to uppercase 
+        ///     Transforms the first letter of text to uppercase
         /// </summary>
         /// <param name="value">The text value to transform the first letter of</param>
         /// <returns>Transformed string value</returns>

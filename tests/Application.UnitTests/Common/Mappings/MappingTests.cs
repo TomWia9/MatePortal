@@ -16,22 +16,22 @@ using Xunit;
 namespace Application.UnitTests.Common.Mappings
 {
     /// <summary>
-    /// Mapping tests
+    ///     Mapping tests
     /// </summary>
     public class MappingTests
     {
         /// <summary>
-        /// The configuration
+        ///     The configuration
         /// </summary>
         private readonly IConfigurationProvider _configuration;
-        
+
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes the MappingTests
+        ///     Initializes the MappingTests
         /// </summary>
         public MappingTests()
         {
@@ -39,9 +39,9 @@ namespace Application.UnitTests.Common.Mappings
 
             _mapper = _configuration.CreateMapper();
         }
-        
+
         /// <summary>
-        /// Mappings should have valid configuration
+        ///     Mappings should have valid configuration
         /// </summary>
         [Fact]
         public void ShouldHaveValidConfiguration()
@@ -50,7 +50,7 @@ namespace Application.UnitTests.Common.Mappings
         }
 
         /// <summary>
-        /// Mappings should support mapping from source to destination
+        ///     Mappings should support mapping from source to destination
         /// </summary>
         /// <param name="source">The source type</param>
         /// <param name="destination">The destinition type</param>
@@ -71,7 +71,7 @@ namespace Application.UnitTests.Common.Mappings
         }
 
         /// <summary>
-        /// Gets instance of given type
+        ///     Gets instance of given type
         /// </summary>
         /// <param name="type">The type</param>
         /// <returns>The instance of the specified type</returns>

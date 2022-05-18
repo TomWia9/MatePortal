@@ -8,17 +8,17 @@ using MediatR;
 namespace Application.Categories.Commands.DeleteCategory
 {
     /// <summary>
-    /// Delete category handler
+    ///     Delete category handler
     /// </summary>
     public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// Initializes DeleteCategoryHandler
+        ///     Initializes DeleteCategoryHandler
         /// </summary>
         /// <param name="context">Database context</param>
         public DeleteCategoryHandler(IApplicationDbContext context)
@@ -27,7 +27,7 @@ namespace Application.Categories.Commands.DeleteCategory
         }
 
         /// <summary>
-        /// Handles deleting category
+        ///     Handles deleting category
         /// </summary>
         /// <param name="request">Delete category request</param>
         /// <param name="cancellationToken">Cancellation token</param>

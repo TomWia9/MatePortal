@@ -12,12 +12,12 @@ using Serilog;
 namespace Api
 {
     /// <summary>
-    /// Application startup class
+    ///     Application startup class
     /// </summary>
     public class Startup
     {
         /// <summary>
-        /// Initializes startup
+        ///     Initializes startup
         /// </summary>
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
@@ -26,13 +26,13 @@ namespace Api
         }
 
         /// <summary>
-        /// The configuration
+        ///     The configuration
         /// </summary>
         public IConfiguration Configuration { get; }
 
         /// <summary>
-        /// Configures the services.
-        /// This method gets called by the runtime. Use this method to add services to the container.
+        ///     Configures the services.
+        ///     This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services">The services</param>
         public void ConfigureServices(IServiceCollection services)
@@ -48,8 +48,8 @@ namespace Api
         }
 
         /// <summary>
-        /// Configures the application
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        ///     Configures the application
+        ///     This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app">The application builder</param>
         /// <param name="env">Web host environment</param>

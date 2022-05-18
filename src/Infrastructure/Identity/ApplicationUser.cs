@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 namespace Infrastructure.Identity
 {
     /// <summary>
-    /// The application user
+    ///     The application user
     /// </summary>
     public class ApplicationUser : IdentityUser<Guid>
     {

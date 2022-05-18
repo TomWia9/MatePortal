@@ -4,12 +4,12 @@ using MediatR;
 namespace Application.Favourites.Commands.DeleteFavourite
 {
     /// <summary>
-    /// Delete favourite command
+    ///     Delete favourite command
     /// </summary>
     public class DeleteFavouriteCommand : IRequest
     {
         /// <summary>
-        /// Favourite ID
+        ///     Favourite ID
         /// </summary>
         public Guid FavouriteId { get; set; }
     }

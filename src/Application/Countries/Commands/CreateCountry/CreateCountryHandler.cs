@@ -11,22 +11,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Countries.Commands.CreateCountry
 {
     /// <summary>
-    /// Create country handler
+    ///     Create country handler
     /// </summary>
     public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, CountryDto>
     {
         /// <summary>
-        /// Database context
+        ///     Database context
         /// </summary>
         private readonly IApplicationDbContext _context;
 
         /// <summary>
-        /// The mapper
+        ///     The mapper
         /// </summary>
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes CreateCountryHandler
+        ///     Initializes CreateCountryHandler
         /// </summary>
         /// <param name="context">Database context</param>
         /// <param name="mapper">The mapper</param>
@@ -37,7 +37,7 @@ namespace Application.Countries.Commands.CreateCountry
         }
 
         /// <summary>
-        /// Handles creating country
+        ///     Handles creating country
         /// </summary>
         /// <param name="request">Create country request</param>
         /// <param name="cancellationToken">Cancellation token</param>

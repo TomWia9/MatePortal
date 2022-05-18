@@ -5,37 +5,37 @@ using Domain.Common;
 namespace Domain.Entities
 {
     /// <summary>
-    /// The yerba mate opinion
+    ///     The yerba mate opinion
     /// </summary>
     public class Opinion : BaseEntity, IHasDomainEvent
     {
         /// <summary>
-        /// The opinion ID
+        ///     The opinion ID
         /// </summary>
         public Guid Id { get; set; }
-        
+
         /// <summary>
-        /// The rate
+        ///     The rate
         /// </summary>
         public int Rate { get; set; }
-        
+
         /// <summary>
-        /// The comment
+        ///     The comment
         /// </summary>
         public string Comment { get; set; }
-        
+
         /// <summary>
-        /// The yerba mate ID
+        ///     The yerba mate ID
         /// </summary>
         public Guid YerbaMateId { get; set; }
-        
+
         /// <summary>
-        /// The yerba mate
+        ///     The yerba mate
         /// </summary>
         public YerbaMate YerbaMate { get; set; }
-        
+
         /// <summary>
-        /// Domain events
+        ///     Domain events
         /// </summary>
         public List<DomainEvent> DomainEvents { get; set; } = new();
     }

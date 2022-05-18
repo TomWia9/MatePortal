@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Persistence.Configurations
 {
     /// <summary>
-    /// The yerba mate configuration
+    ///     The yerba mate configuration
     /// </summary>
     public class YerbaMateConfiguration : IEntityTypeConfiguration<YerbaMate>
     {
         /// <summary>
-        /// Configures yerba mates
+        ///     Configures yerba mates
         /// </summary>
         /// <param name="builder">Entity type builder</param>
         public void Configure(EntityTypeBuilder<YerbaMate> builder)
