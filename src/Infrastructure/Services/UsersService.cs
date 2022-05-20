@@ -85,15 +85,18 @@ namespace Infrastructure.Services
         /// <exception cref="NotFoundException">Throws when user is not found</exception>
         public async Task<UserDto> GetUserAsync(GetUserQuery request)
         {
-            var entity = await _context.Users.FindAsync(request.UserId);
+            var user = await _context.Users.FindAsync(request.UserId);
 
-            if (entity == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+            if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+
+            var userRoles = await _userManager.GetRolesAsync(user);
 
             return new UserDto
             {
-                Id = entity.Id,
-                Email = entity.Email,
-                Username = entity.UserName
+                Id = user.Id,
+                Email = user.Email,
+                Username = user.UserName,
+                Role = userRoles.FirstOrDefault()
             };
         }
 
@@ -125,23 +128,38 @@ namespace Infrastructure.Services
 
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,
                     request.Parameters.SortDirection, sortingColumns);
-
-                return new PaginatedList<UserDto>(MapUsers(collection), MapUsers(collection).Count,
-                    request.Parameters.PageNumber,
-                    request.Parameters.PageSize);
             }
 
             //If sortBy is null, sort by email
             collection = collection.OrderBy(u => u.Email);
-            return new PaginatedList<UserDto>(MapUsers(collection), MapUsers(collection).Count,
+            var mappedUsers = await MapUsers(collection);
+            return new PaginatedList<UserDto>(mappedUsers, mappedUsers.Count,
                 request.Parameters.PageNumber,
                 request.Parameters.PageSize);
         }
 
-        private static IList<UserDto> MapUsers(IEnumerable<ApplicationUser> collection)
+        /// <summary>
+        /// Maps collection of ApplicationUser to the list of UserDto
+        /// </summary>
+        /// <param name="users">The ApplicationUser collection</param>
+        /// <returns>List of UserDto</returns>
+        private async Task<IList<UserDto>> MapUsers(IEnumerable<ApplicationUser> users)
         {
-            return collection.Select(user => new UserDto {Id = user.Id, Email = user.Email, Username = user.UserName})
-                .ToList();
+            var mappedUsers = new List<UserDto>();
+
+            foreach (var user in users)
+            {
+                var userRole = await _userManager.GetRolesAsync(user);
+                mappedUsers.Add(new UserDto()
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Username = user.UserName,
+                    Role = userRole.FirstOrDefault()
+                });
+            }
+
+            return mappedUsers;
         }
     }
 }
