@@ -26,5 +26,10 @@ namespace Application.Users.Queries
         ///     User's username
         /// </summary>
         public string Username { get; init; }
+        
+        /// <summary>
+        ///     User's role
+        /// </summary>
+        public string Role { get; init; }
     }
 }

@@ -37,10 +37,10 @@ namespace Application.IntegrationTests.Helpers
         }
 
         /// <summary>
-        ///     Gets user by jwt token
+        ///     Registers test user
         /// </summary>
         /// <param name="mediator">The mediator instance</param>
-        /// <returns></returns>
+        /// <returns>The AuthenticationResult</returns>
         public static async Task<AuthenticationResult> RegisterTestUserAsync(ISender mediator)
         {
             var registerUserCommand = new RegisterUserCommand
@@ -53,6 +53,12 @@ namespace Application.IntegrationTests.Helpers
             return await mediator.Send(registerUserCommand);
         }
 
+        /// <summary>
+        ///     Gets user by jwt token
+        /// </summary>
+        /// <param name="factory">The web application factory</param>
+        /// <param name="jwt">JWT token</param>
+        /// <returns>The ApplicationUser</returns>
         public static async Task<ApplicationUser> GetUserByTokenAsync(CustomWebApplicationFactory factory, string jwt)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
