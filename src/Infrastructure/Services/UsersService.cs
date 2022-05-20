@@ -108,6 +108,13 @@ namespace Infrastructure.Services
         {
             var collection = _context.Users.AsQueryable();
 
+            //filtering
+            if (!string.IsNullOrEmpty(request.Parameters.Role))
+            {
+                var usersInRole = await _userManager.GetUsersInRoleAsync(request.Parameters.Role);
+                collection = usersInRole.AsQueryable();
+            }
+
             //searching
             if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
             {
