@@ -5,6 +5,7 @@ using Application.IntegrationTests.Helpers;
 using Application.Users.Queries;
 using Application.Users.Queries.GetUser;
 using FluentAssertions;
+using Infrastructure.Identity;
 using Xunit;
 
 namespace Application.IntegrationTests.Users.Queries
@@ -32,6 +33,7 @@ namespace Application.IntegrationTests.Users.Queries
             response.Should().BeOfType<UserDto>();
             response.Email.Should().Be(user.Email);
             response.Username.Should().Be(user.UserName);
+            response.Role.Should().Be(Roles.User);
         }
 
         /// <summary>

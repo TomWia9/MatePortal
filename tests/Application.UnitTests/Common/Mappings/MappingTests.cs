@@ -63,7 +63,6 @@ namespace Application.UnitTests.Common.Mappings
         [InlineData(typeof(ShopOpinion), typeof(ShopOpinionDto))]
         [InlineData(typeof(Shop), typeof(ShopDto))]
         [InlineData(typeof(YerbaMate), typeof(YerbaMateDto))]
-        //[InlineData(typeof(ApplicationUser), typeof(UserDto))]
         public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
         {
             var instance = GetInstanceOf(source);
