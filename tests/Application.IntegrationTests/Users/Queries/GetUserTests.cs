@@ -45,7 +45,7 @@ namespace Application.IntegrationTests.Users.Queries
             FluentActions.Invoking(() =>
                     _mediator.Send(new GetUserQuery(Guid.Empty)))
                 .Should()
-                .Throw<NotFoundException>();
+                .ThrowAsync<NotFoundException>();
         }
     }
 }

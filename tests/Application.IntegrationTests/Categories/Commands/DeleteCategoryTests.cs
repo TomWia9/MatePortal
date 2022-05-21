@@ -24,7 +24,7 @@ namespace Application.IntegrationTests.Categories.Commands
 
             FluentActions.Invoking(() =>
                     _mediator.Send(new DeleteCategoryCommand {CategoryId = categoryId})).Should()
-                .Throw<NotFoundException>();
+                .ThrowAsync<NotFoundException>();
         }
 
         /// <summary>

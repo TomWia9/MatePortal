@@ -21,7 +21,7 @@ namespace Application.IntegrationTests.Shops.Commands
         public void DeleteShopWithIncorrectIdShouldThrowNotFound()
         {
             FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteShopCommand {ShopId = Guid.Empty})).Should().Throw<NotFoundException>();
+                _mediator.Send(new DeleteShopCommand {ShopId = Guid.Empty})).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>

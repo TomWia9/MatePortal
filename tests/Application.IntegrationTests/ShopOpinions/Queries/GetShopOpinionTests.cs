@@ -46,7 +46,7 @@ namespace Application.IntegrationTests.ShopOpinions.Queries
         public void GetShopOpinionWithIncorrectIdShouldThrowNotFound()
         {
             FluentActions.Invoking(() =>
-                _mediator.Send(new GetShopOpinionQuery(Guid.Empty))).Should().Throw<NotFoundException>();
+                _mediator.Send(new GetShopOpinionQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
         }
     }
 }

@@ -47,10 +47,10 @@ namespace Application.IntegrationTests.Users.Commands
             var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
             var userId = user.Id;
 
-            FluentActions.Invoking(() =>
+            await FluentActions.Invoking(() =>
                     _mediator.Send(new DeleteUserCommand {UserId = userId, Password = "123"}))
                 .Should()
-                .Throw<ForbiddenAccessException>();
+                .ThrowAsync<ForbiddenAccessException>();
         }
 
         /// <summary>

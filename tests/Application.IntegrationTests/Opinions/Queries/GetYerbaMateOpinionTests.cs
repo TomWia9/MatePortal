@@ -48,7 +48,7 @@ namespace Application.IntegrationTests.Opinions.Queries
             var yerbaMateOpinionId = Guid.Empty;
 
             FluentActions.Invoking(() =>
-                _mediator.Send(new GetYerbaMateOpinionQuery(yerbaMateOpinionId))).Should().Throw<NotFoundException>();
+                _mediator.Send(new GetYerbaMateOpinionQuery(yerbaMateOpinionId))).Should().ThrowAsync<NotFoundException>();
         }
     }
 }

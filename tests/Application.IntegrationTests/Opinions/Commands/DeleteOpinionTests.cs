@@ -26,7 +26,7 @@ namespace Application.IntegrationTests.Opinions.Commands
 
             FluentActions.Invoking(() =>
                     _mediator.Send(new DeleteOpinionCommand {OpinionId = opinionId})).Should()
-                .Throw<NotFoundException>();
+                .ThrowAsync<NotFoundException>();
         }
 
         /// <summary>
@@ -74,9 +74,9 @@ namespace Application.IntegrationTests.Opinions.Commands
             _factory.CurrentUserId = Guid.NewGuid(); //other user
 
             //delete
-            FluentActions.Invoking(() =>
+            await FluentActions.Invoking(() =>
                     _mediator.Send(new DeleteOpinionCommand {OpinionId = opinionToDeleteDto.Id})).Should()
-                .Throw<ForbiddenAccessException>();
+                .ThrowAsync<ForbiddenAccessException>();
         }
 
         /// <summary>

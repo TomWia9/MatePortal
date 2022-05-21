@@ -5,6 +5,7 @@ using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
 using Domain.Entities;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Xunit;
 
 namespace Application.IntegrationTests.Categories.Commands
@@ -30,7 +31,7 @@ namespace Application.IntegrationTests.Categories.Commands
             };
 
             FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<NotFoundException>();
+                _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace Application.IntegrationTests.Categories.Commands
             item.LastModifiedBy.Should().NotBeNull();
             item.LastModifiedBy.Should().Be(userId);
             item.LastModified.Should().NotBeNull();
-            item.LastModified.Should().BeCloseTo(DateTime.Now, 1000);
+            item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
         }
     }
 }

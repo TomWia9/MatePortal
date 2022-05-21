@@ -29,7 +29,7 @@ namespace Application.IntegrationTests.Countries.Commands
             };
 
             FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<NotFoundException>();
+                _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>

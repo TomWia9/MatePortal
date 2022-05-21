@@ -7,6 +7,7 @@ using Application.ShopOpinions.Queries;
 using Application.Shops.Queries.GetShop;
 using Domain.Entities;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Xunit;
 
 namespace Application.IntegrationTests.ShopOpinions.Commands
@@ -40,13 +41,13 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
             result.Should().BeOfType<ShopOpinionDto>();
             result.Rate.Should().Be(command.Rate);
             result.Comment.Should().Be(command.Comment);
-            result.Created.Should().BeCloseTo(DateTime.Now, 1000);
+            result.Created.Should().BeCloseTo(DateTime.Now, 1.Seconds());
             result.ShopId.Should().Be(command.ShopId);
             result.CreatedBy.Should().Be(userId);
 
             item.CreatedBy.Should().NotBeNull();
             item.CreatedBy.Should().Be(userId);
-            item.Created.Should().BeCloseTo(DateTime.Now, 1000);
+            item.Created.Should().BeCloseTo(DateTime.Now, 1.Seconds());
             item.LastModified.Should().BeNull();
             item.LastModifiedBy.Should().BeNull();
         }
@@ -67,8 +68,8 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
                 ShopId = Guid.NewGuid()
             };
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<NotFoundException>();
+            await FluentActions.Invoking(() =>
+                _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>
@@ -95,8 +96,8 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
                 ShopId = shopId
             };
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<ConflictException>();
+            await FluentActions.Invoking(() =>
+                _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
         }
 
         /// <summary>

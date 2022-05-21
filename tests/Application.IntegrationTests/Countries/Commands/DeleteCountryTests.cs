@@ -23,7 +23,7 @@ namespace Application.IntegrationTests.Countries.Commands
             var countryId = Guid.Empty;
 
             FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteCountryCommand {CountryId = countryId})).Should().Throw<NotFoundException>();
+                _mediator.Send(new DeleteCountryCommand {CountryId = countryId})).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>

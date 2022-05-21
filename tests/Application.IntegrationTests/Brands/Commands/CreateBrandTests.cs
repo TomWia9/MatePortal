@@ -6,6 +6,7 @@ using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
 using Domain.Entities;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Xunit;
 
 namespace Application.IntegrationTests.Brands.Commands
@@ -46,7 +47,7 @@ namespace Application.IntegrationTests.Brands.Commands
 
             item.CreatedBy.Should().NotBeNull();
             item.CreatedBy.Should().Be(userId);
-            item.Created.Should().BeCloseTo(DateTime.Now, 1000);
+            item.Created.Should().BeCloseTo(DateTime.Now, 1.Seconds());
             item.LastModified.Should().BeNull();
             item.LastModifiedBy.Should().BeNull();
         }
@@ -65,7 +66,7 @@ namespace Application.IntegrationTests.Brands.Commands
             };
 
             FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<NotFoundException>();
+                _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>
@@ -88,8 +89,8 @@ namespace Application.IntegrationTests.Brands.Commands
                 CountryId = Guid.Parse("C08D5B41-C678-421B-9500-93D22004F9CF")
             };
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<ConflictException>();
+            await FluentActions.Invoking(() =>
+                _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
         }
     }
 }

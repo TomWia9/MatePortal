@@ -7,6 +7,7 @@ using Application.Opinions.Queries;
 using Application.YerbaMates.Queries.GetYerbaMate;
 using Domain.Entities;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Xunit;
 
 namespace Application.IntegrationTests.Opinions.Commands
@@ -40,13 +41,13 @@ namespace Application.IntegrationTests.Opinions.Commands
             result.Should().BeOfType<OpinionDto>();
             result.Rate.Should().Be(command.Rate);
             result.Comment.Should().Be(command.Comment);
-            result.Created.Should().BeCloseTo(DateTime.Now, 1000);
+            result.Created.Should().BeCloseTo(DateTime.Now, 1.Seconds());
             result.YerbaMateId.Should().Be(command.YerbaMateId);
             result.CreatedBy.Should().Be(userId);
 
             item.CreatedBy.Should().NotBeNull();
             item.CreatedBy.Should().Be(userId);
-            item.Created.Should().BeCloseTo(DateTime.Now, 1000);
+            item.Created.Should().BeCloseTo(DateTime.Now, 1.Seconds());
             item.LastModified.Should().BeNull();
             item.LastModifiedBy.Should().BeNull();
         }
@@ -68,8 +69,8 @@ namespace Application.IntegrationTests.Opinions.Commands
                 YerbaMateId = yerbaMateId
             };
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<NotFoundException>();
+            await FluentActions.Invoking(() =>
+                _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>
@@ -96,8 +97,8 @@ namespace Application.IntegrationTests.Opinions.Commands
                 YerbaMateId = yerbaMateId
             };
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<ConflictException>();
+            await FluentActions.Invoking(() =>
+                _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
         }
 
         /// <summary>

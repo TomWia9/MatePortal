@@ -44,7 +44,7 @@ namespace Application.IntegrationTests.Shops.Queries
         public void GetShopWithIncorrectIdShouldThrowNotFound()
         {
             FluentActions.Invoking(() =>
-                _mediator.Send(new GetShopQuery(Guid.Empty))).Should().Throw<NotFoundException>();
+                _mediator.Send(new GetShopQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
         }
     }
 }

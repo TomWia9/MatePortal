@@ -6,6 +6,7 @@ using Application.Shops.Commands.CreateShop;
 using Application.Shops.Queries;
 using Domain.Entities;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Xunit;
 
 namespace Application.IntegrationTests.Shops.Commands
@@ -44,7 +45,7 @@ namespace Application.IntegrationTests.Shops.Commands
 
             item.CreatedBy.Should().NotBeNull();
             item.CreatedBy.Should().Be(userId);
-            item.Created.Should().BeCloseTo(DateTime.Now, 1000);
+            item.Created.Should().BeCloseTo(DateTime.Now, 1.Seconds());
             item.LastModified.Should().BeNull();
             item.LastModifiedBy.Should().BeNull();
         }
@@ -63,8 +64,8 @@ namespace Application.IntegrationTests.Shops.Commands
 
             await _mediator.Send(command);
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<ConflictException>();
+            await FluentActions.Invoking(() =>
+                _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
         }
     }
 }

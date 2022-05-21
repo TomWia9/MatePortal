@@ -24,7 +24,7 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
         {
             FluentActions.Invoking(() =>
                     _mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = Guid.Empty})).Should()
-                .Throw<NotFoundException>();
+                .ThrowAsync<NotFoundException>();
         }
 
         /// <summary>
@@ -73,10 +73,10 @@ namespace Application.IntegrationTests.ShopOpinions.Commands
             _factory.CurrentUserId = Guid.NewGuid();
 
             //delete
-            FluentActions.Invoking(() =>
+            await FluentActions.Invoking(() =>
                     _mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = ShopOpinionToDeleteDto.Id}))
                 .Should()
-                .Throw<ForbiddenAccessException>();
+                .ThrowAsync<ForbiddenAccessException>();
         }
 
         /// <summary>

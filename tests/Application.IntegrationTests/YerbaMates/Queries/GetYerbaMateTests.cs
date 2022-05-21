@@ -65,7 +65,7 @@ namespace Application.IntegrationTests.YerbaMates.Queries
         public void GetYerbaMateWithIncorrectIdShouldThrowNotFound()
         {
             FluentActions.Invoking(() =>
-                _mediator.Send(new GetYerbaMateQuery(Guid.Empty))).Should().Throw<NotFoundException>();
+                _mediator.Send(new GetYerbaMateQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
         }
     }
 }

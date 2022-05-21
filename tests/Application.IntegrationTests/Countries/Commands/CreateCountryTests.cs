@@ -50,8 +50,8 @@ namespace Application.IntegrationTests.Countries.Commands
                 Name = "Test"
             };
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<ConflictException>();
+            await FluentActions.Invoking(() =>
+                _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
         }
     }
 }

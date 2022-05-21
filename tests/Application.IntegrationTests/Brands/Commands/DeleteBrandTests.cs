@@ -23,7 +23,7 @@ namespace Application.IntegrationTests.Brands.Commands
             var brandId = Guid.Empty;
 
             FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteBrandCommand {BrandId = brandId})).Should().Throw<NotFoundException>();
+                _mediator.Send(new DeleteBrandCommand {BrandId = brandId})).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>

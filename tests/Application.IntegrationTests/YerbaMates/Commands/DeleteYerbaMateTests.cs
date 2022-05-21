@@ -22,7 +22,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
         {
             FluentActions.Invoking(() =>
                     _mediator.Send(new DeleteYerbaMateCommand {YerbaMateId = Guid.Empty})).Should()
-                .Throw<NotFoundException>();
+                .ThrowAsync<NotFoundException>();
         }
 
         /// <summary>

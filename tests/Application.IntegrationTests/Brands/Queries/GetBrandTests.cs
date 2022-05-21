@@ -47,7 +47,7 @@ namespace Application.IntegrationTests.Brands.Queries
             var brandId = Guid.Empty;
 
             FluentActions.Invoking(() =>
-                _mediator.Send(new GetBrandQuery(brandId))).Should().Throw<NotFoundException>();
+                _mediator.Send(new GetBrandQuery(brandId))).Should().ThrowAsync<NotFoundException>();
         }
     }
 }

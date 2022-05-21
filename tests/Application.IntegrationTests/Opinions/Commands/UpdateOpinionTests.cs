@@ -6,6 +6,7 @@ using Application.Opinions.Commands.CreateOpinion;
 using Application.Opinions.Commands.UpdateOpinion;
 using Domain.Entities;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Xunit;
 
 namespace Application.IntegrationTests.Opinions.Commands
@@ -31,7 +32,7 @@ namespace Application.IntegrationTests.Opinions.Commands
             };
 
             FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<NotFoundException>();
+                _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace Application.IntegrationTests.Opinions.Commands
             item.Comment.Should().Be(command.Comment);
             item.CreatedBy.Should().NotBeNull();
             item.LastModified.Should().NotBeNull();
-            item.LastModified.Should().BeCloseTo(DateTime.Now, 1000);
+            item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
             item.LastModifiedBy.Should().NotBeNull();
             item.LastModifiedBy.Should().Be(userId);
         }
@@ -84,10 +85,10 @@ namespace Application.IntegrationTests.Opinions.Commands
 
             _factory.CurrentUserId = Guid.NewGuid(); //other user
 
-            FluentActions.Invoking(() =>
+            await FluentActions.Invoking(() =>
                     _mediator.Send(new UpdateOpinionCommand
                         {OpinionId = opinionToUpdateDto.Id, Comment = "test", Rate = 1})).Should()
-                .Throw<ForbiddenAccessException>();
+                .ThrowAsync<ForbiddenAccessException>();
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace Application.IntegrationTests.Opinions.Commands
             item.Rate.Should().Be(command.Rate);
             item.Comment.Should().Be(command.Comment);
             item.CreatedBy.Should().NotBeNull();
-            item.LastModified.Should().BeCloseTo(DateTime.Now, 1000);
+            item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
             item.LastModifiedBy.Should().NotBeNull();
         }
     }

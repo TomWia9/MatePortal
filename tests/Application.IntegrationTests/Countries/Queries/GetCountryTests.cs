@@ -42,7 +42,7 @@ namespace Application.IntegrationTests.Countries.Queries
             var countryId = Guid.Empty;
 
             FluentActions.Invoking(() =>
-                _mediator.Send(new GetCountryQuery(countryId))).Should().Throw<NotFoundException>();
+                _mediator.Send(new GetCountryQuery(countryId))).Should().ThrowAsync<NotFoundException>();
         }
     }
 }

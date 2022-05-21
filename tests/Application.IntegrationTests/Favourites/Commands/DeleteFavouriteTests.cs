@@ -26,7 +26,7 @@ namespace Application.IntegrationTests.Favourites.Commands
 
             FluentActions.Invoking(() =>
                     _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteId})).Should()
-                .Throw<NotFoundException>();
+                .ThrowAsync<NotFoundException>();
         }
 
         /// <summary>
@@ -96,9 +96,9 @@ namespace Application.IntegrationTests.Favourites.Commands
             _factory.CurrentUserId = Guid.NewGuid(); //other user
 
             //delete
-            FluentActions.Invoking(() =>
+            await FluentActions.Invoking(() =>
                     _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id})).Should()
-                .Throw<ForbiddenAccessException>();
+                .ThrowAsync<ForbiddenAccessException>();
         }
 
         /// <summary>

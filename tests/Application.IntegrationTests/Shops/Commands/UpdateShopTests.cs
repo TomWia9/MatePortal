@@ -5,6 +5,7 @@ using Application.IntegrationTests.Helpers;
 using Application.Shops.Commands.UpdateShop;
 using Domain.Entities;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Xunit;
 
 namespace Application.IntegrationTests.Shops.Commands
@@ -30,7 +31,7 @@ namespace Application.IntegrationTests.Shops.Commands
             };
 
             FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<NotFoundException>();
+                _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace Application.IntegrationTests.Shops.Commands
             item.LastModifiedBy.Should().NotBeNull();
             item.LastModifiedBy.Should().Be(userId);
             item.LastModified.Should().NotBeNull();
-            item.LastModified.Should().BeCloseTo(DateTime.Now, 1000);
+            item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
         }
     }
 }

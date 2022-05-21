@@ -5,6 +5,7 @@ using Application.IntegrationTests.Helpers;
 using Application.YerbaMates.Commands.UpdateYerbaMate;
 using Domain.Entities;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Xunit;
 
 namespace Application.IntegrationTests.YerbaMates.Commands
@@ -34,7 +35,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
             };
 
             FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<NotFoundException>();
+                _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace Application.IntegrationTests.YerbaMates.Commands
             item.LastModifiedBy.Should().NotBeNull();
             item.LastModifiedBy.Should().Be(userId);
             item.LastModified.Should().NotBeNull();
-            item.LastModified.Should().BeCloseTo(DateTime.Now, 1000);
+            item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
         }
     }
 }
