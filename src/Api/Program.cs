@@ -1,61 +1,75 @@
 using System;
-using System.Threading.Tasks;
+using Api.Common;
+using Api.Filters;
+using Application;
+using Infrastructure;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace Api;
+var builder = WebApplication.CreateBuilder(args);
 
-public static class Program
+builder.Services.AddApplication(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInternalServices(builder.Configuration);
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>());
+
+builder.Services.AddSwagger();
+builder.Services.AddJwtAuth(builder.Configuration);
+
+builder.Host.UseSerilog();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+    app.UseDeveloperExceptionPage();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    public static async Task Main(string[] args)
+    c.SwaggerEndpoint("swagger/MatePortalSpecification/swagger.json", "MatePortal");
+    c.RoutePrefix = string.Empty;
+});
+
+app.UseSerilogRequestLogging();
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+try
+{
+    Log.Information("Starting up");
+
+    using (var scope = app.Services.CreateScope())
     {
-        var host = CreateHostBuilder(args).Build();
-        using var scope = host.Services.CreateScope();
-        var services = scope.ServiceProvider;
-
-        var config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .Build();
-        Log.Logger = new LoggerConfiguration()
-            .ReadFrom.Configuration(config)
-            .CreateLogger();
-
-        try
-        {
-            Log.Information("Starting up");
-
-            var context = services.GetRequiredService<ApplicationDbContext>();
-
-            await context.Database.MigrateAsync();
-
-            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-            var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-
-            await ApplicationDbContextSeed.SeedDatabase(userManager, roleManager, context);
-
-            await host.RunAsync();
-        }
-        catch (Exception ex)
-        {
-            Log.Fatal(ex, "Application start-up failed");
-        }
-        finally
-        {
-            Log.CloseAndFlush();
-        }
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        await context.Database.MigrateAsync();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        await ApplicationDbContextSeed.SeedDatabase(userManager, roleManager, context);
     }
 
-    private static IHostBuilder CreateHostBuilder(string[] args)
-    {
-        return Host.CreateDefaultBuilder(args)
-            .UseSerilog()
-            .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-    }
+    await app.RunAsync();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application start-up failed");
+}
+finally
+{
+    Log.CloseAndFlush();
 }
