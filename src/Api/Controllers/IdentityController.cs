@@ -5,73 +5,72 @@ using Application.Users.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers;
+
+/// <summary>
+///     The identity controller
+/// </summary>
+[Route("api/[controller]")]
+public class IdentityController : ControllerBase
 {
     /// <summary>
-    ///     The identity controller
+    ///     The mediator
     /// </summary>
-    [Route("api/[controller]")]
-    public class IdentityController : ControllerBase
+    private readonly IMediator _mediator;
+
+    /// <summary>
+    ///     Initializes IdentityController
+    /// </summary>
+    /// <param name="mediator">The mediator</param>
+    public IdentityController(IMediator mediator)
     {
-        /// <summary>
-        ///     The mediator
-        /// </summary>
-        private readonly IMediator _mediator;
+        _mediator = mediator;
+    }
 
-        /// <summary>
-        ///     Initializes IdentityController
-        /// </summary>
-        /// <param name="mediator">The mediator</param>
-        public IdentityController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+    /// <summary>
+    ///     Registers the user
+    /// </summary>
+    /// <param name="request">The register request</param>
+    /// <returns>An IActionResult</returns>
+    /// <response code="200">Creates user and returns jwt token</response>
+    /// <response code="400">Creates user and returns jwt token</response>
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterUserCommand request)
+    {
+        var result = await _mediator.Send(request);
 
-        /// <summary>
-        ///     Registers the user
-        /// </summary>
-        /// <param name="request">The register request</param>
-        /// <returns>An IActionResult</returns>
-        /// <response code="200">Creates user and returns jwt token</response>
-        /// <response code="400">Creates user and returns jwt token</response>
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserCommand request)
-        {
-            var result = await _mediator.Send(request);
-
-            if (!result.Success)
-                return BadRequest(new AuthFailedResponse
-                {
-                    ErrorMessages = result.ErrorMessages
-                });
-
-            return Ok(new AuthSuccessResponse
+        if (!result.Success)
+            return BadRequest(new AuthFailedResponse
             {
-                Token = result.Token
+                ErrorMessages = result.ErrorMessages
             });
-        }
 
-        /// <summary>
-        ///     Authenticates the user
-        /// </summary>
-        /// <param name="request">The user login request</param>
-        /// <returns>An IActionResult</returns>
-        /// <response code="200">Authenticates user and returns jwt token</response>
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserCommand request)
+        return Ok(new AuthSuccessResponse
         {
-            var result = await _mediator.Send(request);
+            Token = result.Token
+        });
+    }
 
-            if (!result.Success)
-                return BadRequest(new AuthFailedResponse
-                {
-                    ErrorMessages = result.ErrorMessages
-                });
+    /// <summary>
+    ///     Authenticates the user
+    /// </summary>
+    /// <param name="request">The user login request</param>
+    /// <returns>An IActionResult</returns>
+    /// <response code="200">Authenticates user and returns jwt token</response>
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginUserCommand request)
+    {
+        var result = await _mediator.Send(request);
 
-            return Ok(new AuthSuccessResponse
+        if (!result.Success)
+            return BadRequest(new AuthFailedResponse
             {
-                Token = result.Token
+                ErrorMessages = result.ErrorMessages
             });
-        }
+
+        return Ok(new AuthSuccessResponse
+        {
+            Token = result.Token
+        });
     }
 }

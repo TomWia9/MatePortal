@@ -7,44 +7,43 @@ using Application.Shops.Queries.GetShop;
 using FluentAssertions;
 using Xunit;
 
-namespace Application.IntegrationTests.Shops.Queries
+namespace Application.IntegrationTests.Shops.Queries;
+
+/// <summary>
+///     Get shop tests
+/// </summary>
+public class GetShopTests : IntegrationTest
 {
     /// <summary>
-    ///     Get shop tests
+    ///     Get shop command should return correct shop data transfer object
     /// </summary>
-    public class GetShopTests : IntegrationTest
+    [Fact]
+    public async Task ShouldReturnCorrectShop()
     {
-        /// <summary>
-        ///     Get shop command should return correct shop data transfer object
-        /// </summary>
-        [Fact]
-        public async Task ShouldReturnCorrectShop()
+        await TestSeeder.SeedTestShopsAsync(_factory);
+
+        var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //id of one of seeded shops
+
+        var expectedResult = new ShopDto
         {
-            await TestSeeder.SeedTestShopsAsync(_factory);
+            Id = shopId,
+            Name = "Matemundo",
+            Description = "Test description 1"
+        };
 
-            var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //id of one of seeded shops
+        var response = await _mediator.Send(new GetShopQuery(shopId));
 
-            var expectedResult = new ShopDto
-            {
-                Id = shopId,
-                Name = "Matemundo",
-                Description = "Test description 1"
-            };
+        response.Should().BeOfType<ShopDto>();
+        response.Should().BeEquivalentTo(expectedResult);
+    }
 
-            var response = await _mediator.Send(new GetShopQuery(shopId));
-
-            response.Should().BeOfType<ShopDto>();
-            response.Should().BeEquivalentTo(expectedResult);
-        }
-
-        /// <summary>
-        ///     Get shop with incorrect id should throw not found exception
-        /// </summary>
-        [Fact]
-        public void GetShopWithIncorrectIdShouldThrowNotFound()
-        {
-            FluentActions.Invoking(() =>
-                _mediator.Send(new GetShopQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
-        }
+    /// <summary>
+    ///     Get shop with incorrect id should throw not found exception
+    /// </summary>
+    [Fact]
+    public void GetShopWithIncorrectIdShouldThrowNotFound()
+    {
+        FluentActions.Invoking(() =>
+            _mediator.Send(new GetShopQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
     }
 }

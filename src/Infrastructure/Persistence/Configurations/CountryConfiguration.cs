@@ -2,23 +2,22 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Configurations
+namespace Infrastructure.Persistence.Configurations;
+
+/// <summary>
+///     Country configuration
+/// </summary>
+public class CountryConfiguration : IEntityTypeConfiguration<Country>
 {
     /// <summary>
-    ///     Country configuration
+    ///     Configures countries
     /// </summary>
-    public class CountryConfiguration : IEntityTypeConfiguration<Country>
+    /// <param name="builder">Entity type builder</param>
+    public void Configure(EntityTypeBuilder<Country> builder)
     {
-        /// <summary>
-        ///     Configures countries
-        /// </summary>
-        /// <param name="builder">Entity type builder</param>
-        public void Configure(EntityTypeBuilder<Country> builder)
-        {
-            builder.HasKey(c => c.Id);
-            builder.HasMany(c => c.Brands).WithOne(b => b.Country);
+        builder.HasKey(c => c.Id);
+        builder.HasMany(c => c.Brands).WithOne(b => b.Country);
 
-            builder.Property(c => c.Name).HasMaxLength(50);
-        }
+        builder.Property(c => c.Name).HasMaxLength(50);
     }
 }

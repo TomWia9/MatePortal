@@ -1,16 +1,15 @@
 ﻿using System;
 using MediatR;
 
-namespace Application.Categories.Commands.DeleteCategory
+namespace Application.Categories.Commands.DeleteCategory;
+
+/// <summary>
+///     Delete category command
+/// </summary>
+public class DeleteCategoryCommand : IRequest
 {
     /// <summary>
-    ///     Delete category command
+    ///     Category ID
     /// </summary>
-    public class DeleteCategoryCommand : IRequest
-    {
-        /// <summary>
-        ///     Category ID
-        /// </summary>
-        public Guid CategoryId { get; init; }
-    }
+    public Guid CategoryId { get; init; }
 }

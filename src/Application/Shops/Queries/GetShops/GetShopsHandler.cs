@@ -13,85 +13,84 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Shops.Queries.GetShops
+namespace Application.Shops.Queries.GetShops;
+
+/// <summary>
+///     Get shops handler
+/// </summary>
+public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<ShopDto>>
 {
     /// <summary>
-    ///     Get shops handler
+    ///     Database context
     /// </summary>
-    public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<ShopDto>>
+    private readonly IApplicationDbContext _context;
+
+    /// <summary>
+    ///     The mapper
+    /// </summary>
+    private readonly IMapper _mapper;
+
+    /// <summary>
+    ///     Sort service
+    /// </summary>
+    private readonly ISortService<Shop> _sortService;
+
+    /// <summary>
+    ///     Initializes GetShopsHandler
+    /// </summary>
+    /// <param name="context">Database context</param>
+    /// <param name="mapper">The mapper</param>
+    /// <param name="sortService">Sort service</param>
+    public GetShopsHandler(IApplicationDbContext context,
+        IMapper mapper,
+        ISortService<Shop> sortService)
     {
-        /// <summary>
-        ///     Database context
-        /// </summary>
-        private readonly IApplicationDbContext _context;
+        _context = context;
+        _mapper = mapper;
+        _sortService = sortService;
+    }
 
-        /// <summary>
-        ///     The mapper
-        /// </summary>
-        private readonly IMapper _mapper;
+    /// <summary>
+    ///     Handles getting shops
+    /// </summary>
+    /// <param name="request">Get shops request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Paginated list of shop data transfer objects</returns>
+    /// <exception cref="ArgumentNullException">Thrown when parameters object is null</exception>
+    public async Task<PaginatedList<ShopDto>> Handle(GetShopsQuery request, CancellationToken cancellationToken)
+    {
+        if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
-        /// <summary>
-        ///     Sort service
-        /// </summary>
-        private readonly ISortService<Shop> _sortService;
+        var collection = _context.Shops.Include(s => s.Opinions) as IQueryable<Shop>;
 
-        /// <summary>
-        ///     Initializes GetShopsHandler
-        /// </summary>
-        /// <param name="context">Database context</param>
-        /// <param name="mapper">The mapper</param>
-        /// <param name="sortService">Sort service</param>
-        public GetShopsHandler(IApplicationDbContext context,
-            IMapper mapper,
-            ISortService<Shop> sortService)
+        //searching
+        if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
         {
-            _context = context;
-            _mapper = mapper;
-            _sortService = sortService;
+            var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
+
+            collection = collection.Where(s => s.Name.ToLower().Contains(searchQuery)
+                                               || s.Description.ToLower().Contains(searchQuery));
         }
 
-        /// <summary>
-        ///     Handles getting shops
-        /// </summary>
-        /// <param name="request">Get shops request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Paginated list of shop data transfer objects</returns>
-        /// <exception cref="ArgumentNullException">Thrown when parameters object is null</exception>
-        public async Task<PaginatedList<ShopDto>> Handle(GetShopsQuery request, CancellationToken cancellationToken)
+        //sorting
+        if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
         {
-            if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
-
-            var collection = _context.Shops.Include(s => s.Opinions) as IQueryable<Shop>;
-
-            //searching
-            if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
+            var sortingColumns = new Dictionary<string, Expression<Func<Shop, object>>>
             {
-                var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
+                {nameof(Shop.Name), s => s.Name},
+                {nameof(Shop.Description), s => s.Description},
+                {nameof(Shop.Opinions), y => y.Opinions.Count}
+            };
 
-                collection = collection.Where(s => s.Name.ToLower().Contains(searchQuery)
-                                                   || s.Description.ToLower().Contains(searchQuery));
-            }
-
-            //sorting
-            if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
-            {
-                var sortingColumns = new Dictionary<string, Expression<Func<Shop, object>>>
-                {
-                    {nameof(Shop.Name), s => s.Name},
-                    {nameof(Shop.Description), s => s.Description},
-                    {nameof(Shop.Opinions), y => y.Opinions.Count}
-                };
-
-                collection = _sortService.Sort(collection, request.Parameters.SortBy,
-                    request.Parameters.SortDirection, sortingColumns);
-            }
-            else
-            {
-                collection = collection.OrderBy(b => b.Name);
-            }
-
-            return await collection.ProjectTo<ShopDto>(_mapper.ConfigurationProvider)
-                .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+            collection = _sortService.Sort(collection, request.Parameters.SortBy,
+                request.Parameters.SortDirection, sortingColumns);
         }
+        else
+        {
+            collection = collection.OrderBy(b => b.Name);
+        }
+
+        return await collection.ProjectTo<ShopDto>(_mapper.ConfigurationProvider)
+            .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
     }
 }

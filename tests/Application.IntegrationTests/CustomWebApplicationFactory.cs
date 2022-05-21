@@ -12,94 +12,93 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace Application.IntegrationTests
+namespace Application.IntegrationTests;
+
+/// <summary>
+///     Custom web application factory
+/// </summary>
+public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
 {
     /// <summary>
-    ///     Custom web application factory
+    ///     Database name
     /// </summary>
-    public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
+    private readonly string _databaseName;
+
+    /// <summary>
+    ///     Initializes CustomWebApplicationFactory
+    /// </summary>
+    public CustomWebApplicationFactory()
     {
-        /// <summary>
-        ///     Database name
-        /// </summary>
-        private readonly string _databaseName;
+        _databaseName = Guid.NewGuid().ToString();
+    }
 
-        /// <summary>
-        ///     Initializes CustomWebApplicationFactory
-        /// </summary>
-        public CustomWebApplicationFactory()
+    /// <summary>
+    ///     Current user ID
+    /// </summary>
+    public Guid CurrentUserId { get; set; }
+
+    /// <summary>
+    ///     Current user role
+    /// </summary>
+    public string CurrentUserRole { get; set; }
+
+    /// <summary>
+    ///     Indicates whether current user has admin access
+    /// </summary>
+    public bool AdministratorAccess { get; set; }
+
+    /// <summary>
+    ///     Configures web host
+    /// </summary>
+    /// <param name="builder">The builder</param>
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.ConfigureServices(services =>
         {
-            _databaseName = Guid.NewGuid().ToString();
-        }
+            //Replace CurrentUserService
+            var currentUserServiceDescriptor = services.FirstOrDefault(d =>
+                d.ServiceType == typeof(ICurrentUserService));
 
-        /// <summary>
-        ///     Current user ID
-        /// </summary>
-        public Guid CurrentUserId { get; set; }
+            services.Remove(currentUserServiceDescriptor);
+            services.AddTransient(_ =>
+                Mock.Of<ICurrentUserService>(s =>
+                    s.UserId == CurrentUserId && s.UserRole == CurrentUserRole &&
+                    s.AdministratorAccess == AdministratorAccess));
 
-        /// <summary>
-        ///     Current user role
-        /// </summary>
-        public string CurrentUserRole { get; set; }
+            //Replace ApplicationDbContext
+            var applicationDbContextDescriptor = services.SingleOrDefault(
+                d => d.ServiceType ==
+                     typeof(DbContextOptions<ApplicationDbContext>));
 
-        /// <summary>
-        ///     Indicates whether current user has admin access
-        /// </summary>
-        public bool AdministratorAccess { get; set; }
+            services.Remove(applicationDbContextDescriptor);
+            services.AddDbContext<ApplicationDbContext>(options => { options.UseInMemoryDatabase(_databaseName); });
 
-        /// <summary>
-        ///     Configures web host
-        /// </summary>
-        /// <param name="builder">The builder</param>
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            builder.ConfigureServices(services =>
+
+            var sp = services.BuildServiceProvider();
+
+            using var scope = sp.CreateScope();
             {
-                //Replace CurrentUserService
-                var currentUserServiceDescriptor = services.FirstOrDefault(d =>
-                    d.ServiceType == typeof(ICurrentUserService));
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<ApplicationDbContext>();
+                var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
+                var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+                var logger = scopedServices
+                    .GetRequiredService<ILogger<CustomWebApplicationFactory>>();
 
-                services.Remove(currentUserServiceDescriptor);
-                services.AddTransient(_ =>
-                    Mock.Of<ICurrentUserService>(s =>
-                        s.UserId == CurrentUserId && s.UserRole == CurrentUserRole &&
-                        s.AdministratorAccess == AdministratorAccess));
-                
-                //Replace ApplicationDbContext
-                var applicationDbContextDescriptor = services.SingleOrDefault(
-                    d => d.ServiceType ==
-                         typeof(DbContextOptions<ApplicationDbContext>));
+                context.Database.EnsureCreatedAsync().Wait();
 
-                services.Remove(applicationDbContextDescriptor);
-                services.AddDbContext<ApplicationDbContext>(options => { options.UseInMemoryDatabase(_databaseName); });
-
-
-                var sp = services.BuildServiceProvider();
-
-                using var scope = sp.CreateScope();
+                try
                 {
-                    var scopedServices = scope.ServiceProvider;
-                    var context = scopedServices.GetRequiredService<ApplicationDbContext>();
-                    var userManager = scopedServices.GetRequiredService<UserManager<ApplicationUser>>();
-                    var roleManager = scopedServices.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-                    var logger = scopedServices
-                        .GetRequiredService<ILogger<CustomWebApplicationFactory>>();
-
-                    context.Database.EnsureCreatedAsync().Wait();
-
-                    try
-                    {
-                        //Values seeded in real and tests
-                        ApplicationDbContextSeed.SeedDatabase(userManager, roleManager, context)
-                            .Wait();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, "An error occurred seeding the " +
-                                            "database with test messages. Error: {Message}", ex.Message);
-                    }
+                    //Values seeded in real and tests
+                    ApplicationDbContextSeed.SeedDatabase(userManager, roleManager, context)
+                        .Wait();
                 }
-            });
-        }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred seeding the " +
+                                        "database with test messages. Error: {Message}", ex.Message);
+                }
+            }
+        });
     }
 }

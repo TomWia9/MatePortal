@@ -5,57 +5,56 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.ShopOpinions.Commands.UpdateShopOpinion
+namespace Application.ShopOpinions.Commands.UpdateShopOpinion;
+
+/// <summary>
+///     Update shop opinion handler
+/// </summary>
+public class UpdateShopOpinionHandler : IRequestHandler<UpdateShopOpinionCommand>
 {
     /// <summary>
-    ///     Update shop opinion handler
+    ///     Database context
     /// </summary>
-    public class UpdateShopOpinionHandler : IRequestHandler<UpdateShopOpinionCommand>
+    private readonly IApplicationDbContext _context;
+
+    /// <summary>
+    ///     Current user service
+    /// </summary>
+    private readonly ICurrentUserService _currentUserService;
+
+    /// <summary>
+    ///     Initializes UpdateShopOpinionHandler
+    /// </summary>
+    /// <param name="context">Database context</param>
+    /// <param name="currentUserService">Current user service</param>
+    public UpdateShopOpinionHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
     {
-        /// <summary>
-        ///     Database context
-        /// </summary>
-        private readonly IApplicationDbContext _context;
+        _context = context;
+        _currentUserService = currentUserService;
+    }
 
-        /// <summary>
-        ///     Current user service
-        /// </summary>
-        private readonly ICurrentUserService _currentUserService;
+    /// <summary>
+    ///     Handles updating shop opinion
+    /// </summary>
+    /// <param name="request">Update shop opinion request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <exception cref="NotFoundException">Thrown when shop opinion is not found</exception>
+    /// <exception cref="ForbiddenAccessException">Thrown when user doesn't have access to shop opinion</exception>
+    public async Task<Unit> Handle(UpdateShopOpinionCommand request, CancellationToken cancellationToken)
+    {
+        var entity = await _context.ShopOpinions.FindAsync(request.ShopOpinionId);
 
-        /// <summary>
-        ///     Initializes UpdateShopOpinionHandler
-        /// </summary>
-        /// <param name="context">Database context</param>
-        /// <param name="currentUserService">Current user service</param>
-        public UpdateShopOpinionHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
-        {
-            _context = context;
-            _currentUserService = currentUserService;
-        }
+        if (entity == null) throw new NotFoundException(nameof(ShopOpinion), request.ShopOpinionId);
 
-        /// <summary>
-        ///     Handles updating shop opinion
-        /// </summary>
-        /// <param name="request">Update shop opinion request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <exception cref="NotFoundException">Thrown when shop opinion is not found</exception>
-        /// <exception cref="ForbiddenAccessException">Thrown when user doesn't have access to shop opinion</exception>
-        public async Task<Unit> Handle(UpdateShopOpinionCommand request, CancellationToken cancellationToken)
-        {
-            var entity = await _context.ShopOpinions.FindAsync(request.ShopOpinionId);
+        var currentUserId = _currentUserService.UserId;
+        if (entity.CreatedBy != currentUserId && !_currentUserService.AdministratorAccess)
+            throw new ForbiddenAccessException();
 
-            if (entity == null) throw new NotFoundException(nameof(ShopOpinion), request.ShopOpinionId);
+        entity.Rate = request.Rate;
+        entity.Comment = request.Comment;
 
-            var currentUserId = _currentUserService.UserId;
-            if (entity.CreatedBy != currentUserId && !_currentUserService.AdministratorAccess)
-                throw new ForbiddenAccessException();
+        await _context.SaveChangesAsync(cancellationToken);
 
-            entity.Rate = request.Rate;
-            entity.Comment = request.Comment;
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

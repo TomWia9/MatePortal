@@ -8,64 +8,63 @@ using FluentAssertions;
 using FluentAssertions.Extensions;
 using Xunit;
 
-namespace Application.IntegrationTests.Brands.Commands
+namespace Application.IntegrationTests.Brands.Commands;
+
+/// <summary>
+///     Update brand tests
+/// </summary>
+public class UpdateBrandTests : IntegrationTest
 {
     /// <summary>
-    ///     Update brand tests
+    ///     Update brand with incorrect id should throw not found exception
     /// </summary>
-    public class UpdateBrandTests : IntegrationTest
+    [Fact]
+    public void UpdateBrandWithIncorrectIdShouldThrowNotFound()
     {
-        /// <summary>
-        ///     Update brand with incorrect id should throw not found exception
-        /// </summary>
-        [Fact]
-        public void UpdateBrandWithIncorrectIdShouldThrowNotFound()
+        var brandId = Guid.Empty;
+
+        var command = new UpdateBrandCommand
         {
-            var brandId = Guid.Empty;
+            BrandId = brandId,
+            Name = "Kurupi",
+            Description = "Kurupi description",
+            CountryId = Guid.Parse("A42066F2-2998-47DC-A193-FF4C4080056F")
+        };
 
-            var command = new UpdateBrandCommand
-            {
-                BrandId = brandId,
-                Name = "Kurupi",
-                Description = "Kurupi description",
-                CountryId = Guid.Parse("A42066F2-2998-47DC-A193-FF4C4080056F")
-            };
+        FluentActions.Invoking(() =>
+            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+    }
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
-        }
+    /// <summary>
+    ///     Update brand command should update brand
+    /// </summary>
+    [Fact]
+    public async Task UpdateBrandShouldUpdateBrand()
+    {
+        var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
 
-        /// <summary>
-        ///     Update brand command should update brand
-        /// </summary>
-        [Fact]
-        public async Task UpdateBrandShouldUpdateBrand()
+        await TestSeeder.SeedTestBrandsAsync(_factory);
+
+        var brandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239");
+
+        var command = new UpdateBrandCommand
         {
-            var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+            BrandId = brandId,
+            Name = "Updated name",
+            Description = "Updated description",
+            CountryId = Guid.Parse("68E2E690-B2F4-44AE-A21F-756922E25163") //one of seeded countries (Argentina)
+        };
 
-            await TestSeeder.SeedTestBrandsAsync(_factory);
+        await _mediator.Send(command);
 
-            var brandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239");
+        var item = await DbHelper.FindAsync<Brand>(_factory, brandId);
 
-            var command = new UpdateBrandCommand
-            {
-                BrandId = brandId,
-                Name = "Updated name",
-                Description = "Updated description",
-                CountryId = Guid.Parse("68E2E690-B2F4-44AE-A21F-756922E25163") //one of seeded countries (Argentina)
-            };
-
-            await _mediator.Send(command);
-
-            var item = await DbHelper.FindAsync<Brand>(_factory, brandId);
-
-            item.Name.Should().Be(command.Name);
-            item.Description.Should().Be(command.Description);
-            item.CountryId.Should().Be(command.CountryId);
-            item.LastModifiedBy.Should().NotBeNull();
-            item.LastModifiedBy.Should().Be(userId);
-            item.LastModified.Should().NotBeNull();
-            item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
-        }
+        item.Name.Should().Be(command.Name);
+        item.Description.Should().Be(command.Description);
+        item.CountryId.Should().Be(command.CountryId);
+        item.LastModifiedBy.Should().NotBeNull();
+        item.LastModifiedBy.Should().Be(userId);
+        item.LastModified.Should().NotBeNull();
+        item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
     }
 }

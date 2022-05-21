@@ -5,56 +5,55 @@ using Application.Users.Commands.LoginUser;
 using FluentAssertions;
 using Xunit;
 
-namespace Application.IntegrationTests.Users.Commands
+namespace Application.IntegrationTests.Users.Commands;
+
+/// <summary>
+///     Login user tests
+/// </summary>
+public class LoginUserTests : IntegrationTest
 {
     /// <summary>
-    ///     Login user tests
+    ///     Login user should return auth response
     /// </summary>
-    public class LoginUserTests : IntegrationTest
+    [Fact]
+    public async Task ShouldReturnAuthResponse()
     {
-        /// <summary>
-        ///     Login user should return auth response
-        /// </summary>
-        [Fact]
-        public async Task ShouldReturnAuthResponse()
+        await AuthHelper.RegisterTestUserAsync(_mediator);
+
+        var command = new LoginUserCommand
         {
-            await AuthHelper.RegisterTestUserAsync(_mediator);
+            Email = "test@test.com",
+            Password = "Qwerty123_"
+        };
 
-            var command = new LoginUserCommand
-            {
-                Email = "test@test.com",
-                Password = "Qwerty123_"
-            };
+        var result = await _mediator.Send(command);
 
-            var result = await _mediator.Send(command);
+        result.Should().BeOfType<AuthenticationResult>();
+        var jwt = result.Token;
+        jwt.Should().NotBeNullOrEmpty();
+    }
 
-            result.Should().BeOfType<AuthenticationResult>();
-            var jwt = result.Token;
-            jwt.Should().NotBeNullOrEmpty();
-        }
+    /// <summary>
+    ///     Login user should return error messages when one or more properties are invalid
+    /// </summary>
+    [Theory]
+    [InlineData("test.com", "test")]
+    [InlineData("test@test.com", "test")]
+    [InlineData("test.com", "Test123_")]
+    public async Task ShouldReturnErrorMessagesWhenPropertiesAreInvalid(string email, string password)
+    {
+        await AuthHelper.RegisterTestUserAsync(_mediator);
 
-        /// <summary>
-        ///     Login user should return error messages when one or more properties are invalid
-        /// </summary>
-        [Theory]
-        [InlineData("test.com", "test")]
-        [InlineData("test@test.com", "test")]
-        [InlineData("test.com", "Test123_")]
-        public async Task ShouldReturnErrorMessagesWhenPropertiesAreInvalid(string email, string password)
+        var command = new LoginUserCommand
         {
-            await AuthHelper.RegisterTestUserAsync(_mediator);
+            Email = email,
+            Password = password
+        };
 
-            var command = new LoginUserCommand
-            {
-                Email = email,
-                Password = password
-            };
+        var result = await _mediator.Send(command);
 
-            var result = await _mediator.Send(command);
-
-            result.Success.Should().BeFalse();
-            result.Token.Should().BeNullOrEmpty();
-            result.ErrorMessages.Should().NotBeNullOrEmpty();
-        }
+        result.Success.Should().BeFalse();
+        result.Token.Should().BeNullOrEmpty();
+        result.ErrorMessages.Should().NotBeNullOrEmpty();
     }
 }

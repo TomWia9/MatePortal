@@ -1,28 +1,27 @@
 ﻿using System;
 
-namespace Domain.Common
+namespace Domain.Common;
+
+/// <summary>
+///     Domain event
+/// </summary>
+public abstract class DomainEvent
 {
     /// <summary>
-    ///     Domain event
+    ///     Initializes domain event
     /// </summary>
-    public abstract class DomainEvent
+    protected DomainEvent()
     {
-        /// <summary>
-        ///     Initializes domain event
-        /// </summary>
-        protected DomainEvent()
-        {
-            DateOccured = DateTime.UtcNow;
-        }
-
-        /// <summary>
-        ///     Indicates that event is published
-        /// </summary>
-        public bool IsPublished { get; set; }
-
-        /// <summary>
-        ///     Date occured
-        /// </summary>
-        public DateTimeOffset DateOccured { get; } = DateTime.UtcNow;
+        DateOccured = DateTime.UtcNow;
     }
+
+    /// <summary>
+    ///     Indicates that event is published
+    /// </summary>
+    public bool IsPublished { get; set; }
+
+    /// <summary>
+    ///     Date occured
+    /// </summary>
+    public DateTimeOffset DateOccured { get; } = DateTime.UtcNow;
 }

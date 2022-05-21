@@ -2,25 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Configurations
+namespace Infrastructure.Persistence.Configurations;
+
+/// <summary>
+///     Opinion configuration
+/// </summary>
+public class OpinionConfiguration : IEntityTypeConfiguration<Opinion>
 {
     /// <summary>
-    ///     Opinion configuration
+    ///     Configures opinions
     /// </summary>
-    public class OpinionConfiguration : IEntityTypeConfiguration<Opinion>
+    /// <param name="builder">Entity type builder</param>
+    public void Configure(EntityTypeBuilder<Opinion> builder)
     {
-        /// <summary>
-        ///     Configures opinions
-        /// </summary>
-        /// <param name="builder">Entity type builder</param>
-        public void Configure(EntityTypeBuilder<Opinion> builder)
-        {
-            builder.Ignore(o => o.DomainEvents);
+        builder.Ignore(o => o.DomainEvents);
 
-            builder.HasKey(o => o.Id);
+        builder.HasKey(o => o.Id);
 
-            builder.Property(o => o.Rate).IsRequired();
-            builder.Property(o => o.Comment).HasMaxLength(500).IsRequired();
-        }
+        builder.Property(o => o.Rate).IsRequired();
+        builder.Property(o => o.Comment).HasMaxLength(500).IsRequired();
     }
 }

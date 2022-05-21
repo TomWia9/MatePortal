@@ -1,25 +1,24 @@
 ﻿using System;
 using MediatR;
 
-namespace Application.Users.Queries.GetUser
+namespace Application.Users.Queries.GetUser;
+
+/// <summary>
+///     Get single user query
+/// </summary>
+public class GetUserQuery : IRequest<UserDto>
 {
     /// <summary>
-    ///     Get single user query
+    ///     Initializes GetUserQuery
     /// </summary>
-    public class GetUserQuery : IRequest<UserDto>
+    /// <param name="userId">User ID</param>
+    public GetUserQuery(Guid userId)
     {
-        /// <summary>
-        ///     Initializes GetUserQuery
-        /// </summary>
-        /// <param name="userId">User ID</param>
-        public GetUserQuery(Guid userId)
-        {
-            UserId = userId;
-        }
-
-        /// <summary>
-        ///     User ID
-        /// </summary>
-        public Guid UserId { get; }
+        UserId = userId;
     }
+
+    /// <summary>
+    ///     User ID
+    /// </summary>
+    public Guid UserId { get; }
 }

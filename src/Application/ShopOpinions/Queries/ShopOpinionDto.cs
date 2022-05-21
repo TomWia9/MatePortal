@@ -2,41 +2,40 @@
 using Application.Common.Mappings;
 using Domain.Entities;
 
-namespace Application.ShopOpinions.Queries
+namespace Application.ShopOpinions.Queries;
+
+/// <summary>
+///     Shop opinion data transfer object
+/// </summary>
+public class ShopOpinionDto : IMapFrom<ShopOpinion>
 {
     /// <summary>
-    ///     Shop opinion data transfer object
+    ///     Shop opinion ID
     /// </summary>
-    public class ShopOpinionDto : IMapFrom<ShopOpinion>
-    {
-        /// <summary>
-        ///     Shop opinion ID
-        /// </summary>
-        public Guid Id { get; init; }
+    public Guid Id { get; init; }
 
-        /// <summary>
-        ///     Shop opinion rate
-        /// </summary>
-        public int Rate { get; init; }
+    /// <summary>
+    ///     Shop opinion rate
+    /// </summary>
+    public int Rate { get; init; }
 
-        /// <summary>
-        ///     Shop opinion comment
-        /// </summary>
-        public string Comment { get; init; }
+    /// <summary>
+    ///     Shop opinion comment
+    /// </summary>
+    public string Comment { get; init; }
 
-        /// <summary>
-        ///     Shop opinion created date
-        /// </summary>
-        public DateTime Created { get; set; }
+    /// <summary>
+    ///     Shop opinion created date
+    /// </summary>
+    public DateTime Created { get; set; }
 
-        /// <summary>
-        ///     Shop ID
-        /// </summary>
-        public Guid ShopId { get; set; }
+    /// <summary>
+    ///     Shop ID
+    /// </summary>
+    public Guid ShopId { get; set; }
 
-        /// <summary>
-        ///     User ID
-        /// </summary>
-        public Guid CreatedBy { get; set; }
-    }
+    /// <summary>
+    ///     User ID
+    /// </summary>
+    public Guid CreatedBy { get; set; }
 }

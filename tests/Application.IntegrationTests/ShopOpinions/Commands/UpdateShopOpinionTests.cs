@@ -9,123 +9,122 @@ using FluentAssertions;
 using FluentAssertions.Extensions;
 using Xunit;
 
-namespace Application.IntegrationTests.ShopOpinions.Commands
+namespace Application.IntegrationTests.ShopOpinions.Commands;
+
+/// <summary>
+///     Update shop opinion tests
+/// </summary>
+public class UpdateShopOpinionTests : IntegrationTest
 {
     /// <summary>
-    ///     Update shop opinion tests
+    ///     Update shop opinion with incorrect id should throw not found exception
     /// </summary>
-    public class UpdateShopOpinionTests : IntegrationTest
+    [Fact]
+    public void UpdateShopOpinionWithIncorrectIdShouldThrowNotFound()
     {
-        /// <summary>
-        ///     Update shop opinion with incorrect id should throw not found exception
-        /// </summary>
-        [Fact]
-        public void UpdateShopOpinionWithIncorrectIdShouldThrowNotFound()
+        var command = new UpdateShopOpinionCommand
         {
-            var command = new UpdateShopOpinionCommand
-            {
-                ShopId = Guid.Empty,
-                Rate = 2,
-                Comment = "Updated comment"
-            };
+            ShopId = Guid.Empty,
+            Rate = 2,
+            Comment = "Updated comment"
+        };
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
-        }
+        FluentActions.Invoking(() =>
+            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+    }
 
-        /// <summary>
-        ///     Update shop opinion command should update shop opinion
-        /// </summary>
-        [Fact]
-        public async Task UpdateShopOpinionShouldUpdateShopOpinion()
+    /// <summary>
+    ///     Update shop opinion command should update shop opinion
+    /// </summary>
+    [Fact]
+    public async Task UpdateShopOpinionShouldUpdateShopOpinion()
+    {
+        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+
+        var shopOpinionId = Guid.Parse("A0EDB43D-5195-4458-8C4B-8F6F9FD7E5C9"); //one of seeded shop opinions
+
+        var command = new UpdateShopOpinionCommand
         {
-            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
-            await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+            ShopOpinionId = shopOpinionId,
+            Rate = 4,
+            Comment = "Updated comment"
+        };
 
-            var shopOpinionId = Guid.Parse("A0EDB43D-5195-4458-8C4B-8F6F9FD7E5C9"); //one of seeded shop opinions
+        await _mediator.Send(command);
 
-            var command = new UpdateShopOpinionCommand
-            {
-                ShopOpinionId = shopOpinionId,
-                Rate = 4,
-                Comment = "Updated comment"
-            };
+        var item = await DbHelper.FindAsync<ShopOpinion>(_factory, shopOpinionId);
 
-            await _mediator.Send(command);
+        item.Rate.Should().Be(command.Rate);
+        item.Comment.Should().Be(command.Comment);
+        item.CreatedBy.Should().NotBeNull();
+        item.LastModified.Should().NotBeNull();
+        item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
+        item.LastModifiedBy.Should().NotBeNull();
+        item.LastModifiedBy.Should().Be(userId);
+    }
 
-            var item = await DbHelper.FindAsync<ShopOpinion>(_factory, shopOpinionId);
+    /// <summary>
+    ///     User should not be able to update other user shop opinion
+    /// </summary>
+    [Fact]
+    public async Task UserShouldNotBeAbleToUpdateOtherUserShopOpinion()
+    {
+        await TestSeeder.SeedTestShopsAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(_factory);
 
-            item.Rate.Should().Be(command.Rate);
-            item.Comment.Should().Be(command.Comment);
-            item.CreatedBy.Should().NotBeNull();
-            item.LastModified.Should().NotBeNull();
-            item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
-            item.LastModifiedBy.Should().NotBeNull();
-            item.LastModifiedBy.Should().Be(userId);
-        }
-
-        /// <summary>
-        ///     User should not be able to update other user shop opinion
-        /// </summary>
-        [Fact]
-        public async Task UserShouldNotBeAbleToUpdateOtherUserShopOpinion()
+        //create shop opinion firstly
+        var shopOpinionToUpdateDto = await _mediator.Send(new CreateShopOpinionCommand
         {
-            await TestSeeder.SeedTestShopsAsync(_factory);
-            await AuthHelper.RunAsDefaultUserAsync(_factory);
+            Rate = 10,
+            Comment = "test",
+            ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5") //id of one of seeded shops
+        });
 
-            //create shop opinion firstly
-            var shopOpinionToUpdateDto = await _mediator.Send(new CreateShopOpinionCommand
-            {
-                Rate = 10,
-                Comment = "test",
-                ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5") //id of one of seeded shops
-            });
+        //change user
+        _factory.CurrentUserId = Guid.NewGuid();
 
-            //change user
-            _factory.CurrentUserId = Guid.NewGuid();
+        await FluentActions.Invoking(() =>
+                _mediator.Send(new UpdateShopOpinionCommand
+                    {ShopOpinionId = shopOpinionToUpdateDto.Id, Comment = "test", Rate = 1})).Should()
+            .ThrowAsync<ForbiddenAccessException>();
+    }
 
-            await FluentActions.Invoking(() =>
-                    _mediator.Send(new UpdateShopOpinionCommand
-                        {ShopOpinionId = shopOpinionToUpdateDto.Id, Comment = "test", Rate = 1})).Should()
-                .ThrowAsync<ForbiddenAccessException>();
-        }
+    /// <summary>
+    ///     Administrator should be able to update user shop opinion
+    /// </summary>
+    [Fact]
+    public async Task AdministratorShouldBeAbleToUpdateUserShopOpinion()
+    {
+        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(_factory);
 
-        /// <summary>
-        ///     Administrator should be able to update user shop opinion
-        /// </summary>
-        [Fact]
-        public async Task AdministratorShouldBeAbleToUpdateUserShopOpinion()
+        //create shop opinion firstly
+        var shopOpinionToUpdateDto = await _mediator.Send(new CreateShopOpinionCommand
         {
-            await AuthHelper.RunAsDefaultUserAsync(_factory);
-            await TestSeeder.SeedTestShopsAsync(_factory);
+            Rate = 10,
+            Comment = "test",
+            ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5") //id of one of seeded shops
+        });
 
-            //create shop opinion firstly
-            var shopOpinionToUpdateDto = await _mediator.Send(new CreateShopOpinionCommand
-            {
-                Rate = 10,
-                Comment = "test",
-                ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5") //id of one of seeded shops
-            });
+        //change user
+        var adminId = await AuthHelper.RunAsAdministratorAsync(_factory);
 
-            //change user
-            var adminId = await AuthHelper.RunAsAdministratorAsync(_factory);
+        var command = new UpdateShopOpinionCommand
+        {
+            ShopOpinionId = shopOpinionToUpdateDto.Id,
+            Comment = "test1",
+            Rate = 2
+        };
 
-            var command = new UpdateShopOpinionCommand
-            {
-                ShopOpinionId = shopOpinionToUpdateDto.Id,
-                Comment = "test1",
-                Rate = 2
-            };
+        await _mediator.Send(command);
 
-            await _mediator.Send(command);
-
-            //Assert that updated
-            var item = await DbHelper.FindAsync<ShopOpinion>(_factory, shopOpinionToUpdateDto.Id);
-            item.Rate.Should().Be(command.Rate);
-            item.Comment.Should().Be(command.Comment);
-            item.CreatedBy.Should().NotBeNull();
-            item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
-            item.LastModifiedBy.Should().NotBeNull();
-        }
+        //Assert that updated
+        var item = await DbHelper.FindAsync<ShopOpinion>(_factory, shopOpinionToUpdateDto.Id);
+        item.Rate.Should().Be(command.Rate);
+        item.Comment.Should().Be(command.Comment);
+        item.CreatedBy.Should().NotBeNull();
+        item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
+        item.LastModifiedBy.Should().NotBeNull();
     }
 }

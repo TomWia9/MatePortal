@@ -1,25 +1,24 @@
 ﻿using Application.Common.Models;
 using MediatR;
 
-namespace Application.Users.Queries.GetUsers
+namespace Application.Users.Queries.GetUsers;
+
+/// <summary>
+///     Get all users query
+/// </summary>
+public class GetUsersQuery : IRequest<PaginatedList<UserDto>>
 {
     /// <summary>
-    ///     Get all users query
+    ///     Initializes GetUsersQuery
     /// </summary>
-    public class GetUsersQuery : IRequest<PaginatedList<UserDto>>
+    /// <param name="parameters">Users query parameters</param>
+    public GetUsersQuery(UsersQueryParameters parameters)
     {
-        /// <summary>
-        ///     Initializes GetUsersQuery
-        /// </summary>
-        /// <param name="parameters">Users query parameters</param>
-        public GetUsersQuery(UsersQueryParameters parameters)
-        {
-            Parameters = parameters;
-        }
-
-        /// <summary>
-        ///     Users query parameters
-        /// </summary>
-        public UsersQueryParameters Parameters { get; }
+        Parameters = parameters;
     }
+
+    /// <summary>
+    ///     Users query parameters
+    /// </summary>
+    public UsersQueryParameters Parameters { get; }
 }

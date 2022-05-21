@@ -5,25 +5,24 @@ using Application.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;
 
-namespace Application.IntegrationTests.Favourites.Queries
+namespace Application.IntegrationTests.Favourites.Queries;
+
+/// <summary>
+///     Get favourites tests
+/// </summary>
+public class GetFavouritesTests : IntegrationTest
 {
     /// <summary>
-    ///     Get favourites tests
+    ///     Get favourites should return all user's favourites
     /// </summary>
-    public class GetFavouritesTests : IntegrationTest
+    [Fact]
+    public async Task ShouldReturnAllUsersFavourites()
     {
-        /// <summary>
-        ///     Get favourites should return all user's favourites
-        /// </summary>
-        [Fact]
-        public async Task ShouldReturnAllUsersFavourites()
-        {
-            var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
 
-            await TestSeeder.SeedTestFavouritesAsync(_factory);
+        await TestSeeder.SeedTestFavouritesAsync(_factory);
 
-            var response = await _mediator.Send(new GetFavouritesQuery(userId, new FavouritesQueryParameters()));
-            response.Count.Should().Be(4);
-        }
+        var response = await _mediator.Send(new GetFavouritesQuery(userId, new FavouritesQueryParameters()));
+        response.Count.Should().Be(4);
     }
 }

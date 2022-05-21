@@ -1,9 +1,8 @@
-﻿namespace Application.Users.Responses
+﻿namespace Application.Users.Responses;
+
+/// <summary>
+///     IAuthResponse interface
+/// </summary>
+public interface IAuthResponse
 {
-    /// <summary>
-    ///     IAuthResponse interface
-    /// </summary>
-    public interface IAuthResponse
-    {
-    }
 }

@@ -9,63 +9,62 @@ using FluentAssertions;
 using FluentAssertions.Extensions;
 using Xunit;
 
-namespace Application.IntegrationTests.Shops.Commands
+namespace Application.IntegrationTests.Shops.Commands;
+
+/// <summary>
+///     Create shop tests
+/// </summary>
+public class CreateShopTests : IntegrationTest
 {
     /// <summary>
-    ///     Create shop tests
+    ///     Create shop should create shop and return shop data transfer object
     /// </summary>
-    public class CreateShopTests : IntegrationTest
+    [Fact]
+    public async Task ShouldCreateShopAndReturnShopDto()
     {
-        /// <summary>
-        ///     Create shop should create shop and return shop data transfer object
-        /// </summary>
-        [Fact]
-        public async Task ShouldCreateShopAndReturnShopDto()
+        var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+
+        var command = new CreateShopCommand
         {
-            var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+            Name = "Test",
+            Description = "Test description"
+        };
 
-            var command = new CreateShopCommand
-            {
-                Name = "Test",
-                Description = "Test description"
-            };
-
-            var expectedResult = new ShopDto
-            {
-                Name = command.Name,
-                Description = command.Description
-            };
-
-            var result = await _mediator.Send(command);
-
-            result.Should().BeOfType<ShopDto>();
-            result.Should().BeEquivalentTo(expectedResult, x => x.Excluding(y => y.Id));
-
-            var item = await DbHelper.FindAsync<Shop>(_factory, result.Id);
-
-            item.CreatedBy.Should().NotBeNull();
-            item.CreatedBy.Should().Be(userId);
-            item.Created.Should().BeCloseTo(DateTime.Now, 1.Seconds());
-            item.LastModified.Should().BeNull();
-            item.LastModifiedBy.Should().BeNull();
-        }
-
-        /// <summary>
-        ///     Shop should require unique name
-        /// </summary>
-        [Fact]
-        public async Task ShouldRequireUniqueName()
+        var expectedResult = new ShopDto
         {
-            var command = new CreateShopCommand
-            {
-                Name = "Test",
-                Description = "Test description"
-            };
+            Name = command.Name,
+            Description = command.Description
+        };
 
-            await _mediator.Send(command);
+        var result = await _mediator.Send(command);
 
-            await FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
-        }
+        result.Should().BeOfType<ShopDto>();
+        result.Should().BeEquivalentTo(expectedResult, x => x.Excluding(y => y.Id));
+
+        var item = await DbHelper.FindAsync<Shop>(_factory, result.Id);
+
+        item.CreatedBy.Should().NotBeNull();
+        item.CreatedBy.Should().Be(userId);
+        item.Created.Should().BeCloseTo(DateTime.Now, 1.Seconds());
+        item.LastModified.Should().BeNull();
+        item.LastModifiedBy.Should().BeNull();
+    }
+
+    /// <summary>
+    ///     Shop should require unique name
+    /// </summary>
+    [Fact]
+    public async Task ShouldRequireUniqueName()
+    {
+        var command = new CreateShopCommand
+        {
+            Name = "Test",
+            Description = "Test description"
+        };
+
+        await _mediator.Send(command);
+
+        await FluentActions.Invoking(() =>
+            _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 }
