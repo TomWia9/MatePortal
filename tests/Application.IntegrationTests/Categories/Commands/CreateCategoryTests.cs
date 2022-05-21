@@ -58,12 +58,14 @@ namespace Application.IntegrationTests.Categories.Commands
         {
             await _mediator.Send(new CreateCategoryCommand
             {
-                Name = "Test"
+                Name = "Test",
+                Description = "Test"
             });
 
             var command = new CreateCategoryCommand
             {
-                Name = "Test"
+                Name = "Test",
+                Description = "Test"
             };
 
             await FluentActions.Invoking(() =>
