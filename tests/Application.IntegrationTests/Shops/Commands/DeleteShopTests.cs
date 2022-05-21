@@ -21,7 +21,7 @@ public class DeleteShopTests : IntegrationTest
     public void DeleteShopWithIncorrectIdShouldThrowNotFound()
     {
         FluentActions.Invoking(() =>
-            _mediator.Send(new DeleteShopCommand {ShopId = Guid.Empty})).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(new DeleteShopCommand {ShopId = Guid.Empty})).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -30,15 +30,15 @@ public class DeleteShopTests : IntegrationTest
     [Fact]
     public async Task ShouldDeleteShop()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
 
         var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
 
         //delete
-        await _mediator.Send(new DeleteShopCommand {ShopId = shopId});
+        await Mediator.Send(new DeleteShopCommand {ShopId = shopId});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<Shop>(_factory, shopId);
+        var item = await DbHelper.FindAsync<Shop>(Factory, shopId);
         item.Should().BeNull();
     }
 

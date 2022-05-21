@@ -22,7 +22,7 @@ public class CreateBrandTests : IntegrationTest
     [Fact]
     public async Task ShouldCreateBrandAndReturnBrandDto()
     {
-        var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+        var userId = await AuthHelper.RunAsAdministratorAsync(Factory);
 
         var command = new CreateBrandCommand
         {
@@ -38,12 +38,12 @@ public class CreateBrandTests : IntegrationTest
             Country = "Paraguay"
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         result.Should().BeOfType<BrandDto>();
         result.Should().BeEquivalentTo(expectedResult, x => x.Excluding(y => y.Id));
 
-        var item = await DbHelper.FindAsync<Brand>(_factory, result.Id);
+        var item = await DbHelper.FindAsync<Brand>(Factory, result.Id);
 
         item.CreatedBy.Should().NotBeNull();
         item.CreatedBy.Should().Be(userId);
@@ -66,7 +66,7 @@ public class CreateBrandTests : IntegrationTest
         };
 
         FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class CreateBrandTests : IntegrationTest
     [Fact]
     public async Task ShouldRequireUniqueName()
     {
-        await _mediator.Send(new CreateBrandCommand
+        await Mediator.Send(new CreateBrandCommand
         {
             Name = "Test",
             Description = "Test description",
@@ -90,6 +90,6 @@ public class CreateBrandTests : IntegrationTest
         };
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 }

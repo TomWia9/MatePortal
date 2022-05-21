@@ -31,7 +31,7 @@ public class UpdateCategoryTests : IntegrationTest
         };
 
         FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -40,9 +40,9 @@ public class UpdateCategoryTests : IntegrationTest
     [Fact]
     public async Task UpdateCategoryShouldUpdateCategory()
     {
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
 
-        var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+        var userId = await AuthHelper.RunAsAdministratorAsync(Factory);
         var categoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"); //one of seeded category
 
         var command = new UpdateCategoryCommand
@@ -52,9 +52,9 @@ public class UpdateCategoryTests : IntegrationTest
             Description = "updated description"
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<Category>(_factory, categoryId);
+        var item = await DbHelper.FindAsync<Category>(Factory, categoryId);
 
         item.Name.Should().Be(command.Name);
         item.Description.Should().Be(command.Description);

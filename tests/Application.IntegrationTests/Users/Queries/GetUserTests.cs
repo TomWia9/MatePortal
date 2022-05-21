@@ -22,13 +22,13 @@ public class GetUserTests : IntegrationTest
     public async Task ShouldReturnUser()
     {
         //First, register user
-        var result = await AuthHelper.RegisterTestUserAsync(_mediator);
+        var result = await AuthHelper.RegisterTestUserAsync(Mediator);
         var token = result.Token;
-        var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
+        var user = await AuthHelper.GetUserByTokenAsync(Factory, token);
         var userId = user.Id;
 
         var response =
-            await _mediator.Send(new GetUserQuery(userId));
+            await Mediator.Send(new GetUserQuery(userId));
 
         response.Should().BeOfType<UserDto>();
         response.Email.Should().Be(user.Email);
@@ -43,7 +43,7 @@ public class GetUserTests : IntegrationTest
     public void GetUserWithIncorrectIdShouldThrowNotFound()
     {
         FluentActions.Invoking(() =>
-                _mediator.Send(new GetUserQuery(Guid.Empty)))
+                Mediator.Send(new GetUserQuery(Guid.Empty)))
             .Should()
             .ThrowAsync<NotFoundException>();
     }

@@ -22,9 +22,9 @@ public class GetYerbaMateTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnCorrectYerbaMate()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
         var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //id of one of seeded yerba mates
 
@@ -52,7 +52,7 @@ public class GetYerbaMateTests : IntegrationTest
             }
         };
 
-        var response = await _mediator.Send(new GetYerbaMateQuery(yerbaMateId));
+        var response = await Mediator.Send(new GetYerbaMateQuery(yerbaMateId));
 
         response.Should().BeOfType<YerbaMateDto>();
         response.Should().BeEquivalentTo(expectedResult);
@@ -65,6 +65,6 @@ public class GetYerbaMateTests : IntegrationTest
     public void GetYerbaMateWithIncorrectIdShouldThrowNotFound()
     {
         FluentActions.Invoking(() =>
-            _mediator.Send(new GetYerbaMateQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(new GetYerbaMateQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
     }
 }

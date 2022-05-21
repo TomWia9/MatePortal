@@ -23,7 +23,7 @@ public class DeleteCountryTests : IntegrationTest
         var countryId = Guid.Empty;
 
         FluentActions.Invoking(() =>
-            _mediator.Send(new DeleteCountryCommand {CountryId = countryId})).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(new DeleteCountryCommand {CountryId = countryId})).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -35,10 +35,10 @@ public class DeleteCountryTests : IntegrationTest
         var countryId = Guid.Parse("A7BBB4DA-12D5-4227-B6BA-690ECF40CD86"); //one of seeded countries
 
         //delete
-        await _mediator.Send(new DeleteCountryCommand {CountryId = countryId});
+        await Mediator.Send(new DeleteCountryCommand {CountryId = countryId});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<Country>(_factory, countryId);
+        var item = await DbHelper.FindAsync<Country>(Factory, countryId);
         item.Should().BeNull();
     }
 }

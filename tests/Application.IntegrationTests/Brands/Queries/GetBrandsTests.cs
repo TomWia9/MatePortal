@@ -18,8 +18,8 @@ public class GetBrandsTests : IntegrationTest
     [Fact]
     public async Task ShouldReturn5Brands()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        var response = await _mediator.Send(new GetBrandsQuery(new BrandsQueryParameters()));
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        var response = await Mediator.Send(new GetBrandsQuery(new BrandsQueryParameters()));
         response.Count.Should().Be(5);
     }
 
@@ -33,9 +33,9 @@ public class GetBrandsTests : IntegrationTest
     [InlineData("Uruguay", 1)]
     public async Task GetBrandsFromSpecifiedCountryShouldReturnCorrectBrands(string country, int expectedCount)
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
 
-        var response = await _mediator.Send(new GetBrandsQuery(new BrandsQueryParameters {Country = country}));
+        var response = await Mediator.Send(new GetBrandsQuery(new BrandsQueryParameters {Country = country}));
 
         response.Count.Should().Be(expectedCount);
 
@@ -48,9 +48,9 @@ public class GetBrandsTests : IntegrationTest
     [Fact]
     public async Task GetBrandsWithSpecifiedQueryParametersShouldReturnCorrectBrands()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
 
-        var response = await _mediator.Send(new GetBrandsQuery(new BrandsQueryParameters
+        var response = await Mediator.Send(new GetBrandsQuery(new BrandsQueryParameters
         {
             SearchQuery = "rup"
         }));

@@ -18,11 +18,11 @@ public class GetFavouritesTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnAllUsersFavourites()
     {
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
 
-        await TestSeeder.SeedTestFavouritesAsync(_factory);
+        await TestSeeder.SeedTestFavouritesAsync(Factory);
 
-        var response = await _mediator.Send(new GetFavouritesQuery(userId, new FavouritesQueryParameters()));
+        var response = await Mediator.Send(new GetFavouritesQuery(userId, new FavouritesQueryParameters()));
         response.Count.Should().Be(4);
     }
 }

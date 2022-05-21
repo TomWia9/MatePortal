@@ -24,9 +24,9 @@ public class CreateYerbaMateTests : IntegrationTest
     [Fact]
     public async Task ShouldCreateYerbaMateAndReturnYerbaMateDto()
     {
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        var userId = await AuthHelper.RunAsAdministratorAsync(Factory);
 
         var command = new CreateYerbaMateCommand
         {
@@ -61,12 +61,12 @@ public class CreateYerbaMateTests : IntegrationTest
             }
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         result.Should().BeOfType<YerbaMateDto>();
         result.Should().BeEquivalentTo(expectedResult, x => x.Excluding(y => y.Id));
 
-        var item = await DbHelper.FindAsync<YerbaMate>(_factory, result.Id);
+        var item = await DbHelper.FindAsync<YerbaMate>(Factory, result.Id);
 
         item.CreatedBy.Should().NotBeNull();
         item.CreatedBy.Should().Be(userId);
@@ -81,8 +81,8 @@ public class CreateYerbaMateTests : IntegrationTest
     [Fact]
     public async Task ShouldRequireUniqueName()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
 
         var command = new CreateYerbaMateCommand
         {
@@ -94,9 +94,9 @@ public class CreateYerbaMateTests : IntegrationTest
             BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239") //one of seeded brands
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 }

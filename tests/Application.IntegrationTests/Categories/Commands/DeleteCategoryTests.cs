@@ -23,7 +23,7 @@ public class DeleteCategoryTests : IntegrationTest
         var categoryId = Guid.Empty;
 
         FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteCategoryCommand {CategoryId = categoryId})).Should()
+                Mediator.Send(new DeleteCategoryCommand {CategoryId = categoryId})).Should()
             .ThrowAsync<NotFoundException>();
     }
 
@@ -33,15 +33,15 @@ public class DeleteCategoryTests : IntegrationTest
     [Fact]
     public async Task ShouldDeleteCategory()
     {
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
 
         var categoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"); //one of seeded category
 
         //delete
-        await _mediator.Send(new DeleteCategoryCommand {CategoryId = categoryId});
+        await Mediator.Send(new DeleteCategoryCommand {CategoryId = categoryId});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<Category>(_factory, categoryId);
+        var item = await DbHelper.FindAsync<Category>(Factory, categoryId);
         item.Should().BeNull();
     }
 }

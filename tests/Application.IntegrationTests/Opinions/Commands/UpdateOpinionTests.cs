@@ -32,7 +32,7 @@ public class UpdateOpinionTests : IntegrationTest
         };
 
         FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -41,8 +41,8 @@ public class UpdateOpinionTests : IntegrationTest
     [Fact]
     public async Task UpdateOpinionShouldUpdateOpinion()
     {
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
-        await TestSeeder.SeedTestOpinionsAsync(_factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
+        await TestSeeder.SeedTestOpinionsAsync(Factory);
 
         var opinionId = Guid.Parse("EB2BB300-A4FF-486C-AB64-4EF0A7DB527F"); //one of seeded opinions
 
@@ -53,9 +53,9 @@ public class UpdateOpinionTests : IntegrationTest
             Comment = "Updated comment"
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<Opinion>(_factory, opinionId);
+        var item = await DbHelper.FindAsync<Opinion>(Factory, opinionId);
 
         item.Rate.Should().Be(command.Rate);
         item.Comment.Should().Be(command.Comment);
@@ -72,21 +72,21 @@ public class UpdateOpinionTests : IntegrationTest
     [Fact]
     public async Task UserShouldNotBeAbleToUpdateOtherUserOpinion()
     {
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         //create opinion firstly
-        var opinionToUpdateDto = await _mediator.Send(new CreateOpinionCommand
+        var opinionToUpdateDto = await Mediator.Send(new CreateOpinionCommand
         {
             Rate = 10,
             Comment = "test",
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
         });
 
-        _factory.CurrentUserId = Guid.NewGuid(); //other user
+        Factory.CurrentUserId = Guid.NewGuid(); //other user
 
         await FluentActions.Invoking(() =>
-                _mediator.Send(new UpdateOpinionCommand
+                Mediator.Send(new UpdateOpinionCommand
                     {OpinionId = opinionToUpdateDto.Id, Comment = "test", Rate = 1})).Should()
             .ThrowAsync<ForbiddenAccessException>();
     }
@@ -97,18 +97,18 @@ public class UpdateOpinionTests : IntegrationTest
     [Fact]
     public async Task AdministratorShouldBeAbleToUpdateUserOpinion()
     {
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
         //create opinion firstly
-        var opinionToUpdateDto = await _mediator.Send(new CreateOpinionCommand
+        var opinionToUpdateDto = await Mediator.Send(new CreateOpinionCommand
         {
             Rate = 10,
             Comment = "test",
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
         });
 
-        await AuthHelper.RunAsAdministratorAsync(_factory);
+        await AuthHelper.RunAsAdministratorAsync(Factory);
 
         var command = new UpdateOpinionCommand
         {
@@ -117,10 +117,10 @@ public class UpdateOpinionTests : IntegrationTest
             Rate = 2
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
         //Assert that updated
-        var item = await DbHelper.FindAsync<Opinion>(_factory, opinionToUpdateDto.Id);
+        var item = await DbHelper.FindAsync<Opinion>(Factory, opinionToUpdateDto.Id);
         item.Rate.Should().Be(command.Rate);
         item.Comment.Should().Be(command.Comment);
         item.CreatedBy.Should().NotBeNull();

@@ -20,7 +20,7 @@ public class GetUsersTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnAllUsers()
     {
-        await AuthHelper.RegisterTestUserAsync(_mediator);
+        await AuthHelper.RegisterTestUserAsync(Mediator);
 
         var command = new RegisterUserCommand
         {
@@ -29,10 +29,10 @@ public class GetUsersTests : IntegrationTest
             Password = "Test123_"
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
         var response =
-            await _mediator.Send(new GetUsersQuery(new UsersQueryParameters()));
+            await Mediator.Send(new GetUsersQuery(new UsersQueryParameters()));
 
         response.Count.Should().Be(3); //2 users + seeded admin
     }
@@ -43,7 +43,7 @@ public class GetUsersTests : IntegrationTest
     [Fact]
     public async Task GetUsersWithSpecifiedSearchQueryShouldReturnCorrectUsers()
     {
-        await AuthHelper.RegisterTestUserAsync(_mediator);
+        await AuthHelper.RegisterTestUserAsync(Mediator);
 
         var command = new RegisterUserCommand
         {
@@ -52,9 +52,9 @@ public class GetUsersTests : IntegrationTest
             Password = "Test123_"
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var response = await _mediator.Send(new GetUsersQuery(new UsersQueryParameters
+        var response = await Mediator.Send(new GetUsersQuery(new UsersQueryParameters
         {
             SearchQuery = "ser"
         }));
@@ -70,7 +70,7 @@ public class GetUsersTests : IntegrationTest
     [Fact]
     public async Task GetUsersWithSpecifiedRoleShouldReturnCorrectUsers()
     {
-        await AuthHelper.RegisterTestUserAsync(_mediator);
+        await AuthHelper.RegisterTestUserAsync(Mediator);
 
         var command = new RegisterUserCommand
         {
@@ -79,9 +79,9 @@ public class GetUsersTests : IntegrationTest
             Password = "Test123_"
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var response = await _mediator.Send(new GetUsersQuery(new UsersQueryParameters
+        var response = await Mediator.Send(new GetUsersQuery(new UsersQueryParameters
         {
             Role = Roles.User
         }));

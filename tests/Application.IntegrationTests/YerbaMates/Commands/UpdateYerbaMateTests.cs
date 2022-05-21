@@ -35,7 +35,7 @@ public class UpdateYerbaMateTests : IntegrationTest
         };
 
         FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -44,11 +44,11 @@ public class UpdateYerbaMateTests : IntegrationTest
     [Fact]
     public async Task UpdateYerbaMateShouldUpdateYerbaMate()
     {
-        var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+        var userId = await AuthHelper.RunAsAdministratorAsync(Factory);
 
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
         var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //one of seeded yerba mates
 
@@ -63,9 +63,9 @@ public class UpdateYerbaMateTests : IntegrationTest
             BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239") //one of seeded brands
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<YerbaMate>(_factory, yerbaMateId);
+        var item = await DbHelper.FindAsync<YerbaMate>(Factory, yerbaMateId);
 
         item.Name.Should().Be(command.Name);
         item.Description.Should().Be(command.Description);

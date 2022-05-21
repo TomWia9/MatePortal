@@ -13,24 +13,23 @@ public abstract class IntegrationTest : IDisposable
     /// <summary>
     ///     Custom web application factory instance
     /// </summary>
-    protected readonly CustomWebApplicationFactory _factory;
+    protected readonly CustomWebApplicationFactory Factory;
 
     /// <summary>
     ///     The mediator
     /// </summary>
-    protected readonly ISender _mediator;
+    protected readonly ISender Mediator;
 
     /// <summary>
     ///     Initializes Integration test
     /// </summary>
     protected IntegrationTest()
     {
-        _factory = new CustomWebApplicationFactory();
-        _factory.CreateClient();
+        Factory = new CustomWebApplicationFactory();
 
         //Creates mediator service
-        var scope = _factory.Services.CreateScope();
-        _mediator = scope.ServiceProvider.GetRequiredService<ISender>();
+        var scope = Factory.Services.CreateScope();
+        Mediator = scope.ServiceProvider.GetRequiredService<ISender>();
     }
 
     /// <summary>
@@ -38,6 +37,6 @@ public abstract class IntegrationTest : IDisposable
     /// </summary>
     public void Dispose()
     {
-        DbHelper.DeleteDatabase(_factory);
+        DbHelper.DeleteDatabase(Factory);
     }
 }

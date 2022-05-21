@@ -24,12 +24,12 @@ public class RegisterUserTests : IntegrationTest
             Password = "Qwerty123_"
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         var jwt = result.Token;
         jwt.Should().NotBeNullOrEmpty();
 
-        var user = await AuthHelper.GetUserByTokenAsync(_factory, jwt);
+        var user = await AuthHelper.GetUserByTokenAsync(Factory, jwt);
 
         user.Email.Should().Be(command.Email);
         user.UserName.Should().Be(command.Username);
@@ -42,7 +42,7 @@ public class RegisterUserTests : IntegrationTest
     [Fact]
     public async Task ShouldRequireUniqueEmail()
     {
-        await AuthHelper.RegisterTestUserAsync(_mediator);
+        await AuthHelper.RegisterTestUserAsync(Mediator);
 
         var command = new RegisterUserCommand
         {
@@ -51,7 +51,7 @@ public class RegisterUserTests : IntegrationTest
             Password = "Qwerty123_"
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         result.Success.Should().BeFalse();
         result.Token.Should().BeNullOrEmpty();
@@ -75,7 +75,7 @@ public class RegisterUserTests : IntegrationTest
             Password = password
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         result.Success.Should().BeFalse();
         result.Token.Should().BeNullOrEmpty();
@@ -98,7 +98,7 @@ public class RegisterUserTests : IntegrationTest
             Password = password
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         result.Success.Should().BeTrue();
         result.Token.Should().NotBeNullOrEmpty();

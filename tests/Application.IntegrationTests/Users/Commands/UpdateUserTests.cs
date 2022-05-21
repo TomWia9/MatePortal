@@ -15,9 +15,9 @@ public class UpdateUserTests : IntegrationTest
     public async Task ShouldUpdateUserData()
     {
         //First, register user
-        var result = await AuthHelper.RegisterTestUserAsync(_mediator);
+        var result = await AuthHelper.RegisterTestUserAsync(Mediator);
         var token = result.Token;
-        var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
+        var user = await AuthHelper.GetUserByTokenAsync(Factory, token);
         var userId = user.Id;
 
         var command = new UpdateUserCommand
@@ -28,9 +28,9 @@ public class UpdateUserTests : IntegrationTest
             NewPassword = "UpdatedPassword123_"
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var updatedUser = await AuthHelper.GetUserByTokenAsync(_factory, token);
+        var updatedUser = await AuthHelper.GetUserByTokenAsync(Factory, token);
 
         updatedUser.Id.Should().Be(userId);
         updatedUser.Email.Should().Be(user.Email);

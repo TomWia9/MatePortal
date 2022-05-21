@@ -21,7 +21,7 @@ public class DeleteYerbaMateTests : IntegrationTest
     public void DeleteYerbaMateWithIncorrectIdShouldThrowNotFound()
     {
         FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteYerbaMateCommand {YerbaMateId = Guid.Empty})).Should()
+                Mediator.Send(new DeleteYerbaMateCommand {YerbaMateId = Guid.Empty})).Should()
             .ThrowAsync<NotFoundException>();
     }
 
@@ -31,15 +31,15 @@ public class DeleteYerbaMateTests : IntegrationTest
     [Fact]
     public async Task ShouldDeleteYerbaMate()
     {
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
         var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //one of seeded yerba mates
 
         //delete
-        await _mediator.Send(new DeleteYerbaMateCommand {YerbaMateId = yerbaMateId});
+        await Mediator.Send(new DeleteYerbaMateCommand {YerbaMateId = yerbaMateId});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<YerbaMate>(_factory, yerbaMateId);
+        var item = await DbHelper.FindAsync<YerbaMate>(Factory, yerbaMateId);
         item.Should().BeNull();
     }
 

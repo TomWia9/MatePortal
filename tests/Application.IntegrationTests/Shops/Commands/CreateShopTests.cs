@@ -22,7 +22,7 @@ public class CreateShopTests : IntegrationTest
     [Fact]
     public async Task ShouldCreateShopAndReturnShopDto()
     {
-        var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+        var userId = await AuthHelper.RunAsAdministratorAsync(Factory);
 
         var command = new CreateShopCommand
         {
@@ -36,12 +36,12 @@ public class CreateShopTests : IntegrationTest
             Description = command.Description
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         result.Should().BeOfType<ShopDto>();
         result.Should().BeEquivalentTo(expectedResult, x => x.Excluding(y => y.Id));
 
-        var item = await DbHelper.FindAsync<Shop>(_factory, result.Id);
+        var item = await DbHelper.FindAsync<Shop>(Factory, result.Id);
 
         item.CreatedBy.Should().NotBeNull();
         item.CreatedBy.Should().Be(userId);
@@ -62,9 +62,9 @@ public class CreateShopTests : IntegrationTest
             Description = "Test description"
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 }

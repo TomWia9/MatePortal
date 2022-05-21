@@ -18,9 +18,9 @@ public class GetCategories : IntegrationTest
     [Fact]
     public async Task ShouldReturnAllCategories()
     {
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
 
-        var response = await _mediator.Send(new GetCategoriesQuery());
+        var response = await Mediator.Send(new GetCategoriesQuery());
         response.Count().Should().Be(2);
     }
 }

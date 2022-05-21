@@ -20,7 +20,7 @@ public class GetYerbaMateOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnCorrectOpinion()
     {
-        await TestSeeder.SeedTestOpinionsAsync(_factory);
+        await TestSeeder.SeedTestOpinionsAsync(Factory);
 
         var opinionId = Guid.Parse("EB2BB300-A4FF-486C-AB64-4EF0A7DB527F"); //id of one of seeded opinion
 
@@ -31,7 +31,7 @@ public class GetYerbaMateOpinionTests : IntegrationTest
             Comment = "Comment 1"
         };
 
-        var response = await _mediator.Send(new GetYerbaMateOpinionQuery(opinionId));
+        var response = await Mediator.Send(new GetYerbaMateOpinionQuery(opinionId));
 
         response.Should().BeOfType<OpinionDto>();
         response.Id.Should().Be(opinionId);
@@ -48,6 +48,6 @@ public class GetYerbaMateOpinionTests : IntegrationTest
         var yerbaMateOpinionId = Guid.Empty;
 
         FluentActions.Invoking(() =>
-            _mediator.Send(new GetYerbaMateOpinionQuery(yerbaMateOpinionId))).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(new GetYerbaMateOpinionQuery(yerbaMateOpinionId))).Should().ThrowAsync<NotFoundException>();
     }
 }

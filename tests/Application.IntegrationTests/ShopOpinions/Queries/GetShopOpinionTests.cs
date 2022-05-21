@@ -20,7 +20,7 @@ public class GetShopOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnCorrectShopOpinion()
     {
-        await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+        await TestSeeder.SeedTestShopOpinionsAsync(Factory);
 
         var shopOpinionId = Guid.Parse("A0EDB43D-5195-4458-8C4B-8F6F9FD7E5C9"); //id of one of seeded shop opinion
 
@@ -31,7 +31,7 @@ public class GetShopOpinionTests : IntegrationTest
             Comment = "Comment 1"
         };
 
-        var response = await _mediator.Send(new GetShopOpinionQuery(shopOpinionId));
+        var response = await Mediator.Send(new GetShopOpinionQuery(shopOpinionId));
 
         response.Should().BeOfType<ShopOpinionDto>();
         response.Id.Should().Be(shopOpinionId);
@@ -46,6 +46,6 @@ public class GetShopOpinionTests : IntegrationTest
     public void GetShopOpinionWithIncorrectIdShouldThrowNotFound()
     {
         FluentActions.Invoking(() =>
-            _mediator.Send(new GetShopOpinionQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(new GetShopOpinionQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
     }
 }

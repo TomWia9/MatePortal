@@ -27,7 +27,7 @@ public class GetCountryTests : IntegrationTest
             Name = "Brazil"
         };
 
-        var response = await _mediator.Send(new GetCountryQuery(countryId));
+        var response = await Mediator.Send(new GetCountryQuery(countryId));
 
         response.Should().BeOfType<CountryDto>();
         response.Should().BeEquivalentTo(expectedResult);
@@ -42,6 +42,6 @@ public class GetCountryTests : IntegrationTest
         var countryId = Guid.Empty;
 
         FluentActions.Invoking(() =>
-            _mediator.Send(new GetCountryQuery(countryId))).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(new GetCountryQuery(countryId))).Should().ThrowAsync<NotFoundException>();
     }
 }

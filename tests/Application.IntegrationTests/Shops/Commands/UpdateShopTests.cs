@@ -31,7 +31,7 @@ public class UpdateShopTests : IntegrationTest
         };
 
         FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -40,9 +40,9 @@ public class UpdateShopTests : IntegrationTest
     [Fact]
     public async Task UpdateShopShouldUpdateShop()
     {
-        var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+        var userId = await AuthHelper.RunAsAdministratorAsync(Factory);
 
-        await TestSeeder.SeedTestShopsAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
 
         var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
 
@@ -53,9 +53,9 @@ public class UpdateShopTests : IntegrationTest
             Description = "Updated description"
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<Shop>(_factory, shopId);
+        var item = await DbHelper.FindAsync<Shop>(Factory, shopId);
 
         item.Name.Should().Be(command.Name);
         item.Description.Should().Be(command.Description);

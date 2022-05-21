@@ -20,7 +20,7 @@ public class GetShopTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnCorrectShop()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
 
         var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //id of one of seeded shops
 
@@ -31,7 +31,7 @@ public class GetShopTests : IntegrationTest
             Description = "Test description 1"
         };
 
-        var response = await _mediator.Send(new GetShopQuery(shopId));
+        var response = await Mediator.Send(new GetShopQuery(shopId));
 
         response.Should().BeOfType<ShopDto>();
         response.Should().BeEquivalentTo(expectedResult);
@@ -44,6 +44,6 @@ public class GetShopTests : IntegrationTest
     public void GetShopWithIncorrectIdShouldThrowNotFound()
     {
         FluentActions.Invoking(() =>
-            _mediator.Send(new GetShopQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(new GetShopQuery(Guid.Empty))).Should().ThrowAsync<NotFoundException>();
     }
 }

@@ -23,9 +23,9 @@ public class CreateOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldCreateShopOpinionAndReturnShopOpinionDto()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
 
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         var command = new CreateShopOpinionCommand
         {
@@ -34,9 +34,9 @@ public class CreateOpinionTests : IntegrationTest
             ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5") //one of seeded shops
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<ShopOpinion>(_factory, result.Id);
+        var item = await DbHelper.FindAsync<ShopOpinion>(Factory, result.Id);
 
         result.Should().BeOfType<ShopOpinionDto>();
         result.Rate.Should().Be(command.Rate);
@@ -59,7 +59,7 @@ public class CreateOpinionTests : IntegrationTest
     [Fact]
     public async Task CreateShopOpinionForNonexistentShopShouldThrowNotFound()
     {
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         var command = new CreateShopOpinionCommand
         {
@@ -69,7 +69,7 @@ public class CreateOpinionTests : IntegrationTest
         };
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -78,11 +78,11 @@ public class CreateOpinionTests : IntegrationTest
     [Fact]
     public async Task ShopOpinionShouldNotBeAddedMoreThanOnceToOneShopByOneUser()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
         var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //id of one of seeded shops
 
-        await _mediator.Send(new CreateShopOpinionCommand
+        await Mediator.Send(new CreateShopOpinionCommand
         {
             Rate = 10,
             Comment = "Test",
@@ -97,7 +97,7 @@ public class CreateOpinionTests : IntegrationTest
         };
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 
     /// <summary>
@@ -106,8 +106,8 @@ public class CreateOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldIncreaseShopNumberOfOpinions()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         var command = new CreateShopOpinionCommand
         {
@@ -116,9 +116,9 @@ public class CreateOpinionTests : IntegrationTest
             ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5") //one of seeded shop
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var shopDto = await _mediator.Send(new GetShopQuery(command.ShopId));
+        var shopDto = await Mediator.Send(new GetShopQuery(command.ShopId));
         shopDto.NumberOfShopOpinions.Should().Be(1);
     }
 }

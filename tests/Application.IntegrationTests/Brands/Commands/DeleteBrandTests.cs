@@ -23,7 +23,7 @@ public class DeleteBrandTests : IntegrationTest
         var brandId = Guid.Empty;
 
         FluentActions.Invoking(() =>
-            _mediator.Send(new DeleteBrandCommand {BrandId = brandId})).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(new DeleteBrandCommand {BrandId = brandId})).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -32,15 +32,15 @@ public class DeleteBrandTests : IntegrationTest
     [Fact]
     public async Task ShouldDeleteBrand()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
 
         var brandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"); //one of seeded brand
 
         //delete
-        await _mediator.Send(new DeleteBrandCommand {BrandId = brandId});
+        await Mediator.Send(new DeleteBrandCommand {BrandId = brandId});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<Brand>(_factory, brandId);
+        var item = await DbHelper.FindAsync<Brand>(Factory, brandId);
         item.Should().BeNull();
     }
 }

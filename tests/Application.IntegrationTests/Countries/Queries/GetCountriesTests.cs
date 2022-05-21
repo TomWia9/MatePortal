@@ -17,7 +17,7 @@ public class GetCountries : IntegrationTest
     [Fact]
     public async Task ShouldReturn4Countries()
     {
-        var response = await _mediator.Send(new GetCountriesQuery());
+        var response = await Mediator.Send(new GetCountriesQuery());
         response.Count().Should().Be(4);
     }
 }

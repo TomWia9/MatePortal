@@ -23,18 +23,18 @@ public class CreateFavouriteTests : IntegrationTest
     [Fact]
     public async Task ShouldCreateFavouriteAndReturnFavouriteDto()
     {
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         var command = new CreateFavouriteCommand
         {
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<Favourite>(_factory, result.Id);
+        var item = await DbHelper.FindAsync<Favourite>(Factory, result.Id);
 
         result.Should().BeOfType<FavouriteDto>();
         result.YerbaMateId.Should().Be(command.YerbaMateId);
@@ -52,20 +52,20 @@ public class CreateFavouriteTests : IntegrationTest
     [Fact]
     public async Task ShouldIncreaseYerbaMateNumberOfAddToFav()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         var command = new CreateFavouriteCommand
         {
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var yerbaMateDto = await _mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
+        var yerbaMateDto = await Mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
         yerbaMateDto.NumberOfAddToFav.Should().Be(1);
     }
 
@@ -75,7 +75,7 @@ public class CreateFavouriteTests : IntegrationTest
     [Fact]
     public async Task CreateFavouriteForNonexistentYerbaMateShouldThrowNotFound()
     {
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
         var yerbaMateId = Guid.NewGuid();
 
         var command = new CreateFavouriteCommand
@@ -84,7 +84,7 @@ public class CreateFavouriteTests : IntegrationTest
         };
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -93,12 +93,12 @@ public class CreateFavouriteTests : IntegrationTest
     [Fact]
     public async Task FavouriteShouldNotBeAddedMoreThanOnceToOneItemByOneUser()
     {
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
         var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //id of one of seeded yerba mate
 
-        await _mediator.Send(new CreateFavouriteCommand
+        await Mediator.Send(new CreateFavouriteCommand
         {
             YerbaMateId = yerbaMateId
         });
@@ -109,6 +109,6 @@ public class CreateFavouriteTests : IntegrationTest
         };
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 }

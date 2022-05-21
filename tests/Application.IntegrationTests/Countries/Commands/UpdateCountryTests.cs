@@ -29,7 +29,7 @@ public class UpdateCountryTests : IntegrationTest
         };
 
         FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -46,9 +46,9 @@ public class UpdateCountryTests : IntegrationTest
             Name = "Updated country"
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<Country>(_factory, countryId);
+        var item = await DbHelper.FindAsync<Country>(Factory, countryId);
 
         item.Name.Should().Be(command.Name);
     }

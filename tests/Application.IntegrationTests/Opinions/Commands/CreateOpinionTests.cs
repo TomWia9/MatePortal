@@ -23,9 +23,9 @@ public class CreateOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldCreateYerbaMateOpinionAndReturnYerbaMateOpinionDto()
     {
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         var command = new CreateOpinionCommand
         {
@@ -34,9 +34,9 @@ public class CreateOpinionTests : IntegrationTest
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<Opinion>(_factory, result.Id);
+        var item = await DbHelper.FindAsync<Opinion>(Factory, result.Id);
 
         result.Should().BeOfType<OpinionDto>();
         result.Rate.Should().Be(command.Rate);
@@ -59,7 +59,7 @@ public class CreateOpinionTests : IntegrationTest
     [Fact]
     public async Task CreateOpinionForNonexistentYerbaMateShouldThrowNotFound()
     {
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
         var yerbaMateId = Guid.NewGuid();
 
         var command = new CreateOpinionCommand
@@ -70,7 +70,7 @@ public class CreateOpinionTests : IntegrationTest
         };
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -79,11 +79,11 @@ public class CreateOpinionTests : IntegrationTest
     [Fact]
     public async Task OpinionShouldNotBeAddedMoreThanOnceToOneYerbaByOneUser()
     {
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
         var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //id of one of seeded yerba mate
 
-        await _mediator.Send(new CreateOpinionCommand
+        await Mediator.Send(new CreateOpinionCommand
         {
             Rate = 10,
             Comment = "Test",
@@ -98,7 +98,7 @@ public class CreateOpinionTests : IntegrationTest
         };
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 
     /// <summary>
@@ -107,11 +107,11 @@ public class CreateOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldIncreaseYerbaMateNumberOfOpinions()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         var command = new CreateOpinionCommand
         {
@@ -120,10 +120,10 @@ public class CreateOpinionTests : IntegrationTest
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
 
-        var yerbaMateDto = await _mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
+        var yerbaMateDto = await Mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
         yerbaMateDto.NumberOfOpinions.Should().Be(1);
     }
 }

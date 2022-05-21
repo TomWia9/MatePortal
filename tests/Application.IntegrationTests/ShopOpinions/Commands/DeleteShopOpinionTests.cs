@@ -23,7 +23,7 @@ public class DeleteShopOpinionTests : IntegrationTest
     public void DeleteShopOpinionWithIncorrectIdShouldThrowNotFound()
     {
         FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = Guid.Empty})).Should()
+                Mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = Guid.Empty})).Should()
             .ThrowAsync<NotFoundException>();
     }
 
@@ -33,11 +33,11 @@ public class DeleteShopOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldDeleteFavourite()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         //create shop opinion firstly
-        var shopOpinionToDeleteDto = await _mediator.Send(new CreateShopOpinionCommand
+        var shopOpinionToDeleteDto = await Mediator.Send(new CreateShopOpinionCommand
         {
             Rate = 10,
             Comment = "test",
@@ -45,10 +45,10 @@ public class DeleteShopOpinionTests : IntegrationTest
         });
 
         //delete
-        await _mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = shopOpinionToDeleteDto.Id});
+        await Mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = shopOpinionToDeleteDto.Id});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<ShopOpinion>(_factory, shopOpinionToDeleteDto.Id);
+        var item = await DbHelper.FindAsync<ShopOpinion>(Factory, shopOpinionToDeleteDto.Id);
         item.Should().BeNull();
     }
 
@@ -58,11 +58,11 @@ public class DeleteShopOpinionTests : IntegrationTest
     [Fact]
     public async Task UserShouldNotBeAbleToDeleteOtherUserShopOpinion()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         //create shop opinion firstly
-        var ShopOpinionToDeleteDto = await _mediator.Send(new CreateShopOpinionCommand
+        var ShopOpinionToDeleteDto = await Mediator.Send(new CreateShopOpinionCommand
         {
             Rate = 10,
             Comment = "test",
@@ -70,11 +70,11 @@ public class DeleteShopOpinionTests : IntegrationTest
         });
 
         //change user
-        _factory.CurrentUserId = Guid.NewGuid();
+        Factory.CurrentUserId = Guid.NewGuid();
 
         //delete
         await FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = ShopOpinionToDeleteDto.Id}))
+                Mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = ShopOpinionToDeleteDto.Id}))
             .Should()
             .ThrowAsync<ForbiddenAccessException>();
     }
@@ -85,11 +85,11 @@ public class DeleteShopOpinionTests : IntegrationTest
     [Fact]
     public async Task AdministratorShouldBeAbleToDeleteUserShopOpinion()
     {
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
-        await TestSeeder.SeedTestShopsAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
 
         //create shop opinion firstly
-        var shopOpinionToDeleteDto = await _mediator.Send(new CreateShopOpinionCommand
+        var shopOpinionToDeleteDto = await Mediator.Send(new CreateShopOpinionCommand
         {
             Rate = 10,
             Comment = "test",
@@ -97,13 +97,13 @@ public class DeleteShopOpinionTests : IntegrationTest
         });
 
         await AuthHelper
-            .RunAsAdministratorAsync(_factory);
+            .RunAsAdministratorAsync(Factory);
 
         //delete
-        await _mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = shopOpinionToDeleteDto.Id});
+        await Mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = shopOpinionToDeleteDto.Id});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<ShopOpinion>(_factory, shopOpinionToDeleteDto.Id);
+        var item = await DbHelper.FindAsync<ShopOpinion>(Factory, shopOpinionToDeleteDto.Id);
         item.Should().BeNull();
     }
 
@@ -114,8 +114,8 @@ public class DeleteShopOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldDecreaseShopNumberOfOpinions()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         var command = new CreateShopOpinionCommand
         {
@@ -124,12 +124,12 @@ public class DeleteShopOpinionTests : IntegrationTest
             ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5") //one of seeded shop
         };
 
-        var shopOpinionToDeleteDto = await _mediator.Send(command);
+        var shopOpinionToDeleteDto = await Mediator.Send(command);
 
         //delete
-        await _mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = shopOpinionToDeleteDto.Id});
+        await Mediator.Send(new DeleteShopOpinionCommand {ShopOpinionId = shopOpinionToDeleteDto.Id});
 
-        var shopDto = await _mediator.Send(new GetShopQuery(command.ShopId));
+        var shopDto = await Mediator.Send(new GetShopQuery(command.ShopId));
         shopDto.NumberOfShopOpinions.Should().Be(0);
     }
 }

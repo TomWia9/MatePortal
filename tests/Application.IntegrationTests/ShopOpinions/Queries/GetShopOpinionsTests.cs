@@ -19,12 +19,12 @@ public class GetShopOpinionsTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnAllShopOpinions()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        await TestSeeder.SeedTestShopOpinionsAsync(Factory);
         var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
 
         var response =
-            await _mediator.Send(new GetShopOpinionsQuery(shopId, new ShopOpinionsQueryParameters()));
+            await Mediator.Send(new GetShopOpinionsQuery(shopId, new ShopOpinionsQueryParameters()));
         response.Count.Should().Be(2);
     }
 
@@ -39,11 +39,11 @@ public class GetShopOpinionsTests : IntegrationTest
     public async Task GetShopOpinionsWithSpecifiedMinAndMaxRateShouldReturnCorrectCountOfShopOpinions(
         int minRate, int maxRate, int expectedCount)
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        await TestSeeder.SeedTestShopOpinionsAsync(Factory);
         var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
 
-        var response = await _mediator.Send(new GetShopOpinionsQuery(shopId,
+        var response = await Mediator.Send(new GetShopOpinionsQuery(shopId,
             new ShopOpinionsQueryParameters {MinRate = minRate, MaxRate = maxRate}));
 
         response.Count.Should().Be(expectedCount);
@@ -55,11 +55,11 @@ public class GetShopOpinionsTests : IntegrationTest
     [Fact]
     public async Task GetShopOpinionsWithSpecifiedSearchQueryShouldReturnCorrectShopOpinions()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        await TestSeeder.SeedTestShopOpinionsAsync(Factory);
         var shopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"); //one of seeded shops
 
-        var response = await _mediator.Send(new GetShopOpinionsQuery(shopId, new ShopOpinionsQueryParameters
+        var response = await Mediator.Send(new GetShopOpinionsQuery(shopId, new ShopOpinionsQueryParameters
         {
             SearchQuery = "uper"
         }));

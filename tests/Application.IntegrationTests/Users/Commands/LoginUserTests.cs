@@ -18,7 +18,7 @@ public class LoginUserTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnAuthResponse()
     {
-        await AuthHelper.RegisterTestUserAsync(_mediator);
+        await AuthHelper.RegisterTestUserAsync(Mediator);
 
         var command = new LoginUserCommand
         {
@@ -26,7 +26,7 @@ public class LoginUserTests : IntegrationTest
             Password = "Qwerty123_"
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         result.Should().BeOfType<AuthenticationResult>();
         var jwt = result.Token;
@@ -42,7 +42,7 @@ public class LoginUserTests : IntegrationTest
     [InlineData("test.com", "Test123_")]
     public async Task ShouldReturnErrorMessagesWhenPropertiesAreInvalid(string email, string password)
     {
-        await AuthHelper.RegisterTestUserAsync(_mediator);
+        await AuthHelper.RegisterTestUserAsync(Mediator);
 
         var command = new LoginUserCommand
         {
@@ -50,7 +50,7 @@ public class LoginUserTests : IntegrationTest
             Password = password
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         result.Success.Should().BeFalse();
         result.Token.Should().BeNullOrEmpty();

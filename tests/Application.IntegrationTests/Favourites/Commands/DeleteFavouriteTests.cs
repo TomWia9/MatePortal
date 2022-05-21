@@ -25,7 +25,7 @@ public class DeleteFavouriteTests : IntegrationTest
         var favouriteId = Guid.Empty;
 
         FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteId})).Should()
+                Mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteId})).Should()
             .ThrowAsync<NotFoundException>();
     }
 
@@ -35,20 +35,20 @@ public class DeleteFavouriteTests : IntegrationTest
     [Fact]
     public async Task ShouldDeleteFavourite()
     {
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         //create favourite firstly
-        var favouriteToDeleteDto = await _mediator.Send(new CreateFavouriteCommand
+        var favouriteToDeleteDto = await Mediator.Send(new CreateFavouriteCommand
         {
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
         });
 
         //delete
-        await _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id});
+        await Mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<Favourite>(_factory, favouriteToDeleteDto.Id);
+        var item = await DbHelper.FindAsync<Favourite>(Factory, favouriteToDeleteDto.Id);
         item.Should().BeNull();
     }
 
@@ -58,23 +58,23 @@ public class DeleteFavouriteTests : IntegrationTest
     [Fact]
     public async Task ShouldDecreaseYerbaMateNumberOfAddToFav()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         var command = new CreateFavouriteCommand
         {
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
         };
 
-        var favouriteToDeleteDto = await _mediator.Send(command);
+        var favouriteToDeleteDto = await Mediator.Send(command);
 
         //delete
-        await _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id});
+        await Mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id});
 
-        var yerbaMateDto = await _mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
+        var yerbaMateDto = await Mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
         yerbaMateDto.NumberOfAddToFav.Should().Be(0);
     }
 
@@ -84,20 +84,20 @@ public class DeleteFavouriteTests : IntegrationTest
     [Fact]
     public async Task UserShouldNotBeAbleToDeleteOtherUserFavourite()
     {
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         //create favourite firstly
-        var favouriteToDeleteDto = await _mediator.Send(new CreateFavouriteCommand
+        var favouriteToDeleteDto = await Mediator.Send(new CreateFavouriteCommand
         {
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
         });
 
-        _factory.CurrentUserId = Guid.NewGuid(); //other user
+        Factory.CurrentUserId = Guid.NewGuid(); //other user
 
         //delete
         await FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id})).Should()
+                Mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id})).Should()
             .ThrowAsync<ForbiddenAccessException>();
     }
 
@@ -107,22 +107,22 @@ public class DeleteFavouriteTests : IntegrationTest
     [Fact]
     public async Task AdministratorShouldBeAbleToDeleteUserFavourite()
     {
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
         //create favourite firstly
-        var favouriteToDeleteDto = await _mediator.Send(new CreateFavouriteCommand
+        var favouriteToDeleteDto = await Mediator.Send(new CreateFavouriteCommand
         {
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
         });
 
-        await AuthHelper.RunAsAdministratorAsync(_factory);
+        await AuthHelper.RunAsAdministratorAsync(Factory);
 
         //delete
-        await _mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id});
+        await Mediator.Send(new DeleteFavouriteCommand {FavouriteId = favouriteToDeleteDto.Id});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<Favourite>(_factory, favouriteToDeleteDto.Id);
+        var item = await DbHelper.FindAsync<Favourite>(Factory, favouriteToDeleteDto.Id);
         item.Should().BeNull();
     }
 }

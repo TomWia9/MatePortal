@@ -32,7 +32,7 @@ public class UpdateBrandTests : IntegrationTest
         };
 
         FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -41,9 +41,9 @@ public class UpdateBrandTests : IntegrationTest
     [Fact]
     public async Task UpdateBrandShouldUpdateBrand()
     {
-        var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+        var userId = await AuthHelper.RunAsAdministratorAsync(Factory);
 
-        await TestSeeder.SeedTestBrandsAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
 
         var brandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239");
 
@@ -55,9 +55,9 @@ public class UpdateBrandTests : IntegrationTest
             CountryId = Guid.Parse("68E2E690-B2F4-44AE-A21F-756922E25163") //one of seeded countries (Argentina)
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<Brand>(_factory, brandId);
+        var item = await DbHelper.FindAsync<Brand>(Factory, brandId);
 
         item.Name.Should().Be(command.Name);
         item.Description.Should().Be(command.Description);

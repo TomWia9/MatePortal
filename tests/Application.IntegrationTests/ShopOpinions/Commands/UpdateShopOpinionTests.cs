@@ -30,7 +30,7 @@ public class UpdateShopOpinionTests : IntegrationTest
         };
 
         FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     /// <summary>
@@ -39,8 +39,8 @@ public class UpdateShopOpinionTests : IntegrationTest
     [Fact]
     public async Task UpdateShopOpinionShouldUpdateShopOpinion()
     {
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
-        await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
+        await TestSeeder.SeedTestShopOpinionsAsync(Factory);
 
         var shopOpinionId = Guid.Parse("A0EDB43D-5195-4458-8C4B-8F6F9FD7E5C9"); //one of seeded shop opinions
 
@@ -51,9 +51,9 @@ public class UpdateShopOpinionTests : IntegrationTest
             Comment = "Updated comment"
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<ShopOpinion>(_factory, shopOpinionId);
+        var item = await DbHelper.FindAsync<ShopOpinion>(Factory, shopOpinionId);
 
         item.Rate.Should().Be(command.Rate);
         item.Comment.Should().Be(command.Comment);
@@ -70,11 +70,11 @@ public class UpdateShopOpinionTests : IntegrationTest
     [Fact]
     public async Task UserShouldNotBeAbleToUpdateOtherUserShopOpinion()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         //create shop opinion firstly
-        var shopOpinionToUpdateDto = await _mediator.Send(new CreateShopOpinionCommand
+        var shopOpinionToUpdateDto = await Mediator.Send(new CreateShopOpinionCommand
         {
             Rate = 10,
             Comment = "test",
@@ -82,10 +82,10 @@ public class UpdateShopOpinionTests : IntegrationTest
         });
 
         //change user
-        _factory.CurrentUserId = Guid.NewGuid();
+        Factory.CurrentUserId = Guid.NewGuid();
 
         await FluentActions.Invoking(() =>
-                _mediator.Send(new UpdateShopOpinionCommand
+                Mediator.Send(new UpdateShopOpinionCommand
                     {ShopOpinionId = shopOpinionToUpdateDto.Id, Comment = "test", Rate = 1})).Should()
             .ThrowAsync<ForbiddenAccessException>();
     }
@@ -96,11 +96,11 @@ public class UpdateShopOpinionTests : IntegrationTest
     [Fact]
     public async Task AdministratorShouldBeAbleToUpdateUserShopOpinion()
     {
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
-        await TestSeeder.SeedTestShopsAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
 
         //create shop opinion firstly
-        var shopOpinionToUpdateDto = await _mediator.Send(new CreateShopOpinionCommand
+        var shopOpinionToUpdateDto = await Mediator.Send(new CreateShopOpinionCommand
         {
             Rate = 10,
             Comment = "test",
@@ -108,7 +108,7 @@ public class UpdateShopOpinionTests : IntegrationTest
         });
 
         //change user
-        var adminId = await AuthHelper.RunAsAdministratorAsync(_factory);
+        var adminId = await AuthHelper.RunAsAdministratorAsync(Factory);
 
         var command = new UpdateShopOpinionCommand
         {
@@ -117,10 +117,10 @@ public class UpdateShopOpinionTests : IntegrationTest
             Rate = 2
         };
 
-        await _mediator.Send(command);
+        await Mediator.Send(command);
 
         //Assert that updated
-        var item = await DbHelper.FindAsync<ShopOpinion>(_factory, shopOpinionToUpdateDto.Id);
+        var item = await DbHelper.FindAsync<ShopOpinion>(Factory, shopOpinionToUpdateDto.Id);
         item.Rate.Should().Be(command.Rate);
         item.Comment.Should().Be(command.Comment);
         item.CreatedBy.Should().NotBeNull();

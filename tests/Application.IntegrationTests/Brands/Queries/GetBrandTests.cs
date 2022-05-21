@@ -20,7 +20,7 @@ public class GetBrandTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnCorrectBrand()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
 
         var brandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239"); //id of one of seeded brand
 
@@ -32,7 +32,7 @@ public class GetBrandTests : IntegrationTest
             Country = "Paraguay"
         };
 
-        var response = await _mediator.Send(new GetBrandQuery(brandId));
+        var response = await Mediator.Send(new GetBrandQuery(brandId));
 
         response.Should().BeOfType<BrandDto>();
         response.Should().BeEquivalentTo(expectedResult);
@@ -47,6 +47,6 @@ public class GetBrandTests : IntegrationTest
         var brandId = Guid.Empty;
 
         FluentActions.Invoking(() =>
-            _mediator.Send(new GetBrandQuery(brandId))).Should().ThrowAsync<NotFoundException>();
+            Mediator.Send(new GetBrandQuery(brandId))).Should().ThrowAsync<NotFoundException>();
     }
 }

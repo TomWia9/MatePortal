@@ -20,10 +20,10 @@ public class GetYerbaMatesTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnAllYerbaMates()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
-        var response = await _mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters()));
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
+        var response = await Mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters()));
         response.Count.Should().Be(3);
     }
 
@@ -33,11 +33,11 @@ public class GetYerbaMatesTests : IntegrationTest
     [Fact]
     public async Task GetYerbaMatesWithSpecifiedQuerySearchShouldReturnCorrectYerbaMates()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
-        var response = await _mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters
+        var response = await Mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters
         {
             SearchQuery = "herbal"
         }));
@@ -53,11 +53,11 @@ public class GetYerbaMatesTests : IntegrationTest
     [Fact]
     public async Task GetYerbaMatesWithSpecifiedQueryParametersShouldReturnCorrectYerbaMates()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
-        var response = await _mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters
+        var response = await Mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters
         {
             Country = "Argentina",
             MaxPrice = 22M
@@ -75,12 +75,12 @@ public class GetYerbaMatesTests : IntegrationTest
     [Fact]
     public async Task GetYerbaMatesWithSpecifiedSortingShouldReturnCorrectSortedYerbaMates()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
-        await TestSeeder.SeedTestOpinionsAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
+        await TestSeeder.SeedTestOpinionsAsync(Factory);
 
-        var response = await _mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters
+        var response = await Mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters
         {
             SortBy = "Opinions",
             SortDirection = SortDirection.Asc

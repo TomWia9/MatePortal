@@ -25,7 +25,7 @@ public class DeleteOpinionTests : IntegrationTest
         var opinionId = Guid.Empty;
 
         FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteOpinionCommand {OpinionId = opinionId})).Should()
+                Mediator.Send(new DeleteOpinionCommand {OpinionId = opinionId})).Should()
             .ThrowAsync<NotFoundException>();
     }
 
@@ -35,11 +35,11 @@ public class DeleteOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldDeleteFavourite()
     {
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         //create opinion firstly
-        var opinionToDeleteDto = await _mediator.Send(new CreateOpinionCommand
+        var opinionToDeleteDto = await Mediator.Send(new CreateOpinionCommand
         {
             Rate = 10,
             Comment = "test",
@@ -47,10 +47,10 @@ public class DeleteOpinionTests : IntegrationTest
         });
 
         //delete
-        await _mediator.Send(new DeleteOpinionCommand {OpinionId = opinionToDeleteDto.Id});
+        await Mediator.Send(new DeleteOpinionCommand {OpinionId = opinionToDeleteDto.Id});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<Opinion>(_factory, opinionToDeleteDto.Id);
+        var item = await DbHelper.FindAsync<Opinion>(Factory, opinionToDeleteDto.Id);
         item.Should().BeNull();
     }
 
@@ -60,22 +60,22 @@ public class DeleteOpinionTests : IntegrationTest
     [Fact]
     public async Task UserShouldNotBeAbleToDeleteOtherUserOpinion()
     {
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         //create opinion firstly
-        var opinionToDeleteDto = await _mediator.Send(new CreateOpinionCommand
+        var opinionToDeleteDto = await Mediator.Send(new CreateOpinionCommand
         {
             Rate = 10,
             Comment = "test",
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //id of one of seeded yerba mate
         });
 
-        _factory.CurrentUserId = Guid.NewGuid(); //other user
+        Factory.CurrentUserId = Guid.NewGuid(); //other user
 
         //delete
         await FluentActions.Invoking(() =>
-                _mediator.Send(new DeleteOpinionCommand {OpinionId = opinionToDeleteDto.Id})).Should()
+                Mediator.Send(new DeleteOpinionCommand {OpinionId = opinionToDeleteDto.Id})).Should()
             .ThrowAsync<ForbiddenAccessException>();
     }
 
@@ -85,11 +85,11 @@ public class DeleteOpinionTests : IntegrationTest
     [Fact]
     public async Task AdministratorShouldBeAbleToDeleteUserOpinion()
     {
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
         //create opinion firstly
-        var opinionToDeleteDto = await _mediator.Send(new CreateOpinionCommand
+        var opinionToDeleteDto = await Mediator.Send(new CreateOpinionCommand
         {
             Rate = 10,
             Comment = "test",
@@ -97,13 +97,13 @@ public class DeleteOpinionTests : IntegrationTest
         });
 
         await AuthHelper
-            .RunAsAdministratorAsync(_factory);
+            .RunAsAdministratorAsync(Factory);
 
         //delete
-        await _mediator.Send(new DeleteOpinionCommand {OpinionId = opinionToDeleteDto.Id});
+        await Mediator.Send(new DeleteOpinionCommand {OpinionId = opinionToDeleteDto.Id});
 
         //Assert that deleted
-        var item = await DbHelper.FindAsync<Opinion>(_factory, opinionToDeleteDto.Id);
+        var item = await DbHelper.FindAsync<Opinion>(Factory, opinionToDeleteDto.Id);
         item.Should().BeNull();
     }
 
@@ -113,11 +113,11 @@ public class DeleteOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldDecreaseYerbaMateNumberOfOpinions()
     {
-        await TestSeeder.SeedTestBrandsAsync(_factory);
-        await TestSeeder.SeedTestCategoriesAsync(_factory);
-        await TestSeeder.SeedTestYerbaMatesAsync(_factory);
+        await TestSeeder.SeedTestBrandsAsync(Factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
-        await AuthHelper.RunAsDefaultUserAsync(_factory);
+        await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         var command = new CreateOpinionCommand
         {
@@ -126,12 +126,12 @@ public class DeleteOpinionTests : IntegrationTest
             YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43") //one of seeded yerba mate
         };
 
-        var opinionToDeleteDto = await _mediator.Send(command);
+        var opinionToDeleteDto = await Mediator.Send(command);
 
         //delete
-        await _mediator.Send(new DeleteOpinionCommand {OpinionId = opinionToDeleteDto.Id});
+        await Mediator.Send(new DeleteOpinionCommand {OpinionId = opinionToDeleteDto.Id});
 
-        var yerbaMateDto = await _mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
+        var yerbaMateDto = await Mediator.Send(new GetYerbaMateQuery(command.YerbaMateId));
         yerbaMateDto.NumberOfOpinions.Should().Be(0);
     }
 }

@@ -18,11 +18,11 @@ public class GetUserShopOpinionsTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnAllUserShopOpinions()
     {
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
-        await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
+        await TestSeeder.SeedTestShopOpinionsAsync(Factory);
 
         var response =
-            await _mediator.Send(new GetUserShopOpinionsQuery(userId, new ShopOpinionsQueryParameters()));
+            await Mediator.Send(new GetUserShopOpinionsQuery(userId, new ShopOpinionsQueryParameters()));
         response.Count.Should().Be(3);
     }
 
@@ -37,10 +37,10 @@ public class GetUserShopOpinionsTests : IntegrationTest
     public async Task GetUsersShopOpinionsWithSpecifiedMinAndMaxRateShouldReturnCorrectCountOfShopOpinions(
         int minRate, int maxRate, int expectedCount)
     {
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
-        await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
+        await TestSeeder.SeedTestShopOpinionsAsync(Factory);
 
-        var response = await _mediator.Send(new GetUserShopOpinionsQuery(userId,
+        var response = await Mediator.Send(new GetUserShopOpinionsQuery(userId,
             new ShopOpinionsQueryParameters {MinRate = minRate, MaxRate = maxRate}));
 
         response.Count.Should().Be(expectedCount);
@@ -52,10 +52,10 @@ public class GetUserShopOpinionsTests : IntegrationTest
     [Fact]
     public async Task GetUsersShopOpinionsWithSpecifiedSearchQueryShouldReturnCorrectShopOpinions()
     {
-        var userId = await AuthHelper.RunAsDefaultUserAsync(_factory);
-        await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+        var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
+        await TestSeeder.SeedTestShopOpinionsAsync(Factory);
 
-        var response = await _mediator.Send(new GetUserShopOpinionsQuery(userId, new ShopOpinionsQueryParameters
+        var response = await Mediator.Send(new GetUserShopOpinionsQuery(userId, new ShopOpinionsQueryParameters
         {
             SearchQuery = "com"
         }));

@@ -28,7 +28,7 @@ public class CreateCountryTests : IntegrationTest
             Name = command.Name
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         result.Should().BeOfType<CountryDto>();
         result.Should().BeEquivalentTo(expectedResult, x => x.Excluding(y => y.Id));
@@ -40,7 +40,7 @@ public class CreateCountryTests : IntegrationTest
     [Fact]
     public async Task ShouldRequireUniqueName()
     {
-        await _mediator.Send(new CreateCountryCommand
+        await Mediator.Send(new CreateCountryCommand
         {
             Name = "Test"
         });
@@ -51,6 +51,6 @@ public class CreateCountryTests : IntegrationTest
         };
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 }

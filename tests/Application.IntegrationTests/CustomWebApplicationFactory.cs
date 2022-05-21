@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Api;
 using Application.Common.Interfaces;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
@@ -9,7 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
 
 namespace Application.IntegrationTests;
@@ -17,7 +18,7 @@ namespace Application.IntegrationTests;
 /// <summary>
 ///     Custom web application factory
 /// </summary>
-public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
+public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     /// <summary>
     ///     Database name
@@ -72,8 +73,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
 
             services.Remove(applicationDbContextDescriptor);
             services.AddDbContext<ApplicationDbContext>(options => { options.UseInMemoryDatabase(_databaseName); });
-
-
+            
             var sp = services.BuildServiceProvider();
 
             using var scope = sp.CreateScope();

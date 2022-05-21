@@ -20,8 +20,8 @@ public class GetShopsTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnAllShops()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        var response = await _mediator.Send(new GetShopsQuery(new ShopsQueryParameters()));
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        var response = await Mediator.Send(new GetShopsQuery(new ShopsQueryParameters()));
         response.Count.Should().Be(3);
     }
 
@@ -31,9 +31,9 @@ public class GetShopsTests : IntegrationTest
     [Fact]
     public async Task GetShopsWithSpecifiedQueryParametersShouldReturnCorrectShops()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
 
-        var response = await _mediator.Send(new GetShopsQuery(new ShopsQueryParameters
+        var response = await Mediator.Send(new GetShopsQuery(new ShopsQueryParameters
         {
             SearchQuery = "undo"
         }));
@@ -48,10 +48,10 @@ public class GetShopsTests : IntegrationTest
     [Fact]
     public async Task GetShopsWithSpecifiedQSortingShouldReturnCorrectSortedShops()
     {
-        await TestSeeder.SeedTestShopsAsync(_factory);
-        await TestSeeder.SeedTestShopOpinionsAsync(_factory);
+        await TestSeeder.SeedTestShopsAsync(Factory);
+        await TestSeeder.SeedTestShopOpinionsAsync(Factory);
 
-        var response = await _mediator.Send(new GetShopsQuery(new ShopsQueryParameters
+        var response = await Mediator.Send(new GetShopsQuery(new ShopsQueryParameters
         {
             SortBy = "Opinions",
             SortDirection = SortDirection.Asc

@@ -22,7 +22,7 @@ public class CreateCategoryTests : IntegrationTest
     [Fact]
     public async Task ShouldCreateCategoryAndReturnCategoryDto()
     {
-        var userId = await AuthHelper.RunAsAdministratorAsync(_factory);
+        var userId = await AuthHelper.RunAsAdministratorAsync(Factory);
 
         var command = new CreateCategoryCommand
         {
@@ -36,12 +36,12 @@ public class CreateCategoryTests : IntegrationTest
             Description = command.Description
         };
 
-        var result = await _mediator.Send(command);
+        var result = await Mediator.Send(command);
 
         result.Should().BeOfType<CategoryDto>();
         result.Should().BeEquivalentTo(expectedResult, x => x.Excluding(y => y.Id));
 
-        var item = await DbHelper.FindAsync<Category>(_factory, result.Id);
+        var item = await DbHelper.FindAsync<Category>(Factory, result.Id);
 
         item.CreatedBy.Should().NotBeNull();
         item.CreatedBy.Should().Be(userId);
@@ -56,7 +56,7 @@ public class CreateCategoryTests : IntegrationTest
     [Fact]
     public async Task ShouldRequireUniqueName()
     {
-        await _mediator.Send(new CreateCategoryCommand
+        await Mediator.Send(new CreateCategoryCommand
         {
             Name = "Test",
             Description = "Test"
@@ -69,6 +69,6 @@ public class CreateCategoryTests : IntegrationTest
         };
 
         await FluentActions.Invoking(() =>
-            _mediator.Send(command)).Should().ThrowAsync<ConflictException>();
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 }
