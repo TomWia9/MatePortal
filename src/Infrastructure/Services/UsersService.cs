@@ -136,9 +136,11 @@ namespace Infrastructure.Services
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,
                     request.Parameters.SortDirection, sortingColumns);
             }
-
-            //If sortBy is null, sort by email
-            collection = collection.OrderBy(u => u.Email);
+            else
+            {
+                collection = collection.OrderBy(u => u.Email);
+            }
+            
             var mappedUsers = await MapUsers(collection);
             return new PaginatedList<UserDto>(mappedUsers, mappedUsers.Count,
                 request.Parameters.PageNumber,

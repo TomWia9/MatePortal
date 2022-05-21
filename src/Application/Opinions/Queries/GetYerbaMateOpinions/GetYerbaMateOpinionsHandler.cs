@@ -87,13 +87,13 @@ namespace Application.Opinions.Queries.GetYerbaMateOpinions
 
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,
                     request.Parameters.SortDirection, sortingColumns);
-
-                return await collection.ProjectTo<OpinionDto>(_mapper.ConfigurationProvider)
-                    .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+            }
+            else
+            {
+                collection = collection.OrderBy(o => o.Created);
             }
 
-            //If sortBy is null, sort by created date
-            return await collection.OrderBy(o => o.Created).ProjectTo<OpinionDto>(_mapper.ConfigurationProvider)
+            return await collection.ProjectTo<OpinionDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
         }
     }
