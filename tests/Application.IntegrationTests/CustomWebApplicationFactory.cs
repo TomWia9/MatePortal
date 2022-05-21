@@ -43,6 +43,11 @@ namespace Application.IntegrationTests
         public string CurrentUserRole { get; set; }
 
         /// <summary>
+        ///     Indicates whether current user has admin access
+        /// </summary>
+        public bool AdministratorAccess { get; set; }
+
+        /// <summary>
         ///     Configures web host
         /// </summary>
         /// <param name="builder">The builder</param>
@@ -51,18 +56,16 @@ namespace Application.IntegrationTests
             builder.ConfigureServices(services =>
             {
                 //Replace CurrentUserService
-
                 var currentUserServiceDescriptor = services.FirstOrDefault(d =>
                     d.ServiceType == typeof(ICurrentUserService));
 
                 services.Remove(currentUserServiceDescriptor);
                 services.AddTransient(_ =>
                     Mock.Of<ICurrentUserService>(s =>
-                        s.UserId == CurrentUserId && s.UserRole == CurrentUserRole));
-
-
+                        s.UserId == CurrentUserId && s.UserRole == CurrentUserRole &&
+                        s.AdministratorAccess == AdministratorAccess));
+                
                 //Replace ApplicationDbContext
-
                 var applicationDbContextDescriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
                          typeof(DbContextOptions<ApplicationDbContext>));
