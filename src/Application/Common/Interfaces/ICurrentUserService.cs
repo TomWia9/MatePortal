@@ -16,5 +16,10 @@ namespace Application.Common.Interfaces
         ///     Current user role
         /// </summary>
         string UserRole { get; }
+        
+        /// <summary>
+        ///     Indicates whether current user has admin access
+        /// </summary>
+        bool AdministratorAccess { get; }
     }
 }

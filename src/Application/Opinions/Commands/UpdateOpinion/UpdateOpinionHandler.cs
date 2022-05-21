@@ -47,7 +47,7 @@ namespace Application.Opinions.Commands.UpdateOpinion
             if (entity == null) throw new NotFoundException(nameof(Opinion), request.OpinionId);
 
             var currentUserId = _currentUserService.UserId;
-            if (entity.CreatedBy != currentUserId && _currentUserService.UserRole != "Administrator")
+            if (entity.CreatedBy != currentUserId && !_currentUserService.AdministratorAccess)
                 throw new ForbiddenAccessException();
 
             entity.Rate = request.Rate;

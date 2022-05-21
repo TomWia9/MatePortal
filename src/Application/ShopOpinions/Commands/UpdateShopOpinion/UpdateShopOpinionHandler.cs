@@ -47,7 +47,7 @@ namespace Application.ShopOpinions.Commands.UpdateShopOpinion
             if (entity == null) throw new NotFoundException(nameof(ShopOpinion), request.ShopOpinionId);
 
             var currentUserId = _currentUserService.UserId;
-            if (entity.CreatedBy != currentUserId && _currentUserService.UserRole != "Administrator")
+            if (entity.CreatedBy != currentUserId && !_currentUserService.AdministratorAccess)
                 throw new ForbiddenAccessException();
 
             entity.Rate = request.Rate;

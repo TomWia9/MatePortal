@@ -45,7 +45,7 @@ namespace Application.ShopOpinions.Commands.DeleteShopOpinion
 
             if (entity == null) throw new NotFoundException(nameof(ShopOpinion), request.ShopOpinionId);
 
-            if (_currentUserService.UserRole != "Administrator" &&
+            if (!_currentUserService.AdministratorAccess &&
                 entity.CreatedBy != _currentUserService.UserId)
                 throw new ForbiddenAccessException();
 

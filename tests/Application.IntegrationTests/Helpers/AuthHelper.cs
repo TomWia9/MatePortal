@@ -102,6 +102,7 @@ namespace Application.IntegrationTests.Helpers
 
                 factory.CurrentUserId = user.Id;
                 factory.CurrentUserRole = role;
+                factory.AdministratorAccess = role == Roles.Administrator;
 
                 return factory.CurrentUserId;
             }

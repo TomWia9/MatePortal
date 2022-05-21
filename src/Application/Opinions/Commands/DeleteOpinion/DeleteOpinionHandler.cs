@@ -45,7 +45,7 @@ namespace Application.Opinions.Commands.DeleteOpinion
 
             if (entity == null) throw new NotFoundException(nameof(Opinion), request.OpinionId);
 
-            if (_currentUserService.UserRole != "Administrator" &&
+            if (!_currentUserService.AdministratorAccess &&
                 entity.CreatedBy != _currentUserService.UserId)
                 throw new ForbiddenAccessException();
 

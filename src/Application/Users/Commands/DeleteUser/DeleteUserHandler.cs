@@ -38,8 +38,7 @@ namespace Application.Users.Commands.DeleteUser
         /// <param name="cancellationToken">Cancellation token</param>
         public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            //TODO Change this hardcoded "Administrator"
-            await _userService.DeleteUserAsync(request, _currentUserService.UserRole == "Administrator");
+            await _userService.DeleteUserAsync(request, _currentUserService.AdministratorAccess);
 
             return Unit.Value;
         }
