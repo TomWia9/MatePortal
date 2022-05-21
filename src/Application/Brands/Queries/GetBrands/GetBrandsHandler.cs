@@ -71,8 +71,7 @@ namespace Application.Brands.Queries.GetBrands
             if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
             {
                 var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
-                ;
-
+                
                 collection = collection.Where(b => b.Name.ToLower().Contains(searchQuery)
                                                    || b.Description.ToLower().Contains(searchQuery)
                                                    || b.Country.Name.ToLower().Contains(searchQuery));
@@ -90,13 +89,13 @@ namespace Application.Brands.Queries.GetBrands
 
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,
                     request.Parameters.SortDirection, sortingColumns);
-
-                return await collection.ProjectTo<BrandDto>(_mapper.ConfigurationProvider)
-                    .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+            }
+            else
+            {
+                collection = collection.OrderBy(b => b.Name);
             }
 
-            //If sortBy is null, sort by name
-            return await collection.OrderBy(b => b.Name).ProjectTo<BrandDto>(_mapper.ConfigurationProvider)
+            return await collection.ProjectTo<BrandDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
         }
     }

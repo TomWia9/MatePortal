@@ -84,13 +84,13 @@ namespace Application.Shops.Queries.GetShops
 
                 collection = _sortService.Sort(collection, request.Parameters.SortBy,
                     request.Parameters.SortDirection, sortingColumns);
-
-                return await collection.ProjectTo<ShopDto>(_mapper.ConfigurationProvider)
-                    .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+            }
+            else
+            {
+                collection = collection.OrderBy(b => b.Name);
             }
 
-            //If sortBy is null, sort by name
-            return await collection.OrderBy(b => b.Name).ProjectTo<ShopDto>(_mapper.ConfigurationProvider)
+            return await collection.ProjectTo<ShopDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
         }
     }
