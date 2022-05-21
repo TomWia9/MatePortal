@@ -36,6 +36,11 @@ namespace Api.Services
         public string UserRole => GetCurrentUserRole();
 
         /// <summary>
+        ///     Indicates whether current user has admin access
+        /// </summary>
+        public bool AdministratorAccess => GetCurrentUserRole() == Roles.Administrator;
+
+        /// <summary>
         ///     Gets current user ID
         /// </summary>
         /// <returns>Current user ID</returns>
