@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      - ConnectionStrings__MatePortalConnection=Server=mateportaldb;Database=MatePortal;User=sa;Password=MatePortal123!
+      - ConnectionStrings__MatePortalConnection=Server=mateportaldb;Database=MatePortal;User=sa;Password=MatePortal123!;TrustServerCertificate=true
     ports:
       - "5005:5005"
     depends_on:
