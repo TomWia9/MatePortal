@@ -54,13 +54,18 @@ try
 {
     Log.Information("Starting up");
 
+
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        await context.Database.MigrateAsync();
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-        await ApplicationDbContextSeed.SeedDatabase(userManager, roleManager, context);
+        
+        if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+        {
+            await context.Database.MigrateAsync();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+            await ApplicationDbContextSeed.SeedDatabase(userManager, roleManager, context);
+        }
     }
 
     await app.RunAsync();
