@@ -53,15 +53,9 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     /// <param name="builder">The builder</param>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureAppConfiguration(configurationBuilder =>
-        {
-            var integrationConfig = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json",true, false)
-                .AddEnvironmentVariables()
-                .Build();
-
-            configurationBuilder.AddConfiguration(integrationConfig);
-        });
+        builder.ConfigureAppConfiguration((hostingContext, configBuilder) =>
+            configBuilder.Sources.Where(s => s is FileConfigurationSource).ToList()
+                .ForEach(s => ((FileConfigurationSource)s).ReloadOnChange = false));
         
         builder.ConfigureServices(services =>
         {
