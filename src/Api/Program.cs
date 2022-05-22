@@ -8,7 +8,6 @@ using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -27,7 +26,6 @@ builder.Services.AddSwagger();
 builder.Services.AddJwtAuth(builder.Configuration);
 
 builder.Host.UseSerilog();
-builder.Configuration.AddJsonFile("appsettings.json", false, false);
 
 var app = builder.Build();
 
