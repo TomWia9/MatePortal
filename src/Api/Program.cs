@@ -27,7 +27,7 @@ builder.Services.AddSwagger();
 builder.Services.AddJwtAuth(builder.Configuration);
 
 builder.Host.UseSerilog();
-builder.Configuration.AddJsonFile("appsettings.json", false, true);
+builder.Configuration.AddJsonFile("appsettings.json", false, false);
 
 var app = builder.Build();
 
