@@ -7,92 +7,91 @@ using FluentAssertions;
 using Infrastructure.Identity;
 using Xunit;
 
-namespace Application.IntegrationTests.Users.Queries
+namespace Application.IntegrationTests.Users.Queries;
+
+/// <summary>
+///     Get all users tests
+/// </summary>
+public class GetUsersTests : IntegrationTest
 {
     /// <summary>
-    ///     Get all users tests
+    ///     Get users should return all users
     /// </summary>
-    public class GetUsersTests : IntegrationTest
+    [Fact]
+    public async Task ShouldReturnAllUsers()
     {
-        /// <summary>
-        ///     Get users should return all users
-        /// </summary>
-        [Fact]
-        public async Task ShouldReturnAllUsers()
+        await AuthHelper.RegisterTestUserAsync(Mediator);
+
+        var command = new RegisterUserCommand
         {
-            await AuthHelper.RegisterTestUserAsync(_mediator);
+            Email = "user@test.com",
+            Username = "username",
+            Password = "Test123_"
+        };
 
-            var command = new RegisterUserCommand
-            {
-                Email = "user@test.com",
-                Username = "username",
-                Password = "Test123_"
-            };
+        await Mediator.Send(command);
 
-            await _mediator.Send(command);
+        var response =
+            await Mediator.Send(new GetUsersQuery(new UsersQueryParameters()));
 
-            var response =
-                await _mediator.Send(new GetUsersQuery(new UsersQueryParameters()));
+        response.Count.Should().Be(3); //2 users + seeded admin
+    }
 
-            response.Count.Should().Be(3); //2 users + seeded admin
-        }
+    /// <summary>
+    ///     Get users with specified search query should return correct users
+    /// </summary>
+    [Fact]
+    public async Task GetUsersWithSpecifiedSearchQueryShouldReturnCorrectUsers()
+    {
+        await AuthHelper.RegisterTestUserAsync(Mediator);
 
-        /// <summary>
-        ///     Get users with specified search query should return correct users
-        /// </summary>
-        [Fact]
-        public async Task GetUsersWithSpecifiedSearchQueryShouldReturnCorrectUsers()
+        var command = new RegisterUserCommand
         {
-            await AuthHelper.RegisterTestUserAsync(_mediator);
+            Email = "user@test.com",
+            Username = "username",
+            Password = "Test123_"
+        };
 
-            var command = new RegisterUserCommand
-            {
-                Email = "user@test.com",
-                Username = "username",
-                Password = "Test123_"
-            };
+        await Mediator.Send(command);
 
-            await _mediator.Send(command);
-
-            var response = await _mediator.Send(new GetUsersQuery(new UsersQueryParameters
-            {
-                SearchQuery = "ser"
-            }));
-
-            response.Count.Should().Be(1);
-            response[0].Email.Should().Be("user@test.com");
-            response[0].Username.Should().Be("username");
-        }
-        
-        /// <summary>
-        ///     Get users with specified role should return correct users
-        /// </summary>
-        [Fact]
-        public async Task GetUsersWithSpecifiedRoleShouldReturnCorrectUsers()
+        var response = await Mediator.Send(new GetUsersQuery(new UsersQueryParameters
         {
-            await AuthHelper.RegisterTestUserAsync(_mediator);
+            SearchQuery = "ser"
+        }));
 
-            var command = new RegisterUserCommand
-            {
-                Email = "user@test.com",
-                Username = "username",
-                Password = "Test123_"
-            };
+        response.Count.Should().Be(1);
+        response[0].Email.Should().Be("user@test.com");
+        response[0].Username.Should().Be("username");
+    }
 
-            await _mediator.Send(command);
+    /// <summary>
+    ///     Get users with specified role should return correct users
+    /// </summary>
+    [Fact]
+    public async Task GetUsersWithSpecifiedRoleShouldReturnCorrectUsers()
+    {
+        await AuthHelper.RegisterTestUserAsync(Mediator);
 
-            var response = await _mediator.Send(new GetUsersQuery(new UsersQueryParameters
-            {
-                Role = Roles.User
-            }));
+        var command = new RegisterUserCommand
+        {
+            Email = "user@test.com",
+            Username = "username",
+            Password = "Test123_"
+        };
 
-            response.Count.Should().Be(2); //from auth helper and from command
-            response[0].Email.Should().Be("test@test.com");
-            response[0].Username.Should().Be("Test");
-            response[0].Role.Should().Be(Roles.User);
-            response[1].Email.Should().Be("user@test.com");
-            response[1].Username.Should().Be("username");
-            response[1].Role.Should().Be(Roles.User);
-        }
+        await Mediator.Send(command);
+
+        var response = await Mediator.Send(new GetUsersQuery(new UsersQueryParameters
+        {
+            Role = Roles.User
+        }));
+
+        response.Count.Should().Be(2); //from auth helper and from command
+        response[0].Email.Should().Be("test@test.com");
+        response[0].Username.Should().Be("Test");
+        response[0].Role.Should().Be(Roles.User);
+        response[1].Email.Should().Be("user@test.com");
+        response[1].Username.Should().Be("username");
+        response[1].Role.Should().Be(Roles.User);
     }
 }

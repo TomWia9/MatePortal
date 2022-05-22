@@ -2,16 +2,15 @@
 using Application.Favourites.Queries;
 using MediatR;
 
-namespace Application.Favourites.Commands.CreateFavourite
+namespace Application.Favourites.Commands.CreateFavourite;
+
+/// <summary>
+///     Create favourite command
+/// </summary>
+public class CreateFavouriteCommand : IRequest<FavouriteDto>
 {
     /// <summary>
-    ///     Create favourite command
+    ///     Yerba mate ID
     /// </summary>
-    public class CreateFavouriteCommand : IRequest<FavouriteDto>
-    {
-        /// <summary>
-        ///     Yerba mate ID
-        /// </summary>
-        public Guid YerbaMateId { get; init; }
-    }
+    public Guid YerbaMateId { get; init; }
 }

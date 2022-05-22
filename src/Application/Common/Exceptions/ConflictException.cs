@@ -1,26 +1,25 @@
 ﻿using System;
 
-namespace Application.Common.Exceptions
+namespace Application.Common.Exceptions;
+
+/// <summary>
+///     Conflict exception
+/// </summary>
+public class ConflictException : Exception
 {
     /// <summary>
-    ///     Conflict exception
+    ///     Initializes default ConflictException
     /// </summary>
-    public class ConflictException : Exception
+    public ConflictException()
     {
-        /// <summary>
-        ///     Initializes default ConflictException
-        /// </summary>
-        public ConflictException()
-        {
-        }
+    }
 
-        /// <summary>
-        ///     Initializes ConflictException with name and key of entity
-        /// </summary>
-        /// <param name="name">Entity name</param>
-        public ConflictException(string name) : base(
-            $"Entity \"{name}\" conflicts with another entity")
-        {
-        }
+    /// <summary>
+    ///     Initializes ConflictException with name and key of entity
+    /// </summary>
+    /// <param name="name">Entity name</param>
+    public ConflictException(string name) : base(
+        $"Entity \"{name}\" conflicts with another entity")
+    {
     }
 }

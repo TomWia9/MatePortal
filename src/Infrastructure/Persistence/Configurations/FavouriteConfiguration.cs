@@ -2,21 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Configurations
+namespace Infrastructure.Persistence.Configurations;
+
+/// <summary>
+///     The favourite configuration
+/// </summary>
+public class FavouriteConfiguration : IEntityTypeConfiguration<Favourite>
 {
     /// <summary>
-    ///     The favourite configuration
+    ///     Configures favourites
     /// </summary>
-    public class FavouriteConfiguration : IEntityTypeConfiguration<Favourite>
+    /// <param name="builder">Entity type builder</param>
+    public void Configure(EntityTypeBuilder<Favourite> builder)
     {
-        /// <summary>
-        ///     Configures favourites
-        /// </summary>
-        /// <param name="builder">Entity type builder</param>
-        public void Configure(EntityTypeBuilder<Favourite> builder)
-        {
-            builder.Ignore(f => f.DomainEvents);
-            builder.HasKey(f => f.Id);
-        }
+        builder.Ignore(f => f.DomainEvents);
+        builder.HasKey(f => f.Id);
     }
 }

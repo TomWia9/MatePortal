@@ -1,15 +1,14 @@
 ﻿using System;
 
-namespace Application.Common.Interfaces
+namespace Application.Common.Interfaces;
+
+/// <summary>
+///     DateTime interface
+/// </summary>
+public interface IDateTime
 {
     /// <summary>
-    ///     DateTime interface
+    ///     Current date time
     /// </summary>
-    public interface IDateTime
-    {
-        /// <summary>
-        ///     Current date time
-        /// </summary>
-        DateTime Now { get; }
-    }
+    DateTime Now { get; }
 }

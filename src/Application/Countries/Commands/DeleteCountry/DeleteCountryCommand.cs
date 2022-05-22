@@ -1,16 +1,15 @@
 ﻿using System;
 using MediatR;
 
-namespace Application.Countries.Commands.DeleteCountry
+namespace Application.Countries.Commands.DeleteCountry;
+
+/// <summary>
+///     Delete country command
+/// </summary>
+public class DeleteCountryCommand : IRequest
 {
     /// <summary>
-    ///     Delete country command
+    ///     Country ID
     /// </summary>
-    public class DeleteCountryCommand : IRequest
-    {
-        /// <summary>
-        ///     Country ID
-        /// </summary>
-        public Guid CountryId { get; init; }
-    }
+    public Guid CountryId { get; init; }
 }

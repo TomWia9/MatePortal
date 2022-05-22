@@ -5,44 +5,43 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.YerbaMates.Commands.DeleteYerbaMate
+namespace Application.YerbaMates.Commands.DeleteYerbaMate;
+
+/// <summary>
+///     Delete yerba mate handler
+/// </summary>
+public class DeleteYerbaMateHandler : IRequestHandler<DeleteYerbaMateCommand>
 {
     /// <summary>
-    ///     Delete yerba mate handler
+    ///     Database context
     /// </summary>
-    public class DeleteYerbaMateHandler : IRequestHandler<DeleteYerbaMateCommand>
+    private readonly IApplicationDbContext _context;
+
+    /// <summary>
+    ///     Initializes DeleteYerbaMateHandler
+    /// </summary>
+    /// <param name="context">Database context</param>
+    public DeleteYerbaMateHandler(IApplicationDbContext context)
     {
-        /// <summary>
-        ///     Database context
-        /// </summary>
-        private readonly IApplicationDbContext _context;
+        _context = context;
+    }
 
-        /// <summary>
-        ///     Initializes DeleteYerbaMateHandler
-        /// </summary>
-        /// <param name="context">Database context</param>
-        public DeleteYerbaMateHandler(IApplicationDbContext context)
-        {
-            _context = context;
-        }
+    /// <summary>
+    ///     Handles deleting yerba mate
+    /// </summary>
+    /// <param name="request">Delete yerba mate request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <exception cref="NotFoundException">Thrown when yerba mate is not found</exception>
+    public async Task<Unit> Handle(DeleteYerbaMateCommand request, CancellationToken cancellationToken)
+    {
+        var entity = await _context.YerbaMate.FindAsync(request.YerbaMateId);
 
-        /// <summary>
-        ///     Handles deleting yerba mate
-        /// </summary>
-        /// <param name="request">Delete yerba mate request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <exception cref="NotFoundException">Thrown when yerba mate is not found</exception>
-        public async Task<Unit> Handle(DeleteYerbaMateCommand request, CancellationToken cancellationToken)
-        {
-            var entity = await _context.YerbaMate.FindAsync(request.YerbaMateId);
+        if (entity == null) throw new NotFoundException(nameof(YerbaMate), request.YerbaMateId);
 
-            if (entity == null) throw new NotFoundException(nameof(YerbaMate), request.YerbaMateId);
+        _context.YerbaMate.Remove(entity);
 
-            _context.YerbaMate.Remove(entity);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

@@ -15,160 +15,159 @@ using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Services;
+
+/// <summary>
+///     Users service
+/// </summary>
+public class UsersService : IUsersService
 {
     /// <summary>
-    ///     Users service
+    ///     Database context
     /// </summary>
-    public class UsersService : IUsersService
+    private readonly ApplicationDbContext _context;
+
+    /// <summary>
+    ///     Sort service
+    /// </summary>
+    private readonly ISortService<ApplicationUser> _sortService;
+
+    /// <summary>
+    ///     User manager
+    /// </summary>
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    /// <summary>
+    ///     Initializes UsersService
+    /// </summary>
+    /// <param name="userManager">User manager</param>
+    /// <param name="context">Database context</param>
+    /// <param name="sortService">Sort service</param>
+    public UsersService(UserManager<ApplicationUser> userManager, ApplicationDbContext context,
+        ISortService<ApplicationUser> sortService)
     {
-        /// <summary>
-        ///     Database context
-        /// </summary>
-        private readonly ApplicationDbContext _context;
+        _userManager = userManager;
+        _context = context;
+        _sortService = sortService;
+    }
 
-        /// <summary>
-        ///     Sort service
-        /// </summary>
-        private readonly ISortService<ApplicationUser> _sortService;
+    /// <summary>
+    ///     Updates user
+    /// </summary>
+    /// <param name="request">Update user command</param>
+    public async Task UpdateUserAsync(UpdateUserCommand request)
+    {
+        var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+        user.UserName = request.Username;
+        await _userManager.UpdateAsync(user);
+        await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+    }
 
-        /// <summary>
-        ///     User manager
-        /// </summary>
-        private readonly UserManager<ApplicationUser> _userManager;
+    /// <summary>
+    ///     Deletes user
+    /// </summary>
+    /// <param name="request">Delete user command</param>
+    /// <param name="adminAccess">Administrator access</param>
+    public async Task DeleteUserAsync(DeleteUserCommand request, bool adminAccess)
+    {
+        var user = await _userManager.FindByIdAsync(request.UserId.ToString());
 
-        /// <summary>
-        ///     Initializes UsersService
-        /// </summary>
-        /// <param name="userManager">User manager</param>
-        /// <param name="context">Database context</param>
-        /// <param name="sortService">Sort service</param>
-        public UsersService(UserManager<ApplicationUser> userManager, ApplicationDbContext context,
-            ISortService<ApplicationUser> sortService)
+        if (!adminAccess && !await _userManager.CheckPasswordAsync(user, request.Password))
+            throw new ForbiddenAccessException();
+
+        await _userManager.DeleteAsync(user);
+    }
+
+    /// <summary>
+    ///     Gets user
+    /// </summary>
+    /// <param name="request">Get user query</param>
+    /// <exception cref="NotFoundException">Throws when user is not found</exception>
+    public async Task<UserDto> GetUserAsync(GetUserQuery request)
+    {
+        var user = await _context.Users.FindAsync(request.UserId);
+
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+
+        var userRoles = await _userManager.GetRolesAsync(user);
+
+        return new UserDto
         {
-            _userManager = userManager;
-            _context = context;
-            _sortService = sortService;
+            Id = user.Id,
+            Email = user.Email,
+            Username = user.UserName,
+            Role = userRoles.FirstOrDefault()
+        };
+    }
+
+    /// <summary>
+    ///     Gets users
+    /// </summary>
+    /// <param name="request">Get users query</param>
+    public async Task<PaginatedList<UserDto>> GetUsersAsync(GetUsersQuery request)
+    {
+        var collection = _context.Users.AsQueryable();
+
+        //filtering
+        if (!string.IsNullOrEmpty(request.Parameters.Role))
+        {
+            var usersInRole = await _userManager.GetUsersInRoleAsync(request.Parameters.Role);
+            collection = usersInRole.AsQueryable();
         }
 
-        /// <summary>
-        ///     Updates user
-        /// </summary>
-        /// <param name="request">Update user command</param>
-        public async Task UpdateUserAsync(UpdateUserCommand request)
+        //searching
+        if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
         {
-            var user = await _userManager.FindByIdAsync(request.UserId.ToString());
-            user.UserName = request.Username;
-            await _userManager.UpdateAsync(user);
-            await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+            var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
+
+            collection = collection.Where(u => u.Email.ToLower().Contains(searchQuery)
+                                               || u.UserName.ToLower().Contains(searchQuery));
         }
 
-        /// <summary>
-        ///     Deletes user
-        /// </summary>
-        /// <param name="request">Delete user command</param>
-        /// <param name="adminAccess">Administrator access</param>
-        public async Task DeleteUserAsync(DeleteUserCommand request, bool adminAccess)
+        //sorting
+        if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
         {
-            var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+            var sortingColumns = new Dictionary<string, Expression<Func<ApplicationUser, object>>>
+            {
+                {nameof(ApplicationUser.UserName), u => u.UserName},
+                {nameof(ApplicationUser.Email), u => u.Email}
+            };
 
-            if (!adminAccess && !await _userManager.CheckPasswordAsync(user, request.Password))
-                throw new ForbiddenAccessException();
-
-            await _userManager.DeleteAsync(user);
+            collection = _sortService.Sort(collection, request.Parameters.SortBy,
+                request.Parameters.SortDirection, sortingColumns);
+        }
+        else
+        {
+            collection = collection.OrderBy(u => u.Email);
         }
 
-        /// <summary>
-        ///     Gets user
-        /// </summary>
-        /// <param name="request">Get user query</param>
-        /// <exception cref="NotFoundException">Throws when user is not found</exception>
-        public async Task<UserDto> GetUserAsync(GetUserQuery request)
+        var mappedUsers = await MapUsers(collection);
+        return new PaginatedList<UserDto>(mappedUsers, mappedUsers.Count,
+            request.Parameters.PageNumber,
+            request.Parameters.PageSize);
+    }
+
+    /// <summary>
+    ///     Maps collection of ApplicationUser to the list of UserDto
+    /// </summary>
+    /// <param name="users">The ApplicationUser collection</param>
+    /// <returns>List of UserDto</returns>
+    private async Task<IList<UserDto>> MapUsers(IEnumerable<ApplicationUser> users)
+    {
+        var mappedUsers = new List<UserDto>();
+
+        foreach (var user in users)
         {
-            var user = await _context.Users.FindAsync(request.UserId);
-
-            if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
-
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            return new UserDto
+            var userRole = await _userManager.GetRolesAsync(user);
+            mappedUsers.Add(new UserDto
             {
                 Id = user.Id,
                 Email = user.Email,
                 Username = user.UserName,
-                Role = userRoles.FirstOrDefault()
-            };
+                Role = userRole.FirstOrDefault()
+            });
         }
 
-        /// <summary>
-        ///     Gets users
-        /// </summary>
-        /// <param name="request">Get users query</param>
-        public async Task<PaginatedList<UserDto>> GetUsersAsync(GetUsersQuery request)
-        {
-            var collection = _context.Users.AsQueryable();
-
-            //filtering
-            if (!string.IsNullOrEmpty(request.Parameters.Role))
-            {
-                var usersInRole = await _userManager.GetUsersInRoleAsync(request.Parameters.Role);
-                collection = usersInRole.AsQueryable();
-            }
-
-            //searching
-            if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
-            {
-                var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
-
-                collection = collection.Where(u => u.Email.ToLower().Contains(searchQuery)
-                                                   || u.UserName.ToLower().Contains(searchQuery));
-            }
-
-            //sorting
-            if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
-            {
-                var sortingColumns = new Dictionary<string, Expression<Func<ApplicationUser, object>>>
-                {
-                    {nameof(ApplicationUser.UserName), u => u.UserName},
-                    {nameof(ApplicationUser.Email), u => u.Email}
-                };
-
-                collection = _sortService.Sort(collection, request.Parameters.SortBy,
-                    request.Parameters.SortDirection, sortingColumns);
-            }
-            else
-            {
-                collection = collection.OrderBy(u => u.Email);
-            }
-            
-            var mappedUsers = await MapUsers(collection);
-            return new PaginatedList<UserDto>(mappedUsers, mappedUsers.Count,
-                request.Parameters.PageNumber,
-                request.Parameters.PageSize);
-        }
-
-        /// <summary>
-        /// Maps collection of ApplicationUser to the list of UserDto
-        /// </summary>
-        /// <param name="users">The ApplicationUser collection</param>
-        /// <returns>List of UserDto</returns>
-        private async Task<IList<UserDto>> MapUsers(IEnumerable<ApplicationUser> users)
-        {
-            var mappedUsers = new List<UserDto>();
-
-            foreach (var user in users)
-            {
-                var userRole = await _userManager.GetRolesAsync(user);
-                mappedUsers.Add(new UserDto()
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    Username = user.UserName,
-                    Role = userRole.FirstOrDefault()
-                });
-            }
-
-            return mappedUsers;
-        }
+        return mappedUsers;
     }
 }

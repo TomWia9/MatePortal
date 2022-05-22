@@ -8,60 +8,59 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Categories.Commands.CreateCategory
+namespace Application.Categories.Commands.CreateCategory;
+
+/// <summary>
+///     Create category handler
+/// </summary>
+public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, CategoryDto>
 {
     /// <summary>
-    ///     Create category handler
+    ///     Database context
     /// </summary>
-    public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, CategoryDto>
+    private readonly IApplicationDbContext _context;
+
+    /// <summary>
+    ///     The mapper
+    /// </summary>
+    private readonly IMapper _mapper;
+
+    /// <summary>
+    ///     Initializes CreateCategoryHandler
+    /// </summary>
+    /// <param name="context">Database context</param>
+    /// <param name="mapper">The mapper</param>
+    public CreateCategoryHandler(IApplicationDbContext context, IMapper mapper)
     {
-        /// <summary>
-        ///     Database context
-        /// </summary>
-        private readonly IApplicationDbContext _context;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        /// <summary>
-        ///     The mapper
-        /// </summary>
-        private readonly IMapper _mapper;
-
-        /// <summary>
-        ///     Initializes CreateCategoryHandler
-        /// </summary>
-        /// <param name="context">Database context</param>
-        /// <param name="mapper">The mapper</param>
-        public CreateCategoryHandler(IApplicationDbContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
-
-        /// <summary>
-        ///     Handles creating category
-        /// </summary>
-        /// <param name="request">The create category request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Category data transfer object</returns>
-        /// <exception cref="ConflictException">Thrown when category conflicts with another category</exception>
-        public async Task<CategoryDto> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
-        {
-            if (await _context.Categories.AnyAsync(b => b.Name == request.Name,
+    /// <summary>
+    ///     Handles creating category
+    /// </summary>
+    /// <param name="request">The create category request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Category data transfer object</returns>
+    /// <exception cref="ConflictException">Thrown when category conflicts with another category</exception>
+    public async Task<CategoryDto> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+    {
+        if (await _context.Categories.AnyAsync(b => b.Name == request.Name,
                 cancellationToken))
-                throw new ConflictException();
+            throw new ConflictException();
 
-            var entity = new Category
-            {
-                Name = request.Name,
-                Description = request.Description
-            };
+        var entity = new Category
+        {
+            Name = request.Name,
+            Description = request.Description
+        };
 
-            //entity.DomainEvents.Add(new CategoryCreatedEvent(entity));
-            _context.Categories.Add(entity);
-            await _context.SaveChangesAsync(cancellationToken);
+        //entity.DomainEvents.Add(new CategoryCreatedEvent(entity));
+        _context.Categories.Add(entity);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            var brandDto = _mapper.Map<CategoryDto>(entity);
+        var brandDto = _mapper.Map<CategoryDto>(entity);
 
-            return brandDto;
-        }
+        return brandDto;
     }
 }

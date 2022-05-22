@@ -1,25 +1,24 @@
 ﻿using System;
 using MediatR;
 
-namespace Application.Brands.Queries.GetBrand
+namespace Application.Brands.Queries.GetBrand;
+
+/// <summary>
+///     Get single brand query
+/// </summary>
+public class GetBrandQuery : IRequest<BrandDto>
 {
     /// <summary>
-    ///     Get single brand query
+    ///     Initializes GetBrandQuery
     /// </summary>
-    public class GetBrandQuery : IRequest<BrandDto>
+    /// <param name="brandId">Brand ID</param>
+    public GetBrandQuery(Guid brandId)
     {
-        /// <summary>
-        ///     Initializes GetBrandQuery
-        /// </summary>
-        /// <param name="brandId">Brand ID</param>
-        public GetBrandQuery(Guid brandId)
-        {
-            BrandId = brandId;
-        }
-
-        /// <summary>
-        ///     Brand ID
-        /// </summary>
-        public Guid BrandId { get; }
+        BrandId = brandId;
     }
+
+    /// <summary>
+    ///     Brand ID
+    /// </summary>
+    public Guid BrandId { get; }
 }

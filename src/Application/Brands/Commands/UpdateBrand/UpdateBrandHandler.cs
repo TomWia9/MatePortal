@@ -6,55 +6,54 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Brands.Commands.UpdateBrand
+namespace Application.Brands.Commands.UpdateBrand;
+
+/// <summary>
+///     Update brand handler
+/// </summary>
+public class UpdateBrandHandler : IRequestHandler<UpdateBrandCommand>
 {
     /// <summary>
-    ///     Update brand handler
+    ///     Database context
     /// </summary>
-    public class UpdateBrandHandler : IRequestHandler<UpdateBrandCommand>
+    private readonly IApplicationDbContext _context;
+
+    /// <summary>
+    ///     Initializes UpdateBrandHandler
+    /// </summary>
+    /// <param name="context">Database context</param>
+    public UpdateBrandHandler(IApplicationDbContext context)
     {
-        /// <summary>
-        ///     Database context
-        /// </summary>
-        private readonly IApplicationDbContext _context;
+        _context = context;
+    }
 
-        /// <summary>
-        ///     Initializes UpdateBrandHandler
-        /// </summary>
-        /// <param name="context">Database context</param>
-        public UpdateBrandHandler(IApplicationDbContext context)
-        {
-            _context = context;
-        }
+    /// <summary>
+    ///     Handles updating brand
+    /// </summary>
+    /// <param name="request">Update brand request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <exception cref="NotFoundException">Thrown when brand or updated country is not found</exception>
+    /// <exception cref="ConflictException">Thrown when brand conflicts with another brand</exception>
+    public async Task<Unit> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
+    {
+        var entity = await _context.Brands.FindAsync(request.BrandId);
 
-        /// <summary>
-        ///     Handles updating brand
-        /// </summary>
-        /// <param name="request">Update brand request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <exception cref="NotFoundException">Thrown when brand or updated country is not found</exception>
-        /// <exception cref="ConflictException">Thrown when brand conflicts with another brand</exception>
-        public async Task<Unit> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
-        {
-            var entity = await _context.Brands.FindAsync(request.BrandId);
+        if (entity == null) throw new NotFoundException(nameof(Brand), request.BrandId);
 
-            if (entity == null) throw new NotFoundException(nameof(Brand), request.BrandId);
-
-            if (await _context.Brands.AnyAsync(b => b.Name == request.Name && entity.Name == request.Name,
+        if (await _context.Brands.AnyAsync(b => b.Name == request.Name && entity.Name == request.Name,
                 cancellationToken))
-                throw new ConflictException();
+            throw new ConflictException();
 
-            if (!await _context.Countries.AnyAsync(c => c.Id == request.CountryId,
+        if (!await _context.Countries.AnyAsync(c => c.Id == request.CountryId,
                 cancellationToken))
-                throw new NotFoundException(nameof(Country), request.CountryId);
+            throw new NotFoundException(nameof(Country), request.CountryId);
 
-            entity.Name = request.Name;
-            entity.Description = request.Description;
-            entity.CountryId = request.CountryId;
+        entity.Name = request.Name;
+        entity.Description = request.Description;
+        entity.CountryId = request.CountryId;
 
-            await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

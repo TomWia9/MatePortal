@@ -5,23 +5,22 @@ using Application.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;
 
-namespace Application.IntegrationTests.Categories.Queries
+namespace Application.IntegrationTests.Categories.Queries;
+
+/// <summary>
+///     Get categories tests
+/// </summary>
+public class GetCategories : IntegrationTest
 {
     /// <summary>
-    ///     Get categories tests
+    ///     Get categories should return all categories
     /// </summary>
-    public class GetCategories : IntegrationTest
+    [Fact]
+    public async Task ShouldReturnAllCategories()
     {
-        /// <summary>
-        ///     Get categories should return all categories
-        /// </summary>
-        [Fact]
-        public async Task ShouldReturnAllCategories()
-        {
-            await TestSeeder.SeedTestCategoriesAsync(_factory);
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
 
-            var response = await _mediator.Send(new GetCategoriesQuery());
-            response.Count().Should().Be(2);
-        }
+        var response = await Mediator.Send(new GetCategoriesQuery());
+        response.Count().Should().Be(2);
     }
 }

@@ -5,55 +5,54 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Opinions.Commands.DeleteOpinion
+namespace Application.Opinions.Commands.DeleteOpinion;
+
+/// <summary>
+///     Delete yerba mate opinion handler
+/// </summary>
+public class DeleteOpinionHandler : IRequestHandler<DeleteOpinionCommand>
 {
     /// <summary>
-    ///     Delete yerba mate opinion handler
+    ///     Database context
     /// </summary>
-    public class DeleteOpinionHandler : IRequestHandler<DeleteOpinionCommand>
+    private readonly IApplicationDbContext _context;
+
+    /// <summary>
+    ///     Current user service
+    /// </summary>
+    private readonly ICurrentUserService _currentUserService;
+
+    /// <summary>
+    ///     Initializes DeleteOpinionHandler
+    /// </summary>
+    /// <param name="context">Database context</param>
+    /// <param name="currentUserService">Current user service</param>
+    public DeleteOpinionHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
     {
-        /// <summary>
-        ///     Database context
-        /// </summary>
-        private readonly IApplicationDbContext _context;
+        _context = context;
+        _currentUserService = currentUserService;
+    }
 
-        /// <summary>
-        ///     Current user service
-        /// </summary>
-        private readonly ICurrentUserService _currentUserService;
+    /// <summary>
+    ///     Handles deleting yerba mate opinion
+    /// </summary>
+    /// <param name="request">Delete yerba mate opinion request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <exception cref="NotFoundException">Thrown when yerba mate opinion is not found</exception>
+    public async Task<Unit> Handle(DeleteOpinionCommand request, CancellationToken cancellationToken)
+    {
+        var entity = await _context.Opinions.FindAsync(request.OpinionId);
 
-        /// <summary>
-        ///     Initializes DeleteOpinionHandler
-        /// </summary>
-        /// <param name="context">Database context</param>
-        /// <param name="currentUserService">Current user service</param>
-        public DeleteOpinionHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
-        {
-            _context = context;
-            _currentUserService = currentUserService;
-        }
+        if (entity == null) throw new NotFoundException(nameof(Opinion), request.OpinionId);
 
-        /// <summary>
-        ///     Handles deleting yerba mate opinion
-        /// </summary>
-        /// <param name="request">Delete yerba mate opinion request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <exception cref="NotFoundException">Thrown when yerba mate opinion is not found</exception>
-        public async Task<Unit> Handle(DeleteOpinionCommand request, CancellationToken cancellationToken)
-        {
-            var entity = await _context.Opinions.FindAsync(request.OpinionId);
+        if (!_currentUserService.AdministratorAccess &&
+            entity.CreatedBy != _currentUserService.UserId)
+            throw new ForbiddenAccessException();
 
-            if (entity == null) throw new NotFoundException(nameof(Opinion), request.OpinionId);
+        _context.Opinions.Remove(entity);
 
-            if (!_currentUserService.AdministratorAccess &&
-                entity.CreatedBy != _currentUserService.UserId)
-                throw new ForbiddenAccessException();
+        await _context.SaveChangesAsync(cancellationToken);
 
-            _context.Opinions.Remove(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

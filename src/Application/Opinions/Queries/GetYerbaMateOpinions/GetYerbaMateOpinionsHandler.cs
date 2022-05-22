@@ -12,89 +12,88 @@ using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Opinions.Queries.GetYerbaMateOpinions
+namespace Application.Opinions.Queries.GetYerbaMateOpinions;
+
+/// <summary>
+///     Get yerba mate opinions handler
+/// </summary>
+public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQuery, PaginatedList<OpinionDto>>
 {
     /// <summary>
-    ///     Get yerba mate opinions handler
+    ///     Database context
     /// </summary>
-    public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQuery, PaginatedList<OpinionDto>>
+    private readonly IApplicationDbContext _context;
+
+    /// <summary>
+    ///     The mapper
+    /// </summary>
+    private readonly IMapper _mapper;
+
+    /// <summary>
+    ///     Sort service
+    /// </summary>
+    private readonly ISortService<Opinion> _sortService;
+
+    /// <summary>
+    ///     Initializes GetYerbaMateOpinionsHandler
+    /// </summary>
+    /// <param name="context">Database context</param>
+    /// <param name="mapper">The mapper</param>
+    /// <param name="sortService">Sort service</param>
+    public GetYerbaMateOpinionsHandler(IApplicationDbContext context,
+        IMapper mapper,
+        ISortService<Opinion> sortService)
     {
-        /// <summary>
-        ///     Database context
-        /// </summary>
-        private readonly IApplicationDbContext _context;
+        _context = context;
+        _mapper = mapper;
+        _sortService = sortService;
+    }
 
-        /// <summary>
-        ///     The mapper
-        /// </summary>
-        private readonly IMapper _mapper;
+    /// <summary>
+    ///     Handles getting yerba mate opinions
+    /// </summary>
+    /// <param name="request">Get yerba mate opinions request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Paginated list of opinion data transfer objects</returns>
+    /// <exception cref="ArgumentNullException">Thrown when parameters object is null</exception>
+    public async Task<PaginatedList<OpinionDto>> Handle(GetYerbaMateOpinionsQuery request,
+        CancellationToken cancellationToken)
+    {
+        if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
-        /// <summary>
-        ///     Sort service
-        /// </summary>
-        private readonly ISortService<Opinion> _sortService;
+        var collection = _context.Opinions.Where(o => o.YerbaMateId == request.YerbaMateId).AsQueryable();
 
-        /// <summary>
-        ///     Initializes GetYerbaMateOpinionsHandler
-        /// </summary>
-        /// <param name="context">Database context</param>
-        /// <param name="mapper">The mapper</param>
-        /// <param name="sortService">Sort service</param>
-        public GetYerbaMateOpinionsHandler(IApplicationDbContext context,
-            IMapper mapper,
-            ISortService<Opinion> sortService)
+        //filtering
+        collection = collection.Where(o =>
+            o.Rate >= request.Parameters.MinRate && o.Rate <= request.Parameters.MaxRate);
+
+        //searching
+        if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
         {
-            _context = context;
-            _mapper = mapper;
-            _sortService = sortService;
+            var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
+
+            collection = collection.Where(o => o.Comment.ToLower().Contains(searchQuery));
         }
 
-        /// <summary>
-        ///     Handles getting yerba mate opinions
-        /// </summary>
-        /// <param name="request">Get yerba mate opinions request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Paginated list of opinion data transfer objects</returns>
-        /// <exception cref="ArgumentNullException">Thrown when parameters object is null</exception>
-        public async Task<PaginatedList<OpinionDto>> Handle(GetYerbaMateOpinionsQuery request,
-            CancellationToken cancellationToken)
+        //sorting
+        if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
         {
-            if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
-
-            var collection = _context.Opinions.Where(o => o.YerbaMateId == request.YerbaMateId).AsQueryable();
-
-            //filtering
-            collection = collection.Where(o =>
-                o.Rate >= request.Parameters.MinRate && o.Rate <= request.Parameters.MaxRate);
-
-            //searching
-            if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
+            var sortingColumns = new Dictionary<string, Expression<Func<Opinion, object>>>
             {
-                var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
+                {nameof(Opinion.Created), o => o.Created},
+                {nameof(Opinion.Comment), o => o.Comment},
+                {nameof(Opinion.Rate), o => o.Rate}
+            };
 
-                collection = collection.Where(o => o.Comment.ToLower().Contains(searchQuery));
-            }
-
-            //sorting
-            if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
-            {
-                var sortingColumns = new Dictionary<string, Expression<Func<Opinion, object>>>
-                {
-                    {nameof(Opinion.Created), o => o.Created},
-                    {nameof(Opinion.Comment), o => o.Comment},
-                    {nameof(Opinion.Rate), o => o.Rate}
-                };
-
-                collection = _sortService.Sort(collection, request.Parameters.SortBy,
-                    request.Parameters.SortDirection, sortingColumns);
-            }
-            else
-            {
-                collection = collection.OrderBy(o => o.Created);
-            }
-
-            return await collection.ProjectTo<OpinionDto>(_mapper.ConfigurationProvider)
-                .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+            collection = _sortService.Sort(collection, request.Parameters.SortBy,
+                request.Parameters.SortDirection, sortingColumns);
         }
+        else
+        {
+            collection = collection.OrderBy(o => o.Created);
+        }
+
+        return await collection.ProjectTo<OpinionDto>(_mapper.ConfigurationProvider)
+            .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
     }
 }

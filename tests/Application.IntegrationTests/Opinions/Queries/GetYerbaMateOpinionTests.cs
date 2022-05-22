@@ -7,48 +7,47 @@ using Application.Opinions.Queries.GetYerbaMateOpinion;
 using FluentAssertions;
 using Xunit;
 
-namespace Application.IntegrationTests.Opinions.Queries
+namespace Application.IntegrationTests.Opinions.Queries;
+
+/// <summary>
+///     Get single yerba mate opinion tests
+/// </summary>
+public class GetYerbaMateOpinionTests : IntegrationTest
 {
     /// <summary>
-    ///     Get single yerba mate opinion tests
+    ///     Get yerba mate opinion command should return correct opinion data transfer object
     /// </summary>
-    public class GetYerbaMateOpinionTests : IntegrationTest
+    [Fact]
+    public async Task ShouldReturnCorrectOpinion()
     {
-        /// <summary>
-        ///     Get yerba mate opinion command should return correct opinion data transfer object
-        /// </summary>
-        [Fact]
-        public async Task ShouldReturnCorrectOpinion()
+        await TestSeeder.SeedTestOpinionsAsync(Factory);
+
+        var opinionId = Guid.Parse("EB2BB300-A4FF-486C-AB64-4EF0A7DB527F"); //id of one of seeded opinion
+
+        var expectedResult = new OpinionDto
         {
-            await TestSeeder.SeedTestOpinionsAsync(_factory);
+            Id = opinionId,
+            Rate = 10,
+            Comment = "Comment 1"
+        };
 
-            var opinionId = Guid.Parse("EB2BB300-A4FF-486C-AB64-4EF0A7DB527F"); //id of one of seeded opinion
+        var response = await Mediator.Send(new GetYerbaMateOpinionQuery(opinionId));
 
-            var expectedResult = new OpinionDto
-            {
-                Id = opinionId,
-                Rate = 10,
-                Comment = "Comment 1"
-            };
+        response.Should().BeOfType<OpinionDto>();
+        response.Id.Should().Be(opinionId);
+        response.Rate.Should().Be(expectedResult.Rate);
+        response.Comment.Should().Be(expectedResult.Comment);
+    }
 
-            var response = await _mediator.Send(new GetYerbaMateOpinionQuery(opinionId));
+    /// <summary>
+    ///     Get yerba mate opinion with incorrect id should throw not found exception
+    /// </summary>
+    [Fact]
+    public void GetYerbaMateOpinionWithIncorrectIdShouldThrowNotFound()
+    {
+        var yerbaMateOpinionId = Guid.Empty;
 
-            response.Should().BeOfType<OpinionDto>();
-            response.Id.Should().Be(opinionId);
-            response.Rate.Should().Be(expectedResult.Rate);
-            response.Comment.Should().Be(expectedResult.Comment);
-        }
-
-        /// <summary>
-        ///     Get yerba mate opinion with incorrect id should throw not found exception
-        /// </summary>
-        [Fact]
-        public void GetYerbaMateOpinionWithIncorrectIdShouldThrowNotFound()
-        {
-            var yerbaMateOpinionId = Guid.Empty;
-
-            FluentActions.Invoking(() =>
-                _mediator.Send(new GetYerbaMateOpinionQuery(yerbaMateOpinionId))).Should().Throw<NotFoundException>();
-        }
+        FluentActions.Invoking(() =>
+            Mediator.Send(new GetYerbaMateOpinionQuery(yerbaMateOpinionId))).Should().ThrowAsync<NotFoundException>();
     }
 }

@@ -2,32 +2,31 @@
 using Application.Common.Models;
 using MediatR;
 
-namespace Application.Opinions.Queries.GetYerbaMateOpinions
+namespace Application.Opinions.Queries.GetYerbaMateOpinions;
+
+/// <summary>
+///     Get all opinions about single yerba mate query
+/// </summary>
+public class GetYerbaMateOpinionsQuery : IRequest<PaginatedList<OpinionDto>>
 {
     /// <summary>
-    ///     Get all opinions about single yerba mate query
+    ///     Initializes GetYerbaMateOpinionsQuery
     /// </summary>
-    public class GetYerbaMateOpinionsQuery : IRequest<PaginatedList<OpinionDto>>
+    /// <param name="yerbaMateId">YerbaMate ID from which opinions can be obtained</param>
+    /// <param name="parameters">Opinions query parameters</param>
+    public GetYerbaMateOpinionsQuery(Guid yerbaMateId, OpinionsQueryParameters parameters)
     {
-        /// <summary>
-        ///     Initializes GetYerbaMateOpinionsQuery
-        /// </summary>
-        /// <param name="yerbaMateId">YerbaMate ID from which opinions can be obtained</param>
-        /// <param name="parameters">Opinions query parameters</param>
-        public GetYerbaMateOpinionsQuery(Guid yerbaMateId, OpinionsQueryParameters parameters)
-        {
-            YerbaMateId = yerbaMateId;
-            Parameters = parameters;
-        }
-
-        /// <summary>
-        ///     YerbaMate ID from which opinions can be obtained
-        /// </summary>
-        public Guid YerbaMateId { get; }
-
-        /// <summary>
-        ///     Opinions query parameters
-        /// </summary>
-        public OpinionsQueryParameters Parameters { get; }
+        YerbaMateId = yerbaMateId;
+        Parameters = parameters;
     }
+
+    /// <summary>
+    ///     YerbaMate ID from which opinions can be obtained
+    /// </summary>
+    public Guid YerbaMateId { get; }
+
+    /// <summary>
+    ///     Opinions query parameters
+    /// </summary>
+    public OpinionsQueryParameters Parameters { get; }
 }

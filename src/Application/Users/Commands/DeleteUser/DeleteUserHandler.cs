@@ -3,44 +3,43 @@ using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.Users.Commands.DeleteUser
+namespace Application.Users.Commands.DeleteUser;
+
+/// <summary>
+///     Delete user handler
+/// </summary>
+public class DeleteUserHandler : IRequestHandler<DeleteUserCommand>
 {
     /// <summary>
-    ///     Delete user handler
+    ///     Current user service
     /// </summary>
-    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand>
+    private readonly ICurrentUserService _currentUserService;
+
+    /// <summary>
+    ///     User service
+    /// </summary>
+    private readonly IUsersService _userService;
+
+    /// <summary>
+    ///     Initializes DeleteUserHandler
+    /// </summary>
+    /// <param name="userService">User service</param>
+    /// <param name="currentUserService">Current user service</param>
+    public DeleteUserHandler(IUsersService userService, ICurrentUserService currentUserService)
     {
-        /// <summary>
-        ///     Current user service
-        /// </summary>
-        private readonly ICurrentUserService _currentUserService;
+        _userService = userService;
+        _currentUserService = currentUserService;
+    }
 
-        /// <summary>
-        ///     User service
-        /// </summary>
-        private readonly IUsersService _userService;
+    /// <summary>
+    ///     Handles deleting user
+    /// </summary>
+    /// <param name="request">The delete user request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    {
+        await _userService.DeleteUserAsync(request, _currentUserService.AdministratorAccess);
 
-        /// <summary>
-        ///     Initializes DeleteUserHandler
-        /// </summary>
-        /// <param name="userService">User service</param>
-        /// <param name="currentUserService">Current user service</param>
-        public DeleteUserHandler(IUsersService userService, ICurrentUserService currentUserService)
-        {
-            _userService = userService;
-            _currentUserService = currentUserService;
-        }
-
-        /// <summary>
-        ///     Handles deleting user
-        /// </summary>
-        /// <param name="request">The delete user request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
-        {
-            await _userService.DeleteUserAsync(request, _currentUserService.AdministratorAccess);
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

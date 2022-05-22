@@ -1,25 +1,24 @@
 ﻿using Application.Common.Models;
 using MediatR;
 
-namespace Application.Brands.Queries.GetBrands
+namespace Application.Brands.Queries.GetBrands;
+
+/// <summary>
+///     Get all brands query
+/// </summary>
+public class GetBrandsQuery : IRequest<PaginatedList<BrandDto>>
 {
     /// <summary>
-    ///     Get all brands query
+    ///     Initializes GetBrandsQuery
     /// </summary>
-    public class GetBrandsQuery : IRequest<PaginatedList<BrandDto>>
+    /// <param name="parameters">Brands query parameters</param>
+    public GetBrandsQuery(BrandsQueryParameters parameters)
     {
-        /// <summary>
-        ///     Initializes GetBrandsQuery
-        /// </summary>
-        /// <param name="parameters">Brands query parameters</param>
-        public GetBrandsQuery(BrandsQueryParameters parameters)
-        {
-            Parameters = parameters;
-        }
-
-        /// <summary>
-        ///     Brands query parameters
-        /// </summary>
-        public BrandsQueryParameters Parameters { get; }
+        Parameters = parameters;
     }
+
+    /// <summary>
+    ///     Brands query parameters
+    /// </summary>
+    public BrandsQueryParameters Parameters { get; }
 }

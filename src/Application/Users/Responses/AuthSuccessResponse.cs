@@ -1,13 +1,12 @@
-﻿namespace Application.Users.Responses
+﻿namespace Application.Users.Responses;
+
+/// <summary>
+///     Auth success response
+/// </summary>
+public class AuthSuccessResponse : IAuthResponse
 {
     /// <summary>
-    ///     Auth success response
+    ///     Authentication token
     /// </summary>
-    public class AuthSuccessResponse : IAuthResponse
-    {
-        /// <summary>
-        ///     Authentication token
-        /// </summary>
-        public string Token { get; set; }
-    }
+    public string Token { get; set; }
 }
