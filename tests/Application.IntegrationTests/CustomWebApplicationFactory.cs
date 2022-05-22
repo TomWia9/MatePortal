@@ -71,7 +71,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
             services.Remove(applicationDbContextDescriptor);
             services.AddDbContext<ApplicationDbContext>(options => { options.UseInMemoryDatabase(_databaseName); });
-            
+
             var sp = services.BuildServiceProvider();
 
             using var scope = sp.CreateScope();

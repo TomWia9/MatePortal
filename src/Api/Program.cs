@@ -54,11 +54,10 @@ try
 {
     Log.Information("Starting up");
 
-
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        
+
         if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
         {
             await context.Database.MigrateAsync();
@@ -79,4 +78,6 @@ finally
     Log.CloseAndFlush();
 }
 
-public partial class Program { }
+public partial class Program
+{
+}
