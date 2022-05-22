@@ -26,6 +26,7 @@ public abstract class IntegrationTest : IDisposable
     protected IntegrationTest()
     {
         Factory = new CustomWebApplicationFactory();
+        Factory.CreateClient();
 
         //Creates mediator service
         var scope = Factory.Services.CreateScope();
