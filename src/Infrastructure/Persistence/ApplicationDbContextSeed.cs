@@ -91,22 +91,26 @@ public static class ApplicationDbContextSeed
             new()
             {
                 Id = Guid.Parse("A42066F2-2998-47DC-A193-FF4C4080056F"),
-                Name = "Paraguay"
+                Name = "Paraguay",
+                Description = "Paraguay description"
             },
             new()
             {
                 Id = Guid.Parse("68E2E690-B2F4-44AE-A21F-756922E25163"),
-                Name = "Argentina"
+                Name = "Argentina",
+                Description = "Argentina description"
             },
             new()
             {
                 Id = Guid.Parse("C08D5B41-C678-421B-9500-93D22004F9CF"),
-                Name = "Uruguay"
+                Name = "Uruguay",
+                Description = "Uruguay description"
             },
             new()
             {
                 Id = Guid.Parse("A7BBB4DA-12D5-4227-B6BA-690ECF40CD86"),
-                Name = "Brazil"
+                Name = "Brazil",
+                Description = "Brazil description"
             }
         };
     }
