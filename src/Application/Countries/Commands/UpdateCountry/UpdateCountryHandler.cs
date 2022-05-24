@@ -45,6 +45,7 @@ public class UpdateCountryHandler : IRequestHandler<UpdateCountryCommand>
             throw new ConflictException();
 
         entity.Name = request.Name;
+        entity.Description = request.Description;
 
         await _context.SaveChangesAsync(cancellationToken);
 
