@@ -24,7 +24,8 @@ public class GetCountryTests : IntegrationTest
         var expectedResult = new CountryDto
         {
             Id = countryId,
-            Name = "Brazil"
+            Name = "Brazil",
+            Description = "Brazil description"
         };
 
         var response = await Mediator.Send(new GetCountryQuery(countryId));
