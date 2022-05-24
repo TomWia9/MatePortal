@@ -19,5 +19,6 @@ public class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.HasMany(c => c.Brands).WithOne(b => b.Country);
 
         builder.Property(c => c.Name).HasMaxLength(50);
+        builder.Property(c => c.Description).HasMaxLength(1000);
     }
 }
