@@ -51,7 +51,8 @@ public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, Countr
 
         var entity = new Country
         {
-            Name = request.Name
+            Name = request.Name,
+            Description = request.Description
         };
 
         //entity.DomainEvents.Add(new CountryCreatedEvent(entity));

@@ -43,7 +43,8 @@ public class UpdateCountryTests : IntegrationTest
         var command = new UpdateCountryCommand
         {
             CountryId = countryId,
-            Name = "Updated country"
+            Name = "Updated country",
+            Description = "Updated description"
         };
 
         await Mediator.Send(command);
@@ -51,5 +52,6 @@ public class UpdateCountryTests : IntegrationTest
         var item = await DbHelper.FindAsync<Country>(Factory, countryId);
 
         item.Name.Should().Be(command.Name);
+        item.Description.Should().Be(command.Description);
     }
 }

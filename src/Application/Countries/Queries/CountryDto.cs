@@ -18,4 +18,9 @@ public class CountryDto : IMapFrom<Country>
     ///     Country name
     /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    ///     Country description
+    /// </summary>
+    public string Description { get; set; }
 }

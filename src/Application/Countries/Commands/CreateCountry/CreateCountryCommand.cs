@@ -12,4 +12,9 @@ public class CreateCountryCommand : IRequest<CountryDto>
     ///     Country name
     /// </summary>
     public string Name { get; init; }
+
+    /// <summary>
+    ///     Country description
+    /// </summary>
+    public string Description { get; init; }
 }

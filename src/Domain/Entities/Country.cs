@@ -17,7 +17,11 @@ public class Country
     ///     The country name
     /// </summary>
     public string Name { get; set; }
-    // TODO Add description to Country
+
+    /// <summary>
+    ///     The country description
+    /// </summary>
+    public string Description { get; set; }
 
     /// <summary>
     ///     The country brands
