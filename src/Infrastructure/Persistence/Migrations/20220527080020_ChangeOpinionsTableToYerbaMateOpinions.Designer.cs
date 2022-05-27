@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220527080020_ChangeOpinionsTableToYerbaMateOpinions")]
+    partial class ChangeOpinionsTableToYerbaMateOpinions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +59,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
@@ -90,7 +92,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Domain.Entities.Country", b =>
@@ -109,7 +111,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("Domain.Entities.Favourite", b =>
@@ -137,7 +139,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("YerbaMateId");
 
-                    b.ToTable("Favourites", (string)null);
+                    b.ToTable("Favourites");
                 });
 
             modelBuilder.Entity("Domain.Entities.Shop", b =>
@@ -170,7 +172,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Shops", (string)null);
+                    b.ToTable("Shops");
                 });
 
             modelBuilder.Entity("Domain.Entities.ShopOpinion", b =>
@@ -206,7 +208,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ShopId");
 
-                    b.ToTable("ShopOpinions", (string)null);
+                    b.ToTable("ShopOpinions");
                 });
 
             modelBuilder.Entity("Domain.Entities.YerbaMate", b =>
@@ -256,7 +258,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("YerbaMate", (string)null);
+                    b.ToTable("YerbaMate");
                 });
 
             modelBuilder.Entity("Domain.Entities.YerbaMateOpinion", b =>
@@ -292,7 +294,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("YerbaMateId");
 
-                    b.ToTable("YerbaMateOpinions", (string)null);
+                    b.ToTable("YerbaMateOpinions");
                 });
 
             modelBuilder.Entity("Infrastructure.Identity.ApplicationUser", b =>
