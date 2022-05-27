@@ -15,7 +15,7 @@ namespace Application.IntegrationTests.Opinions.Commands;
 /// <summary>
 ///     Create yerba mate opinion tests
 /// </summary>
-public class CreateOpinionTests : IntegrationTest
+public class CreateYerbaMateOpinionTests : IntegrationTest
 {
     /// <summary>
     ///     Create yerba mate opinion should create opinion and return yerba mate opinion data transfer object

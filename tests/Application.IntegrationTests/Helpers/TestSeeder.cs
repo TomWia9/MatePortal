@@ -72,13 +72,17 @@ public static class TestSeeder
         }
     }
 
-    public static async Task SeedTestOpinionsAsync(CustomWebApplicationFactory factory)
+    /// <summary>
+    /// Seed test yerba mate opinions
+    /// </summary>
+    /// <param name="factory">Web application factory</param>
+    public static async Task SeedTestYerbaMateOpinionsAsync(CustomWebApplicationFactory factory)
     {
         var context = DbHelper.GetDbContext(factory);
 
-        if (!await context.Opinions.AnyAsync())
+        if (!await context.YerbaMateOpinions.AnyAsync())
         {
-            await context.Opinions.AddRangeAsync(GetYerbaMateOpinions());
+            await context.YerbaMateOpinions.AddRangeAsync(GetYerbaMateOpinions());
             await context.SaveChangesAsync(CancellationToken.None);
         }
     }
@@ -258,9 +262,9 @@ public static class TestSeeder
     ///     Gets test yerba mate opinions
     /// </summary>
     /// <returns>List of test yerba mate opinions</returns>
-    private static IEnumerable<Opinion> GetYerbaMateOpinions()
+    private static IEnumerable<YerbaMateOpinion> GetYerbaMateOpinions()
     {
-        return new List<Opinion>
+        return new List<YerbaMateOpinion>
         {
             new()
             {
