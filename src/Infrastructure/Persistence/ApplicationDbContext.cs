@@ -73,7 +73,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     /// <summary>
     ///     User's yerba mate opinions DbSet
     /// </summary>
-    public DbSet<Opinion> Opinions { get; set; }
+    public DbSet<YerbaMateOpinion> YerbaMateOpinions { get; set; }
 
     /// <summary>
     ///     The YerbaMates DbSet

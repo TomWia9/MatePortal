@@ -33,7 +33,7 @@ public interface IApplicationDbContext
     /// <summary>
     ///     User's yerba mate opinions DbSet
     /// </summary>
-    DbSet<Opinion> Opinions { get; set; }
+    DbSet<YerbaMateOpinion> YerbaMateOpinions { get; set; }
 
     /// <summary>
     ///     The yerba mates DbSet

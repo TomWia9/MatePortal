@@ -1,11 +1,11 @@
 ﻿using Application.Common.QueryParameters;
 
-namespace Application.Opinions.Queries;
+namespace Application.YerbaMateOpinions.Queries;
 
 /// <summary>
-///     Opinions query parameters
+///     Yerba mate opinions query parameters
 /// </summary>
-public class OpinionsQueryParameters : QueryParameters
+public class YerbaMateOpinionsQueryParameters : QueryParameters
 {
     private readonly int _maxRate = 10;
     private readonly int _minRate = 1;

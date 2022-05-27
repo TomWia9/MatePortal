@@ -7,12 +7,12 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Opinions.Queries.GetYerbaMateOpinion;
+namespace Application.YerbaMateOpinions.Queries.GetYerbaMateOpinion;
 
 /// <summary>
 ///     Get single yerba mate opinion handler
 /// </summary>
-public class GetYerbaMateOpinionHandler : IRequestHandler<GetYerbaMateOpinionQuery, OpinionDto>
+public class GetYerbaMateOpinionHandler : IRequestHandler<GetYerbaMateOpinionQuery, YerbaMateOpinionDto>
 {
     /// <summary>
     ///     Database context
@@ -42,13 +42,13 @@ public class GetYerbaMateOpinionHandler : IRequestHandler<GetYerbaMateOpinionQue
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Opinion data transfer object</returns>
     /// <exception cref="NotFoundException">Throws when opinion is not found</exception>
-    public async Task<OpinionDto> Handle(GetYerbaMateOpinionQuery request, CancellationToken cancellationToken)
+    public async Task<YerbaMateOpinionDto> Handle(GetYerbaMateOpinionQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Opinions
+        var entity = await _context.YerbaMateOpinions
             .FirstOrDefaultAsync(o => o.Id == request.OpinionId, cancellationToken);
 
-        if (entity == null) throw new NotFoundException(nameof(Opinion), request.OpinionId);
+        if (entity == null) throw new NotFoundException(nameof(YerbaMateOpinion), request.OpinionId);
 
-        return _mapper.Map<OpinionDto>(entity);
+        return _mapper.Map<YerbaMateOpinionDto>(entity);
     }
 }

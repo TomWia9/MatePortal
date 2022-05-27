@@ -7,13 +7,13 @@ namespace Infrastructure.Persistence.Configurations;
 /// <summary>
 ///     Opinion configuration
 /// </summary>
-public class OpinionConfiguration : IEntityTypeConfiguration<Opinion>
+public class YerbaMateOpinionConfiguration : IEntityTypeConfiguration<YerbaMateOpinion>
 {
     /// <summary>
-    ///     Configures opinions
+    ///     Configures yerba mate opinions
     /// </summary>
     /// <param name="builder">Entity type builder</param>
-    public void Configure(EntityTypeBuilder<Opinion> builder)
+    public void Configure(EntityTypeBuilder<YerbaMateOpinion> builder)
     {
         builder.Ignore(o => o.DomainEvents);
 

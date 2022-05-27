@@ -12,12 +12,12 @@ using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Opinions.Queries.GetYerbaMateOpinions;
+namespace Application.YerbaMateOpinions.Queries.GetUserYerbaMateOpinions;
 
 /// <summary>
-///     Get yerba mate opinions handler
+///     Get user's yerba mate opinions handler
 /// </summary>
-public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQuery, PaginatedList<OpinionDto>>
+public class GetUserYerbaMateOpinionsHandler : IRequestHandler<GetUserYerbaMateOpinionsQuery, PaginatedList<YerbaMateOpinionDto>>
 {
     /// <summary>
     ///     Database context
@@ -32,17 +32,17 @@ public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQ
     /// <summary>
     ///     Sort service
     /// </summary>
-    private readonly ISortService<Opinion> _sortService;
+    private readonly ISortService<YerbaMateOpinion> _sortService;
 
     /// <summary>
-    ///     Initializes GetYerbaMateOpinionsHandler
+    ///     Initializes GetUsersYerbaMateOpinionsHandler
     /// </summary>
     /// <param name="context">Database context</param>
     /// <param name="mapper">The mapper</param>
     /// <param name="sortService">Sort service</param>
-    public GetYerbaMateOpinionsHandler(IApplicationDbContext context,
+    public GetUserYerbaMateOpinionsHandler(IApplicationDbContext context,
         IMapper mapper,
-        ISortService<Opinion> sortService)
+        ISortService<YerbaMateOpinion> sortService)
     {
         _context = context;
         _mapper = mapper;
@@ -50,22 +50,23 @@ public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQ
     }
 
     /// <summary>
-    ///     Handles getting yerba mate opinions
+    ///     Handles getting user's yerba mate opinions
     /// </summary>
-    /// <param name="request">Get yerba mate opinions request</param>
+    /// <param name="request">Get user's yerba mate opinions request</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Paginated list of opinion data transfer objects</returns>
     /// <exception cref="ArgumentNullException">Thrown when parameters object is null</exception>
-    public async Task<PaginatedList<OpinionDto>> Handle(GetYerbaMateOpinionsQuery request,
+    public async Task<PaginatedList<YerbaMateOpinionDto>> Handle(GetUserYerbaMateOpinionsQuery request,
         CancellationToken cancellationToken)
     {
         if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
-        var collection = _context.Opinions.Where(o => o.YerbaMateId == request.YerbaMateId).AsQueryable();
+        var collection = _context.YerbaMateOpinions.AsQueryable();
 
         //filtering
-        collection = collection.Where(o =>
-            o.Rate >= request.Parameters.MinRate && o.Rate <= request.Parameters.MaxRate);
+        collection = collection.Where(o => o.CreatedBy == request.UserId &&
+                                           o.Rate >= request.Parameters.MinRate &&
+                                           o.Rate <= request.Parameters.MaxRate);
 
         //searching
         if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
@@ -78,11 +79,11 @@ public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQ
         //sorting
         if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
         {
-            var sortingColumns = new Dictionary<string, Expression<Func<Opinion, object>>>
+            var sortingColumns = new Dictionary<string, Expression<Func<YerbaMateOpinion, object>>>
             {
-                {nameof(Opinion.Created), o => o.Created},
-                {nameof(Opinion.Comment), o => o.Comment},
-                {nameof(Opinion.Rate), o => o.Rate}
+                {nameof(YerbaMateOpinion.Created), o => o.Created},
+                {nameof(YerbaMateOpinion.Comment), o => o.Comment},
+                {nameof(YerbaMateOpinion.Rate), o => o.Rate}
             };
 
             collection = _sortService.Sort(collection, request.Parameters.SortBy,
@@ -93,7 +94,7 @@ public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQ
             collection = collection.OrderBy(o => o.Created);
         }
 
-        return await collection.ProjectTo<OpinionDto>(_mapper.ConfigurationProvider)
+        return await collection.ProjectTo<YerbaMateOpinionDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
     }
 }

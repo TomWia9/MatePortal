@@ -1,21 +1,21 @@
 ﻿using System;
-using Application.Opinions.Queries;
+using Application.YerbaMateOpinions.Queries;
 using MediatR;
 
-namespace Application.Opinions.Commands.CreateOpinion;
+namespace Application.YerbaMateOpinions.Commands.CreateYerbaMateOpinion;
 
 /// <summary>
-///     Create opinion command
+///     Create yerba mate opinion command
 /// </summary>
-public class CreateOpinionCommand : IRequest<OpinionDto>
+public class CreateYerbaMateOpinionCommand : IRequest<YerbaMateOpinionDto>
 {
     /// <summary>
-    ///     Opinion rate
+    ///     Yerba mate opinion rate
     /// </summary>
     public int Rate { get; init; }
 
     /// <summary>
-    ///     Opinion comment
+    ///     Yerba mate opinion comment
     /// </summary>
     public string Comment { get; init; }
 

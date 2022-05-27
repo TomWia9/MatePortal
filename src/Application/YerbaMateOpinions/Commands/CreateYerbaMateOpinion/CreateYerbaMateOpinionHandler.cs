@@ -2,18 +2,18 @@
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
-using Application.Opinions.Queries;
+using Application.YerbaMateOpinions.Queries;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Opinions.Commands.CreateOpinion;
+namespace Application.YerbaMateOpinions.Commands.CreateYerbaMateOpinion;
 
 /// <summary>
 ///     Create yerba mate opinion handler
 /// </summary>
-public class CreateYerbaMateOpinionHandler : IRequestHandler<CreateOpinionCommand, OpinionDto>
+public class CreateYerbaMateOpinionHandler : IRequestHandler<CreateYerbaMateOpinionCommand, YerbaMateOpinionDto>
 {
     /// <summary>
     ///     Database context
@@ -52,16 +52,16 @@ public class CreateYerbaMateOpinionHandler : IRequestHandler<CreateOpinionComman
     /// <returns>Opinion data transfer object</returns>
     /// <exception cref="NotFoundException">Thrown when yerba mate is not found</exception>
     /// <exception cref="ConflictException">Thrown when yerba mate opinion conflicts with another opinion</exception>
-    public async Task<OpinionDto> Handle(CreateOpinionCommand request, CancellationToken cancellationToken)
+    public async Task<YerbaMateOpinionDto> Handle(CreateYerbaMateOpinionCommand request, CancellationToken cancellationToken)
     {
         if (!await _context.YerbaMate.AnyAsync(y => y.Id == request.YerbaMateId, cancellationToken))
             throw new NotFoundException(nameof(YerbaMate), request.YerbaMateId);
 
-        if (await _context.Opinions.AnyAsync(o =>
+        if (await _context.YerbaMateOpinions.AnyAsync(o =>
                 o.CreatedBy == _currentUserService.UserId && o.YerbaMateId == request.YerbaMateId, cancellationToken))
             throw new ConflictException(nameof(Favourite));
 
-        var entity = new Opinion
+        var entity = new YerbaMateOpinion
         {
             Rate = request.Rate,
             Comment = request.Comment,
@@ -69,9 +69,9 @@ public class CreateYerbaMateOpinionHandler : IRequestHandler<CreateOpinionComman
         };
 
         //entity.DomainEvents.Add(new YerbaMateOpinionCreatedEvent(entity));
-        _context.Opinions.Add(entity);
+        _context.YerbaMateOpinions.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<OpinionDto>(entity);
+        return _mapper.Map<YerbaMateOpinionDto>(entity);
     }
 }
