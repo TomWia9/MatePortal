@@ -57,7 +57,7 @@ public class YerbaMate : BaseEntity, IHasDomainEvent
     /// <summary>
     ///     The yerba mate opinions
     /// </summary>
-    public IList<Opinion> Opinions { get; set; } = new List<Opinion>();
+    public IList<YerbaMateOpinion> YerbaMateOpinions { get; set; } = new List<YerbaMateOpinion>();
 
     /// <summary>
     ///     The yerba mate favourites

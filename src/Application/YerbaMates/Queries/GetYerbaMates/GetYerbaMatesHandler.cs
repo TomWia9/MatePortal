@@ -65,7 +65,7 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
         var collection = _context.YerbaMate
             .Include(y => y.Brand)
             .Include(y => y.Category)
-            .Include(y => y.Opinions)
+            .Include(y => y.YerbaMateOpinions)
             .Include(y => y.Favourites).AsQueryable();
 
         //filtering
@@ -101,7 +101,7 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
             {
                 {nameof(YerbaMate.Name), y => y.Name},
                 {nameof(YerbaMate.AveragePrice), y => y.AveragePrice},
-                {nameof(YerbaMate.Opinions), y => y.Opinions.Count},
+                {nameof(YerbaMate.YerbaMateOpinions), y => y.YerbaMateOpinions.Count},
                 {nameof(YerbaMate.Favourites), y => y.Favourites.Count}
             };
 

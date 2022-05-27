@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Application.IntegrationTests.Helpers;
-using Application.Opinions.Queries;
-using Application.Opinions.Queries.GetYerbaMateOpinions;
+using Application.YerbaMateOpinions.Queries;
+using Application.YerbaMateOpinions.Queries.GetYerbaMateOpinions;
 using FluentAssertions;
 using Xunit;
 
@@ -20,11 +20,11 @@ public class GetYerbaMateOpinionsTests : IntegrationTest
     public async Task ShouldReturnAllYerbaMateOpinions()
     {
         await TestSeeder.SeedTestYerbaMatesAsync(Factory);
-        await TestSeeder.SeedTestOpinionsAsync(Factory);
+        await TestSeeder.SeedTestYerbaMateOpinionsAsync(Factory);
         var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //one of seeded yerba mates
 
         var response =
-            await Mediator.Send(new GetYerbaMateOpinionsQuery(yerbaMateId, new OpinionsQueryParameters()));
+            await Mediator.Send(new GetYerbaMateOpinionsQuery(yerbaMateId, new YerbaMateOpinionsQueryParameters()));
         response.Count.Should().Be(2);
     }
 
@@ -40,11 +40,11 @@ public class GetYerbaMateOpinionsTests : IntegrationTest
         int minRate, int maxRate, int expectedCount)
     {
         await TestSeeder.SeedTestYerbaMatesAsync(Factory);
-        await TestSeeder.SeedTestOpinionsAsync(Factory);
+        await TestSeeder.SeedTestYerbaMateOpinionsAsync(Factory);
         var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //one of seeded yerba mates
 
         var response = await Mediator.Send(new GetYerbaMateOpinionsQuery(yerbaMateId,
-            new OpinionsQueryParameters {MinRate = minRate, MaxRate = maxRate}));
+            new YerbaMateOpinionsQueryParameters {MinRate = minRate, MaxRate = maxRate}));
 
         response.Count.Should().Be(expectedCount);
     }
@@ -56,10 +56,10 @@ public class GetYerbaMateOpinionsTests : IntegrationTest
     public async Task GetYerbaMateOpinionsWithSpecifiedSearchQueryShouldReturnCorrectOpinions()
     {
         await TestSeeder.SeedTestYerbaMatesAsync(Factory);
-        await TestSeeder.SeedTestOpinionsAsync(Factory);
+        await TestSeeder.SeedTestYerbaMateOpinionsAsync(Factory);
         var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //one of seeded yerba mates
 
-        var response = await Mediator.Send(new GetYerbaMateOpinionsQuery(yerbaMateId, new OpinionsQueryParameters
+        var response = await Mediator.Send(new GetYerbaMateOpinionsQuery(yerbaMateId, new YerbaMateOpinionsQueryParameters
         {
             SearchQuery = "es"
         }));

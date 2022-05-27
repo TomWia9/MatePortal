@@ -78,11 +78,11 @@ public class GetYerbaMatesTests : IntegrationTest
         await TestSeeder.SeedTestBrandsAsync(Factory);
         await TestSeeder.SeedTestCategoriesAsync(Factory);
         await TestSeeder.SeedTestYerbaMatesAsync(Factory);
-        await TestSeeder.SeedTestOpinionsAsync(Factory);
+        await TestSeeder.SeedTestYerbaMateOpinionsAsync(Factory);
 
         var response = await Mediator.Send(new GetYerbaMatesQuery(new YerbaMatesQueryParameters
         {
-            SortBy = "Opinions",
+            SortBy = "YerbaMateOpinions",
             SortDirection = SortDirection.Asc
         }));
 

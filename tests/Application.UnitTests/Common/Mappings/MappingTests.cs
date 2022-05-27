@@ -5,9 +5,9 @@ using Application.Categories.Queries;
 using Application.Common.Mappings;
 using Application.Countries.Queries;
 using Application.Favourites.Queries;
-using Application.Opinions.Queries;
 using Application.ShopOpinions.Queries;
 using Application.Shops.Queries;
+using Application.YerbaMateOpinions.Queries;
 using Application.YerbaMates.Queries;
 using AutoMapper;
 using Domain.Entities;
@@ -53,13 +53,13 @@ public class MappingTests
     ///     Mappings should support mapping from source to destination
     /// </summary>
     /// <param name="source">The source type</param>
-    /// <param name="destination">The destinition type</param>
+    /// <param name="destination">The destination type</param>
     [Theory]
     [InlineData(typeof(Brand), typeof(BrandDto))]
     [InlineData(typeof(Category), typeof(CategoryDto))]
     [InlineData(typeof(Country), typeof(CountryDto))]
     [InlineData(typeof(Favourite), typeof(FavouriteDto))]
-    [InlineData(typeof(Opinion), typeof(OpinionDto))]
+    [InlineData(typeof(YerbaMateOpinion), typeof(YerbaMateOpinionDto))]
     [InlineData(typeof(ShopOpinion), typeof(ShopOpinionDto))]
     [InlineData(typeof(Shop), typeof(ShopDto))]
     [InlineData(typeof(YerbaMate), typeof(YerbaMateDto))]

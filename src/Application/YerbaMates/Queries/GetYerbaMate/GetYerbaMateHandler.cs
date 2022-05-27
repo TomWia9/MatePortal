@@ -48,7 +48,7 @@ public class GetYerbaMateHandler : IRequestHandler<GetYerbaMateQuery, YerbaMateD
             .Include(y => y.Brand)
             .Include(y => y.Brand.Country)
             .Include(y => y.Category)
-            .Include(y => y.Opinions)
+            .Include(y => y.YerbaMateOpinions)
             .Include(y => y.Favourites)
             .FirstOrDefaultAsync(y => y.Id == request.YerbaMateId, cancellationToken);
 

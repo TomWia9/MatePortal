@@ -82,9 +82,9 @@ public class
         {
             var sortingColumns = new Dictionary<string, Expression<Func<ShopOpinion, object>>>
             {
-                {nameof(Opinion.Created), o => o.Created},
-                {nameof(Opinion.Comment), o => o.Comment},
-                {nameof(Opinion.Rate), o => o.Rate}
+                {nameof(ShopOpinion.Created), o => o.Created},
+                {nameof(ShopOpinion.Comment), o => o.Comment},
+                {nameof(ShopOpinion.Rate), o => o.Rate}
             };
 
             collection = _sortService.Sort(collection, request.Parameters.SortBy,

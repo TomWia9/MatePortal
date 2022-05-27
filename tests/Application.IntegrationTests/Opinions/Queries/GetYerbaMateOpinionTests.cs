@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
-using Application.Opinions.Queries;
-using Application.Opinions.Queries.GetYerbaMateOpinion;
+using Application.YerbaMateOpinions.Queries;
+using Application.YerbaMateOpinions.Queries.GetYerbaMateOpinion;
 using FluentAssertions;
 using Xunit;
 
@@ -20,11 +20,11 @@ public class GetYerbaMateOpinionTests : IntegrationTest
     [Fact]
     public async Task ShouldReturnCorrectOpinion()
     {
-        await TestSeeder.SeedTestOpinionsAsync(Factory);
+        await TestSeeder.SeedTestYerbaMateOpinionsAsync(Factory);
 
         var opinionId = Guid.Parse("EB2BB300-A4FF-486C-AB64-4EF0A7DB527F"); //id of one of seeded opinion
 
-        var expectedResult = new OpinionDto
+        var expectedResult = new YerbaMateOpinionDto
         {
             Id = opinionId,
             Rate = 10,
@@ -33,7 +33,7 @@ public class GetYerbaMateOpinionTests : IntegrationTest
 
         var response = await Mediator.Send(new GetYerbaMateOpinionQuery(opinionId));
 
-        response.Should().BeOfType<OpinionDto>();
+        response.Should().BeOfType<YerbaMateOpinionDto>();
         response.Id.Should().Be(opinionId);
         response.Rate.Should().Be(expectedResult.Rate);
         response.Comment.Should().Be(expectedResult.Comment);

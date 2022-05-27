@@ -2,30 +2,30 @@
 using Application.Common.Mappings;
 using Domain.Entities;
 
-namespace Application.Opinions.Queries;
+namespace Application.YerbaMateOpinions.Queries;
 
 /// <summary>
-///     Opinion data transfer object
+///     Yerba mate opinion data transfer object
 /// </summary>
-public class OpinionDto : IMapFrom<Opinion>
+public class YerbaMateOpinionDto : IMapFrom<YerbaMateOpinion>
 {
     /// <summary>
-    ///     Opinion ID
+    ///     Yerba mate opinion ID
     /// </summary>
     public Guid Id { get; init; }
 
     /// <summary>
-    ///     Opinion rate
+    ///     Yerba mate opinion rate
     /// </summary>
     public int Rate { get; init; }
 
     /// <summary>
-    ///     Opinion comment
+    ///     Yerba mate opinion comment
     /// </summary>
     public string Comment { get; init; }
 
     /// <summary>
-    ///     Opinion created date
+    ///     Yerba mate opinion created date
     /// </summary>
     public DateTime Created { get; set; }
 

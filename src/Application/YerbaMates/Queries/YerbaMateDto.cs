@@ -65,6 +65,6 @@ public class YerbaMateDto : IMapFrom<YerbaMate>
     {
         profile.CreateMap<YerbaMate, YerbaMateDto>()
             .ForMember(d => d.NumberOfAddToFav, opt => opt.MapFrom(y => y.Favourites.Count))
-            .ForMember(d => d.NumberOfOpinions, opt => opt.MapFrom(y => y.Opinions.Count));
+            .ForMember(d => d.NumberOfOpinions, opt => opt.MapFrom(y => y.YerbaMateOpinions.Count));
     }
 }

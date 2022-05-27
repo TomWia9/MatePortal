@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Application.IntegrationTests.Helpers;
-using Application.Opinions.Queries;
-using Application.Opinions.Queries.GetUserYerbaMateOpinions;
+using Application.YerbaMateOpinions.Queries;
+using Application.YerbaMateOpinions.Queries.GetUserYerbaMateOpinions;
 using FluentAssertions;
 using Xunit;
 
@@ -19,10 +19,10 @@ public class GetUserYerbaMateOpinionsTests : IntegrationTest
     public async Task ShouldReturnAllUserOpinions()
     {
         var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
-        await TestSeeder.SeedTestOpinionsAsync(Factory);
+        await TestSeeder.SeedTestYerbaMateOpinionsAsync(Factory);
 
         var response =
-            await Mediator.Send(new GetUserYerbaMateOpinionsQuery(userId, new OpinionsQueryParameters()));
+            await Mediator.Send(new GetUserYerbaMateOpinionsQuery(userId, new YerbaMateOpinionsQueryParameters()));
         response.Count.Should().Be(3);
     }
 
@@ -38,10 +38,10 @@ public class GetUserYerbaMateOpinionsTests : IntegrationTest
         int minRate, int maxRate, int expectedCount)
     {
         var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
-        await TestSeeder.SeedTestOpinionsAsync(Factory);
+        await TestSeeder.SeedTestYerbaMateOpinionsAsync(Factory);
 
         var response = await Mediator.Send(new GetUserYerbaMateOpinionsQuery(userId,
-            new OpinionsQueryParameters {MinRate = minRate, MaxRate = maxRate}));
+            new YerbaMateOpinionsQueryParameters {MinRate = minRate, MaxRate = maxRate}));
 
         response.Count.Should().Be(expectedCount);
     }
@@ -53,9 +53,9 @@ public class GetUserYerbaMateOpinionsTests : IntegrationTest
     public async Task GetUsersYerbaMateOpinionsWithSpecifiedSearchQueryShouldReturnCorrectOpinions()
     {
         var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
-        await TestSeeder.SeedTestOpinionsAsync(Factory);
+        await TestSeeder.SeedTestYerbaMateOpinionsAsync(Factory);
 
-        var response = await Mediator.Send(new GetUserYerbaMateOpinionsQuery(userId, new OpinionsQueryParameters
+        var response = await Mediator.Send(new GetUserYerbaMateOpinionsQuery(userId, new YerbaMateOpinionsQueryParameters
         {
             SearchQuery = "com"
         }));

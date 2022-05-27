@@ -18,7 +18,7 @@ public class YerbaMateConfiguration : IEntityTypeConfiguration<YerbaMate>
         builder.Ignore(y => y.DomainEvents);
         builder.HasKey(y => y.Id);
 
-        builder.HasMany(y => y.Opinions).WithOne(o => o.YerbaMate);
+        builder.HasMany(y => y.YerbaMateOpinions).WithOne(o => o.YerbaMate);
         builder.HasMany(y => y.Favourites).WithOne(f => f.YerbaMate);
 
         builder.Property(y => y.Name).HasMaxLength(200).IsRequired();

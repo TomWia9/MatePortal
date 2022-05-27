@@ -1,25 +1,25 @@
 ﻿using System;
 using MediatR;
 
-namespace Application.Opinions.Commands.UpdateOpinion;
+namespace Application.YerbaMateOpinions.Commands.UpdateYerbaMateOpinion;
 
 /// <summary>
-///     Update opinion command
+///     Update yerba mate opinion command
 /// </summary>
-public class UpdateOpinionCommand : IRequest
+public class UpdateYerbaMateOpinionCommand : IRequest
 {
     /// <summary>
-    ///     Opinion ID
+    ///     Yerba mate opinion ID
     /// </summary>
     public Guid OpinionId { get; init; }
 
     /// <summary>
-    ///     Opinion rate
+    ///     Yerba mate opinion rate
     /// </summary>
     public int Rate { get; init; }
 
     /// <summary>
-    ///     Opinion comment
+    ///     Yerba mate opinion comment
     /// </summary>
     public string Comment { get; init; }
 }

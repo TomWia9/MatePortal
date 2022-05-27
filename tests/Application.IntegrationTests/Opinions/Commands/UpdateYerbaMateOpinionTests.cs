@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
-using Application.Opinions.Commands.CreateOpinion;
-using Application.Opinions.Commands.UpdateOpinion;
+using Application.YerbaMateOpinions.Commands.CreateYerbaMateOpinion;
+using Application.YerbaMateOpinions.Commands.UpdateYerbaMateOpinion;
 using Domain.Entities;
 using FluentAssertions;
 using FluentAssertions.Extensions;
@@ -12,9 +12,9 @@ using Xunit;
 namespace Application.IntegrationTests.Opinions.Commands;
 
 /// <summary>
-///     Update opinion tests
+///     Update yerba mate opinion tests
 /// </summary>
-public class UpdateOpinionTests : IntegrationTest
+public class UpdateYerbaMateOpinionTests : IntegrationTest
 {
     /// <summary>
     ///     Update opinion with incorrect id should throw not found exception
@@ -24,7 +24,7 @@ public class UpdateOpinionTests : IntegrationTest
     {
         var opinionId = Guid.Empty;
 
-        var command = new UpdateOpinionCommand
+        var command = new UpdateYerbaMateOpinionCommand
         {
             OpinionId = opinionId,
             Rate = 2,
@@ -42,11 +42,11 @@ public class UpdateOpinionTests : IntegrationTest
     public async Task UpdateOpinionShouldUpdateOpinion()
     {
         var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
-        await TestSeeder.SeedTestOpinionsAsync(Factory);
+        await TestSeeder.SeedTestYerbaMateOpinionsAsync(Factory);
 
         var opinionId = Guid.Parse("EB2BB300-A4FF-486C-AB64-4EF0A7DB527F"); //one of seeded opinions
 
-        var command = new UpdateOpinionCommand
+        var command = new UpdateYerbaMateOpinionCommand
         {
             OpinionId = opinionId,
             Rate = 4,
@@ -55,7 +55,7 @@ public class UpdateOpinionTests : IntegrationTest
 
         await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<Opinion>(Factory, opinionId);
+        var item = await DbHelper.FindAsync<YerbaMateOpinion>(Factory, opinionId);
 
         item.Rate.Should().Be(command.Rate);
         item.Comment.Should().Be(command.Comment);
@@ -76,7 +76,7 @@ public class UpdateOpinionTests : IntegrationTest
         await AuthHelper.RunAsDefaultUserAsync(Factory);
 
         //create opinion firstly
-        var opinionToUpdateDto = await Mediator.Send(new CreateOpinionCommand
+        var opinionToUpdateDto = await Mediator.Send(new CreateYerbaMateOpinionCommand
         {
             Rate = 10,
             Comment = "test",
@@ -86,7 +86,7 @@ public class UpdateOpinionTests : IntegrationTest
         Factory.CurrentUserId = Guid.NewGuid(); //other user
 
         await FluentActions.Invoking(() =>
-                Mediator.Send(new UpdateOpinionCommand
+                Mediator.Send(new UpdateYerbaMateOpinionCommand
                     {OpinionId = opinionToUpdateDto.Id, Comment = "test", Rate = 1})).Should()
             .ThrowAsync<ForbiddenAccessException>();
     }
@@ -101,7 +101,7 @@ public class UpdateOpinionTests : IntegrationTest
         await TestSeeder.SeedTestYerbaMatesAsync(Factory);
 
         //create opinion firstly
-        var opinionToUpdateDto = await Mediator.Send(new CreateOpinionCommand
+        var opinionToUpdateDto = await Mediator.Send(new CreateYerbaMateOpinionCommand
         {
             Rate = 10,
             Comment = "test",
@@ -110,7 +110,7 @@ public class UpdateOpinionTests : IntegrationTest
 
         await AuthHelper.RunAsAdministratorAsync(Factory);
 
-        var command = new UpdateOpinionCommand
+        var command = new UpdateYerbaMateOpinionCommand
         {
             OpinionId = opinionToUpdateDto.Id,
             Comment = "test1",
@@ -120,7 +120,7 @@ public class UpdateOpinionTests : IntegrationTest
         await Mediator.Send(command);
 
         //Assert that updated
-        var item = await DbHelper.FindAsync<Opinion>(Factory, opinionToUpdateDto.Id);
+        var item = await DbHelper.FindAsync<YerbaMateOpinion>(Factory, opinionToUpdateDto.Id);
         item.Rate.Should().Be(command.Rate);
         item.Comment.Should().Be(command.Comment);
         item.CreatedBy.Should().NotBeNull();

@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
-using Application.Opinions.Commands.CreateOpinion;
-using Application.Opinions.Queries;
+using Application.YerbaMateOpinions.Commands.CreateYerbaMateOpinion;
+using Application.YerbaMateOpinions.Queries;
 using Application.YerbaMates.Queries.GetYerbaMate;
 using Domain.Entities;
 using FluentAssertions;
@@ -15,7 +15,7 @@ namespace Application.IntegrationTests.Opinions.Commands;
 /// <summary>
 ///     Create yerba mate opinion tests
 /// </summary>
-public class CreateOpinionTests : IntegrationTest
+public class CreateYerbaMateOpinionTests : IntegrationTest
 {
     /// <summary>
     ///     Create yerba mate opinion should create opinion and return yerba mate opinion data transfer object
@@ -27,7 +27,7 @@ public class CreateOpinionTests : IntegrationTest
 
         var userId = await AuthHelper.RunAsDefaultUserAsync(Factory);
 
-        var command = new CreateOpinionCommand
+        var command = new CreateYerbaMateOpinionCommand
         {
             Rate = 8,
             Comment = "Test comment",
@@ -36,9 +36,9 @@ public class CreateOpinionTests : IntegrationTest
 
         var result = await Mediator.Send(command);
 
-        var item = await DbHelper.FindAsync<Opinion>(Factory, result.Id);
+        var item = await DbHelper.FindAsync<YerbaMateOpinion>(Factory, result.Id);
 
-        result.Should().BeOfType<OpinionDto>();
+        result.Should().BeOfType<YerbaMateOpinionDto>();
         result.Rate.Should().Be(command.Rate);
         result.Comment.Should().Be(command.Comment);
         result.Created.Should().BeCloseTo(DateTime.Now, 1.Seconds());
@@ -62,7 +62,7 @@ public class CreateOpinionTests : IntegrationTest
         await AuthHelper.RunAsDefaultUserAsync(Factory);
         var yerbaMateId = Guid.NewGuid();
 
-        var command = new CreateOpinionCommand
+        var command = new CreateYerbaMateOpinionCommand
         {
             Rate = 2,
             Comment = "test",
@@ -83,14 +83,14 @@ public class CreateOpinionTests : IntegrationTest
         await AuthHelper.RunAsDefaultUserAsync(Factory);
         var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //id of one of seeded yerba mate
 
-        await Mediator.Send(new CreateOpinionCommand
+        await Mediator.Send(new CreateYerbaMateOpinionCommand
         {
             Rate = 10,
             Comment = "Test",
             YerbaMateId = yerbaMateId
         });
 
-        var command = new CreateOpinionCommand
+        var command = new CreateYerbaMateOpinionCommand
         {
             Rate = 8,
             Comment = "Test 2",
@@ -113,7 +113,7 @@ public class CreateOpinionTests : IntegrationTest
 
         await AuthHelper.RunAsDefaultUserAsync(Factory);
 
-        var command = new CreateOpinionCommand
+        var command = new CreateYerbaMateOpinionCommand
         {
             Comment = "Test",
             Rate = 8,

@@ -7,10 +7,10 @@ namespace Domain.Entities;
 /// <summary>
 ///     The yerba mate opinion
 /// </summary>
-public class Opinion : BaseEntity, IHasDomainEvent
+public class YerbaMateOpinion : BaseEntity, IHasDomainEvent
 {
     /// <summary>
-    ///     The opinion ID
+    ///     The yerba mate opinion ID
     /// </summary>
     public Guid Id { get; init; }
 

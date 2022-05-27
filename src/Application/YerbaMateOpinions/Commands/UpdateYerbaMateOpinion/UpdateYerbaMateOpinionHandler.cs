@@ -5,12 +5,12 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Opinions.Commands.UpdateOpinion;
+namespace Application.YerbaMateOpinions.Commands.UpdateYerbaMateOpinion;
 
 /// <summary>
 ///     Update yerba mate opinion handler
 /// </summary>
-public class UpdateYerbaMateOpinionHandler : IRequestHandler<UpdateOpinionCommand>
+public class UpdateYerbaMateOpinionHandler : IRequestHandler<UpdateYerbaMateOpinionCommand>
 {
     /// <summary>
     ///     Database context
@@ -40,11 +40,11 @@ public class UpdateYerbaMateOpinionHandler : IRequestHandler<UpdateOpinionComman
     /// <param name="cancellationToken">Cancellation token</param>
     /// <exception cref="NotFoundException">Thrown when opinion is not found</exception>
     /// <exception cref="ForbiddenAccessException">Thrown when user doesn't have access to opinion</exception>
-    public async Task<Unit> Handle(UpdateOpinionCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateYerbaMateOpinionCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Opinions.FindAsync(request.OpinionId);
+        var entity = await _context.YerbaMateOpinions.FindAsync(request.OpinionId);
 
-        if (entity == null) throw new NotFoundException(nameof(Opinion), request.OpinionId);
+        if (entity == null) throw new NotFoundException(nameof(YerbaMateOpinion), request.OpinionId);
 
         var currentUserId = _currentUserService.UserId;
         if (entity.CreatedBy != currentUserId && !_currentUserService.AdministratorAccess)
