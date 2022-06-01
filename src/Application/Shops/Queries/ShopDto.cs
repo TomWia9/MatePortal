@@ -24,6 +24,11 @@ public class ShopDto : IMapFrom<Shop>
     ///     Shop description
     /// </summary>
     public string Description { get; set; }
+    
+    /// <summary>
+    ///     Shop url
+    /// </summary>
+    public string Url { get; set; }
 
     /// <summary>
     ///     Number of shop opinions

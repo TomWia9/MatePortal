@@ -25,7 +25,7 @@ public class Shop : BaseEntity, IHasDomainEvent
     public string Description { get; set; }
 
     /// <summary>
-    /// The shop url
+    ///     The shop url
     /// </summary>
     public string Url { get; set; }
 
