@@ -22,5 +22,6 @@ public class ShopConfiguration : IEntityTypeConfiguration<Shop>
 
         builder.Property(s => s.Name).HasMaxLength(100).IsRequired();
         builder.Property(s => s.Description).HasMaxLength(1000).IsRequired();
+        builder.Property(s => s.Url).HasMaxLength(200).IsRequired();
     }
 }

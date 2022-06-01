@@ -46,6 +46,7 @@ public class UpdateShopHandler : IRequestHandler<UpdateShopCommand>
 
         entity.Name = request.Name;
         entity.Description = request.Description;
+        entity.Url = request.Url;
 
         await _context.SaveChangesAsync(cancellationToken);
 

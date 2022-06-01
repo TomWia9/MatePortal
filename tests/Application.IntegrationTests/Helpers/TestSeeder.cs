@@ -302,19 +302,22 @@ public static class TestSeeder
             {
                 Id = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5"),
                 Name = "Matemundo",
-                Description = "Test description 1"
+                Description = "Test description 1",
+                Url = "https://www.matemundo.pl/"
             },
             new()
             {
                 Id = Guid.NewGuid(),
                 Name = "Test 2",
-                Description = "Test description 2"
+                Description = "Test description 2",
+                Url = "https://www.test2.pl/"
             },
             new()
             {
                 Id = Guid.NewGuid(),
                 Name = "Test 3",
-                Description = "Test description 3"
+                Description = "Test description 3",
+                Url = "https://www.test3.pl/"
             }
         };
     }

@@ -69,7 +69,8 @@ public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<Shop
             var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
 
             collection = collection.Where(s => s.Name.ToLower().Contains(searchQuery)
-                                               || s.Description.ToLower().Contains(searchQuery));
+                                               || s.Description.ToLower().Contains(searchQuery)
+                                               || s.Url.ToLower().Contains(searchQuery));
         }
 
         //sorting

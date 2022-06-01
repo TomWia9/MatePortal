@@ -28,7 +28,8 @@ public class GetShopTests : IntegrationTest
         {
             Id = shopId,
             Name = "Matemundo",
-            Description = "Test description 1"
+            Description = "Test description 1",
+            Url = "https://www.matemundo.pl/"
         };
 
         var response = await Mediator.Send(new GetShopQuery(shopId));

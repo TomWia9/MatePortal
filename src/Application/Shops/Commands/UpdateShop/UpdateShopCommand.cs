@@ -22,4 +22,9 @@ public class UpdateShopCommand : IRequest
     ///     Shop description
     /// </summary>
     public string Description { get; init; }
+    
+    /// <summary>
+    ///     Shop url
+    /// </summary>
+    public string Url { get; init; }
 }
