@@ -27,7 +27,8 @@ public class UpdateShopTests : IntegrationTest
         {
             ShopId = shopId,
             Name = "Test",
-            Description = "Test description"
+            Description = "Test description",
+            Url = "https://www.testshop.pl/"
         };
 
         FluentActions.Invoking(() =>
@@ -50,7 +51,8 @@ public class UpdateShopTests : IntegrationTest
         {
             ShopId = shopId,
             Name = "Updated shop name",
-            Description = "Updated description"
+            Description = "Updated description",
+            Url = "https://www.updatedurl.pl/"
         };
 
         await Mediator.Send(command);
@@ -59,6 +61,7 @@ public class UpdateShopTests : IntegrationTest
 
         item.Name.Should().Be(command.Name);
         item.Description.Should().Be(command.Description);
+        item.Url.Should().Be(command.Url);
         item.CreatedBy.Should().NotBeNull();
         item.LastModifiedBy.Should().NotBeNull();
         item.LastModifiedBy.Should().Be(userId);

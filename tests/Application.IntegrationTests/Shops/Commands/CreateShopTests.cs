@@ -27,13 +27,15 @@ public class CreateShopTests : IntegrationTest
         var command = new CreateShopCommand
         {
             Name = "Test",
-            Description = "Test description"
+            Description = "Test description",
+            Url = "https://www.testshop.pl/"
         };
 
         var expectedResult = new ShopDto
         {
             Name = command.Name,
-            Description = command.Description
+            Description = command.Description,
+            Url = command.Url
         };
 
         var result = await Mediator.Send(command);
@@ -59,7 +61,8 @@ public class CreateShopTests : IntegrationTest
         var command = new CreateShopCommand
         {
             Name = "Test",
-            Description = "Test description"
+            Description = "Test description",
+            Url = "https://www.testshop.pl/"
         };
 
         await Mediator.Send(command);
