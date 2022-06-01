@@ -51,7 +51,8 @@ public class CreateShopHandler : IRequestHandler<CreateShopCommand, ShopDto>
         var entity = new Shop
         {
             Name = request.Name,
-            Description = request.Description
+            Description = request.Description,
+            Url = request.Url
         };
 
         //entity.DomainEvents.Add(new ShopCreatedEvent(entity));
