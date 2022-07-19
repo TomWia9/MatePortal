@@ -80,9 +80,9 @@ public class GetShopOpinionsHandler : IRequestHandler<GetShopOpinionsQuery, Pagi
         {
             var sortingColumns = new Dictionary<string, Expression<Func<ShopOpinion, object>>>
             {
-                {nameof(ShopOpinion.Created), o => o.Created},
-                {nameof(ShopOpinion.Comment), o => o.Comment},
-                {nameof(ShopOpinion.Rate), o => o.Rate}
+                {nameof(ShopOpinion.Created).ToLower(), o => o.Created},
+                {nameof(ShopOpinion.Comment).ToLower(), o => o.Comment},
+                {nameof(ShopOpinion.Rate).ToLower(), o => o.Rate}
             };
 
             collection = _sortService.Sort(collection, request.Parameters.SortBy,

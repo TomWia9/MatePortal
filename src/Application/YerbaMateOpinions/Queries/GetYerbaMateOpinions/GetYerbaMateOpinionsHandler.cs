@@ -80,9 +80,9 @@ public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQ
         {
             var sortingColumns = new Dictionary<string, Expression<Func<YerbaMateOpinion, object>>>
             {
-                {nameof(YerbaMateOpinion.Created), o => o.Created},
-                {nameof(YerbaMateOpinion.Comment), o => o.Comment},
-                {nameof(YerbaMateOpinion.Rate), o => o.Rate}
+                {nameof(YerbaMateOpinion.Created).ToLower(), o => o.Created},
+                {nameof(YerbaMateOpinion.Comment).ToLower(), o => o.Comment},
+                {nameof(YerbaMateOpinion.Rate).ToLower(), o => o.Rate}
             };
 
             collection = _sortService.Sort(collection, request.Parameters.SortBy,

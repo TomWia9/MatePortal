@@ -26,7 +26,7 @@ public class SortService<T> : ISortService<T>
     public IQueryable<T> Sort(IQueryable<T> collection, string sortBy, SortDirection sortDirection,
         Dictionary<string, Expression<Func<T, object>>> sortingColumns)
     {
-        var selectedColumn = sortingColumns[sortBy.FirstCharToUpper()];
+        var selectedColumn = sortingColumns[sortBy.ToLower()];
 
         collection = sortDirection == SortDirection.Asc
             ? collection.OrderBy(selectedColumn)

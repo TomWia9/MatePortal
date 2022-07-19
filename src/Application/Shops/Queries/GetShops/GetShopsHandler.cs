@@ -78,9 +78,9 @@ public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<Shop
         {
             var sortingColumns = new Dictionary<string, Expression<Func<Shop, object>>>
             {
-                {nameof(Shop.Name), s => s.Name},
-                {nameof(Shop.Description), s => s.Description},
-                {nameof(Shop.Opinions), y => y.Opinions.Count}
+                {nameof(Shop.Name).ToLower(), s => s.Name},
+                {nameof(Shop.Description).ToLower(), s => s.Description},
+                {nameof(Shop.Opinions).ToLower(), y => y.Opinions.Count}
             };
 
             collection = _sortService.Sort(collection, request.Parameters.SortBy,
