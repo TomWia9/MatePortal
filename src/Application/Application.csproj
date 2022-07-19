@@ -17,7 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="YerbaMateImages\Commands\DeleteYerbaMateImage" />
       <Folder Include="YerbaMateImages\Queries\GetYerbaMateImages" />
     </ItemGroup>
 
