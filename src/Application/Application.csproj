@@ -16,4 +16,10 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="YerbaMateImages\Commands\CreateYerbaMateImage" />
+      <Folder Include="YerbaMateImages\Commands\DeleteYerbaMateImage" />
+      <Folder Include="YerbaMateImages\Queries\GetYerbaMateImages" />
+    </ItemGroup>
+
 </Project>

@@ -7,6 +7,7 @@ using Application.Countries.Queries;
 using Application.Favourites.Queries;
 using Application.ShopOpinions.Queries;
 using Application.Shops.Queries;
+using Application.YerbaMateImages.Queries;
 using Application.YerbaMateOpinions.Queries;
 using Application.YerbaMates.Queries;
 using AutoMapper;
@@ -63,6 +64,7 @@ public class MappingTests
     [InlineData(typeof(ShopOpinion), typeof(ShopOpinionDto))]
     [InlineData(typeof(Shop), typeof(ShopDto))]
     [InlineData(typeof(YerbaMate), typeof(YerbaMateDto))]
+    [InlineData(typeof(YerbaMateImage), typeof(YerbaMateImageDto))]
     public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
     {
         var instance = GetInstanceOf(source);
