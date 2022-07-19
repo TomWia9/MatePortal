@@ -89,6 +89,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     ///     User's shop opinions DbSet
     /// </summary>
     public DbSet<ShopOpinion> ShopOpinions { get; set; }
+    
+    /// <summary>
+    ///     Yerba mate images DbSet
+    /// </summary>
+    public DbSet<YerbaMateImage> YerbaMateImages { get; set; }
 
     /// <summary>
     ///     Saves changes async
