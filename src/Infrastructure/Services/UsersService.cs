@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Application.Common.Enums;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
@@ -133,15 +134,30 @@ public class UsersService : IUsersService
                 {nameof(ApplicationUser.Email), u => u.Email}
             };
 
-            collection = _sortService.Sort(collection, request.Parameters.SortBy,
-                request.Parameters.SortDirection, sortingColumns);
+            //Other tables (can't be sorted in sortService, it has to be group joined)
+            const string yerbaMateOpinions = "YerbaMateOpinions";
+            const string shopOpinions = "ShopOpinions";
+
+            if (request.Parameters.SortBy is yerbaMateOpinions or shopOpinions)
+            {
+                collection = request.Parameters.SortBy == "YerbaMateOpinions"
+                    ? SortByOpinionsCount(collection, _context.YerbaMateOpinions, x => x.CreatedBy,
+                        request.Parameters.SortDirection)
+                    : SortByOpinionsCount(collection, _context.ShopOpinions, x => x.CreatedBy,
+                        request.Parameters.SortDirection);
+            }
+            else
+            {
+                collection = _sortService.Sort(collection, request.Parameters.SortBy,
+                    request.Parameters.SortDirection, sortingColumns);
+            }
         }
         else
         {
             collection = collection.OrderBy(u => u.Email);
         }
 
-        var mappedUsers = await MapUsers(collection);
+        var mappedUsers = await MapUsers(collection.ToList());
         return new PaginatedList<UserDto>(mappedUsers, mappedUsers.Count,
             request.Parameters.PageNumber,
             request.Parameters.PageSize);
@@ -169,5 +185,33 @@ public class UsersService : IUsersService
         }
 
         return mappedUsers;
+    }
+
+    /// <summary>
+    ///     Sorts users by yerba mate opinions count or shop opinions count.
+    /// </summary>
+    /// <param name="collection">The collection of users.</param>
+    /// <param name="dbSet">The DbSet.</param>
+    /// <param name="exp">The expression (ex. x => x.CreatedBy).</param>
+    /// <param name="sortDirection">The sort direction.</param>
+    /// <typeparam name="T">The type of dbSet.</typeparam>
+    /// <returns>IQueryable of ApplicationUser sorted by number of specific opinions.</returns>
+    private static IQueryable<ApplicationUser> SortByOpinionsCount<T>(IEnumerable<ApplicationUser> collection,
+        IEnumerable<T> dbSet,
+        Func<T, object> exp,
+        SortDirection sortDirection) where T : class
+    {
+        var usersWithOpinionsCount = collection.ToList().GroupJoin(dbSet, x => x.Id, exp,
+            (user, opinions) => new
+            {
+                User = user,
+                OpinionsCount = opinions.Count()
+            }).AsQueryable();
+
+        usersWithOpinionsCount = sortDirection == SortDirection.Asc
+            ? usersWithOpinionsCount.OrderBy(x => x.OpinionsCount)
+            : usersWithOpinionsCount.OrderByDescending(x => x.OpinionsCount);
+
+        return usersWithOpinionsCount.Select(x => x.User).AsQueryable();
     }
 }
