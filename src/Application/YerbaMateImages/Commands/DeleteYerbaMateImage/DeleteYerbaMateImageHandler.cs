@@ -7,6 +7,9 @@ using MediatR;
 
 namespace Application.YerbaMateImages.Commands.DeleteYerbaMateImage;
 
+/// <summary>
+///     Delete yerba mate image handler
+/// </summary>
 public class DeleteYerbaMateImageHandler : IRequestHandler<DeleteYerbaMateImageCommand>
 {
     /// <summary>
