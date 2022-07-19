@@ -32,7 +32,6 @@ public class CreateYerbaMateTests : IntegrationTest
         {
             Name = "Test",
             Description = "Test description",
-            ImgUrl = "https://test.com",
             AveragePrice = 12.32M,
             CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), //one of seeded categories
             BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239") //one of seeded brands
@@ -42,7 +41,6 @@ public class CreateYerbaMateTests : IntegrationTest
         {
             Name = command.Name,
             Description = command.Description,
-            ImgUrl = "https://test.com",
             AveragePrice = 12.32M,
             NumberOfOpinions = 0,
             NumberOfAddToFav = 0,
@@ -88,7 +86,6 @@ public class CreateYerbaMateTests : IntegrationTest
         {
             Name = "Test",
             Description = "Test description",
-            ImgUrl = "https://test.com",
             AveragePrice = 12.32M,
             CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), //one of seeded categories
             BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239") //one of seeded brands

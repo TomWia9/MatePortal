@@ -20,11 +20,6 @@ public class CreateYerbaMateCommand : IRequest<YerbaMateDto>
     public string Description { get; init; }
 
     /// <summary>
-    ///     Yerba mate image url
-    /// </summary>
-    public string ImgUrl { get; init; }
-
-    /// <summary>
     ///     Yerba mate average price
     /// </summary>
     public decimal AveragePrice { get; init; }

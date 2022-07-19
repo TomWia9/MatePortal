@@ -60,7 +60,6 @@ public class CreateYerbaMateHandler : IRequestHandler<CreateYerbaMateCommand, Ye
         {
             Name = request.Name,
             Description = request.Description,
-            ImgUrl = request.ImgUrl,
             AveragePrice = request.AveragePrice,
             CategoryId = request.CategoryId,
             BrandId = request.BrandId
