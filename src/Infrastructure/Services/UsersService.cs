@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Application.Common.Enums;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
@@ -130,33 +131,20 @@ public class UsersService : IUsersService
             var sortingColumns = new Dictionary<string, Expression<Func<ApplicationUser, object>>>
             {
                 {nameof(ApplicationUser.UserName), u => u.UserName},
-                {nameof(ApplicationUser.Email), u => u.Email},
+                {nameof(ApplicationUser.Email), u => u.Email}
             };
-            
-            //try to move this to sortingColumns and handle this in generic _sortService
-            if (request.Parameters.SortBy == "YerbaMatesOpinions")
+
+            //Other tables (can't be sorted in sortService, it has to be group joined)
+            const string yerbaMateOpinions = "YerbaMateOpinions";
+            const string shopOpinions = "ShopOpinions";
+
+            if (request.Parameters.SortBy is yerbaMateOpinions or shopOpinions)
             {
-                var yerbaMateOpinions = _context.YerbaMateOpinions;
-                collection = collection.ToList().GroupJoin(yerbaMateOpinions, x => x.Id, x => x.CreatedBy,
-                        (user, opinions) =>
-                            new
-                            {
-                                User = user,
-                                OpinionsCount = opinions.Count()
-                            })
-                    .OrderBy(x => x.OpinionsCount).Select(x => x.User).AsQueryable();
-            }
-            else if (request.Parameters.SortBy == "ShopOpinions")
-            {
-                var shopOpinions = _context.ShopOpinions;
-                collection = collection.ToList().GroupJoin(shopOpinions, x => x.Id, x => x.CreatedBy,
-                        (user, opinions) =>
-                            new
-                            {
-                                User = user,
-                                OpinionsCount = opinions.Count()
-                            })
-                    .OrderBy(x => x.OpinionsCount).Select(x => x.User).AsQueryable();
+                collection = request.Parameters.SortBy == "YerbaMateOpinions"
+                    ? SortByOpinionsCount(collection, _context.YerbaMateOpinions, x => x.CreatedBy,
+                        request.Parameters.SortDirection)
+                    : SortByOpinionsCount(collection, _context.ShopOpinions, x => x.CreatedBy,
+                        request.Parameters.SortDirection);
             }
             else
             {
@@ -197,5 +185,33 @@ public class UsersService : IUsersService
         }
 
         return mappedUsers;
+    }
+
+    /// <summary>
+    ///     Sorts users by yerba mate opinions count or shop opinions count.
+    /// </summary>
+    /// <param name="collection">The collection of users.</param>
+    /// <param name="dbSet">The DbSet.</param>
+    /// <param name="exp">The expression (ex. x => x.CreatedBy).</param>
+    /// <param name="sortDirection">The sort direction.</param>
+    /// <typeparam name="T">The type of dbSet.</typeparam>
+    /// <returns>IQueryable of ApplicationUser sorted by number of specific opinions.</returns>
+    private static IQueryable<ApplicationUser> SortByOpinionsCount<T>(IEnumerable<ApplicationUser> collection,
+        IEnumerable<T> dbSet,
+        Func<T, object> exp,
+        SortDirection sortDirection) where T : class
+    {
+        var usersWithOpinionsCount = collection.ToList().GroupJoin(dbSet, x => x.Id, exp,
+            (user, opinions) => new
+            {
+                User = user,
+                OpinionsCount = opinions.Count()
+            }).AsQueryable();
+
+        usersWithOpinionsCount = sortDirection == SortDirection.Asc
+            ? usersWithOpinionsCount.OrderBy(x => x.OpinionsCount)
+            : usersWithOpinionsCount.OrderByDescending(x => x.OpinionsCount);
+
+        return usersWithOpinionsCount.Select(x => x.User).AsQueryable();
     }
 }

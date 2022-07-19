@@ -17,7 +17,6 @@ namespace Api.Controllers;
 
 //Development purpose only
 //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-[Authorize]
 [Route("api/[controller]")]
 public class TestController : Controller
 {
@@ -36,6 +35,7 @@ public class TestController : Controller
         return Ok(result);
     }
     
+    [Authorize(Policy = Policies.UserAccess)]
     [HttpPost("createYerbaMateOpinion")]
     public async Task<IActionResult> CreateYerbaMateOpinion(CreateYerbaMateOpinionCommand createYerbaMateOpinion)
     {
