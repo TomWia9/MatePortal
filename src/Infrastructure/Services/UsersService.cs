@@ -130,18 +130,46 @@ public class UsersService : IUsersService
             var sortingColumns = new Dictionary<string, Expression<Func<ApplicationUser, object>>>
             {
                 {nameof(ApplicationUser.UserName), u => u.UserName},
-                {nameof(ApplicationUser.Email), u => u.Email}
+                {nameof(ApplicationUser.Email), u => u.Email},
             };
-
-            collection = _sortService.Sort(collection, request.Parameters.SortBy,
-                request.Parameters.SortDirection, sortingColumns);
+            
+            //try to move this to sortingColumns and handle this in generic _sortService
+            if (request.Parameters.SortBy == "YerbaMatesOpinions")
+            {
+                var yerbaMateOpinions = _context.YerbaMateOpinions;
+                collection = collection.ToList().GroupJoin(yerbaMateOpinions, x => x.Id, x => x.CreatedBy,
+                        (user, opinions) =>
+                            new
+                            {
+                                User = user,
+                                OpinionsCount = opinions.Count()
+                            })
+                    .OrderBy(x => x.OpinionsCount).Select(x => x.User).AsQueryable();
+            }
+            else if (request.Parameters.SortBy == "ShopOpinions")
+            {
+                var shopOpinions = _context.ShopOpinions;
+                collection = collection.ToList().GroupJoin(shopOpinions, x => x.Id, x => x.CreatedBy,
+                        (user, opinions) =>
+                            new
+                            {
+                                User = user,
+                                OpinionsCount = opinions.Count()
+                            })
+                    .OrderBy(x => x.OpinionsCount).Select(x => x.User).AsQueryable();
+            }
+            else
+            {
+                collection = _sortService.Sort(collection, request.Parameters.SortBy,
+                    request.Parameters.SortDirection, sortingColumns);
+            }
         }
         else
         {
             collection = collection.OrderBy(u => u.Email);
         }
 
-        var mappedUsers = await MapUsers(collection);
+        var mappedUsers = await MapUsers(collection.ToList());
         return new PaginatedList<UserDto>(mappedUsers, mappedUsers.Count,
             request.Parameters.PageNumber,
             request.Parameters.PageSize);
