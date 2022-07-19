@@ -28,7 +28,6 @@ public class UpdateYerbaMateTests : IntegrationTest
             YerbaMateId = yerbaMateId,
             Name = "Test",
             Description = "Test description",
-            ImgUrl = "https://test.com",
             AveragePrice = 12.32M,
             CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"),
             BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239")
@@ -57,7 +56,6 @@ public class UpdateYerbaMateTests : IntegrationTest
             YerbaMateId = yerbaMateId,
             Name = "Updated name",
             Description = "Updated description",
-            ImgUrl = "Updated img url",
             AveragePrice = 14.32M,
             CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), //one of seeded categories
             BrandId = Guid.Parse("17458BDE-3849-4150-B73A-A492A8F7F239") //one of seeded brands
@@ -69,7 +67,6 @@ public class UpdateYerbaMateTests : IntegrationTest
 
         item.Name.Should().Be(command.Name);
         item.Description.Should().Be(command.Description);
-        item.ImgUrl.Should().Be(command.ImgUrl);
         item.AveragePrice.Should().Be(command.AveragePrice);
         item.CategoryId.Should().Be(command.CategoryId);
         item.BrandId.Should().Be(command.BrandId);

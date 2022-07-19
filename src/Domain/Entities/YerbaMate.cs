@@ -35,11 +35,6 @@ public class YerbaMate : BaseEntity, IHasDomainEvent
     public string Description { get; set; }
 
     /// <summary>
-    ///     The yerba mate image url
-    /// </summary>
-    public string ImgUrl { get; set; }
-
-    /// <summary>
     ///     The yerba mate average price
     /// </summary>
     public decimal AveragePrice { get; set; }
@@ -63,6 +58,11 @@ public class YerbaMate : BaseEntity, IHasDomainEvent
     ///     The yerba mate favourites
     /// </summary>
     public IList<Favourite> Favourites { get; set; } = new List<Favourite>();
+
+    /// <summary>
+    ///     The yerba mate images
+    /// </summary>
+    public IList<YerbaMateImage> YerbaMateImages { get; set; } = new List<YerbaMateImage>();
 
     /// <summary>
     ///     Domain events

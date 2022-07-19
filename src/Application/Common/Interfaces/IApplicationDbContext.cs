@@ -49,6 +49,11 @@ public interface IApplicationDbContext
     ///     User's shop opinions DbSet
     /// </summary>
     DbSet<ShopOpinion> ShopOpinions { get; set; }
+    
+    /// <summary>
+    ///     Yerba mate images DbSet
+    /// </summary>
+    DbSet<YerbaMateImage> YerbaMateImages { get; set; }
 
     /// <summary>
     ///     Saves changes async

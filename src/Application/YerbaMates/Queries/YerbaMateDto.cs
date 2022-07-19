@@ -28,11 +28,6 @@ public class YerbaMateDto : IMapFrom<YerbaMate>
     public string Description { get; set; }
 
     /// <summary>
-    ///     Yerba mate image url
-    /// </summary>
-    public string ImgUrl { get; set; }
-
-    /// <summary>
     ///     Yerba ate average price
     /// </summary>
     public decimal AveragePrice { get; set; }

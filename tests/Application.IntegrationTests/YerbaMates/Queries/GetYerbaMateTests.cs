@@ -33,7 +33,6 @@ public class GetYerbaMateTests : IntegrationTest
             Id = yerbaMateId,
             Name = "Kurupi Katuava",
             Description = "One of the best herbal yerba",
-            ImgUrl = "test img url",
             AveragePrice = 15.21M,
             NumberOfOpinions = 0,
             NumberOfAddToFav = 0,

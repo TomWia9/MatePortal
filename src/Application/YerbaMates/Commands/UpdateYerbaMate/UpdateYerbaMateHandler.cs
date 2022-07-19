@@ -53,7 +53,6 @@ public class UpdateYerbaMateHandler : IRequestHandler<UpdateYerbaMateCommand>
 
         entity.Name = request.Name;
         entity.Description = request.Description;
-        entity.ImgUrl = request.ImgUrl;
         entity.AveragePrice = request.AveragePrice;
         entity.BrandId = request.BrandId;
         entity.CategoryId = request.CategoryId;
