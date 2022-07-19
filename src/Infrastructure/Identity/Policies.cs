@@ -8,10 +8,10 @@ public static class Policies
     /// <summary>
     ///     The user access
     /// </summary>
-    public static string UserAccess = "UserAccess";
+    public const string UserAccess = "UserAccess";
 
     /// <summary>
     ///     The admin access
     /// </summary>
-    public static string AdminAccess = "AdminAccess";
+    public const string AdminAccess = "AdminAccess";
 }
