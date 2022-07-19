@@ -99,10 +99,10 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
         {
             var sortingColumns = new Dictionary<string, Expression<Func<YerbaMate, object>>>
             {
-                {nameof(YerbaMate.Name), y => y.Name},
-                {nameof(YerbaMate.AveragePrice), y => y.AveragePrice},
-                {nameof(YerbaMate.YerbaMateOpinions), y => y.YerbaMateOpinions.Count},
-                {nameof(YerbaMate.Favourites), y => y.Favourites.Count}
+                {nameof(YerbaMate.Name).ToLower(), y => y.Name},
+                {nameof(YerbaMate.AveragePrice).ToLower(), y => y.AveragePrice},
+                {nameof(YerbaMate.YerbaMateOpinions).ToLower(), y => y.YerbaMateOpinions.Count},
+                {nameof(YerbaMate.Favourites).ToLower(), y => y.Favourites.Count}
             };
 
             collection = _sortService.Sort(collection, request.Parameters.SortBy,

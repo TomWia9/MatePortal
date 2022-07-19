@@ -82,9 +82,9 @@ public class GetBrandsHandler : IRequestHandler<GetBrandsQuery, PaginatedList<Br
         {
             var sortingColumns = new Dictionary<string, Expression<Func<Brand, object>>>
             {
-                {nameof(Brand.Name), b => b.Name},
-                {nameof(Brand.Description), b => b.Description},
-                {nameof(Brand.Country), b => b.Country.Name}
+                {nameof(Brand.Name).ToLower(), b => b.Name},
+                {nameof(Brand.Description).ToLower(), b => b.Description},
+                {nameof(Brand.Country).ToLower(), b => b.Country.Name}
             };
 
             collection = _sortService.Sort(collection, request.Parameters.SortBy,

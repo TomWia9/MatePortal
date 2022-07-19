@@ -130,17 +130,17 @@ public class UsersService : IUsersService
         {
             var sortingColumns = new Dictionary<string, Expression<Func<ApplicationUser, object>>>
             {
-                {nameof(ApplicationUser.UserName), u => u.UserName},
-                {nameof(ApplicationUser.Email), u => u.Email}
+                {nameof(ApplicationUser.UserName).ToLower(), u => u.UserName},
+                {nameof(ApplicationUser.Email).ToLower(), u => u.Email}
             };
 
             //Other tables (can't be sorted in sortService, it has to be group joined)
-            const string yerbaMateOpinions = "YerbaMateOpinions";
-            const string shopOpinions = "ShopOpinions";
+            const string yerbaMateOpinions = "yerbamateopinions";
+            const string shopOpinions = "shopopinions";
 
-            if (request.Parameters.SortBy is yerbaMateOpinions or shopOpinions)
+            if (request.Parameters.SortBy.ToLower() is yerbaMateOpinions or shopOpinions)
             {
-                collection = request.Parameters.SortBy == "YerbaMateOpinions"
+                collection = request.Parameters.SortBy.ToLower() == yerbaMateOpinions
                     ? SortByOpinionsCount(collection, _context.YerbaMateOpinions, x => x.CreatedBy,
                         request.Parameters.SortDirection)
                     : SortByOpinionsCount(collection, _context.ShopOpinions, x => x.CreatedBy,
