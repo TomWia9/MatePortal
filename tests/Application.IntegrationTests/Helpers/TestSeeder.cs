@@ -118,6 +118,21 @@ public static class TestSeeder
     }
 
     /// <summary>
+    ///     Seed test yerba mate images opinions
+    /// </summary>
+    /// <param name="factory">Web application factory</param>
+    public static async Task SeedTestYerbaMateImagesAsync(CustomWebApplicationFactory factory)
+    {
+        var context = DbHelper.GetDbContext(factory);
+
+        if (!await context.YerbaMateImages.AnyAsync())
+        {
+            await context.YerbaMateImages.AddRangeAsync(GetYerbaMateImages());
+            await context.SaveChangesAsync(CancellationToken.None);
+        }
+    }
+
+    /// <summary>
     ///     Gets test brands
     /// </summary>
     /// <returns>List of test brands</returns>
@@ -347,6 +362,38 @@ public static class TestSeeder
                 Rate = 6,
                 Comment = "Super comment 3",
                 ShopId = Guid.Parse("02F73DA0-343F-4520-AEAD-36246FA446F5")
+            }
+        };
+    }
+
+    /// <summary>
+    ///     Gets test yerba mate images
+    /// </summary>
+    /// <returns>List of test categories</returns>
+    private static IEnumerable<YerbaMateImage> GetYerbaMateImages()
+    {
+        return new List<YerbaMateImage>
+        {
+            new()
+            {
+                Id = Guid.Parse("49B83785-C3B4-4839-8D30-4B5BDF7D85AD"),
+                Url =
+                    "https://images.unsplash.com/photo-1609541994821-d909982e2f1b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43")
+            },
+            new()
+            {
+                Id = Guid.Parse("A6CB6A60-ABE2-4852-B099-79C2B40F4AAB"),
+                Url =
+                    "https://images.unsplash.com/photo-1609541994821-d909982e2f1b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43")
+            },
+            new()
+            {
+                Id = Guid.Parse("C673489F-93A6-4508-875E-C89838350552"),
+                Url =
+                    "https://images.unsplash.com/photo-1609541994821-d909982e2f1b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                YerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43")
             }
         };
     }

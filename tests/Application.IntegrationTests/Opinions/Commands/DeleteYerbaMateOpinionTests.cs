@@ -33,7 +33,7 @@ public class DeleteYerbaMateOpinionTests : IntegrationTest
     ///     Delete opinion command should delete opinion
     /// </summary>
     [Fact]
-    public async Task ShouldDeleteFavourite()
+    public async Task ShouldDeleteOpinion()
     {
         await TestSeeder.SeedTestYerbaMatesAsync(Factory);
         await AuthHelper.RunAsDefaultUserAsync(Factory);
