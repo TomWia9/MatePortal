@@ -34,21 +34,21 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
     /// <summary>
     ///     Sort service
     /// </summary>
-    private readonly ISortService<YerbaMate> _sortService;
+    private readonly IQueryService<YerbaMate> _queryService;
 
     /// <summary>
     ///     Initializes GetYerbaMatesHandler
     /// </summary>
     /// <param name="context">Database context</param>
     /// <param name="mapper">The mapper</param>
-    /// <param name="sortService">Sort service</param>
+    /// <param name="queryService">Query service</param>
     public GetYerbaMatesHandler(IApplicationDbContext context,
         IMapper mapper,
-        ISortService<YerbaMate> sortService)
+        IQueryService<YerbaMate> queryService)
     {
         _context = context;
         _mapper = mapper;
-        _sortService = sortService;
+        _queryService = queryService;
     }
 
     /// <summary>
@@ -68,27 +68,14 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
             .Include(y => y.Category).AsQueryable()
             .Include(y => y.YerbaMateOpinions).AsQueryable()
             .Include(y => y.Favourites).AsQueryable();
-        
+
         var predicates = GetPredicates(request.Parameters);
 
-        collection = Search(collection, predicates);
+        collection = _queryService.Search(collection, predicates);
         collection = Sort(collection, request.Parameters.SortBy, request.Parameters.SortDirection);
 
         return await collection.ProjectTo<YerbaMateDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
-    }
-
-    /// <summary>
-    ///     Searches collection by given predicates
-    /// </summary>
-    /// <param name="collection">The Queryable collection</param>
-    /// <param name="predicates">The predicates</param>
-    /// <typeparam name="T">The entity type</typeparam>
-    private static IQueryable<T> Search<T>(IQueryable<T> collection,
-        IEnumerable<Expression<Func<T, bool>>> predicates)
-    {
-        return predicates.Where(predicate => predicate != null)
-            .Aggregate(collection, (current, predicate) => current.Where(predicate));
     }
 
     /// <summary>
@@ -150,8 +137,8 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
         if (!string.IsNullOrWhiteSpace(sortBy))
         {
             var sortingColumn = GetSortingColumn(sortBy);
-            
-            collection = _sortService.Sort(collection, sortingColumn, sortDirection);
+
+            collection = _queryService.Sort(collection, sortingColumn, sortDirection);
         }
         else
         {
@@ -160,5 +147,4 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
 
         return collection;
     }
-
 }

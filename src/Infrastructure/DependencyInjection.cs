@@ -38,7 +38,7 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddTransient<IDateTime, DateTimeService>();
-        services.AddTransient(typeof(ISortService<>), typeof(SortService<>));
+        services.AddTransient(typeof(IQueryService<>), typeof(QueryService<>));
         services.AddTransient<IUsersService, UsersService>();
 
         return services;

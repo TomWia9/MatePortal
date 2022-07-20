@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Application.Common.Enums;
@@ -7,10 +8,10 @@ using Application.Common.Interfaces;
 namespace Infrastructure.Services;
 
 /// <summary>
-///     Sort service
+///     Query service
 /// </summary>
-/// <typeparam name="T">The type of sorted collection</typeparam>
-public class SortService<T> : ISortService<T>
+/// <typeparam name="T">The type of the entity</typeparam>
+public class QueryService<T> : IQueryService<T>
     where T : class
 {
     /// <summary>
@@ -27,5 +28,18 @@ public class SortService<T> : ISortService<T>
             : collection.OrderByDescending(exp);
 
         return collection;
+    }
+    
+    /// <summary>
+    ///     Searches collection by given predicates
+    /// </summary>
+    /// <param name="collection">The Queryable collection</param>
+    /// <param name="predicates">The predicates</param>
+    /// <typeparam name="T">The entity type</typeparam>
+    public IQueryable<T> Search(IQueryable<T> collection,
+        IEnumerable<Expression<Func<T, bool>>> predicates)
+    {
+        return predicates.Where(predicate => predicate != null)
+            .Aggregate(collection, (current, predicate) => current.Where(predicate));
     }
 }
