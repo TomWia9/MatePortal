@@ -108,7 +108,7 @@ public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<Shop
             {nameof(Shop.Opinions).ToLower(), x => x.Opinions.Count}
         };
 
-        return sortingColumns[sortBy];
+        return sortingColumns[sortBy.ToLower()];
     }
 
     /// <summary>

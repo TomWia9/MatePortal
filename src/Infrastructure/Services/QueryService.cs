@@ -39,7 +39,14 @@ public class QueryService<T> : IQueryService<T>
     public IQueryable<T> Search(IQueryable<T> collection,
         IEnumerable<Expression<Func<T, bool>>> predicates)
     {
-        return predicates.Where(predicate => predicate != null)
-            .Aggregate(collection, (current, predicate) => current.Where(predicate));
+        foreach (var predicate in predicates)
+        {
+            collection = collection.Where(predicate);
+        }
+
+        return collection;
+
+        // return predicates.Where(predicate => predicate != null)
+        //     .Aggregate(collection, (current, predicate) => current.Where(predicate));
     }
 }

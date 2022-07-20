@@ -111,7 +111,7 @@ public class GetBrandsHandler : IRequestHandler<GetBrandsQuery, PaginatedList<Br
             {nameof(Brand.Country).ToLower(), x => x.Country.Name}
         };
 
-        return sortingColumns[sortBy];
+        return sortingColumns[sortBy.ToLower()];
     }
 
     /// <summary>

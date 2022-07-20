@@ -211,7 +211,7 @@ public class UsersService : IUsersService
             {nameof(ApplicationUser.Email).ToLower(), u => u.Email}
         };
 
-        return sortingColumns[sortBy];
+        return sortingColumns[sortBy.ToLower()];
     }
 
     /// <summary>

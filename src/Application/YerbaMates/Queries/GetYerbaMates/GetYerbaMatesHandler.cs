@@ -122,7 +122,7 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
             {nameof(YerbaMate.Favourites).ToLower(), x => x.Favourites.Count}
         };
 
-        return sortingColumns[sortBy];
+        return sortingColumns[sortBy.ToLower()];
     }
 
     /// <summary>

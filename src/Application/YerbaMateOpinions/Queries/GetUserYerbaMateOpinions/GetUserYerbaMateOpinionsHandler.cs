@@ -108,7 +108,7 @@ public class GetUserYerbaMateOpinionsHandler : IRequestHandler<GetUserYerbaMateO
             {nameof(YerbaMateOpinion.Rate), x => x.Rate}
         };
 
-        return sortingColumns[sortBy];
+        return sortingColumns[sortBy.ToLower()];
     }
 
     /// <summary>

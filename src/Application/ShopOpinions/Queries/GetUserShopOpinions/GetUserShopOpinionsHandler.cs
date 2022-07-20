@@ -112,7 +112,7 @@ public class
             {nameof(ShopOpinion.Rate).ToLower(), x => x.Rate}
         };
 
-        return sortingColumns[sortBy];
+        return sortingColumns[sortBy.ToLower()];
     }
 
     /// <summary>
