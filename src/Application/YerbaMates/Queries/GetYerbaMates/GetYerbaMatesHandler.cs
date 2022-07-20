@@ -98,11 +98,14 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
 
         var searchQuery = parameters.SearchQuery.Trim().ToLower();
 
-        predicates.Add(x => x.Name.ToLower().Contains(searchQuery));
-        predicates.Add(x => x.Description.ToLower().Contains(searchQuery));
-        predicates.Add(x => x.Brand.Name.ToLower().Contains(searchQuery));
-        predicates.Add(x => x.Brand.Country.Name.ToLower().Contains(searchQuery));
-        predicates.Add(x => x.Category.Name.ToLower().Contains(searchQuery));
+        Expression<Func<YerbaMate, bool>> searchPredicate =
+            x => x.Name.ToLower().Contains(searchQuery) ||
+                 x.Description.ToLower().Contains(searchQuery) ||
+                 x.Brand.Name.ToLower().Contains(searchQuery) ||
+                 x.Brand.Country.Name.ToLower().Contains(searchQuery) ||
+                 x.Category.Name.ToLower().Contains(searchQuery);
+
+        predicates.Add(searchPredicate);
 
         return predicates.Where(x => x != null);
     }

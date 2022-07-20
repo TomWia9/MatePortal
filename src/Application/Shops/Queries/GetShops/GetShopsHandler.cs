@@ -86,10 +86,12 @@ public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<Shop
             return predicates;
 
         var searchQuery = parameters.SearchQuery.Trim().ToLower();
-
-        predicates.Add(x => x.Name.ToLower().Contains(searchQuery));
-        predicates.Add(x => x.Description.ToLower().Contains(searchQuery));
-        predicates.Add(x => x.Url.ToLower().Contains(searchQuery));
+        Expression<Func<Shop, bool>> searchPredicate =
+            x => x.Name.ToLower().Contains(searchQuery) ||
+                 x.Description.ToLower().Contains(searchQuery) ||
+                 x.Url.ToLower().Contains(searchQuery);
+        
+        predicates.Add(searchPredicate);
 
         return predicates.Where(x => x != null);
     }

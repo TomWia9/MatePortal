@@ -89,10 +89,12 @@ public class GetBrandsHandler : IRequestHandler<GetBrandsQuery, PaginatedList<Br
             return predicates.Where(x => x != null);
 
         var searchQuery = parameters.SearchQuery.Trim().ToLower();
-
-        predicates.Add(x => x.Name.ToLower().Contains(searchQuery));
-        predicates.Add(x => x.Description.ToLower().Contains(searchQuery));
-        predicates.Add(x => x.Country.Name.ToLower().Contains(searchQuery));
+        Expression<Func<Brand, bool>> searchPredicate =
+            x => x.Name.ToLower().Contains(searchQuery) ||
+                 x.Description.ToLower().Contains(searchQuery) ||
+                 x.Country.Name.ToLower().Contains(searchQuery);
+        
+        predicates.Add(searchPredicate);
 
         return predicates.Where(x => x != null);
     }

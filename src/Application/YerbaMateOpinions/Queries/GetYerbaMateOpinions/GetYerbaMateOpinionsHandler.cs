@@ -87,11 +87,14 @@ public class
             x => x.Rate >= parameters.MinRate && x.Rate <= parameters.MaxRate
         };
 
+        if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
+            return predicates;
+
         var searchQuery = parameters.SearchQuery.Trim().ToLower();
 
         predicates.Add(x => x.Comment.ToLower().Contains(searchQuery));
 
-        return predicates.Where(x => x != null);
+        return predicates;
     }
 
     /// <summary>

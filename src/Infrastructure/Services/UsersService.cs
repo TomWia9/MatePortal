@@ -191,9 +191,11 @@ public class UsersService : IUsersService
             return predicates;
 
         var searchQuery = parameters.SearchQuery.Trim().ToLower();
+        Expression<Func<ApplicationUser, bool>> searchPredicate =
+            x => x.Email.ToLower().Contains(searchQuery) ||
+                 x.UserName.ToLower().Contains(searchQuery);
 
-        predicates.Add(x => x.Email.ToLower().Contains(searchQuery));
-        predicates.Add(x => x.UserName.ToLower().Contains(searchQuery));
+        predicates.Add(searchPredicate);
 
         return predicates;
     }
