@@ -32,7 +32,7 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
     private readonly IMapper _mapper;
 
     /// <summary>
-    ///     Sort service
+    ///     Query service
     /// </summary>
     private readonly IQueryService<YerbaMate> _queryService;
 
