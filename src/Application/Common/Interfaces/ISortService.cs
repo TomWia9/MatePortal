@@ -17,10 +17,8 @@ public interface ISortService<T>
     ///     Sorts the given collection on the given property in the specified direction
     /// </summary>
     /// <param name="collection">Collection to sort</param>
-    /// <param name="sortBy">Property by which to sort</param>
+    /// <param name="exp">Sorting expression</param>
     /// <param name="sortDirection">Sorting direction</param>
-    /// <param name="sortingColumns">Columns allowed to be sorted by</param>
     /// <returns>Sorted collection of type IQueryable</returns>
-    IQueryable<T> Sort(IQueryable<T> collection, string sortBy, SortDirection sortDirection,
-        Dictionary<string, Expression<Func<T, object>>> sortingColumns);
+    IQueryable<T> Sort(IQueryable<T> collection, Expression<Func<T, object>> exp, SortDirection sortDirection);
 }
