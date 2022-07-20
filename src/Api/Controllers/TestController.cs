@@ -7,6 +7,9 @@ using Application.Users.Queries;
 using Application.Users.Queries.GetUsers;
 using Application.YerbaMateOpinions.Commands.CreateYerbaMateOpinion;
 using Application.YerbaMates.Commands.CreateYerbaMate;
+using Application.YerbaMates.Queries;
+using Application.YerbaMates.Queries.GetYerbaMate;
+using Application.YerbaMates.Queries.GetYerbaMates;
 using Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,6 +34,14 @@ public class TestController : Controller
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers([FromQuery] UsersQueryParameters parameters)
     {
         var result = await _mediator.Send(new GetUsersQuery(parameters));
+
+        return Ok(result);
+    }
+    
+    [HttpGet("getYerbaMates")]
+    public async Task<ActionResult<IEnumerable<YerbaMateDto>>> GetYerbaMates([FromQuery] YerbaMatesQueryParameters parameters)
+    {
+        var result = await _mediator.Send(new GetYerbaMatesQuery(parameters));
 
         return Ok(result);
     }

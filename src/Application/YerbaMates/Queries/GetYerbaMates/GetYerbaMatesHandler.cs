@@ -62,26 +62,23 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
     {
         if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
-        var collection = _context.YerbaMate
-            .Include(y => y.Brand)
-            .Include(y => y.Category)
-            .Include(y => y.YerbaMateOpinions)
+        var collection = _context.YerbaMate.AsQueryable()
+            .Include(y => y.Brand).AsQueryable()
+            .Include(y => y.Category).AsQueryable()
+            .Include(y => y.YerbaMateOpinions).AsQueryable()
             .Include(y => y.Favourites).AsQueryable();
 
         //filtering
-        if (request.Parameters.Brand != null)
-            collection = collection.Where(y => y.Brand.Name == request.Parameters.Brand);
-
-        if (request.Parameters.Country != null)
-            collection = collection.Where(y => y.Brand.Country.Name == request.Parameters.Country);
-
-        if (request.Parameters.Category != null)
-            collection = collection.Where(y => y.Category.Name == request.Parameters.Category);
-
-        if (request.Parameters.MaxPrice != null)
-            collection = collection.Where(y => y.AveragePrice <= request.Parameters.MaxPrice);
-
-
+        var predicates = new List<Expression<Func<YerbaMate, bool>>>
+        {
+            request.Parameters.Brand != null ? y => y.Brand.Name == request.Parameters.Brand : null,
+            request.Parameters.Country != null ? y => y.Brand.Country.Name == request.Parameters.Country : null,
+            request.Parameters.Category != null ? y => y.Category.Name == request.Parameters.Category : null,
+            request.Parameters.MaxPrice != null ? y => y.AveragePrice <= request.Parameters.MaxPrice : null
+        };
+        
+        collection = Filter(collection, predicates);
+        
         //searching
         if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
         {
@@ -115,5 +112,18 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
 
         return await collection.ProjectTo<YerbaMateDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+    }
+
+    /// <summary>
+    ///     Filters collection bt given predicates
+    /// </summary>
+    /// <param name="collection">The Queryable collection</param>
+    /// <param name="predicates">The predicates</param>
+    /// <typeparam name="T">The entity type</typeparam>
+    private static IQueryable<T> Filter<T>(IQueryable<T> collection, //maybe Search will be more fitting name, this method will also handle searching
+        IEnumerable<Expression<Func<T, bool>>> predicates)
+    {
+        return predicates.Where(predicate => predicate != null)
+            .Aggregate(collection, (current, predicate) => current.Where(predicate));
     }
 }
