@@ -64,10 +64,10 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
         if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
         var collection = _context.YerbaMate.AsQueryable()
-            .Include(y => y.Brand).AsQueryable()
-            .Include(y => y.Category).AsQueryable()
-            .Include(y => y.YerbaMateOpinions).AsQueryable()
-            .Include(y => y.Favourites).AsQueryable();
+            .Include(x => x.Brand).AsQueryable()
+            .Include(x => x.Category).AsQueryable()
+            .Include(x => x.YerbaMateOpinions).AsQueryable()
+            .Include(x => x.Favourites).AsQueryable();
 
         var predicates = GetPredicates(request.Parameters);
 
@@ -79,7 +79,7 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
     }
 
     /// <summary>
-    /// Gets filtering and searching predicates for yerba mates
+    ///     Gets filtering and searching predicates for yerba mates
     /// </summary>
     /// <param name="parameters">The yerba mate query parameters</param>
     /// <returns>The yerba mate predicates</returns>
@@ -87,10 +87,10 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
     {
         var predicates = new List<Expression<Func<YerbaMate, bool>>>
         {
-            !string.IsNullOrWhiteSpace(parameters.Brand) ? y => y.Brand.Name == parameters.Brand : null,
-            !string.IsNullOrWhiteSpace(parameters.Country) ? y => y.Brand.Country.Name == parameters.Country : null,
-            !string.IsNullOrWhiteSpace(parameters.Category) ? y => y.Category.Name == parameters.Category : null,
-            parameters.MaxPrice != null ? y => y.AveragePrice <= parameters.MaxPrice : null
+            !string.IsNullOrWhiteSpace(parameters.Brand) ? x => x.Brand.Name == parameters.Brand : null,
+            !string.IsNullOrWhiteSpace(parameters.Country) ? x => x.Brand.Country.Name == parameters.Country : null,
+            !string.IsNullOrWhiteSpace(parameters.Category) ? x => x.Category.Name == parameters.Category : null,
+            parameters.MaxPrice != null ? x => x.AveragePrice <= parameters.MaxPrice : null
         };
 
         if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
@@ -98,17 +98,17 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
 
         var searchQuery = parameters.SearchQuery.Trim().ToLower();
 
-        predicates.Add(y => y.Name.ToLower().Contains(searchQuery));
-        predicates.Add(y => y.Description.ToLower().Contains(searchQuery));
-        predicates.Add(y => y.Brand.Name.ToLower().Contains(searchQuery));
-        predicates.Add(y => y.Brand.Country.Name.ToLower().Contains(searchQuery));
-        predicates.Add(y => y.Category.Name.ToLower().Contains(searchQuery));
+        predicates.Add(x => x.Name.ToLower().Contains(searchQuery));
+        predicates.Add(x => x.Description.ToLower().Contains(searchQuery));
+        predicates.Add(x => x.Brand.Name.ToLower().Contains(searchQuery));
+        predicates.Add(x => x.Brand.Country.Name.ToLower().Contains(searchQuery));
+        predicates.Add(x => x.Category.Name.ToLower().Contains(searchQuery));
 
         return predicates.Where(x => x != null);
     }
 
     /// <summary>
-    /// Gets sorting column expression
+    ///     Gets sorting column expression
     /// </summary>
     /// <param name="sortBy">Column by which to sort</param>
     /// <returns>The sorting expression</returns>
@@ -116,17 +116,17 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
     {
         var sortingColumns = new Dictionary<string, Expression<Func<YerbaMate, object>>>
         {
-            {nameof(YerbaMate.Name).ToLower(), y => y.Name},
-            {nameof(YerbaMate.AveragePrice).ToLower(), y => y.AveragePrice},
-            {nameof(YerbaMate.YerbaMateOpinions).ToLower(), y => y.YerbaMateOpinions.Count},
-            {nameof(YerbaMate.Favourites).ToLower(), y => y.Favourites.Count}
+            {nameof(YerbaMate.Name).ToLower(), x => x.Name},
+            {nameof(YerbaMate.AveragePrice).ToLower(), x => x.AveragePrice},
+            {nameof(YerbaMate.YerbaMateOpinions).ToLower(), x => x.YerbaMateOpinions.Count},
+            {nameof(YerbaMate.Favourites).ToLower(), x => x.Favourites.Count}
         };
 
         return sortingColumns[sortBy];
     }
 
     /// <summary>
-    /// Sorts yerba mates by given column in given direction
+    ///     Sorts yerba mates by given column in given direction
     /// </summary>
     /// <param name="collection">The yerba mate collection</param>
     /// <param name="sortBy">Column by which to sort</param>
@@ -142,7 +142,7 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
         }
         else
         {
-            collection = collection.OrderBy(y => y.Name);
+            collection = collection.OrderBy(x => x.Name);
         }
 
         return collection;
