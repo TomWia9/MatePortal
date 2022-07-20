@@ -29,9 +29,9 @@ public class UsersService : IUsersService
     private readonly ApplicationDbContext _context;
 
     /// <summary>
-    ///     Sort service
+    ///     Query service
     /// </summary>
-    private readonly ISortService<ApplicationUser> _sortService;
+    private readonly IQueryService<ApplicationUser> _queryService;
 
     /// <summary>
     ///     User manager
@@ -43,13 +43,13 @@ public class UsersService : IUsersService
     /// </summary>
     /// <param name="userManager">User manager</param>
     /// <param name="context">Database context</param>
-    /// <param name="sortService">Sort service</param>
+    /// <param name="queryService">Query service</param>
     public UsersService(UserManager<ApplicationUser> userManager, ApplicationDbContext context,
-        ISortService<ApplicationUser> sortService)
+        IQueryService<ApplicationUser> queryService)
     {
         _userManager = userManager;
         _context = context;
-        _sortService = sortService;
+        _queryService = queryService;
     }
 
     /// <summary>
@@ -109,53 +109,16 @@ public class UsersService : IUsersService
     {
         var collection = _context.Users.AsQueryable();
 
-        //filtering
         if (!string.IsNullOrEmpty(request.Parameters.Role))
         {
             var usersInRole = await _userManager.GetUsersInRoleAsync(request.Parameters.Role);
             collection = usersInRole.AsQueryable();
         }
 
-        //searching
-        if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
-        {
-            var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
+        var predicates = GetPredicates(request.Parameters);
 
-            collection = collection.Where(u => u.Email.ToLower().Contains(searchQuery)
-                                               || u.UserName.ToLower().Contains(searchQuery));
-        }
-
-        //sorting
-        if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
-        {
-            var sortingColumns = new Dictionary<string, Expression<Func<ApplicationUser, object>>>
-            {
-                {nameof(ApplicationUser.UserName).ToLower(), u => u.UserName},
-                {nameof(ApplicationUser.Email).ToLower(), u => u.Email}
-            };
-
-            //Other tables (can't be sorted in sortService, it has to be group joined)
-            const string yerbaMateOpinions = "yerbamateopinions";
-            const string shopOpinions = "shopopinions";
-
-            if (request.Parameters.SortBy.ToLower() is yerbaMateOpinions or shopOpinions)
-            {
-                collection = request.Parameters.SortBy.ToLower() == yerbaMateOpinions
-                    ? SortByOpinionsCount(collection, _context.YerbaMateOpinions, x => x.CreatedBy,
-                        request.Parameters.SortDirection)
-                    : SortByOpinionsCount(collection, _context.ShopOpinions, x => x.CreatedBy,
-                        request.Parameters.SortDirection);
-            }
-            else
-            {
-                collection = _sortService.Sort(collection, request.Parameters.SortBy,
-                    request.Parameters.SortDirection, sortingColumns);
-            }
-        }
-        else
-        {
-            collection = collection.OrderBy(u => u.Email);
-        }
+        collection = _queryService.Search(collection, predicates);
+        collection = Sort(collection, request.Parameters.SortBy, request.Parameters.SortDirection);
 
         var mappedUsers = await MapUsers(collection.ToList());
         return new PaginatedList<UserDto>(mappedUsers, mappedUsers.Count,
@@ -213,5 +176,78 @@ public class UsersService : IUsersService
             : usersWithOpinionsCount.OrderByDescending(x => x.OpinionsCount);
 
         return usersWithOpinionsCount.Select(x => x.User).AsQueryable();
+    }
+
+    /// <summary>
+    ///     Gets filtering and searching predicates for users
+    /// </summary>
+    /// <param name="parameters">The users query parameters</param>
+    /// <returns>The users predicates</returns>
+    private static IEnumerable<Expression<Func<ApplicationUser, bool>>> GetPredicates(UsersQueryParameters parameters)
+    {
+        var predicates = new List<Expression<Func<ApplicationUser, bool>>>();
+
+        if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
+            return predicates;
+
+        var searchQuery = parameters.SearchQuery.Trim().ToLower();
+
+        predicates.Add(x => x.Email.ToLower().Contains(searchQuery));
+        predicates.Add(x => x.UserName.ToLower().Contains(searchQuery));
+
+        return predicates;
+    }
+
+    /// <summary>
+    ///     Gets sorting column expression
+    /// </summary>
+    /// <param name="sortBy">Column by which to sort</param>
+    /// <returns>The sorting expression</returns>
+    private static Expression<Func<ApplicationUser, object>> GetSortingColumn(string sortBy)
+    {
+        var sortingColumns = new Dictionary<string, Expression<Func<ApplicationUser, object>>>
+        {
+            {nameof(ApplicationUser.UserName).ToLower(), u => u.UserName},
+            {nameof(ApplicationUser.Email).ToLower(), u => u.Email}
+        };
+
+        return sortingColumns[sortBy];
+    }
+
+    /// <summary>
+    ///     Sorts users by given column in given direction
+    /// </summary>
+    /// <param name="collection">The users collection</param>
+    /// <param name="sortBy">Column by which to sort</param>
+    /// <param name="sortDirection">Direction in which to sort</param>
+    /// <returns>The sorted collection of users</returns>
+    private IQueryable<ApplicationUser> Sort(IQueryable<ApplicationUser> collection, string sortBy,
+        SortDirection sortDirection)
+    {
+        if (!string.IsNullOrWhiteSpace(sortBy))
+        {
+            const string yerbaMateOpinions = "yerbamateopinions";
+            const string shopOpinions = "shopopinions";
+
+            if (sortBy.ToLower() is yerbaMateOpinions or shopOpinions)
+            {
+                collection = sortBy.ToLower() == yerbaMateOpinions
+                    ? SortByOpinionsCount(collection, _context.YerbaMateOpinions, x => x.CreatedBy,
+                        sortDirection)
+                    : SortByOpinionsCount(collection, _context.ShopOpinions, x => x.CreatedBy,
+                        sortDirection);
+            }
+            else
+            {
+                var sortingColumn = GetSortingColumn(sortBy);
+                collection = _queryService.Sort(collection, sortingColumn, sortDirection);
+            }
+        }
+        else
+        {
+            collection = collection.OrderBy(x => x.Email);
+        }
+
+        return collection;
     }
 }
