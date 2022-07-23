@@ -59,9 +59,22 @@ public class UsersService : IUsersService
     public async Task UpdateUserAsync(UpdateUserCommand request)
     {
         var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+
         user.UserName = request.Username;
-        await _userManager.UpdateAsync(user);
-        await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+
+        var updateUserResult = await _userManager.UpdateAsync(user);
+
+        if (!updateUserResult.Succeeded)
+            throw new BadRequestException(string.Join(", ", updateUserResult.Errors.Select(x => x.Description)));
+
+        var changePasswordResult =
+            await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+
+        if (!changePasswordResult.Succeeded)
+            throw new BadRequestException(string.Join(", ",
+                changePasswordResult.Errors.Select(x => x.Description)));
     }
 
     /// <summary>
@@ -73,8 +86,10 @@ public class UsersService : IUsersService
     {
         var user = await _userManager.FindByIdAsync(request.UserId.ToString());
 
+        if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+
         if (!adminAccess && !await _userManager.CheckPasswordAsync(user, request.Password))
-            throw new ForbiddenAccessException();
+            throw new BadRequestException("Provided password is incorrect");
 
         await _userManager.DeleteAsync(user);
     }
@@ -86,7 +101,7 @@ public class UsersService : IUsersService
     /// <exception cref="NotFoundException">Throws when user is not found</exception>
     public async Task<UserDto> GetUserAsync(GetUserQuery request)
     {
-        var user = await _context.Users.FindAsync(request.UserId);
+        var user = await _userManager.FindByIdAsync(request.UserId.ToString());
 
         if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
