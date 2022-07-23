@@ -8,7 +8,6 @@ using Application.Users.Queries.GetUser;
 using Application.Users.Queries.GetUsers;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -23,7 +22,7 @@ public class UsersController : ApiControllerBase
     /// </summary>
     /// <param name="parameters">Query parameters to apply</param>
     /// <returns>An ActionResult of type IEnumerable of UserDto</returns>
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    /// <response code="200">Returns users</response>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers([FromQuery] UsersQueryParameters parameters)
     {
@@ -37,8 +36,8 @@ public class UsersController : ApiControllerBase
     /// </summary>
     /// <param name="id">The user id</param>
     /// <returns>An ActionResult of UserDto</returns>
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    /// <response code="200">Returns user</response>
+    /// <response code="404">User not found</response>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<UserDto>> GetUser(Guid id)
     {
@@ -50,13 +49,13 @@ public class UsersController : ApiControllerBase
     /// <summary>
     ///     Updates the user
     /// </summary>
-    /// <param name="command">The udate user command</param>
+    /// <param name="command">The update user command</param>
     /// <returns>An IActionResult</returns>
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    /// <response code="204">Updates user</response>
+    /// <response code="400">Bad request</response>
+    /// <response code="404">User not found</response>
+    /// <response code="401">Unauthorized access</response>
+    /// <response code="403">Forbidden access</response>
     [Authorize(Policy = Policies.UserAccess)]
     [HttpPut]
     public async Task<IActionResult> UpdateUser(UpdateUserCommand command)
@@ -70,12 +69,12 @@ public class UsersController : ApiControllerBase
     ///     Deletes the user
     /// </summary>
     /// <param name="command">The delete user command</param>
-    /// <returns></returns>
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    /// <returns>An IAction result</returns>
+    /// <response code="204">Updates user</response>
+    /// <response code="400">Bad request</response>
+    /// <response code="404">User not found</response>
+    /// <response code="401">Unauthorized access</response>
+    /// <response code="403">Forbidden access</response>
     [Authorize(Policy = Policies.UserAccess)]
     [HttpDelete]
     public async Task<IActionResult> DeleteUser(DeleteUserCommand command)
