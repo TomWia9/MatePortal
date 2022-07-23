@@ -230,7 +230,7 @@ public class UsersService : IUsersService
         const string yerbaMateOpinions = "yerbamateopinions";
         const string shopOpinions = "shopopinions";
 
-        if (sortBy.ToLower() is yerbaMateOpinions or shopOpinions)
+        if (!string.IsNullOrEmpty(sortBy) && sortBy.ToLower() is yerbaMateOpinions or shopOpinions)
         {
             collection = sortBy.ToLower() == yerbaMateOpinions
                 ? SortByOpinionsCount(collection, _context.YerbaMateOpinions, x => x.CreatedBy,
