@@ -1,5 +1,4 @@
-﻿using Application.Common.Extensions;
-using Application.Common.QueryParameters;
+﻿using Application.Common.QueryParameters;
 
 namespace Application.Brands.Queries;
 
@@ -15,7 +14,7 @@ public class BrandsQueryParameters : QueryParameters
     /// </summary>
     public string Country
     {
-        get => string.IsNullOrEmpty(_country) ? _country : _country.FirstCharToUpper();
+        get => string.IsNullOrEmpty(_country) ? _country : _country.ToLower();
         init => _country = value;
     }
 }

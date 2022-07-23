@@ -82,7 +82,7 @@ public class GetBrandsHandler : IRequestHandler<GetBrandsQuery, PaginatedList<Br
     {
         var predicates = new List<Expression<Func<Brand, bool>>>
         {
-            !string.IsNullOrWhiteSpace(parameters.Country) ? x => x.Country.Name == parameters.Country : null
+            !string.IsNullOrWhiteSpace(parameters.Country) ? x => x.Country.Name.ToLower() == parameters.Country : null
         };
 
         if (string.IsNullOrWhiteSpace(parameters.SearchQuery))

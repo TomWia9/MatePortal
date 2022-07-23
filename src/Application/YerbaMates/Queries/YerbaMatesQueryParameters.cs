@@ -1,5 +1,4 @@
-﻿using Application.Common.Extensions;
-using Application.Common.QueryParameters;
+﻿using Application.Common.QueryParameters;
 
 namespace Application.YerbaMates.Queries;
 
@@ -17,7 +16,7 @@ public class YerbaMatesQueryParameters : QueryParameters
     /// </summary>
     public string Country
     {
-        get => string.IsNullOrEmpty(_country) ? _country : _country.FirstCharToUpper();
+        get => string.IsNullOrEmpty(_country) ? _country : _country.ToLower();
         init => _country = value;
     }
 
@@ -26,7 +25,7 @@ public class YerbaMatesQueryParameters : QueryParameters
     /// </summary>
     public string Brand
     {
-        get => string.IsNullOrEmpty(_brand) ? _brand : _brand.FirstCharToUpper();
+        get => string.IsNullOrEmpty(_brand) ? _brand : _brand.ToLower();
         init => _brand = value;
     }
 
@@ -35,7 +34,7 @@ public class YerbaMatesQueryParameters : QueryParameters
     /// </summary>
     public string Category
     {
-        get => string.IsNullOrEmpty(_category) ? _category : _category.FirstCharToUpper();
+        get => string.IsNullOrEmpty(_category) ? _category : _category.ToLower();
         init => _category = value;
     }
 

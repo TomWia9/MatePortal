@@ -67,7 +67,7 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
             .Include(x => x.Category).AsQueryable()
             .Include(x => x.YerbaMateOpinions).AsQueryable()
             .Include(x => x.Favourites).AsQueryable();
-        
+
         var predicates = GetPredicates(request.Parameters);
         var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
 
@@ -87,9 +87,13 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
     {
         var predicates = new List<Expression<Func<YerbaMate, bool>>>
         {
-            !string.IsNullOrWhiteSpace(parameters.Brand) ? x => x.Brand.Name == parameters.Brand : null,
-            !string.IsNullOrWhiteSpace(parameters.Country) ? x => x.Brand.Country.Name == parameters.Country : null,
-            !string.IsNullOrWhiteSpace(parameters.Category) ? x => x.Category.Name == parameters.Category : null,
+            !string.IsNullOrWhiteSpace(parameters.Brand) ? x => x.Brand.Name.ToLower() == parameters.Brand : null,
+            !string.IsNullOrWhiteSpace(parameters.Country)
+                ? x => x.Brand.Country.Name.ToLower() == parameters.Country
+                : null,
+            !string.IsNullOrWhiteSpace(parameters.Category)
+                ? x => x.Category.Name.ToLower() == parameters.Category
+                : null,
             parameters.MaxPrice != null ? x => x.AveragePrice <= parameters.MaxPrice : null
         };
 

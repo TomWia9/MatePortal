@@ -1,5 +1,4 @@
-﻿using Application.Common.Extensions;
-using Application.Common.QueryParameters;
+﻿using Application.Common.QueryParameters;
 
 namespace Application.Users.Queries;
 
@@ -15,7 +14,7 @@ public class UsersQueryParameters : QueryParameters
     /// </summary>
     public string Role
     {
-        get => string.IsNullOrEmpty(_role) ? _role : _role.FirstCharToUpper();
+        get => string.IsNullOrEmpty(_role) ? _role : _role.ToLower();
         init => _role = value;
     }
 }
