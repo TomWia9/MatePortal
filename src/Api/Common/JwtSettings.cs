@@ -1,7 +1,12 @@
-﻿namespace Api.Common
+﻿namespace Api.Common;
+
+/// <summary>
+///     The Json Web Token settings
+/// </summary>
+public class JwtSettings
 {
-    public class JwtSettings
-    {
-        public string Secret { get; set; }
-    }
+    /// <summary>
+    ///     The token secret key
+    /// </summary>
+    public string Secret { get; set; }
 }

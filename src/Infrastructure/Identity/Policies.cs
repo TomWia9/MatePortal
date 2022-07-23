@@ -1,8 +1,17 @@
-﻿namespace Infrastructure.Identity
+﻿namespace Infrastructure.Identity;
+
+/// <summary>
+///     The policies
+/// </summary>
+public static class Policies
 {
-    public static class Policies
-    {
-        public static string UserAccess = "UserAccess";
-        public static string AdminAccess = "AdminAccess";
-    }
+    /// <summary>
+    ///     The user access
+    /// </summary>
+    public const string UserAccess = "UserAccess";
+
+    /// <summary>
+    ///     The admin access
+    /// </summary>
+    public const string AdminAccess = "AdminAccess";
 }

@@ -1,10 +1,15 @@
 ﻿using System;
 using Application.Common.Interfaces;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Services;
+
+/// <summary>
+///     Date time service
+/// </summary>
+public class DateTimeService : IDateTime
 {
-    public class DateTimeService : IDateTime
-    {
-        public DateTime Now => DateTime.Now;
-    }
+    /// <summary>
+    ///     Current Date time
+    /// </summary>
+    public DateTime Now => DateTime.Now;
 }

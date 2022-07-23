@@ -5,55 +5,54 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Favourites.Commands.DeleteFavourite
+namespace Application.Favourites.Commands.DeleteFavourite;
+
+/// <summary>
+///     Delete favourite handler
+/// </summary>
+public class DeleteFavouriteHandler : IRequestHandler<DeleteFavouriteCommand>
 {
     /// <summary>
-    ///     Delete favourite handler
+    ///     Database context
     /// </summary>
-    public class DeleteFavouriteHandler : IRequestHandler<DeleteFavouriteCommand>
+    private readonly IApplicationDbContext _context;
+
+    /// <summary>
+    ///     Current user service
+    /// </summary>
+    private readonly ICurrentUserService _currentUserService;
+
+    /// <summary>
+    ///     Initializes DeleteFavouriteHandler
+    /// </summary>
+    /// <param name="context">Database context</param>
+    /// <param name="currentUserService">Current user service</param>
+    public DeleteFavouriteHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
     {
-        /// <summary>
-        ///     Database context
-        /// </summary>
-        private readonly IApplicationDbContext _context;
+        _context = context;
+        _currentUserService = currentUserService;
+    }
 
-        /// <summary>
-        ///     Current user service
-        /// </summary>
-        private readonly ICurrentUserService _currentUserService;
+    /// <summary>
+    ///     Handles deleting favourite
+    /// </summary>
+    /// <param name="request">Delete favourite request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <exception cref="NotFoundException">Thrown when favourite is not found</exception>
+    public async Task<Unit> Handle(DeleteFavouriteCommand request, CancellationToken cancellationToken)
+    {
+        var entity = await _context.Favourites.FindAsync(request.FavouriteId);
 
-        /// <summary>
-        ///     Initializes DeleteFavouriteHandler
-        /// </summary>
-        /// <param name="context">Database context</param>
-        /// <param name="currentUserService">Current user service</param>
-        public DeleteFavouriteHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
-        {
-            _context = context;
-            _currentUserService = currentUserService;
-        }
+        if (entity == null) throw new NotFoundException(nameof(Favourite), request.FavouriteId);
 
-        /// <summary>
-        ///     Handles deleting favourite
-        /// </summary>
-        /// <param name="request">Delete favourite request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <exception cref="NotFoundException">Thrown when favourite is not found</exception>
-        public async Task<Unit> Handle(DeleteFavouriteCommand request, CancellationToken cancellationToken)
-        {
-            var entity = await _context.Favourites.FindAsync(request.FavouriteId);
+        if (!_currentUserService.AdministratorAccess &&
+            entity.CreatedBy != _currentUserService.UserId)
+            throw new ForbiddenAccessException();
 
-            if (entity == null) throw new NotFoundException(nameof(Favourite), request.FavouriteId);
+        _context.Favourites.Remove(entity);
 
-            if (_currentUserService.UserRole != "Administrator" &&
-                entity.CreatedBy != _currentUserService.UserId)
-                throw new ForbiddenAccessException();
+        await _context.SaveChangesAsync(cancellationToken);
 
-            _context.Favourites.Remove(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

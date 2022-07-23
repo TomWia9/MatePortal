@@ -2,14 +2,40 @@
 using System.Collections.Generic;
 using Domain.Common;
 
-namespace Domain.Entities
+namespace Domain.Entities;
+
+/// <summary>
+///     The shop
+/// </summary>
+public class Shop : BaseEntity, IHasDomainEvent
 {
-    public class Shop : BaseEntity, IHasDomainEvent
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public IList<ShopOpinion> Opinions { get; set; }
-        public List<DomainEvent> DomainEvents { get; set; } = new();
-    }
+    /// <summary>
+    ///     The shop ID
+    /// </summary>
+    public Guid Id { get; init; }
+
+    /// <summary>
+    ///     The shop name
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    ///     The shop description
+    /// </summary>
+    public string Description { get; set; }
+
+    /// <summary>
+    ///     The shop url
+    /// </summary>
+    public string Url { get; set; }
+
+    /// <summary>
+    ///     The shop opinions
+    /// </summary>
+    public IList<ShopOpinion> Opinions { get; set; }
+
+    /// <summary>
+    ///     Domain events
+    /// </summary>
+    public List<DomainEvent> DomainEvents { get; set; } = new();
 }

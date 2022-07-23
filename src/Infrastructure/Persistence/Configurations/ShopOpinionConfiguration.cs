@@ -2,17 +2,23 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Configurations
-{
-    public class ShopOpinionConfiguration : IEntityTypeConfiguration<ShopOpinion>
-    {
-        public void Configure(EntityTypeBuilder<ShopOpinion> builder)
-        {
-            builder.Ignore(s => s.DomainEvents);
-            builder.HasKey(s => s.Id);
+namespace Infrastructure.Persistence.Configurations;
 
-            builder.Property(o => o.Rate).IsRequired();
-            builder.Property(o => o.Comment).HasMaxLength(500).IsRequired();
-        }
+/// <summary>
+///     Shop opinion configuration
+/// </summary>
+public class ShopOpinionConfiguration : IEntityTypeConfiguration<ShopOpinion>
+{
+    /// <summary>
+    ///     Configures shops
+    /// </summary>
+    /// <param name="builder">Entity type builder</param>
+    public void Configure(EntityTypeBuilder<ShopOpinion> builder)
+    {
+        builder.Ignore(s => s.DomainEvents);
+        builder.HasKey(s => s.Id);
+
+        builder.Property(o => o.Rate).IsRequired();
+        builder.Property(o => o.Comment).HasMaxLength(500).IsRequired();
     }
 }

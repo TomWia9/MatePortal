@@ -11,77 +11,138 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistence
+namespace Infrastructure.Persistence;
+
+/// <summary>
+///     Application database context
+/// </summary>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>,
+    IApplicationDbContext
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>,
-        IApplicationDbContext
+    /// <summary>
+    ///     The current user service
+    /// </summary>
+    private readonly ICurrentUserService _currentUserService;
+
+    /// <summary>
+    ///     The date time service
+    /// </summary>
+    private readonly IDateTime _dateTime;
+
+    /// <summary>
+    ///     The domain event service
+    /// </summary>
+    private readonly IDomainEventService _domainEventService;
+
+    /// <summary>
+    ///     Initializes ApplicationDbContext
+    /// </summary>
+    /// <param name="options">The options</param>
+    /// <param name="currentUserService">The current user service</param>
+    /// <param name="dateTime">The date time service</param>
+    /// <param name="domainEventService">The domain event service</param>
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
+        ICurrentUserService currentUserService, IDateTime dateTime,
+        IDomainEventService domainEventService) : base(options)
     {
-        private readonly ICurrentUserService _currentUserService;
-        private readonly IDateTime _dateTime;
-        private readonly IDomainEventService _domainEventService;
+        _currentUserService = currentUserService;
+        _dateTime = dateTime;
+        _domainEventService = domainEventService;
+    }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
-            ICurrentUserService currentUserService, IDateTime dateTime,
-            IDomainEventService domainEventService) : base(options)
-        {
-            _currentUserService = currentUserService;
-            _dateTime = dateTime;
-            _domainEventService = domainEventService;
-        }
+    /// <summary>
+    ///     The brands DbSet
+    /// </summary>
+    public DbSet<Brand> Brands { get; set; }
 
-        public DbSet<Brand> Brands { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<Favourite> Favourites { get; set; }
-        public DbSet<Opinion> Opinions { get; set; }
-        public DbSet<YerbaMate> YerbaMate { get; set; }
-        public DbSet<Shop> Shops { get; set; }
-        public DbSet<ShopOpinion> ShopOpinions { get; set; }
+    /// <summary>
+    ///     The Categories DbSet
+    /// </summary>
+    public DbSet<Category> Categories { get; set; }
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
-        {
-            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
-                        entry.Entity.Created = _dateTime.Now;
-                        break;
+    /// <summary>
+    ///     The Countries DbSet
+    /// </summary>
+    public DbSet<Country> Countries { get; set; }
 
-                    case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                        entry.Entity.LastModified = _dateTime.Now;
-                        break;
-                }
+    /// <summary>
+    ///     User's yerba mate favorites DbSet
+    /// </summary>
+    public DbSet<Favourite> Favourites { get; set; }
 
-            var result = await base.SaveChangesAsync(cancellationToken);
+    /// <summary>
+    ///     User's yerba mate opinions DbSet
+    /// </summary>
+    public DbSet<YerbaMateOpinion> YerbaMateOpinions { get; set; }
 
-            await DispatchEvents();
+    /// <summary>
+    ///     The YerbaMates DbSet
+    /// </summary>
+    public DbSet<YerbaMate> YerbaMate { get; set; }
 
-            return result;
-        }
+    /// <summary>
+    ///     The Shops DbSet
+    /// </summary>
+    public DbSet<Shop> Shops { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    /// <summary>
+    ///     User's shop opinions DbSet
+    /// </summary>
+    public DbSet<ShopOpinion> ShopOpinions { get; set; }
+    
+    /// <summary>
+    ///     Yerba mate images DbSet
+    /// </summary>
+    public DbSet<YerbaMateImage> YerbaMateImages { get; set; }
 
-            base.OnModelCreating(builder);
-        }
-
-        private async Task DispatchEvents()
-        {
-            while (true)
+    /// <summary>
+    ///     Saves changes async
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>The task result of int</returns>
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
+    {
+        foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            switch (entry.State)
             {
-                var domainEventEntity = ChangeTracker
-                    .Entries<IHasDomainEvent>()
-                    .Select(x => x.Entity.DomainEvents)
-                    .SelectMany(x => x)
-                    .FirstOrDefault(domainEvent => !domainEvent.IsPublished);
-                if (domainEventEntity == null) break;
+                case EntityState.Added:
+                    entry.Entity.CreatedBy = _currentUserService.UserId;
+                    entry.Entity.Created = _dateTime.Now;
+                    break;
 
-                domainEventEntity.IsPublished = true;
-                await _domainEventService.Publish(domainEventEntity);
+                case EntityState.Modified:
+                    entry.Entity.LastModifiedBy = _currentUserService.UserId;
+                    entry.Entity.LastModified = _dateTime.Now;
+                    break;
             }
+
+        var result = await base.SaveChangesAsync(cancellationToken);
+
+        await DispatchEvents();
+
+        return result;
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        base.OnModelCreating(builder);
+    }
+
+    private async Task DispatchEvents()
+    {
+        while (true)
+        {
+            var domainEventEntity = ChangeTracker
+                .Entries<IHasDomainEvent>()
+                .Select(x => x.Entity.DomainEvents)
+                .SelectMany(x => x)
+                .FirstOrDefault(domainEvent => !domainEvent.IsPublished);
+            if (domainEventEntity == null) break;
+
+            domainEventEntity.IsPublished = true;
+            await _domainEventService.Publish(domainEventEntity);
         }
     }
 }

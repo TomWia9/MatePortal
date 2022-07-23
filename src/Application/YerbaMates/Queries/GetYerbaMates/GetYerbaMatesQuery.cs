@@ -1,25 +1,24 @@
 ﻿using Application.Common.Models;
 using MediatR;
 
-namespace Application.YerbaMates.Queries.GetYerbaMates
+namespace Application.YerbaMates.Queries.GetYerbaMates;
+
+/// <summary>
+///     Get all yerba mates query
+/// </summary>
+public class GetYerbaMatesQuery : IRequest<PaginatedList<YerbaMateDto>>
 {
     /// <summary>
-    ///     Get all yerba mates query
+    ///     Initializes GetYerbaMatesQuery
     /// </summary>
-    public class GetYerbaMatesQuery : IRequest<PaginatedList<YerbaMateDto>>
+    /// <param name="parameters">Yerba mates query parameters</param>
+    public GetYerbaMatesQuery(YerbaMatesQueryParameters parameters)
     {
-        /// <summary>
-        ///     Initializes GetYerbaMatesQuery
-        /// </summary>
-        /// <param name="parameters">Yerba mates query parameters</param>
-        public GetYerbaMatesQuery(YerbaMatesQueryParameters parameters)
-        {
-            Parameters = parameters;
-        }
-
-        /// <summary>
-        ///     Yerba mates query parameters
-        /// </summary>
-        public YerbaMatesQueryParameters Parameters { get; }
+        Parameters = parameters;
     }
+
+    /// <summary>
+    ///     Yerba mates query parameters
+    /// </summary>
+    public YerbaMatesQueryParameters Parameters { get; }
 }

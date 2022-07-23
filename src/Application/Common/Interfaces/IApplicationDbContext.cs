@@ -3,18 +3,62 @@ using System.Threading.Tasks;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Common.Interfaces
+namespace Application.Common.Interfaces;
+
+/// <summary>
+///     ApplicationDbContext interface
+/// </summary>
+public interface IApplicationDbContext
 {
-    public interface IApplicationDbContext
-    {
-        DbSet<Brand> Brands { get; set; }
-        DbSet<Category> Categories { get; set; }
-        DbSet<Country> Countries { get; set; }
-        DbSet<Favourite> Favourites { get; set; }
-        DbSet<Opinion> Opinions { get; set; }
-        DbSet<YerbaMate> YerbaMate { get; set; }
-        DbSet<Shop> Shops { get; set; }
-        DbSet<ShopOpinion> ShopOpinions { get; set; }
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-    }
+    /// <summary>
+    ///     The brands DbSet
+    /// </summary>
+    DbSet<Brand> Brands { get; set; }
+
+    /// <summary>
+    ///     The categories DbSet
+    /// </summary>
+    DbSet<Category> Categories { get; set; }
+
+    /// <summary>
+    ///     The countries DbSet
+    /// </summary>
+    DbSet<Country> Countries { get; set; }
+
+    /// <summary>
+    ///     User's yerba mate favorites DbSet
+    /// </summary>
+    DbSet<Favourite> Favourites { get; set; }
+
+    /// <summary>
+    ///     User's yerba mate opinions DbSet
+    /// </summary>
+    DbSet<YerbaMateOpinion> YerbaMateOpinions { get; set; }
+
+    /// <summary>
+    ///     The yerba mates DbSet
+    /// </summary>
+    DbSet<YerbaMate> YerbaMate { get; set; }
+
+    /// <summary>
+    ///     The shops DbSet
+    /// </summary>
+    DbSet<Shop> Shops { get; set; }
+
+    /// <summary>
+    ///     User's shop opinions DbSet
+    /// </summary>
+    DbSet<ShopOpinion> ShopOpinions { get; set; }
+    
+    /// <summary>
+    ///     Yerba mate images DbSet
+    /// </summary>
+    DbSet<YerbaMateImage> YerbaMateImages { get; set; }
+
+    /// <summary>
+    ///     Saves changes async
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>The task result of int</returns>
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

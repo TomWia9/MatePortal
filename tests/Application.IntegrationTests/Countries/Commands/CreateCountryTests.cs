@@ -5,53 +5,52 @@ using Application.Countries.Queries;
 using FluentAssertions;
 using Xunit;
 
-namespace Application.IntegrationTests.Countries.Commands
+namespace Application.IntegrationTests.Countries.Commands;
+
+/// <summary>
+///     Create country tests
+/// </summary>
+public class CreateCountryTests : IntegrationTest
 {
     /// <summary>
-    ///     Create country tests
+    ///     Create country should create country and return country data transfer object
     /// </summary>
-    public class CreateCountryTests : IntegrationTest
+    [Fact]
+    public async Task ShouldCreateCountryAndReturnCountryDto()
     {
-        /// <summary>
-        ///     Create country should create country and return country data transfer object
-        /// </summary>
-        [Fact]
-        public async Task ShouldCreateCountryAndReturnCountryDto()
+        var command = new CreateCountryCommand
         {
-            var command = new CreateCountryCommand
-            {
-                Name = "Test country"
-            };
+            Name = "Test country"
+        };
 
-            var expectedResult = new CountryDto
-            {
-                Name = command.Name
-            };
-
-            var result = await _mediator.Send(command);
-
-            result.Should().BeOfType<CountryDto>();
-            result.Should().BeEquivalentTo(expectedResult, x => x.Excluding(y => y.Id));
-        }
-
-        /// <summary>
-        ///     Country should require unique name
-        /// </summary>
-        [Fact]
-        public async Task ShouldRequireUniqueName()
+        var expectedResult = new CountryDto
         {
-            await _mediator.Send(new CreateCountryCommand
-            {
-                Name = "Test"
-            });
+            Name = command.Name
+        };
 
-            var command = new CreateCountryCommand
-            {
-                Name = "Test"
-            };
+        var result = await Mediator.Send(command);
 
-            FluentActions.Invoking(() =>
-                _mediator.Send(command)).Should().Throw<ConflictException>();
-        }
+        result.Should().BeOfType<CountryDto>();
+        result.Should().BeEquivalentTo(expectedResult, x => x.Excluding(y => y.Id));
+    }
+
+    /// <summary>
+    ///     Country should require unique name
+    /// </summary>
+    [Fact]
+    public async Task ShouldRequireUniqueName()
+    {
+        await Mediator.Send(new CreateCountryCommand
+        {
+            Name = "Test"
+        });
+
+        var command = new CreateCountryCommand
+        {
+            Name = "Test"
+        };
+
+        await FluentActions.Invoking(() =>
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 }

@@ -1,25 +1,24 @@
 ﻿using System;
 using MediatR;
 
-namespace Application.ShopOpinions.Queries.GetShopOpinion
+namespace Application.ShopOpinions.Queries.GetShopOpinion;
+
+/// <summary>
+///     Get single opinion about shop query
+/// </summary>
+public class GetShopOpinionQuery : IRequest<ShopOpinionDto>
 {
     /// <summary>
-    ///     Get single opinion about shop query
+    ///     Initializes GetShopOpinionQuery
     /// </summary>
-    public class GetShopOpinionQuery : IRequest<ShopOpinionDto>
+    /// <param name="shopOpinionId">Shop opinion ID</param>
+    public GetShopOpinionQuery(Guid shopOpinionId)
     {
-        /// <summary>
-        ///     Initializes GetShopOpinionQuery
-        /// </summary>
-        /// <param name="shopOpinionId">Shop opinion ID</param>
-        public GetShopOpinionQuery(Guid shopOpinionId)
-        {
-            ShopOpinionId = shopOpinionId;
-        }
-
-        /// <summary>
-        ///     Shop opinion ID
-        /// </summary>
-        public Guid ShopOpinionId { get; }
+        ShopOpinionId = shopOpinionId;
     }
+
+    /// <summary>
+    ///     Shop opinion ID
+    /// </summary>
+    public Guid ShopOpinionId { get; }
 }

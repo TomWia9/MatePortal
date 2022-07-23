@@ -6,60 +6,71 @@ using FluentAssertions;
 using Infrastructure.Identity;
 using Xunit;
 
-namespace Application.IntegrationTests.Users.Commands
+namespace Application.IntegrationTests.Users.Commands;
+
+/// <summary>
+///     Delete user tests
+/// </summary>
+public class DeleteUserTests : IntegrationTest
 {
-    public class DeleteUserTests : IntegrationTest
+    /// <summary>
+    ///     User should be able to delete account
+    /// </summary>
+    [Fact]
+    public async Task UserShouldBeAbleToDeleteAccount()
     {
-        [Fact]
-        public async Task UserShouldBeAbleToDeleteAccount()
-        {
-            //First, register user
-            var result = await AuthHelper.RegisterTestUserAsync(_mediator);
-            var token = result.Token;
-            var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
-            var userId = user.Id;
+        //First, register user
+        var result = await AuthHelper.RegisterTestUserAsync(Mediator);
+        var token = result.Token;
+        var user = await AuthHelper.GetUserByTokenAsync(Factory, token);
+        var userId = user.Id;
 
-            _factory.CurrentUserId = userId;
-            _factory.CurrentUserRole = Roles.User;
+        Factory.CurrentUserId = userId;
+        Factory.CurrentUserRole = Roles.User;
 
-            await _mediator.Send(new DeleteUserCommand { UserId = userId, Password = "Qwerty123_" });
+        await Mediator.Send(new DeleteUserCommand {UserId = userId, Password = "Qwerty123_"});
 
-            user = await AuthHelper.GetUserByTokenAsync(_factory, token);
+        user = await AuthHelper.GetUserByTokenAsync(Factory, token);
 
-            user.Should().BeNull();
-        }
+        user.Should().BeNull();
+    }
 
-        [Fact]
-        public async Task UserShouldNotBeAbleToDeleteAccountWhenProvidedPasswordIsInvalid()
-        {
-            //First, register user
-            var result = await AuthHelper.RegisterTestUserAsync(_mediator);
-            var token = result.Token;
-            var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
-            var userId = user.Id;
+    /// <summary>
+    ///     User should not be able to delete account when provided password is invalid
+    /// </summary>
+    [Fact]
+    public async Task UserShouldNotBeAbleToDeleteAccountWhenProvidedPasswordIsInvalid()
+    {
+        //First, register user
+        var result = await AuthHelper.RegisterTestUserAsync(Mediator);
+        var token = result.Token;
+        var user = await AuthHelper.GetUserByTokenAsync(Factory, token);
+        var userId = user.Id;
 
-            FluentActions.Invoking(() =>
-                    _mediator.Send(new DeleteUserCommand { UserId = userId, Password = "123" }))
-                .Should()
-                .Throw<ForbiddenAccessException>();
-        }
+        await FluentActions.Invoking(() =>
+                Mediator.Send(new DeleteUserCommand {UserId = userId, Password = "123"}))
+            .Should()
+            .ThrowAsync<ForbiddenAccessException>();
+    }
 
-        [Fact]
-        public async Task AdminShouldBeAbleToDeleteUserAccountWithoutProvidingPassword()
-        {
-            //First, register user
-            var result = await AuthHelper.RegisterTestUserAsync(_mediator);
-            var token = result.Token;
-            var user = await AuthHelper.GetUserByTokenAsync(_factory, token);
-            var userId = user.Id;
+    /// <summary>
+    ///     Admin should be able to delete user account without providing password
+    /// </summary>
+    [Fact]
+    public async Task AdminShouldBeAbleToDeleteUserAccountWithoutProvidingPassword()
+    {
+        //First, register user
+        var result = await AuthHelper.RegisterTestUserAsync(Mediator);
+        var token = result.Token;
+        var user = await AuthHelper.GetUserByTokenAsync(Factory, token);
+        var userId = user.Id;
 
-            await AuthHelper.RunAsAdministratorAsync(_factory);
+        await AuthHelper.RunAsAdministratorAsync(Factory);
 
-            await _mediator.Send(new DeleteUserCommand { UserId = userId });
+        await Mediator.Send(new DeleteUserCommand {UserId = userId});
 
-            user = await AuthHelper.GetUserByTokenAsync(_factory, token);
+        user = await AuthHelper.GetUserByTokenAsync(Factory, token);
 
-            user.Should().BeNull();
-        }
+        user.Should().BeNull();
     }
 }

@@ -1,12 +1,29 @@
 ﻿using System;
 
-namespace Domain.Common
+namespace Domain.Common;
+
+/// <summary>
+///     Base entity
+/// </summary>
+public abstract class BaseEntity
 {
-    public abstract class BaseEntity
-    {
-        public DateTime Created { get; set; }
-        public Guid? CreatedBy { get; set; }
-        public DateTime? LastModified { get; set; }
-        public Guid? LastModifiedBy { get; set; }
-    }
+    /// <summary>
+    ///     Date of creation
+    /// </summary>
+    public DateTime Created { get; set; }
+
+    /// <summary>
+    ///     Id of the creator
+    /// </summary>
+    public Guid? CreatedBy { get; set; }
+
+    /// <summary>
+    ///     Date of last modification
+    /// </summary>
+    public DateTime? LastModified { get; set; }
+
+    /// <summary>
+    ///     Id of the last modificator
+    /// </summary>
+    public Guid? LastModifiedBy { get; set; }
 }

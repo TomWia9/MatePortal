@@ -5,44 +5,43 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Categories.Commands.DeleteCategory
+namespace Application.Categories.Commands.DeleteCategory;
+
+/// <summary>
+///     Delete category handler
+/// </summary>
+public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand>
 {
     /// <summary>
-    ///     Delete category handler
+    ///     Database context
     /// </summary>
-    public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand>
+    private readonly IApplicationDbContext _context;
+
+    /// <summary>
+    ///     Initializes DeleteCategoryHandler
+    /// </summary>
+    /// <param name="context">Database context</param>
+    public DeleteCategoryHandler(IApplicationDbContext context)
     {
-        /// <summary>
-        ///     Database context
-        /// </summary>
-        private readonly IApplicationDbContext _context;
+        _context = context;
+    }
 
-        /// <summary>
-        ///     Initializes DeleteCategoryHandler
-        /// </summary>
-        /// <param name="context">Database context</param>
-        public DeleteCategoryHandler(IApplicationDbContext context)
-        {
-            _context = context;
-        }
+    /// <summary>
+    ///     Handles deleting category
+    /// </summary>
+    /// <param name="request">Delete category request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <exception cref="NotFoundException">Thrown when category is not found</exception>
+    public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+    {
+        var entity = await _context.Categories.FindAsync(request.CategoryId);
 
-        /// <summary>
-        ///     Handles deleting category
-        /// </summary>
-        /// <param name="request">Delete category request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <exception cref="NotFoundException">Thrown when category is not found</exception>
-        public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
-        {
-            var entity = await _context.Categories.FindAsync(request.CategoryId);
+        if (entity == null) throw new NotFoundException(nameof(Category), request.CategoryId);
 
-            if (entity == null) throw new NotFoundException(nameof(Category), request.CategoryId);
+        _context.Categories.Remove(entity);
 
-            _context.Categories.Remove(entity);
+        await _context.SaveChangesAsync(cancellationToken);
 
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

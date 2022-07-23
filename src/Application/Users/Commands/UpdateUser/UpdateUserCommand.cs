@@ -1,31 +1,30 @@
 ﻿using System;
 using MediatR;
 
-namespace Application.Users.Commands.UpdateUser
+namespace Application.Users.Commands.UpdateUser;
+
+/// <summary>
+///     Update user command
+/// </summary>
+public class UpdateUserCommand : IRequest
 {
     /// <summary>
-    ///     Update user command
+    ///     User's ID
     /// </summary>
-    public class UpdateUserCommand : IRequest
-    {
-        /// <summary>
-        ///     User's ID
-        /// </summary>
-        public Guid UserId { get; set; }
+    public Guid UserId { get; init; }
 
-        /// <summary>
-        ///     User's username
-        /// </summary>
-        public string Username { get; set; }
+    /// <summary>
+    ///     User's username
+    /// </summary>
+    public string Username { get; init; }
 
-        /// <summary>
-        ///     User's current password
-        /// </summary>
-        public string CurrentPassword { get; set; }
+    /// <summary>
+    ///     User's current password
+    /// </summary>
+    public string CurrentPassword { get; init; }
 
-        /// <summary>
-        ///     User's new password
-        /// </summary>
-        public string NewPassword { get; set; }
-    }
+    /// <summary>
+    ///     User's new password
+    /// </summary>
+    public string NewPassword { get; init; }
 }

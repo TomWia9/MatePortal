@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace Domain.Common
+namespace Domain.Common;
+
+/// <summary>
+///     IHasDomainEvent interface
+/// </summary>
+public interface IHasDomainEvent
 {
-    public interface IHasDomainEvent
-    {
-        public List<DomainEvent> DomainEvents { get; set; }
-    }
+    /// <summary>
+    ///     Domain events list
+    /// </summary>
+    public List<DomainEvent> DomainEvents { get; set; }
 }

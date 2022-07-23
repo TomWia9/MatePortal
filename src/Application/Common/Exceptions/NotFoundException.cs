@@ -1,19 +1,33 @@
 ﻿using System;
 
-namespace Application.Common.Exceptions
+namespace Application.Common.Exceptions;
+
+/// <summary>
+///     Not found exception
+/// </summary>
+public class NotFoundException : Exception
 {
-    public class NotFoundException : Exception
+    /// <summary>
+    ///     Initializes default NotFoundException
+    /// </summary>
+    public NotFoundException()
     {
-        public NotFoundException()
-        {
-        }
+    }
 
-        public NotFoundException(string message) : base(message)
-        {
-        }
+    /// <summary>
+    ///     Initializes NotFoundException with message
+    /// </summary>
+    /// <param name="message">Entity name</param>
+    public NotFoundException(string message) : base(message)
+    {
+    }
 
-        public NotFoundException(string name, object key) : base($"Entity \"{name}\" ({key}) was not found")
-        {
-        }
+    /// <summary>
+    ///     Initializes NotFoundException with entity name and key
+    /// </summary>
+    /// <param name="name">Entity name</param>
+    /// <param name="key">Entity key</param>
+    public NotFoundException(string name, object key) : base($"Entity \"{name}\" ({key}) was not found")
+    {
     }
 }

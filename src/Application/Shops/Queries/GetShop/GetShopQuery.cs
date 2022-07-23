@@ -1,25 +1,24 @@
 ﻿using System;
 using MediatR;
 
-namespace Application.Shops.Queries.GetShop
+namespace Application.Shops.Queries.GetShop;
+
+/// <summary>
+///     Get single shop query
+/// </summary>
+public class GetShopQuery : IRequest<ShopDto>
 {
     /// <summary>
-    ///     Get single shop query
+    ///     Initializes GetShopQuery
     /// </summary>
-    public class GetShopQuery : IRequest<ShopDto>
+    /// <param name="shopId">Shop ID</param>
+    public GetShopQuery(Guid shopId)
     {
-        /// <summary>
-        ///     Initializes GetShopQuery
-        /// </summary>
-        /// <param name="shopId">Shop ID</param>
-        public GetShopQuery(Guid shopId)
-        {
-            ShopId = shopId;
-        }
-
-        /// <summary>
-        ///     Shop ID
-        /// </summary>
-        public Guid ShopId { get; }
+        ShopId = shopId;
     }
+
+    /// <summary>
+    ///     Shop ID
+    /// </summary>
+    public Guid ShopId { get; }
 }

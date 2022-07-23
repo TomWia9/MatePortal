@@ -1,21 +1,25 @@
 ﻿using System;
 using MediatR;
 
-namespace Application.Countries.Commands.UpdateCountry
+namespace Application.Countries.Commands.UpdateCountry;
+
+/// <summary>
+///     Update country command
+/// </summary>
+public class UpdateCountryCommand : IRequest
 {
     /// <summary>
-    ///     Update country command
+    ///     Country ID
     /// </summary>
-    public class UpdateCountryCommand : IRequest
-    {
-        /// <summary>
-        ///     Country ID
-        /// </summary>
-        public Guid CountryId { get; init; }
+    public Guid CountryId { get; init; }
 
-        /// <summary>
-        ///     Country name
-        /// </summary>
-        public string Name { get; set; }
-    }
+    /// <summary>
+    ///     Country name
+    /// </summary>
+    public string Name { get; init; }
+    
+    /// <summary>
+    ///     Country description
+    /// </summary>
+    public string Description { get; init; }
 }
