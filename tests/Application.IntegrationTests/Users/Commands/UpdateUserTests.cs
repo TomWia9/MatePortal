@@ -19,6 +19,8 @@ public class UpdateUserTests : IntegrationTest
         var token = result.Token;
         var user = await AuthHelper.GetUserByTokenAsync(Factory, token);
         var userId = user.Id;
+        
+        Factory.CurrentUserId = user.Id;
 
         var command = new UpdateUserCommand
         {
