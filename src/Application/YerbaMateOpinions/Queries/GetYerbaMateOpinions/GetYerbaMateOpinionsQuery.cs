@@ -1,29 +1,21 @@
-﻿using System;
-using Application.Common.Models;
+﻿using Application.Common.Models;
 using MediatR;
 
 namespace Application.YerbaMateOpinions.Queries.GetYerbaMateOpinions;
 
 /// <summary>
-///     Get all opinions about single yerba mate query
+///     Get yerba mate opinions query
 /// </summary>
 public class GetYerbaMateOpinionsQuery : IRequest<PaginatedList<YerbaMateOpinionDto>>
 {
     /// <summary>
     ///     Initializes GetYerbaMateOpinionsQuery
     /// </summary>
-    /// <param name="yerbaMateId">YerbaMate ID from which opinions can be obtained</param>
     /// <param name="parameters">Yerba mate opinions query parameters</param>
-    public GetYerbaMateOpinionsQuery(Guid yerbaMateId, YerbaMateOpinionsQueryParameters parameters)
+    public GetYerbaMateOpinionsQuery(YerbaMateOpinionsQueryParameters parameters)
     {
-        YerbaMateId = yerbaMateId;
         Parameters = parameters;
     }
-
-    /// <summary>
-    ///     YerbaMate ID from which opinions can be obtained
-    /// </summary>
-    public Guid YerbaMateId { get; }
 
     /// <summary>
     ///     Yerba mate opinions query parameters

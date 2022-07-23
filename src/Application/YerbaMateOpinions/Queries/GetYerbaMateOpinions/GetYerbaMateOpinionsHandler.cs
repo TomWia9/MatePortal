@@ -62,7 +62,7 @@ public class
     {
         if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
-        var collection = _context.YerbaMateOpinions.Where(o => o.YerbaMateId == request.YerbaMateId).AsQueryable();
+        var collection = _context.YerbaMateOpinions.AsQueryable();
 
         var predicates = GetPredicates(request.Parameters);
         var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
@@ -84,7 +84,9 @@ public class
     {
         var predicates = new List<Expression<Func<YerbaMateOpinion, bool>>>
         {
-            x => x.Rate >= parameters.MinRate && x.Rate <= parameters.MaxRate
+            x => x.Rate >= parameters.MinRate && x.Rate <= parameters.MaxRate,
+            parameters.YerbaMateId != null ? x => x.YerbaMateId == parameters.YerbaMateId : null,
+            parameters.UserId != null ? x => x.CreatedBy == parameters.UserId : null
         };
 
         if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
