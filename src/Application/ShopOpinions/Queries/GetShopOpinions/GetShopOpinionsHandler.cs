@@ -61,7 +61,7 @@ public class GetShopOpinionsHandler : IRequestHandler<GetShopOpinionsQuery, Pagi
     {
         if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
-        var collection = _context.ShopOpinions.Where(o => o.ShopId == request.ShopId).AsQueryable();
+        var collection = _context.ShopOpinions.AsQueryable();
 
         var predicates = GetPredicates(request.Parameters);
         var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
@@ -83,7 +83,9 @@ public class GetShopOpinionsHandler : IRequestHandler<GetShopOpinionsQuery, Pagi
     {
         var predicates = new List<Expression<Func<ShopOpinion, bool>>>
         {
-            x => x.Rate >= parameters.MinRate && x.Rate <= parameters.MaxRate
+            x => x.Rate >= parameters.MinRate && x.Rate <= parameters.MaxRate,
+            parameters.ShopId != null ? x => x.ShopId == parameters.ShopId : null,
+            parameters.UserId != null ? x => x.CreatedBy == parameters.UserId : null
         };
 
         if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
