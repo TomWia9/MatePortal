@@ -7,7 +7,7 @@ using Application.YerbaMateOpinions.Queries.GetYerbaMateOpinion;
 using FluentAssertions;
 using Xunit;
 
-namespace Application.IntegrationTests.Opinions.Queries;
+namespace Application.IntegrationTests.YerbaMateOpinions.Queries;
 
 /// <summary>
 ///     Get single yerba mate opinion tests
