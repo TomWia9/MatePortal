@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Enums;
 using Application.Common.Interfaces;
 using Application.Common.Mappings;
 using Application.Common.Models;
@@ -64,24 +63,25 @@ public class
         if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
         var collection = _context.ShopOpinions.AsQueryable();
-        
         var predicates = GetPredicates(request.Parameters);
-
-        collection = _queryService.Search(collection, predicates);
-        collection = Sort(collection, request.Parameters.SortBy, request.Parameters.SortDirection);
-
+        var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
+        
         collection = collection.Where(o => o.CreatedBy == request.UserId);
+        collection = _queryService.Search(collection, predicates);
+        collection = _queryService.Sort(collection, sortingColumn, request.Parameters.SortDirection);
+
 
         return await collection.ProjectTo<ShopOpinionDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
     }
-    
+
     /// <summary>
     ///     Gets filtering and searching predicates for shop opinions
     /// </summary>
     /// <param name="parameters">The shop opinions query parameters</param>
     /// <returns>The shop opinions predicates</returns>
-    private static IEnumerable<Expression<Func<ShopOpinion, bool>>> GetPredicates(ShopOpinionsQueryParameters parameters)
+    private static IEnumerable<Expression<Func<ShopOpinion, bool>>> GetPredicates(
+        ShopOpinionsQueryParameters parameters)
     {
         var predicates = new List<Expression<Func<ShopOpinion, bool>>>
         {
@@ -94,7 +94,7 @@ public class
         var searchQuery = parameters.SearchQuery.Trim().ToLower();
 
         predicates.Add(x => x.Comment.ToLower().Contains(searchQuery));
-        
+
         return predicates.Where(x => x != null);
     }
 
@@ -112,29 +112,6 @@ public class
             {nameof(ShopOpinion.Rate).ToLower(), x => x.Rate}
         };
 
-        return sortingColumns[sortBy.ToLower()];
-    }
-
-    /// <summary>
-    ///     Sorts shop opinions by given column in given direction
-    /// </summary>
-    /// <param name="collection">The shop opinions collection</param>
-    /// <param name="sortBy">Column by which to sort</param>
-    /// <param name="sortDirection">Direction in which to sort</param>
-    /// <returns>The sorted collection of shop opinions</returns>
-    private IQueryable<ShopOpinion> Sort(IQueryable<ShopOpinion> collection, string sortBy, SortDirection sortDirection)
-    {
-        if (!string.IsNullOrWhiteSpace(sortBy))
-        {
-            var sortingColumn = GetSortingColumn(sortBy);
-
-            collection = _queryService.Sort(collection, sortingColumn, sortDirection);
-        }
-        else
-        {
-            collection = collection.OrderBy(x => x.Created);
-        }
-
-        return collection;
+        return string.IsNullOrEmpty(sortBy) ? sortingColumns.First().Value : sortingColumns[sortBy.ToLower()];
     }
 }

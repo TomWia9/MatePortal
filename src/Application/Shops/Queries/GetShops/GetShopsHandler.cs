@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Enums;
 using Application.Common.Interfaces;
 using Application.Common.Mappings;
 using Application.Common.Models;
@@ -65,9 +64,10 @@ public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<Shop
         var collection = _context.Shops.Include(s => s.Opinions) as IQueryable<Shop>;
 
         var predicates = GetPredicates(request.Parameters);
+        var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
 
         collection = _queryService.Search(collection, predicates);
-        collection = Sort(collection, request.Parameters.SortBy, request.Parameters.SortDirection);
+        collection = _queryService.Sort(collection, sortingColumn, request.Parameters.SortDirection);
 
         return await collection.ProjectTo<ShopDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
@@ -90,7 +90,7 @@ public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<Shop
             x => x.Name.ToLower().Contains(searchQuery) ||
                  x.Description.ToLower().Contains(searchQuery) ||
                  x.Url.ToLower().Contains(searchQuery);
-        
+
         predicates.Add(searchPredicate);
 
         return predicates.Where(x => x != null);
@@ -110,29 +110,6 @@ public class GetShopsHandler : IRequestHandler<GetShopsQuery, PaginatedList<Shop
             {nameof(Shop.Opinions).ToLower(), x => x.Opinions.Count}
         };
 
-        return sortingColumns[sortBy.ToLower()];
-    }
-
-    /// <summary>
-    ///     Sorts shops by given column in given direction
-    /// </summary>
-    /// <param name="collection">The shops collection</param>
-    /// <param name="sortBy">Column by which to sort</param>
-    /// <param name="sortDirection">Direction in which to sort</param>
-    /// <returns>The sorted collection of shops</returns>
-    private IQueryable<Shop> Sort(IQueryable<Shop> collection, string sortBy, SortDirection sortDirection)
-    {
-        if (!string.IsNullOrWhiteSpace(sortBy))
-        {
-            var sortingColumn = GetSortingColumn(sortBy);
-
-            collection = _queryService.Sort(collection, sortingColumn, sortDirection);
-        }
-        else
-        {
-            collection = collection.OrderBy(x => x.Name);
-        }
-
-        return collection;
+        return string.IsNullOrEmpty(sortBy) ? sortingColumns.First().Value : sortingColumns[sortBy.ToLower()];
     }
 }

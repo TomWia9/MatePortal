@@ -109,6 +109,7 @@ public class UsersService : IUsersService
     {
         var collection = _context.Users.AsQueryable();
 
+        //cant be added to predicates
         if (!string.IsNullOrEmpty(request.Parameters.Role))
         {
             var usersInRole = await _userManager.GetUsersInRoleAsync(request.Parameters.Role);
@@ -209,11 +210,11 @@ public class UsersService : IUsersService
     {
         var sortingColumns = new Dictionary<string, Expression<Func<ApplicationUser, object>>>
         {
-            {nameof(ApplicationUser.UserName).ToLower(), u => u.UserName},
-            {nameof(ApplicationUser.Email).ToLower(), u => u.Email}
+            {nameof(ApplicationUser.Email).ToLower(), u => u.Email},
+            {nameof(ApplicationUser.UserName).ToLower(), u => u.UserName}
         };
 
-        return sortingColumns[sortBy.ToLower()];
+        return string.IsNullOrEmpty(sortBy) ? sortingColumns.First().Value : sortingColumns[sortBy.ToLower()];
     }
 
     /// <summary>
@@ -226,28 +227,21 @@ public class UsersService : IUsersService
     private IQueryable<ApplicationUser> Sort(IQueryable<ApplicationUser> collection, string sortBy,
         SortDirection sortDirection)
     {
-        if (!string.IsNullOrWhiteSpace(sortBy))
-        {
-            const string yerbaMateOpinions = "yerbamateopinions";
-            const string shopOpinions = "shopopinions";
+        const string yerbaMateOpinions = "yerbamateopinions";
+        const string shopOpinions = "shopopinions";
 
-            if (sortBy.ToLower() is yerbaMateOpinions or shopOpinions)
-            {
-                collection = sortBy.ToLower() == yerbaMateOpinions
-                    ? SortByOpinionsCount(collection, _context.YerbaMateOpinions, x => x.CreatedBy,
-                        sortDirection)
-                    : SortByOpinionsCount(collection, _context.ShopOpinions, x => x.CreatedBy,
-                        sortDirection);
-            }
-            else
-            {
-                var sortingColumn = GetSortingColumn(sortBy);
-                collection = _queryService.Sort(collection, sortingColumn, sortDirection);
-            }
+        if (sortBy.ToLower() is yerbaMateOpinions or shopOpinions)
+        {
+            collection = sortBy.ToLower() == yerbaMateOpinions
+                ? SortByOpinionsCount(collection, _context.YerbaMateOpinions, x => x.CreatedBy,
+                    sortDirection)
+                : SortByOpinionsCount(collection, _context.ShopOpinions, x => x.CreatedBy,
+                    sortDirection);
         }
         else
         {
-            collection = collection.OrderBy(x => x.Email);
+            var sortingColumn = GetSortingColumn(sortBy);
+            collection = _queryService.Sort(collection, sortingColumn, sortDirection);
         }
 
         return collection;

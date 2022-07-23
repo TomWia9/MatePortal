@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Enums;
 using Application.Common.Interfaces;
 using Application.Common.Mappings;
 using Application.Common.Models;
@@ -66,9 +65,10 @@ public class
         var collection = _context.YerbaMateOpinions.Where(o => o.YerbaMateId == request.YerbaMateId).AsQueryable();
 
         var predicates = GetPredicates(request.Parameters);
+        var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
 
         collection = _queryService.Search(collection, predicates);
-        collection = Sort(collection, request.Parameters.SortBy, request.Parameters.SortDirection);
+        collection = _queryService.Sort(collection, sortingColumn, request.Parameters.SortDirection);
 
         return await collection.ProjectTo<YerbaMateOpinionDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
@@ -111,30 +111,6 @@ public class
             {nameof(YerbaMateOpinion.Rate), x => x.Rate}
         };
 
-        return sortingColumns[sortBy.ToLower()];
-    }
-
-    /// <summary>
-    ///     Sorts yerba mates opinions by given column in given direction
-    /// </summary>
-    /// <param name="collection">The yerba mate opinions collection</param>
-    /// <param name="sortBy">Column by which to sort</param>
-    /// <param name="sortDirection">Direction in which to sort</param>
-    /// <returns>The sorted collection of yerba mate opinions</returns>
-    private IQueryable<YerbaMateOpinion> Sort(IQueryable<YerbaMateOpinion> collection, string sortBy,
-        SortDirection sortDirection)
-    {
-        if (!string.IsNullOrWhiteSpace(sortBy))
-        {
-            var sortingColumn = GetSortingColumn(sortBy);
-
-            collection = _queryService.Sort(collection, sortingColumn, sortDirection);
-        }
-        else
-        {
-            collection = collection.OrderBy(x => x.Created);
-        }
-
-        return collection;
+        return string.IsNullOrEmpty(sortBy) ? sortingColumns.First().Value : sortingColumns[sortBy.ToLower()];
     }
 }
