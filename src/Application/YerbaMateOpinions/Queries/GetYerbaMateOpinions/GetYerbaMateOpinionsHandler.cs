@@ -17,7 +17,8 @@ namespace Application.YerbaMateOpinions.Queries.GetYerbaMateOpinions;
 /// <summary>
 ///     Get yerba mate opinions handler
 /// </summary>
-public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQuery, PaginatedList<YerbaMateOpinionDto>>
+public class
+    GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQuery, PaginatedList<YerbaMateOpinionDto>>
 {
     /// <summary>
     ///     Database context
@@ -30,23 +31,23 @@ public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQ
     private readonly IMapper _mapper;
 
     /// <summary>
-    ///     Sort service
+    ///     Query service
     /// </summary>
-    private readonly ISortService<YerbaMateOpinion> _sortService;
+    private readonly IQueryService<YerbaMateOpinion> _queryService;
 
     /// <summary>
     ///     Initializes GetYerbaMateOpinionsHandler
     /// </summary>
     /// <param name="context">Database context</param>
     /// <param name="mapper">The mapper</param>
-    /// <param name="sortService">Sort service</param>
+    /// <param name="queryService">Query service</param>
     public GetYerbaMateOpinionsHandler(IApplicationDbContext context,
         IMapper mapper,
-        ISortService<YerbaMateOpinion> sortService)
+        IQueryService<YerbaMateOpinion> queryService)
     {
         _context = context;
         _mapper = mapper;
-        _sortService = sortService;
+        _queryService = queryService;
     }
 
     /// <summary>
@@ -61,39 +62,57 @@ public class GetYerbaMateOpinionsHandler : IRequestHandler<GetYerbaMateOpinionsQ
     {
         if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
-        var collection = _context.YerbaMateOpinions.Where(o => o.YerbaMateId == request.YerbaMateId).AsQueryable();
+        var collection = _context.YerbaMateOpinions.AsQueryable();
 
-        //filtering
-        collection = collection.Where(o =>
-            o.Rate >= request.Parameters.MinRate && o.Rate <= request.Parameters.MaxRate);
+        var predicates = GetPredicates(request.Parameters);
+        var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
 
-        //searching
-        if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
-        {
-            var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
-
-            collection = collection.Where(o => o.Comment.ToLower().Contains(searchQuery));
-        }
-
-        //sorting
-        if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
-        {
-            var sortingColumns = new Dictionary<string, Expression<Func<YerbaMateOpinion, object>>>
-            {
-                {nameof(YerbaMateOpinion.Created).ToLower(), o => o.Created},
-                {nameof(YerbaMateOpinion.Comment).ToLower(), o => o.Comment},
-                {nameof(YerbaMateOpinion.Rate).ToLower(), o => o.Rate}
-            };
-
-            collection = _sortService.Sort(collection, request.Parameters.SortBy,
-                request.Parameters.SortDirection, sortingColumns);
-        }
-        else
-        {
-            collection = collection.OrderBy(o => o.Created);
-        }
+        collection = _queryService.Search(collection, predicates);
+        collection = _queryService.Sort(collection, sortingColumn, request.Parameters.SortDirection);
 
         return await collection.ProjectTo<YerbaMateOpinionDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+    }
+
+    /// <summary>
+    ///     Gets filtering and searching predicates for yerba mate opinions
+    /// </summary>
+    /// <param name="parameters">The yerba mate opinions query parameters</param>
+    /// <returns>The yerba mate opinions predicates</returns>
+    private static IEnumerable<Expression<Func<YerbaMateOpinion, bool>>> GetPredicates(
+        YerbaMateOpinionsQueryParameters parameters)
+    {
+        var predicates = new List<Expression<Func<YerbaMateOpinion, bool>>>
+        {
+            x => x.Rate >= parameters.MinRate && x.Rate <= parameters.MaxRate,
+            parameters.YerbaMateId != null ? x => x.YerbaMateId == parameters.YerbaMateId : null,
+            parameters.UserId != null ? x => x.CreatedBy == parameters.UserId : null
+        };
+
+        if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
+            return predicates;
+
+        var searchQuery = parameters.SearchQuery.Trim().ToLower();
+
+        predicates.Add(x => x.Comment.ToLower().Contains(searchQuery));
+
+        return predicates;
+    }
+
+    /// <summary>
+    ///     Gets sorting column expression
+    /// </summary>
+    /// <param name="sortBy">Column by which to sort</param>
+    /// <returns>The sorting expression</returns>
+    private static Expression<Func<YerbaMateOpinion, object>> GetSortingColumn(string sortBy)
+    {
+        var sortingColumns = new Dictionary<string, Expression<Func<YerbaMateOpinion, object>>>
+        {
+            {nameof(YerbaMateOpinion.Created), x => x.Created},
+            {nameof(YerbaMateOpinion.Comment), x => x.Comment},
+            {nameof(YerbaMateOpinion.Rate), x => x.Rate}
+        };
+
+        return string.IsNullOrEmpty(sortBy) ? sortingColumns.First().Value : sortingColumns[sortBy.ToLower()];
     }
 }

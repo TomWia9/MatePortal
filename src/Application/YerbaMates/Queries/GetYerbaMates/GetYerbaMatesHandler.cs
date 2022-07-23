@@ -31,23 +31,23 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
     private readonly IMapper _mapper;
 
     /// <summary>
-    ///     Sort service
+    ///     Query service
     /// </summary>
-    private readonly ISortService<YerbaMate> _sortService;
+    private readonly IQueryService<YerbaMate> _queryService;
 
     /// <summary>
     ///     Initializes GetYerbaMatesHandler
     /// </summary>
     /// <param name="context">Database context</param>
     /// <param name="mapper">The mapper</param>
-    /// <param name="sortService">Sort service</param>
+    /// <param name="queryService">Query service</param>
     public GetYerbaMatesHandler(IApplicationDbContext context,
         IMapper mapper,
-        ISortService<YerbaMate> sortService)
+        IQueryService<YerbaMate> queryService)
     {
         _context = context;
         _mapper = mapper;
-        _sortService = sortService;
+        _queryService = queryService;
     }
 
     /// <summary>
@@ -62,58 +62,73 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
     {
         if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
-        var collection = _context.YerbaMate
-            .Include(y => y.Brand)
-            .Include(y => y.Category)
-            .Include(y => y.YerbaMateOpinions)
-            .Include(y => y.Favourites).AsQueryable();
+        var collection = _context.YerbaMate.AsQueryable()
+            .Include(x => x.Brand).AsQueryable()
+            .Include(x => x.Category).AsQueryable()
+            .Include(x => x.YerbaMateOpinions).AsQueryable()
+            .Include(x => x.Favourites).AsQueryable();
 
-        //filtering
-        if (request.Parameters.Brand != null)
-            collection = collection.Where(y => y.Brand.Name == request.Parameters.Brand);
+        var predicates = GetPredicates(request.Parameters);
+        var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
 
-        if (request.Parameters.Country != null)
-            collection = collection.Where(y => y.Brand.Country.Name == request.Parameters.Country);
-
-        if (request.Parameters.Category != null)
-            collection = collection.Where(y => y.Category.Name == request.Parameters.Category);
-
-        if (request.Parameters.MaxPrice != null)
-            collection = collection.Where(y => y.AveragePrice <= request.Parameters.MaxPrice);
-
-
-        //searching
-        if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
-        {
-            var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
-
-            collection = collection.Where(y => y.Name.ToLower().Contains(searchQuery)
-                                               || y.Description.ToLower().Contains(searchQuery)
-                                               || y.Brand.Name.ToLower().Contains(searchQuery)
-                                               || y.Brand.Country.Name.ToLower().Contains(searchQuery)
-                                               || y.Category.Name.ToLower().Contains(searchQuery));
-        }
-
-        //sorting
-        if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
-        {
-            var sortingColumns = new Dictionary<string, Expression<Func<YerbaMate, object>>>
-            {
-                {nameof(YerbaMate.Name).ToLower(), y => y.Name},
-                {nameof(YerbaMate.AveragePrice).ToLower(), y => y.AveragePrice},
-                {nameof(YerbaMate.YerbaMateOpinions).ToLower(), y => y.YerbaMateOpinions.Count},
-                {nameof(YerbaMate.Favourites).ToLower(), y => y.Favourites.Count}
-            };
-
-            collection = _sortService.Sort(collection, request.Parameters.SortBy,
-                request.Parameters.SortDirection, sortingColumns);
-        }
-        else
-        {
-            collection = collection.OrderBy(y => y.Name);
-        }
+        collection = _queryService.Search(collection, predicates);
+        collection = _queryService.Sort(collection, sortingColumn, request.Parameters.SortDirection);
 
         return await collection.ProjectTo<YerbaMateDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+    }
+
+    /// <summary>
+    ///     Gets filtering and searching predicates for yerba mates
+    /// </summary>
+    /// <param name="parameters">The yerba mate query parameters</param>
+    /// <returns>The yerba mate predicates</returns>
+    private static IEnumerable<Expression<Func<YerbaMate, bool>>> GetPredicates(YerbaMatesQueryParameters parameters)
+    {
+        var predicates = new List<Expression<Func<YerbaMate, bool>>>
+        {
+            !string.IsNullOrWhiteSpace(parameters.Brand) ? x => x.Brand.Name.ToLower() == parameters.Brand : null,
+            !string.IsNullOrWhiteSpace(parameters.Country)
+                ? x => x.Brand.Country.Name.ToLower() == parameters.Country
+                : null,
+            !string.IsNullOrWhiteSpace(parameters.Category)
+                ? x => x.Category.Name.ToLower() == parameters.Category
+                : null,
+            parameters.MaxPrice != null ? x => x.AveragePrice <= parameters.MaxPrice : null
+        };
+
+        if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
+            return predicates.Where(x => x != null);
+
+        var searchQuery = parameters.SearchQuery.Trim().ToLower();
+
+        Expression<Func<YerbaMate, bool>> searchPredicate =
+            x => x.Name.ToLower().Contains(searchQuery) ||
+                 x.Description.ToLower().Contains(searchQuery) ||
+                 x.Brand.Name.ToLower().Contains(searchQuery) ||
+                 x.Brand.Country.Name.ToLower().Contains(searchQuery) ||
+                 x.Category.Name.ToLower().Contains(searchQuery);
+
+        predicates.Add(searchPredicate);
+
+        return predicates.Where(x => x != null);
+    }
+
+    /// <summary>
+    ///     Gets sorting column expression
+    /// </summary>
+    /// <param name="sortBy">Column by which to sort</param>
+    /// <returns>The sorting expression</returns>
+    private static Expression<Func<YerbaMate, object>> GetSortingColumn(string sortBy)
+    {
+        var sortingColumns = new Dictionary<string, Expression<Func<YerbaMate, object>>>
+        {
+            {nameof(YerbaMate.Name).ToLower(), x => x.Name},
+            {nameof(YerbaMate.AveragePrice).ToLower(), x => x.AveragePrice},
+            {nameof(YerbaMate.YerbaMateOpinions).ToLower(), x => x.YerbaMateOpinions.Count},
+            {nameof(YerbaMate.Favourites).ToLower(), x => x.Favourites.Count}
+        };
+
+        return string.IsNullOrEmpty(sortBy) ? sortingColumns.First().Value : sortingColumns[sortBy.ToLower()];
     }
 }

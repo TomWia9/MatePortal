@@ -1,4 +1,5 @@
-﻿using Application.Common.QueryParameters;
+﻿using System;
+using Application.Common.QueryParameters;
 
 namespace Application.YerbaMateOpinions.Queries;
 
@@ -9,6 +10,16 @@ public class YerbaMateOpinionsQueryParameters : QueryParameters
 {
     private readonly int _maxRate = 10;
     private readonly int _minRate = 1;
+
+    /// <summary>
+    ///     Yerba mate Id
+    /// </summary>
+    public Guid? YerbaMateId { get; init; }
+
+    /// <summary>
+    ///     User Id
+    /// </summary>
+    public Guid? UserId { get; init; }
 
     /// <summary>
     ///     Minimum rate parameter

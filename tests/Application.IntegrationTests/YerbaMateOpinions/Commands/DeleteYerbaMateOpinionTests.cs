@@ -9,7 +9,7 @@ using Domain.Entities;
 using FluentAssertions;
 using Xunit;
 
-namespace Application.IntegrationTests.Opinions.Commands;
+namespace Application.IntegrationTests.YerbaMateOpinions.Commands;
 
 /// <summary>
 ///     Delete yerba mate opinion tests

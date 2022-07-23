@@ -30,23 +30,23 @@ public class GetShopOpinionsHandler : IRequestHandler<GetShopOpinionsQuery, Pagi
     private readonly IMapper _mapper;
 
     /// <summary>
-    ///     Sort service
+    ///     Query service
     /// </summary>
-    private readonly ISortService<ShopOpinion> _sortService;
+    private readonly IQueryService<ShopOpinion> _queryService;
 
     /// <summary>
     ///     Initializes GetShopOpinionsHandler
     /// </summary>
     /// <param name="context">Database context</param>
     /// <param name="mapper">The mapper</param>
-    /// <param name="sortService">Sort service</param>
+    /// <param name="queryService">Query service</param>
     public GetShopOpinionsHandler(IApplicationDbContext context,
         IMapper mapper,
-        ISortService<ShopOpinion> sortService)
+        IQueryService<ShopOpinion> queryService)
     {
         _context = context;
         _mapper = mapper;
-        _sortService = sortService;
+        _queryService = queryService;
     }
 
     /// <summary>
@@ -61,39 +61,57 @@ public class GetShopOpinionsHandler : IRequestHandler<GetShopOpinionsQuery, Pagi
     {
         if (request.Parameters == null) throw new ArgumentNullException(nameof(request.Parameters));
 
-        var collection = _context.ShopOpinions.Where(o => o.ShopId == request.ShopId).AsQueryable();
+        var collection = _context.ShopOpinions.AsQueryable();
 
-        //filtering
-        collection = collection.Where(o =>
-            o.Rate >= request.Parameters.MinRate && o.Rate <= request.Parameters.MaxRate);
+        var predicates = GetPredicates(request.Parameters);
+        var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
 
-        //searching
-        if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
-        {
-            var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
-
-            collection = collection.Where(o => o.Comment.ToLower().Contains(searchQuery));
-        }
-
-        //sorting
-        if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
-        {
-            var sortingColumns = new Dictionary<string, Expression<Func<ShopOpinion, object>>>
-            {
-                {nameof(ShopOpinion.Created).ToLower(), o => o.Created},
-                {nameof(ShopOpinion.Comment).ToLower(), o => o.Comment},
-                {nameof(ShopOpinion.Rate).ToLower(), o => o.Rate}
-            };
-
-            collection = _sortService.Sort(collection, request.Parameters.SortBy,
-                request.Parameters.SortDirection, sortingColumns);
-        }
-        else
-        {
-            collection = collection.OrderBy(o => o.Created);
-        }
+        collection = _queryService.Search(collection, predicates);
+        collection = _queryService.Sort(collection, sortingColumn, request.Parameters.SortDirection);
 
         return await collection.ProjectTo<ShopOpinionDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+    }
+
+    /// <summary>
+    ///     Gets filtering and searching predicates for shop opinions
+    /// </summary>
+    /// <param name="parameters">The shop opinions query parameters</param>
+    /// <returns>The shop opinions predicates</returns>
+    private static IEnumerable<Expression<Func<ShopOpinion, bool>>> GetPredicates(
+        ShopOpinionsQueryParameters parameters)
+    {
+        var predicates = new List<Expression<Func<ShopOpinion, bool>>>
+        {
+            x => x.Rate >= parameters.MinRate && x.Rate <= parameters.MaxRate,
+            parameters.ShopId != null ? x => x.ShopId == parameters.ShopId : null,
+            parameters.UserId != null ? x => x.CreatedBy == parameters.UserId : null
+        };
+
+        if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
+            return predicates.Where(x => x != null);
+
+        var searchQuery = parameters.SearchQuery.Trim().ToLower();
+
+        predicates.Add(x => x.Comment.ToLower().Contains(searchQuery));
+
+        return predicates.Where(x => x != null);
+    }
+
+    /// <summary>
+    ///     Gets sorting column expression
+    /// </summary>
+    /// <param name="sortBy">Column by which to sort</param>
+    /// <returns>The sorting expression</returns>
+    private static Expression<Func<ShopOpinion, object>> GetSortingColumn(string sortBy)
+    {
+        var sortingColumns = new Dictionary<string, Expression<Func<ShopOpinion, object>>>
+        {
+            {nameof(ShopOpinion.Created).ToLower(), x => x.Created},
+            {nameof(ShopOpinion.Comment).ToLower(), x => x.Comment},
+            {nameof(ShopOpinion.Rate).ToLower(), x => x.Rate}
+        };
+
+        return string.IsNullOrEmpty(sortBy) ? sortingColumns.First().Value : sortingColumns[sortBy.ToLower()];
     }
 }

@@ -31,23 +31,23 @@ public class GetBrandsHandler : IRequestHandler<GetBrandsQuery, PaginatedList<Br
     private readonly IMapper _mapper;
 
     /// <summary>
-    ///     Sort service
+    ///     Query service
     /// </summary>
-    private readonly ISortService<Brand> _sortService;
+    private readonly IQueryService<Brand> _queryService;
 
     /// <summary>
     ///     Initializes GetBrandsHandler
     /// </summary>
     /// <param name="context">Database context</param>
     /// <param name="mapper">The mapper</param>
-    /// <param name="sortService">Sort service</param>
+    /// <param name="queryService">Sort service</param>
     public GetBrandsHandler(IApplicationDbContext context,
         IMapper mapper,
-        ISortService<Brand> sortService)
+        IQueryService<Brand> queryService)
     {
         _context = context;
         _mapper = mapper;
-        _sortService = sortService;
+        _queryService = queryService;
     }
 
     /// <summary>
@@ -63,39 +63,56 @@ public class GetBrandsHandler : IRequestHandler<GetBrandsQuery, PaginatedList<Br
 
         var collection = _context.Brands.Include(b => b.Country) as IQueryable<Brand>;
 
-        //filtering
-        if (request.Parameters.Country != null)
-            collection = collection.Where(b => b.Country.Name == request.Parameters.Country);
+        var predicates = GetPredicates(request.Parameters);
+        var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
 
-        //searching
-        if (!string.IsNullOrWhiteSpace(request.Parameters.SearchQuery))
-        {
-            var searchQuery = request.Parameters.SearchQuery.Trim().ToLower();
-
-            collection = collection.Where(b => b.Name.ToLower().Contains(searchQuery)
-                                               || b.Description.ToLower().Contains(searchQuery)
-                                               || b.Country.Name.ToLower().Contains(searchQuery));
-        }
-
-        //sorting
-        if (!string.IsNullOrWhiteSpace(request.Parameters.SortBy))
-        {
-            var sortingColumns = new Dictionary<string, Expression<Func<Brand, object>>>
-            {
-                {nameof(Brand.Name).ToLower(), b => b.Name},
-                {nameof(Brand.Description).ToLower(), b => b.Description},
-                {nameof(Brand.Country).ToLower(), b => b.Country.Name}
-            };
-
-            collection = _sortService.Sort(collection, request.Parameters.SortBy,
-                request.Parameters.SortDirection, sortingColumns);
-        }
-        else
-        {
-            collection = collection.OrderBy(b => b.Name);
-        }
+        collection = _queryService.Search(collection, predicates);
+        collection = _queryService.Sort(collection, sortingColumn, request.Parameters.SortDirection);
 
         return await collection.ProjectTo<BrandDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+    }
+
+    /// <summary>
+    ///     Gets filtering and searching predicates for the brands
+    /// </summary>
+    /// <param name="parameters">The brands query parameters</param>
+    /// <returns>The brands predicates</returns>
+    private static IEnumerable<Expression<Func<Brand, bool>>> GetPredicates(BrandsQueryParameters parameters)
+    {
+        var predicates = new List<Expression<Func<Brand, bool>>>
+        {
+            !string.IsNullOrWhiteSpace(parameters.Country) ? x => x.Country.Name.ToLower() == parameters.Country : null
+        };
+
+        if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
+            return predicates.Where(x => x != null);
+
+        var searchQuery = parameters.SearchQuery.Trim().ToLower();
+        Expression<Func<Brand, bool>> searchPredicate =
+            x => x.Name.ToLower().Contains(searchQuery) ||
+                 x.Description.ToLower().Contains(searchQuery) ||
+                 x.Country.Name.ToLower().Contains(searchQuery);
+
+        predicates.Add(searchPredicate);
+
+        return predicates.Where(x => x != null);
+    }
+
+    /// <summary>
+    ///     Gets sorting column expression
+    /// </summary>
+    /// <param name="sortBy">Column by which to sort</param>
+    /// <returns>The sorting expression</returns>
+    private static Expression<Func<Brand, object>> GetSortingColumn(string sortBy)
+    {
+        var sortingColumns = new Dictionary<string, Expression<Func<Brand, object>>>
+        {
+            {nameof(Brand.Name).ToLower(), x => x.Name},
+            {nameof(Brand.Description).ToLower(), x => x.Description},
+            {nameof(Brand.Country).ToLower(), x => x.Country.Name}
+        };
+
+        return string.IsNullOrEmpty(sortBy) ? sortingColumns.First().Value : sortingColumns[sortBy.ToLower()];
     }
 }

@@ -10,7 +10,7 @@ using FluentAssertions;
 using FluentAssertions.Extensions;
 using Xunit;
 
-namespace Application.IntegrationTests.Opinions.Commands;
+namespace Application.IntegrationTests.YerbaMateOpinions.Commands;
 
 /// <summary>
 ///     Create yerba mate opinion tests
