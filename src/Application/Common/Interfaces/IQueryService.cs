@@ -27,7 +27,6 @@ public interface IQueryService<T>
     /// </summary>
     /// <param name="collection">The Queryable collection</param>
     /// <param name="predicates">The predicates</param>
-    /// <typeparam name="T">The entity type</typeparam>
     IQueryable<T> Search(IQueryable<T> collection,
         IEnumerable<Expression<Func<T, bool>>> predicates);
 }
