@@ -12,7 +12,7 @@ public class GetCategoriesQuery : IRequest<PaginatedList<CategoryDto>>
     /// <summary>
     ///     Initializes GetCategoriesQuery
     /// </summary>
-    /// <param name="parameters">Users query parameters</param>
+    /// <param name="parameters">Categories query parameters</param>
     public GetCategoriesQuery(CategoriesQueryParameters parameters)
     {
         Parameters = parameters;
