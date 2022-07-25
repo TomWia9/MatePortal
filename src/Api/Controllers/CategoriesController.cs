@@ -67,7 +67,7 @@ public class CategoriesController : ApiControllerBase
     /// <response code="409">Category conflicts with another category</response>
     [Authorize(Policy = Policies.AdminAccess)]
     [HttpPut]
-    public async Task<ActionResult<CategoryDto>> UpdateCategory(UpdateCategoryCommand command)
+    public async Task<IActionResult> UpdateCategory(UpdateCategoryCommand command)
     {
         await Mediator.Send(command);
 
@@ -83,7 +83,7 @@ public class CategoriesController : ApiControllerBase
     /// <response code="404">Category not found</response>
     [Authorize(Policy = Policies.AdminAccess)]
     [HttpDelete]
-    public async Task<ActionResult<CategoryDto>> DeleteCategory(DeleteCategoryCommand command)
+    public async Task<IActionResult> DeleteCategory(DeleteCategoryCommand command)
     {
         await Mediator.Send(command);
 
