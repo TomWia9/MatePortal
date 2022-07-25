@@ -54,4 +54,22 @@ public class UpdateCountryTests : IntegrationTest
         item.Name.Should().Be(command.Name);
         item.Description.Should().Be(command.Description);
     }
+    
+    /// <summary>
+    ///     Country update should require unique name
+    /// </summary>
+    [Fact]
+    public async Task ShouldRequireUniqueNameWhenUpdating()
+    {
+        var command = new UpdateCountryCommand()
+        {
+            CountryId = Guid.Parse("A42066F2-2998-47DC-A193-FF4C4080056F"), //one of seeded countries
+            Name = "Argentina", //already exists
+            Description = "Test"
+        };
+
+        await FluentActions.Invoking(() =>
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
+    }
+    
 }
