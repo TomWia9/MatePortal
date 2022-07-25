@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
@@ -47,7 +48,7 @@ public class UpdateYerbaMateHandler : IRequestHandler<UpdateYerbaMateCommand>
                 cancellationToken))
             throw new NotFoundException(nameof(Category), request.CategoryId);
 
-        if (await _context.YerbaMate.AnyAsync(b => b.Name == request.Name && entity.Name == request.Name,
+        if (await _context.YerbaMate.Where(x => x != entity).AnyAsync(x => x.Name == request.Name,
                 cancellationToken))
             throw new ConflictException();
 
