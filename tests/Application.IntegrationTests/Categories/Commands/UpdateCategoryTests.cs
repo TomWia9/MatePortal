@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Application.Categories.Commands.CreateCategory;
 using Application.Categories.Commands.UpdateCategory;
 using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
@@ -62,5 +63,24 @@ public class UpdateCategoryTests : IntegrationTest
         item.LastModifiedBy.Should().Be(userId);
         item.LastModified.Should().NotBeNull();
         item.LastModified.Should().BeCloseTo(DateTime.Now, 1.Seconds());
+    }
+    
+    /// <summary>
+    ///     Category update should require unique name
+    /// </summary>
+    [Fact]
+    public async Task ShouldRequireUniqueNameWhenUpdating()
+    {
+        await TestSeeder.SeedTestCategoriesAsync(Factory);
+
+        var command = new UpdateCategoryCommand()
+        {
+            CategoryId = Guid.Parse("8438FB5B-DC77-40F2-ABB6-C7DCE326571E"), //one of seeded categories
+            Name = "Fruit", //already exists
+            Description = "Test"
+        };
+
+        await FluentActions.Invoking(() =>
+            Mediator.Send(command)).Should().ThrowAsync<ConflictException>();
     }
 }
