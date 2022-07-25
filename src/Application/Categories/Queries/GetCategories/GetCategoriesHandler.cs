@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
@@ -7,6 +9,7 @@ using Application.Common.Mappings;
 using Application.Common.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain.Entities;
 using MediatR;
 
 namespace Application.Categories.Queries.GetCategories;
@@ -26,15 +29,19 @@ public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, Paginate
     /// </summary>
     private readonly IMapper _mapper;
 
+    private readonly IQueryService<Category> _queryService;
+
     /// <summary>
     ///     Initializes GetCategoriesHandler
     /// </summary>
     /// <param name="context">Database context</param>
     /// <param name="mapper">The mapper</param>
-    public GetCategoriesHandler(IApplicationDbContext context, IMapper mapper)
+    /// <param name="queryService">The query service</param>
+    public GetCategoriesHandler(IApplicationDbContext context, IMapper mapper, IQueryService<Category> queryService)
     {
         _context = context;
         _mapper = mapper;
+        _queryService = queryService;
     }
 
     /// <summary>
@@ -46,11 +53,54 @@ public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, Paginate
     public async Task<PaginatedList<CategoryDto>> Handle(GetCategoriesQuery request,
         CancellationToken cancellationToken)
     {
-        var categories = _context.Categories.AsQueryable();
+        var collection = _context.Categories.AsQueryable();
         
-        //TODO Add searching and sorting
+        var predicates = GetPredicates(request.Parameters);
+        var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
 
-        return await categories.OrderBy(x => x.Name).ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
+        collection = _queryService.Search(collection, predicates);
+        collection = _queryService.Sort(collection, sortingColumn, request.Parameters.SortDirection);
+
+        return await collection.ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Parameters.PageNumber, request.Parameters.PageSize);
+    }
+
+    /// <summary>
+    ///     Gets filtering and searching predicates for categories
+    /// </summary>
+    /// <param name="parameters">The categories query parameters</param>
+    /// <returns>The categories predicates</returns>
+    private static IEnumerable<Expression<Func<Category, bool>>> GetPredicates(CategoriesQueryParameters parameters)
+    {
+        var predicates = new List<Expression<Func<Category, bool>>>();
+
+        if (string.IsNullOrWhiteSpace(parameters.SearchQuery))
+            return predicates;
+
+        var searchQuery = parameters.SearchQuery.Trim().ToLower();
+
+        Expression<Func<Category, bool>> searchPredicate =
+            x => x.Name.ToLower().Contains(searchQuery) ||
+                 x.Description.ToLower().Contains(searchQuery);
+
+        predicates.Add(searchPredicate);
+
+        return predicates;
+    }
+
+    /// <summary>
+    ///     Gets sorting column expression
+    /// </summary>
+    /// <param name="sortBy">Column by which to sort</param>
+    /// <returns>The sorting expression</returns>
+    private static Expression<Func<Category, object>> GetSortingColumn(string sortBy)
+    {
+        var sortingColumns = new Dictionary<string, Expression<Func<Category, object>>>
+        {
+            {nameof(Category.Name).ToLower(), x => x.Name},
+            {nameof(Category.Description).ToLower(), x => x.Description},
+        };
+
+        return string.IsNullOrEmpty(sortBy) ? sortingColumns.First().Value : sortingColumns[sortBy.ToLower()];
     }
 }
