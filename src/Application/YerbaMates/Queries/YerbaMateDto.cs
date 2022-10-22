@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Application.Brands.Queries;
 using Application.Categories.Queries;
 using Application.Common.Mappings;
-using Application.YerbaMateImages.Queries;
+using Application.YerbaMateImages;
 using AutoMapper;
 using Domain.Entities;
 

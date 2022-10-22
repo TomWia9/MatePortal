@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
-using Application.YerbaMateImages.Queries;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
