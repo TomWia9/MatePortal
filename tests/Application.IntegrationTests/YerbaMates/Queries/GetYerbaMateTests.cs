@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Brands.Queries;
 using Application.Categories.Queries;
@@ -25,6 +26,7 @@ public class GetYerbaMateTests : IntegrationTest
         await TestSeeder.SeedTestBrandsAsync(Factory);
         await TestSeeder.SeedTestCategoriesAsync(Factory);
         await TestSeeder.SeedTestYerbaMatesAsync(Factory);
+        await TestSeeder.SeedTestYerbaMateImagesAsync(Factory);
 
         var yerbaMateId = Guid.Parse("3C24EB64-6CA5-4716-9A9A-42654F0EAF43"); //id of one of seeded yerba mates
 
@@ -54,7 +56,8 @@ public class GetYerbaMateTests : IntegrationTest
         var response = await Mediator.Send(new GetYerbaMateQuery(yerbaMateId));
 
         response.Should().BeOfType<YerbaMateDto>();
-        response.Should().BeEquivalentTo(expectedResult);
+        response.Should().BeEquivalentTo(expectedResult, x => x.Excluding(y => y.YerbaMateImages));
+        response.YerbaMateImages.Count().Should().Be(3, "3 images were seeded for this yerba mate");
     }
 
     /// <summary>

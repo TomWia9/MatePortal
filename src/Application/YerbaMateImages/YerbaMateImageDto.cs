@@ -2,7 +2,7 @@
 using Application.Common.Mappings;
 using Domain.Entities;
 
-namespace Application.YerbaMateImages.Queries;
+namespace Application.YerbaMateImages;
 
 /// <summary>
 ///     Yerba mate image data transfer object
