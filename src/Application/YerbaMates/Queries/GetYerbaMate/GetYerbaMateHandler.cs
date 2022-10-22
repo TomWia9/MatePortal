@@ -50,6 +50,7 @@ public class GetYerbaMateHandler : IRequestHandler<GetYerbaMateQuery, YerbaMateD
             .Include(y => y.Category)
             .Include(y => y.YerbaMateOpinions)
             .Include(y => y.Favourites)
+            .Include(y => y.YerbaMateImages)
             .FirstOrDefaultAsync(y => y.Id == request.YerbaMateId, cancellationToken);
 
         if (entity == null) throw new NotFoundException(nameof(YerbaMate), request.YerbaMateId);

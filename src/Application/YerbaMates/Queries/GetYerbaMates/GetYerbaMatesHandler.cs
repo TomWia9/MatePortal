@@ -66,7 +66,8 @@ public class GetYerbaMatesHandler : IRequestHandler<GetYerbaMatesQuery, Paginate
             .Include(x => x.Brand).AsQueryable()
             .Include(x => x.Category).AsQueryable()
             .Include(x => x.YerbaMateOpinions).AsQueryable()
-            .Include(x => x.Favourites).AsQueryable();
+            .Include(x => x.Favourites).AsQueryable()
+            .Include(x => x.YerbaMateImages).AsQueryable();
 
         var predicates = GetPredicates(request.Parameters);
         var sortingColumn = GetSortingColumn(request.Parameters.SortBy);
