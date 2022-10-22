@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Application.Common.Models;
+using Application.YerbaMateImages.Commands.CreateYerbaMateImage;
+using Application.YerbaMateImages.Commands.DeleteYerbaMateImage;
 using Application.YerbaMates.Commands.CreateYerbaMate;
 using Application.YerbaMates.Commands.DeleteYerbaMate;
 using Application.YerbaMates.Commands.UpdateYerbaMate;
@@ -100,6 +102,37 @@ public class YerbaMatesController : ApiControllerBase
     [Authorize(Policy = Policies.AdminAccess)]
     [HttpDelete]
     public async Task<IActionResult> DeleteYerbaMate(DeleteYerbaMateCommand command)
+    {
+        await Mediator.Send(command);
+
+        return NoContent();
+    }
+    
+    /// <summary>
+    ///     Creates yerba mate image
+    /// </summary>
+    /// <returns>An ActionResult of type YerbaMateDto</returns>
+    /// <response code="201">Creates yerba mate image</response>
+    /// <response code="400">Bad request</response>
+    [Authorize(Policy = Policies.AdminAccess)]
+    [HttpPost("createImage")]
+    public async Task<ActionResult<YerbaMateDto>> CreateYerbaMateImage(CreateYerbaMateImageCommand command)
+    {
+        var result = await Mediator.Send(command);
+
+        return CreatedAtAction("GetYerbaMate", new {id = result.YerbaMateId}, result);
+    }
+    
+    /// <summary>
+    ///     Deletes yerba mate image
+    /// </summary>
+    /// <returns>An IActionResult</returns>
+    /// <response code="204">Deletes yerba mate images</response>
+    /// <response code="400">Bad request</response>
+    /// <response code="404">Yerba mate image not found</response>
+    [Authorize(Policy = Policies.AdminAccess)]
+    [HttpDelete("deleteImage")]
+    public async Task<IActionResult> DeleteYerbaMateImage(DeleteYerbaMateImageCommand command)
     {
         await Mediator.Send(command);
 
