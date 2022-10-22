@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Brands.Queries;
 using Application.Categories.Queries;
 using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
+using Application.YerbaMateImages;
 using Application.YerbaMates.Commands.CreateYerbaMate;
 using Application.YerbaMates.Queries;
 using Domain.Entities;
@@ -56,7 +58,8 @@ public class CreateYerbaMateTests : IntegrationTest
                 Name = "Kurupi",
                 Description = "Kurupi description",
                 Country = "Paraguay"
-            }
+            },
+            YerbaMateImages = new List<YerbaMateImageDto>()
         };
 
         var result = await Mediator.Send(command);
