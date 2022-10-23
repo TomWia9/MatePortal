@@ -15,7 +15,7 @@ public abstract class ApiControllerBase : ControllerBase
     private ISender _mediator = null!;
 
     /// <summary>
-    /// The mediator instance
+    ///     The mediator instance
     /// </summary>
     protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
 }
