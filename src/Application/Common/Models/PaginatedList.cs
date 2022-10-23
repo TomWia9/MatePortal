@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Application.Common.Models;
 
@@ -72,5 +73,24 @@ public class PaginatedList<T> : List<T>
         var items = await source.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToListAsync();
 
         return new PaginatedList<T>(items, count, pageNumber, pageSize);
+    }
+    
+    /// <summary>
+    ///     Gets metadata from paginated list
+    /// </summary>
+    /// <returns>Serialized metadata</returns>
+    public string GetMetadata()
+    {
+        var metadata = new
+        {
+            TotalCount,
+            PageSize,
+            CurrentPage,
+            TotalPages,
+            HasNext,
+            HasPrevious
+        };
+
+        return JsonConvert.SerializeObject(metadata);
     }
 }

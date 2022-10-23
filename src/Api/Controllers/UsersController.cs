@@ -9,7 +9,6 @@ using Application.Users.Queries.GetUsers;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Api.Controllers;
 
@@ -28,17 +27,8 @@ public class UsersController : ApiControllerBase
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers([FromQuery] UsersQueryParameters parameters)
     {
         var result = await Mediator.Send(new GetUsersQuery(parameters));
-        var metadata = new
-        {
-            result.TotalCount,
-            result.PageSize,
-            result.CurrentPage,
-            result.TotalPages,
-            result.HasNext,
-            result.HasPrevious
-        };
-
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+        
+        Response.Headers.Add("X-Pagination", result.GetMetadata());
 
         return Ok(result);
     }
