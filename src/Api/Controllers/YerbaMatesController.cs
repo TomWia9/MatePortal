@@ -12,7 +12,6 @@ using Application.YerbaMates.Queries.GetYerbaMates;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Api.Controllers;
 
@@ -27,7 +26,6 @@ public class YerbaMatesController : ApiControllerBase
     /// <returns>An ActionResult of type YerbaMateDto</returns>
     /// <response code="200">Returns yerba mate</response>
     [HttpGet("{id:guid}")]
-    
     public async Task<ActionResult<YerbaMateDto>> GetYerbaMate(Guid id)
     {
         var result = await Mediator.Send(new GetYerbaMateQuery(id));
@@ -41,20 +39,12 @@ public class YerbaMatesController : ApiControllerBase
     /// <returns>An ActionResult of type IEnumerable of YerbaMateDto</returns>
     /// <response code="200">Returns yerba mates</response>
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<YerbaMateDto>>> GetYerbaMates([FromQuery] YerbaMatesQueryParameters parameters)
+    public async Task<ActionResult<PaginatedList<YerbaMateDto>>> GetYerbaMates(
+        [FromQuery] YerbaMatesQueryParameters parameters)
     {
         var result = await Mediator.Send(new GetYerbaMatesQuery(parameters));
-        var metadata = new
-        {
-            result.TotalCount,
-            result.PageSize,
-            result.CurrentPage,
-            result.TotalPages,
-            result.HasNext,
-            result.HasPrevious
-        };
 
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+        Response.Headers.Add("X-Pagination", result.GetMetadata());
 
         return Ok(result);
     }
@@ -107,7 +97,7 @@ public class YerbaMatesController : ApiControllerBase
 
         return NoContent();
     }
-    
+
     /// <summary>
     ///     Creates yerba mate image
     /// </summary>
@@ -122,7 +112,7 @@ public class YerbaMatesController : ApiControllerBase
 
         return CreatedAtAction("GetYerbaMate", new {id = result.YerbaMateId}, result);
     }
-    
+
     /// <summary>
     ///     Deletes yerba mate image
     /// </summary>

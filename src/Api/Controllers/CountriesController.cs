@@ -23,17 +23,8 @@ public class CountriesController : ApiControllerBase
     public async Task<ActionResult<PaginatedList<CountryDto>>> GetCountries([FromQuery] CountriesQueryParameters parameters)
     {
         var result = await Mediator.Send(new GetCountriesQuery(parameters));
-        var metadata = new
-        {
-            result.TotalCount,
-            result.PageSize,
-            result.CurrentPage,
-            result.TotalPages,
-            result.HasNext,
-            result.HasPrevious
-        };
-
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+        
+        Response.Headers.Add("X-Pagination", result.GetMetadata());
 
         return Ok(result);
     }
