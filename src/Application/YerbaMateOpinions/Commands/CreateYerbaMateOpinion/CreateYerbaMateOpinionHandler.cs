@@ -60,7 +60,7 @@ public class CreateYerbaMateOpinionHandler : IRequestHandler<CreateYerbaMateOpin
         //TODO Check if this is correct, one user should be able to create max 1 yerba mate opinion
         if (await _context.YerbaMateOpinions.AnyAsync(o =>
                 o.CreatedBy == _currentUserService.UserId && o.YerbaMateId == request.YerbaMateId, cancellationToken))
-            throw new ConflictException(nameof(Favourite));
+            throw new ConflictException(nameof(YerbaMateOpinion));
 
         var entity = new YerbaMateOpinion
         {
