@@ -22,9 +22,4 @@ public class UpdateShopOpinionCommand : IRequest
     ///     Shop opinion comment
     /// </summary>
     public string Comment { get; init; }
-
-    /// <summary>
-    ///     Shop ID
-    /// </summary>
-    public Guid ShopId { get; set; }
 }

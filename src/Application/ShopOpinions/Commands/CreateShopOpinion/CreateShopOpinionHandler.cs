@@ -57,10 +57,9 @@ public class CreateShopOpinionHandler : IRequestHandler<CreateShopOpinionCommand
         if (!await _context.Shops.AnyAsync(s => s.Id == request.ShopId, cancellationToken))
             throw new NotFoundException(nameof(Shop), request.ShopId);
 
-        //TODO Check if this is correct, one user should be able to create max 1 shop opinion
         if (await _context.ShopOpinions.AnyAsync(o =>
                 o.CreatedBy == _currentUserService.UserId && o.ShopId == request.ShopId, cancellationToken))
-            throw new ConflictException(nameof(Favourite));
+            throw new ConflictException(nameof(ShopOpinion));
 
         var entity = new ShopOpinion
         {

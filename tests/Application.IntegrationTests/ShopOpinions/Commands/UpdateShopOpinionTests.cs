@@ -24,7 +24,7 @@ public class UpdateShopOpinionTests : IntegrationTest
     {
         var command = new UpdateShopOpinionCommand
         {
-            ShopId = Guid.Empty,
+            ShopOpinionId = Guid.Empty,
             Rate = 2,
             Comment = "Updated comment"
         };
@@ -108,7 +108,7 @@ public class UpdateShopOpinionTests : IntegrationTest
         });
 
         //change user
-        var adminId = await AuthHelper.RunAsAdministratorAsync(Factory);
+        await AuthHelper.RunAsAdministratorAsync(Factory);
 
         var command = new UpdateShopOpinionCommand
         {
