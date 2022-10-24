@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+/// <summary>
+///     Countries controller
+/// </summary>
 public class CountriesController : ApiControllerBase
 {
     /// <summary>
