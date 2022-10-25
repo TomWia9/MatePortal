@@ -5,7 +5,9 @@ using System.Reflection;
 using System.Text;
 using Api.Services;
 using Application.Common.Interfaces;
+using FluentValidation.AspNetCore;
 using Infrastructure.Identity;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -80,8 +82,6 @@ public static class ServiceInstallers
                 .Where(File.Exists).ToList();
 
             foreach (var d in xmlDocs) setupAction.IncludeXmlComments(d);
-
-            //setupAction.AddFluentValidationRules();
         });
     }
 
@@ -136,6 +136,8 @@ public static class ServiceInstallers
     public static void AddInternalServices(this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+        services.AddFluentValidationRulesToSwagger();
         services.AddSingleton<ICurrentUserService, CurrentUserService>();
     }
 }
