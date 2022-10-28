@@ -3,30 +3,27 @@ using System.Linq;
 using Domain.Entities;
 using FluentValidation;
 
-namespace Application.Brands.Queries.GetBrands;
+namespace Application.Countries.Queries.GetCountries;
 
 /// <summary>
-///     GetBrandsQuery validator
+///     GetCountriesQuery validator
 /// </summary>
-public class GetBrandsQueryValidator : AbstractValidator<BrandsQueryParameters>
+public class GetCountriesQueryValidator : AbstractValidator<CountriesQueryParameters>
 {
     /// <summary>
     ///     The columns allowed to sort by
     /// </summary>
     private readonly IEnumerable<string> _sortingColumns = new List<string>
     {
-        nameof(Brand.Name).ToLower(),
-        nameof(Brand.Description).ToLower(),
-        nameof(Brand.Country).ToLower()
+        nameof(Country.Name).ToLower(),
+        nameof(Country.Description).ToLower()
     };
     
     /// <summary>
-    ///     Initializes GetBrandsQueryValidator
+    ///     Initializes GetCountriesQueryValidator
     /// </summary>
-    public GetBrandsQueryValidator()
+    public GetCountriesQueryValidator()
     {
-        RuleFor(x => x.Country).MaximumLength(50);
-
         RuleFor(x => x.SortBy)
             .Must(value =>
                 string.IsNullOrEmpty(value) || _sortingColumns.Contains(value.ToLower()))

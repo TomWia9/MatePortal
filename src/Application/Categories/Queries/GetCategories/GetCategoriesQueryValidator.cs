@@ -10,6 +10,9 @@ namespace Application.Categories.Queries.GetCategories;
 /// </summary>
 public class GetCategoriesQueryValidator : AbstractValidator<CategoriesQueryParameters>
 {
+    /// <summary>
+    ///     The columns allowed to sort by
+    /// </summary>
     private readonly IEnumerable<string> _sortingColumns = new List<string>
     {
         nameof(Category.Name).ToLower(),
