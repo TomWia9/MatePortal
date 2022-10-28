@@ -10,6 +10,9 @@ namespace Application.Brands.Queries.GetBrands;
 /// </summary>
 public class GetBrandsQueryValidator : AbstractValidator<BrandsQueryParameters>
 {
+    /// <summary>
+    ///     The columns allowed to sort by
+    /// </summary>
     private readonly IEnumerable<string> _sortingColumns = new List<string>
     {
         nameof(Brand.Name).ToLower(),
