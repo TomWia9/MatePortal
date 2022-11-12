@@ -39,17 +39,25 @@ public class UsersService : IUsersService
     private readonly UserManager<ApplicationUser> _userManager;
 
     /// <summary>
+    ///     Current user service
+    /// </summary>
+    private readonly ICurrentUserService _currentUserService;
+
+    /// <summary>
     ///     Initializes UsersService
     /// </summary>
     /// <param name="userManager">User manager</param>
     /// <param name="context">Database context</param>
     /// <param name="queryService">Query service</param>
+    /// <param name="currentUserService">Current user service</param>
     public UsersService(UserManager<ApplicationUser> userManager, ApplicationDbContext context,
-        IQueryService<ApplicationUser> queryService)
+        IQueryService<ApplicationUser> queryService,
+        ICurrentUserService currentUserService)
     {
         _userManager = userManager;
         _context = context;
         _queryService = queryService;
+        _currentUserService = currentUserService;
     }
 
     /// <summary>
@@ -69,12 +77,30 @@ public class UsersService : IUsersService
         if (!updateUserResult.Succeeded)
             throw new BadRequestException(string.Join(", ", updateUserResult.Errors.Select(x => x.Description)));
 
-        var changePasswordResult =
-            await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+        //The administrator does not need to enter the user's current password to change their password
+        if (_currentUserService.AdministratorAccess)
+        {
+            var removePasswordResult = await _userManager.RemovePasswordAsync(user);
 
-        if (!changePasswordResult.Succeeded)
-            throw new BadRequestException(string.Join(", ",
-                changePasswordResult.Errors.Select(x => x.Description)));
+            if (!removePasswordResult.Succeeded)
+                throw new BadRequestException(string.Join(", ",
+                    removePasswordResult.Errors.Select(x => x.Description)));
+
+            var addPasswordResult = await _userManager.AddPasswordAsync(user, request.NewPassword);
+
+            if (!addPasswordResult.Succeeded)
+                throw new BadRequestException(string.Join(", ",
+                    addPasswordResult.Errors.Select(x => x.Description)));
+        }
+        else
+        {
+            var changePasswordResult =
+                await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+
+            if (!changePasswordResult.Succeeded)
+                throw new BadRequestException(string.Join(", ",
+                    changePasswordResult.Errors.Select(x => x.Description)));
+        }
     }
 
     /// <summary>
@@ -225,8 +251,8 @@ public class UsersService : IUsersService
     {
         var sortingColumns = new Dictionary<string, Expression<Func<ApplicationUser, object>>>
         {
-            {nameof(ApplicationUser.Email).ToLower(), u => u.Email},
-            {nameof(ApplicationUser.UserName).ToLower(), u => u.UserName}
+            { nameof(ApplicationUser.Email).ToLower(), u => u.Email },
+            { nameof(ApplicationUser.UserName).ToLower(), u => u.UserName }
         };
 
         return string.IsNullOrEmpty(sortBy) ? sortingColumns.First().Value : sortingColumns[sortBy.ToLower()];
