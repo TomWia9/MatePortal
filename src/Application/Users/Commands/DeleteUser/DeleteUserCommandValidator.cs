@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Common.Interfaces;
+using FluentValidation;
 
 namespace Application.Users.Commands.DeleteUser;
 
@@ -10,10 +11,11 @@ public class DeleteUserCommandValidator : AbstractValidator<DeleteUserCommand>
     /// <summary>
     ///     Initializes DeleteUserCommandValidator
     /// </summary>
-    public DeleteUserCommandValidator()
+    /// <param name="currentUserService">Current user service</param>
+    public DeleteUserCommandValidator(ICurrentUserService currentUserService)
     {
         RuleFor(x => x.Password)
-            .NotEmpty()
+            .NotEmpty().When(_ => !currentUserService.AdministratorAccess, ApplyConditionTo.CurrentValidator)
             .MaximumLength(256);
     }
 }
