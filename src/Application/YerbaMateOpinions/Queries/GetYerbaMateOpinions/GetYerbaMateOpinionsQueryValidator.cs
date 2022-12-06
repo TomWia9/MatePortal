@@ -3,27 +3,27 @@ using System.Linq;
 using Domain.Entities;
 using FluentValidation;
 
-namespace Application.ShopOpinions.Queries.GetShopOpinions;
+namespace Application.YerbaMateOpinions.Queries.GetYerbaMateOpinions;
 
 /// <summary>
-///     GetShopOpinionsQuery validator
+///     GetYerbaMateOpinionsQuery validator
 /// </summary>
-public class GetShopOpinionsQueryValidator : AbstractValidator<ShopOpinionsQueryParameters>
+public class GetYerbaMateOpinionsQueryValidator: AbstractValidator<YerbaMateOpinionsQueryParameters>
 {
     /// <summary>
     ///     The columns allowed to sort by
     /// </summary>
     private readonly IEnumerable<string> _sortingColumns = new List<string>
     {
-        nameof(ShopOpinion.Rate).ToLower(),
-        nameof(ShopOpinion.Comment).ToLower(),
-        nameof(ShopOpinion.Created).ToLower()
+        nameof(YerbaMateOpinion.Rate).ToLower(),
+        nameof(YerbaMateOpinion.Comment).ToLower(),
+        nameof(YerbaMateOpinion.Created).ToLower()
     };
 
     /// <summary>
-    ///     Initializes GetShopOpinionsQueryValidator
+    ///     Initializes GetYerbaMateOpinionsQueryValidator
     /// </summary>
-    public GetShopOpinionsQueryValidator()
+    public GetYerbaMateOpinionsQueryValidator()
     {
         RuleFor(x => x.SortBy)
             .Must(value =>
