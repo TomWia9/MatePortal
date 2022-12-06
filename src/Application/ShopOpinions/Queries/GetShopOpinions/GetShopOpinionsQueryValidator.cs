@@ -21,7 +21,7 @@ public class GetShopOpinionsQueryValidator : AbstractValidator<ShopOpinionsQuery
     };
 
     /// <summary>
-    ///     GetShopOpinionsQueryValidator
+    ///     Initializes GetShopOpinionsQueryValidator
     /// </summary>
     public GetShopOpinionsQueryValidator()
     {
