@@ -33,7 +33,6 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         _logger = logger;
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
-            {typeof(ValidationException), HandleValidationException},
             {typeof(NotFoundException), HandleNotFoundException},
             {typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException},
             {typeof(ForbiddenAccessException), HandleForbiddenAccessException},
@@ -73,26 +72,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
         HandleUnknownException(context);
     }
-
-    /// <summary>
-    ///     Handles validation exception
-    /// </summary>
-    /// <param name="context">The exception context</param>
-    private void HandleValidationException(ExceptionContext context)
-    {
-        var exception = context.Exception as ValidationException;
-
-        var details = new ValidationProblemDetails(exception?.Errors)
-        {
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-        };
-
-        if (exception != null) _logger.LogError(exception.Message);
-
-        context.Result = new BadRequestObjectResult(details);
-        context.ExceptionHandled = true;
-    }
-
+    
     /// <summary>
     ///     Handles NotFound exception
     /// </summary>
