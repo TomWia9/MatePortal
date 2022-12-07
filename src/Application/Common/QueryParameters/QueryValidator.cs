@@ -10,7 +10,7 @@ public class QueryValidator<T> : AbstractValidator<T> where T : QueryParameters
     /// <summary>
     ///     Initializes QueryValidator
     /// </summary>
-    public QueryValidator()
+    protected QueryValidator()
     {
         RuleFor(x => x.PageNumber).GreaterThanOrEqualTo(1);
         RuleFor(x => x.PageSize).GreaterThanOrEqualTo(1);
