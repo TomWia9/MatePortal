@@ -43,7 +43,7 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand>
 
         if (await _context.Categories.Where(x => x != entity).AnyAsync(x => x.Name == request.Name,
                 cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Category));
 
         entity.Name = request.Name;
         entity.Description = request.Description;

@@ -50,7 +50,7 @@ public class UpdateYerbaMateHandler : IRequestHandler<UpdateYerbaMateCommand>
 
         if (await _context.YerbaMate.Where(x => x != entity).AnyAsync(x => x.Name == request.Name,
                 cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(YerbaMate));
 
         entity.Name = request.Name;
         entity.Description = request.Description;

@@ -47,7 +47,7 @@ public class CreateBrandHandler : IRequestHandler<CreateBrandCommand, BrandDto>
     public async Task<BrandDto> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
     {
         if (await _context.Brands.AnyAsync(b => b.Name == request.Name, cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Brand));
 
         var brandCountry = await _context.Countries.FindAsync(request.CountryId);
 

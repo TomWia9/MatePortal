@@ -47,7 +47,7 @@ public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, Cate
     {
         if (await _context.Categories.AnyAsync(b => b.Name == request.Name,
                 cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Category));
 
         var entity = new Category
         {

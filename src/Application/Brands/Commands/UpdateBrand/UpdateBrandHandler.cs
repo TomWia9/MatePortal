@@ -43,7 +43,7 @@ public class UpdateBrandHandler : IRequestHandler<UpdateBrandCommand>
 
         if (await _context.Brands.Where(x => x != entity).AnyAsync(b => b.Name == request.Name,
                 cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Brand));
 
         if (!await _context.Countries.AnyAsync(c => c.Id == request.CountryId,
                 cancellationToken))

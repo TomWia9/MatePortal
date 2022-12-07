@@ -47,7 +47,7 @@ public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, Countr
     {
         if (await _context.Countries.AnyAsync(c => c.Name == request.Name,
                 cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Country));
 
         var entity = new Country
         {

@@ -43,7 +43,7 @@ public class UpdateCountryHandler : IRequestHandler<UpdateCountryCommand>
 
         if (await _context.Countries.Where(x => x != entity).AnyAsync(c => c.Name == request.Name,
                 cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Country));
 
         entity.Name = request.Name;
         entity.Description = request.Description;
