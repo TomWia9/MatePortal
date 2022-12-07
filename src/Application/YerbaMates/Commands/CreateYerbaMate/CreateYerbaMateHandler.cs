@@ -47,7 +47,7 @@ public class CreateYerbaMateHandler : IRequestHandler<CreateYerbaMateCommand, Ye
     public async Task<YerbaMateDto> Handle(CreateYerbaMateCommand request, CancellationToken cancellationToken)
     {
         if (await _context.YerbaMate.AnyAsync(s => s.Name == request.Name, cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(YerbaMate));
 
         if (!await _context.Brands.AnyAsync(b => b.Id == request.BrandId, cancellationToken))
             throw new NotFoundException(nameof(Brand), request.BrandId);
