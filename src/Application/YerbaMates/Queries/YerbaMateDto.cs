@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Application.Brands.Queries;
 using Application.Categories.Queries;
 using Application.Common.Mappings;
+using Application.YerbaMateImages;
 using AutoMapper;
 using Domain.Entities;
 
@@ -51,6 +53,11 @@ public class YerbaMateDto : IMapFrom<YerbaMate>
     ///     Yerba mate category
     /// </summary>
     public CategoryDto Category { get; set; }
+    
+    /// <summary>
+    ///     The yerba mate images
+    /// </summary>
+    public IEnumerable<YerbaMateImageDto> YerbaMateImages { get; set; }
 
     /// <summary>
     ///     Overrides Mapping method from IMapFrom interface by adding a custom NumberOfAddToFav mapping

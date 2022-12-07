@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using MediatR;
 
@@ -38,6 +39,11 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand>
     /// <param name="cancellationToken">Cancellation token</param>
     public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
+        var currentUserId = _currentUserService.UserId;
+        
+        if (request.UserId != currentUserId && !_currentUserService.AdministratorAccess)
+            throw new ForbiddenAccessException();
+        
         await _userService.DeleteUserAsync(request, _currentUserService.AdministratorAccess);
 
         return Unit.Value;

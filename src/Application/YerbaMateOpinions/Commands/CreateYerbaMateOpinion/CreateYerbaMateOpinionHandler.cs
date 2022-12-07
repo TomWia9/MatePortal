@@ -59,7 +59,7 @@ public class CreateYerbaMateOpinionHandler : IRequestHandler<CreateYerbaMateOpin
 
         if (await _context.YerbaMateOpinions.AnyAsync(o =>
                 o.CreatedBy == _currentUserService.UserId && o.YerbaMateId == request.YerbaMateId, cancellationToken))
-            throw new ConflictException(nameof(Favourite));
+            throw new ConflictException(nameof(YerbaMateOpinion));
 
         var entity = new YerbaMateOpinion
         {

@@ -59,7 +59,7 @@ public class CreateShopOpinionHandler : IRequestHandler<CreateShopOpinionCommand
 
         if (await _context.ShopOpinions.AnyAsync(o =>
                 o.CreatedBy == _currentUserService.UserId && o.ShopId == request.ShopId, cancellationToken))
-            throw new ConflictException(nameof(Favourite));
+            throw new ConflictException(nameof(ShopOpinion));
 
         var entity = new ShopOpinion
         {

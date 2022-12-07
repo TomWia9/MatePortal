@@ -46,7 +46,7 @@ public class CreateShopHandler : IRequestHandler<CreateShopCommand, ShopDto>
     public async Task<ShopDto> Handle(CreateShopCommand request, CancellationToken cancellationToken)
     {
         if (await _context.Shops.AnyAsync(s => s.Name == request.Name, cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Shop));
 
         var entity = new Shop
         {

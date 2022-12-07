@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
@@ -40,9 +41,9 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand>
 
         if (entity == null) throw new NotFoundException(nameof(Category), request.CategoryId);
 
-        if (await _context.Categories.AnyAsync(c => c.Name == request.Name && entity.Name == request.Name,
+        if (await _context.Categories.Where(x => x != entity).AnyAsync(x => x.Name == request.Name,
                 cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Category));
 
         entity.Name = request.Name;
         entity.Description = request.Description;

@@ -17,7 +17,7 @@ public class NotFoundException : Exception
     /// <summary>
     ///     Initializes NotFoundException with message
     /// </summary>
-    /// <param name="message">Entity name</param>
+    /// <param name="message">The message</param>
     public NotFoundException(string message) : base(message)
     {
     }

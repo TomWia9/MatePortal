@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
@@ -40,9 +41,9 @@ public class UpdateShopHandler : IRequestHandler<UpdateShopCommand>
 
         if (entity == null) throw new NotFoundException(nameof(Shop), request.ShopId);
 
-        if (await _context.Shops.AnyAsync(b => b.Name == request.Name && entity.Name == request.Name,
+        if (await _context.Shops.Where(x => x != entity).AnyAsync(b => b.Name == request.Name,
                 cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Shop));
 
         entity.Name = request.Name;
         entity.Description = request.Description;

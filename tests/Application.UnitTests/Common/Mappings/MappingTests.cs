@@ -7,7 +7,7 @@ using Application.Countries.Queries;
 using Application.Favourites.Queries;
 using Application.ShopOpinions.Queries;
 using Application.Shops.Queries;
-using Application.YerbaMateImages.Queries;
+using Application.YerbaMateImages;
 using Application.YerbaMateOpinions.Queries;
 using Application.YerbaMates.Queries;
 using AutoMapper;

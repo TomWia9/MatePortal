@@ -6,7 +6,9 @@ using Infrastructure;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,7 +22,11 @@ builder.Services.AddInternalServices(builder.Configuration);
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>());
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApiExceptionFilterAttribute>();
+    options.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+});
 
 builder.Services.AddSwagger();
 builder.Services.AddJwtAuth(builder.Configuration);

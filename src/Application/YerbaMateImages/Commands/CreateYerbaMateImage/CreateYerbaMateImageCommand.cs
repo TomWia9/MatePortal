@@ -1,5 +1,4 @@
 ﻿using System;
-using Application.YerbaMateImages.Queries;
 using MediatR;
 
 namespace Application.YerbaMateImages.Commands.CreateYerbaMateImage;

@@ -35,7 +35,6 @@ public class QueryService<T> : IQueryService<T>
     /// </summary>
     /// <param name="collection">The Queryable collection</param>
     /// <param name="predicates">The predicates</param>
-    /// <typeparam name="T">The entity type</typeparam>
     public IQueryable<T> Search(IQueryable<T> collection,
         IEnumerable<Expression<Func<T, bool>>> predicates)
     {

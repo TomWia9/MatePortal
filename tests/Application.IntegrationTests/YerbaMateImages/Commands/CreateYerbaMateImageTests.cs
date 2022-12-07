@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.IntegrationTests.Helpers;
+using Application.YerbaMateImages;
 using Application.YerbaMateImages.Commands.CreateYerbaMateImage;
-using Application.YerbaMateImages.Queries;
 using Domain.Entities;
 using FluentAssertions;
 using FluentAssertions.Extensions;

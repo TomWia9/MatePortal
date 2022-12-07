@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
@@ -40,9 +41,9 @@ public class UpdateBrandHandler : IRequestHandler<UpdateBrandCommand>
 
         if (entity == null) throw new NotFoundException(nameof(Brand), request.BrandId);
 
-        if (await _context.Brands.AnyAsync(b => b.Name == request.Name && entity.Name == request.Name,
+        if (await _context.Brands.Where(x => x != entity).AnyAsync(b => b.Name == request.Name,
                 cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Brand));
 
         if (!await _context.Countries.AnyAsync(c => c.Id == request.CountryId,
                 cancellationToken))

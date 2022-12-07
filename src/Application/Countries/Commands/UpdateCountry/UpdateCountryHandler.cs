@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
@@ -40,9 +41,9 @@ public class UpdateCountryHandler : IRequestHandler<UpdateCountryCommand>
 
         if (entity == null) throw new NotFoundException(nameof(Country), request.CountryId);
 
-        if (await _context.Countries.AnyAsync(c => c.Name == request.Name && entity.Name == request.Name,
+        if (await _context.Countries.Where(x => x != entity).AnyAsync(c => c.Name == request.Name,
                 cancellationToken))
-            throw new ConflictException();
+            throw new ConflictException(nameof(Country));
 
         entity.Name = request.Name;
         entity.Description = request.Description;

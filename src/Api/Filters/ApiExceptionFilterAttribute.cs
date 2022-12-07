@@ -33,11 +33,11 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         _logger = logger;
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
-            {typeof(ValidationException), HandleValidationException},
             {typeof(NotFoundException), HandleNotFoundException},
             {typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException},
             {typeof(ForbiddenAccessException), HandleForbiddenAccessException},
-            {typeof(ConflictException), HandleConflictException}
+            {typeof(ConflictException), HandleConflictException},
+            {typeof(BadRequestException), HandleBadRequestException}
         };
     }
 
@@ -72,26 +72,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
         HandleUnknownException(context);
     }
-
-    /// <summary>
-    ///     Handles validation exception
-    /// </summary>
-    /// <param name="context">The exception context</param>
-    private void HandleValidationException(ExceptionContext context)
-    {
-        var exception = context.Exception as ValidationException;
-
-        var details = new ValidationProblemDetails(exception?.Errors)
-        {
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-        };
-
-        if (exception != null) _logger.LogError(exception.Message);
-
-        context.Result = new BadRequestObjectResult(details);
-        context.ExceptionHandled = true;
-    }
-
+    
     /// <summary>
     ///     Handles NotFound exception
     /// </summary>
@@ -213,6 +194,27 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             StatusCode = StatusCodes.Status500InternalServerError
         };
 
+        context.ExceptionHandled = true;
+    }
+    
+    /// <summary>
+    ///     Handles BadRequest exception
+    /// </summary>
+    /// <param name="context">The exception context</param>
+    private void HandleBadRequestException(ExceptionContext context)
+    {
+        var exception = context.Exception as BadRequestException;
+
+        var details = new ProblemDetails
+        {
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Title = "Server cannot process the request.",
+            Detail = exception?.Message
+        };
+
+        if (exception != null) _logger.LogError(exception.Message);
+
+        context.Result = new BadRequestObjectResult(details);
         context.ExceptionHandled = true;
     }
 }

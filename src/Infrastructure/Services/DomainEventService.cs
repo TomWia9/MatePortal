@@ -32,6 +32,6 @@ public class DomainEventService : IDomainEventService
     public Task Publish(DomainEvent domainEvent)
     {
         _logger.LogInformation("Publishing domain event. Event - {event}", domainEvent.GetType().Name);
-        return Task.CompletedTask; //TODO Add mediator
+        return Task.CompletedTask;
     }
 }
