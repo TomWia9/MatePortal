@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Application.Common.QueryParameters;
 using Domain.Entities;
 using FluentValidation;
 
@@ -8,7 +9,7 @@ namespace Application.YerbaMateOpinions.Queries.GetYerbaMateOpinions;
 /// <summary>
 ///     GetYerbaMateOpinionsQuery validator
 /// </summary>
-public class GetYerbaMateOpinionsQueryValidator: AbstractValidator<YerbaMateOpinionsQueryParameters>
+public class GetYerbaMateOpinionsQueryValidator: QueryValidator<YerbaMateOpinionsQueryParameters>
 {
     /// <summary>
     ///     The columns allowed to sort by

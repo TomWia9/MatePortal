@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Application.Common.QueryParameters;
 using Domain.Entities;
 using FluentValidation;
 
@@ -8,7 +9,7 @@ namespace Application.ShopOpinions.Queries.GetShopOpinions;
 /// <summary>
 ///     GetShopOpinionsQuery validator
 /// </summary>
-public class GetShopOpinionsQueryValidator : AbstractValidator<ShopOpinionsQueryParameters>
+public class GetShopOpinionsQueryValidator : QueryValidator<ShopOpinionsQueryParameters>
 {
     /// <summary>
     ///     The columns allowed to sort by

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Application.Common.QueryParameters;
 using FluentValidation;
 
 namespace Application.Users.Queries.GetUsers;
@@ -7,7 +8,7 @@ namespace Application.Users.Queries.GetUsers;
 /// <summary>
 ///     GetUsersQuery validator
 /// </summary>
-public class GetUsersQueryValidator : AbstractValidator<UsersQueryParameters>
+public class GetUsersQueryValidator : QueryValidator<UsersQueryParameters>
 {
     /// <summary>
     ///     The columns allowed to sort by
